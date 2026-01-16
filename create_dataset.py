@@ -1,14 +1,60 @@
-from openai import OpenAI
+"""Dataset generation using autonomous LangChain agents."""
 import json
 import os
-from datetime import datetime
 import uuid
-from llm_calling import call_llm_local, call_llm_openrouter
-import prompts.instructor_prompts.instructor_prompt as instructor_prompt
-from run_python import run_python_code
 import re
+from datetime import datetime
+from multiprocessing import Process
+from dotenv import load_dotenv
+from langchain_core.messages import HumanMessage
+from simulation.graph import create_simulation_graph, AgentState
+
+# Load environment variables from .env file
+load_dotenv()
+
+
+def sanitize_problem_data(problem):
+    """Rename functions starting with 'test_' to 'check_' to avoid pytest naming conflicts.
+    
+    Args:
+        problem: MBPP problem dict with 'text' and 'test_list' fields
+    
+    Returns:
+        Sanitized problem dict
+    """
+    # Extract function name from test cases
+    test_cases = problem.get('test_list', [])
+    if not test_cases:
+        return problem
+    
+    # Look for test_ prefix in function names
+    match = re.search(r'assert\s+(test_\w+)\(', str(test_cases))
+    if not match:
+        return problem  # No test_ prefix found, return as-is
+    
+    bad_name = match.group(1)  # e.g., "test_duplicate"
+    good_name = bad_name.replace("test_", "check_", 1)  # e.g., "check_duplicate"
+    
+    print(f"  🔧 Sanitizing: {bad_name} → {good_name}")
+    
+    # Fix test cases
+    new_test_list = []
+    for test in test_cases:
+        new_test_list.append(test.replace(f"{bad_name}(", f"{good_name}("))
+    problem['test_list'] = new_test_list
+    
+    # Fix problem text
+    problem['text'] = problem['text'].replace(bad_name, good_name)
+    
+    # Fix code if present
+    if 'code' in problem:
+        problem['code'] = problem['code'].replace(f"def {bad_name}(", f"def {good_name}(")
+    
+    return problem
+
 
 def extract_func_name_from_tests(test_cases):
+    """Extract function name from test cases."""
     for case in test_cases:
         match = re.search(r'([a-zA-Z_][a-zA-Z0-9_]*)\s*\(', case)
         if match:
@@ -16,137 +62,186 @@ def extract_func_name_from_tests(test_cases):
     return None
 
 
-
-
-def generate_conversation(problem_text, test_cases, max_turns, student_system_prompt):
-    """Generate a multi-turn conversation between student and helper"""
-    conversation = []
-    error_context = None 
+def process_personality(selected_personality, prompt_path, problems, output_dir, start_idx=1, end_idx=201):
+    """Process one personality - designed to run in parallel.
     
-    with open('prompts/student_prompts/personality/prompts_v2/instructor_prompt.txt', 'r') as f:
-        instructor_system_prompt = f.read()
+    Args:
+        start_idx: Starting problem index (1-based, inclusive)
+        end_idx: Ending problem index (1-based, exclusive)
+    """
+    print(f"\n🚀 Generating conversations for: {selected_personality} (problems {start_idx}-{end_idx-1})")
     
-    student_user_prompt = "Ask any question related to the problem: " + problem_text + ". Your conversation will be quoted as a student speaking in a professional tone. You are conversing as the student"
+    # Load personality prompt
+    with open(prompt_path, 'r') as f:
+        personality_prompt = f.read()
     
-    fn_name = extract_func_name_from_tests(test_cases)
-    print(fn_name)
-    function_name_note = f"\Write a function named: {fn_name}" if fn_name else ""
-
-    seeded_student = (
-        "<student>" + "Hi! I'm working on this problem: " + problem_text +
-        "\nI'm not sure how to get started. Could you work on this problem." + function_name_note +
-        "</student>"
-    )
-
-    conversation.append({
-        "role": "student",
-        "content": seeded_student,
-        "turn": 1
-    })
+    # Check if file exists and load existing conversations
+    filename = f'{output_dir}/{selected_personality.lower()}_conversations.json'
+    conversations = []
+    if os.path.exists(filename):
+        with open(filename, 'r') as f:
+            conversations = json.load(f)
+        print(f"  📂 [{selected_personality}] Loaded {len(conversations)} existing conversations")
     
-    starting_turn = 2
-    student_response = seeded_student
-
-    for turn in range(starting_turn, starting_turn + max_turns):
-        print(f"Turn {turn}")
-        if turn % 2 == 1:
-            print("Student turn") 
-            student_user_prompt_with_error = student_user_prompt
-
-            if error_context:
-                error_prompt = f"NOTE: The previous code attempt failed with the following error:\n{error_context['message']}"
-                student_user_prompt_with_error += error_prompt
-                
-            student_user_prompt_with_error += "\nThe conversation so far is: " + conv_history
-
-            student_response = call_llm_openrouter(student_user_prompt_with_error, student_system_prompt,model="qwen/qwen3-235b-a22b-2507")
-            if not student_response or not student_response.strip():
-                student_response = call_llm_openrouter(student_user_prompt_with_error, student_system_prompt,model="qwen/qwen3-235b-a22b-2507")
-
-            conversation.append({
-                "role": "student",
-                "content": student_response, 
-                "turn": turn
-            })
+    # Process problems in range
+    for i, problem in enumerate(problems[start_idx:end_idx]):
+        actual_idx = start_idx + i
+        print(f"  [{selected_personality}] Processing problem {actual_idx}/{end_idx-1}: {problem['text'][:50]}...")
+        
+        try:
+            # Create graph for this conversation
+            app = create_simulation_graph()
             
-        else:
-            print("Helper turn")
-            instructor_user_prompt = "As a python generator, just give the python code to:" + student_response 
-
-            conv_history = "\n".join([f"{msg['role']}: {msg['content']}" for msg in conversation])
-            conv_history_note = "\nThe conversation so far is:\n" + conv_history if conv_history else ""
+            # Initial state
+            initial_state = {
+                "messages": [],
+                "problem_text": problem['text'],
+                "test_cases": problem['test_list'][:3],  # Use all 3 test cases
+                "personality_prompt": personality_prompt,
+                "personality": selected_personality,
+                "turn_count": 0,
+                "max_turns": 10,  # Maximum conversation turns
+                "execution_result": None,
+                "solved": False,
+                "execution_history": []
+            }
             
-            helper_prompt = (
-                instructor_user_prompt +
-                conv_history_note +
-                "\n\nYou must respond with Python code only, wrapped in <python>...</python> tags. "
-                "Do not include any explanation outside the tags."
+            # Run the agent conversation with increased recursion limit
+            final_state = app.invoke(
+                initial_state,
+                config={"recursion_limit": 100}
             )
             
-            helper_response = call_llm_openrouter(helper_prompt, instructor_system_prompt,model="qwen/qwen3-235b-a22b-thinking-2507")
+            # Format conversation for storage with execution results
+            formatted_conversation = []
+            execution_history = final_state.get('execution_history', [])
             
-            execution_result = run_python_code(helper_response, test_cases)
+            for msg in final_state['messages']:
+                msg_dict = {
+                    "role": msg.name if hasattr(msg, 'name') else msg.get('role', 'unknown'),
+                    "content": msg.content if hasattr(msg, 'content') else msg.get('content', ''),
+                    "turn": len(formatted_conversation) + 1
+                }
+                
+                # If this is a tutor message, attach the execution result for this turn
+                if msg_dict["role"] == "tutor":
+                    # Find execution result for this turn
+                    for exec_result in execution_history:
+                        if exec_result["turn"] == msg_dict["turn"]:
+                            msg_dict["execution"] = exec_result
+                            break
+                
+                formatted_conversation.append(msg_dict)
             
-            if not execution_result['success']:
-                error_context = execution_result
-            else:
-                error_context = None  
-
-            conversation.append({
-                "role": "helper",
-                "content": helper_response,
-                "execution_result": execution_result['success'] if execution_result['success'] else False,
-                "turn": turn 
-            })
-            
-            if execution_result['success']:
-                break
-    
-    return conversation
-
-def process_mbpp_conversations():
-    """Process MBPP dataset and generate conversations"""
-
-    with open('benchmarks/mbpp.jsonl', 'r') as f:
-        problems = [json.loads(line) for line in f]
-
-    # Dictionary to map personality keys to file paths
-    personality_paths = {
-        'CONFUSED_STUDENT': 'prompts/student_prompts/personality/prompts_v2/confused_student.txt',
-        'IMPATIENT_STUDENT': 'prompts/student_prompts/personality/prompts_v2/impatient_student.txt',
-        # 'OVERCONFIDENT_WRONG': 'prompts/student_prompts/personality/prompts_v2/overconfident_wrong.txt',
-        # 'SYNTAX_STRUGGLER': 'prompts/student_prompts/personality/prompts_v2/syntax_struggler.txt',
-        # 'PROGRAMMING_HELPER': 'prompts/student_prompts/personality/prompts_v2/programming_helper.txt'
-    }
-
-    for selected_personality in personality_paths.keys():
-
-        with open(personality_paths[selected_personality], 'r') as f:
-            student_system_prompt = f.read()
-            
-        for i, problem in enumerate(problems[5:7]):
-            print(f"Processing problem {i+1}: {problem['text'][:50]}...")
-            
-            conversation = generate_conversation(problem['text'],problem['test_list'],7,student_system_prompt)
-            
+            # Create record
             record = {
                 "id": str(uuid.uuid4()),
                 "task_id": problem['task_id'],
                 "personality": selected_personality,
                 "problem_text": problem['text'],
                 "test_cases": problem['test_list'],
-                "conversation": conversation,
+                "conversation": formatted_conversation,
+                "execution_result": final_state.get('execution_result'),
+                "solved": final_state.get('solved', False),
+                "tests_passed": final_state.get('execution_result', {}).get('tests_passed', 0) if final_state.get('execution_result') else 0,
+                "total_tests": len(problem['test_list'][:3]),
+                "turns": final_state['turn_count'],
                 "timestamp": datetime.now().isoformat()
             }
             
-            filename = f'data/06_11_2025/{selected_personality.lower()}_conversations.json'
-            if not os.path.exists(filename):
-                with open(filename, 'w') as f:
-                    f.write('[\n')
+            conversations.append(record)
             
-            with open(filename, 'a') as f:
-                json.dump(record, f)
-                f.write(',\n')
+            # Print summary with test progress
+            tests_passed = record['tests_passed']
+            total_tests = record['total_tests']
+            print(f"    ✅ [{selected_personality}] Completed: {final_state['turn_count']} turns, Solved: {final_state.get('solved', False)}, Tests: {tests_passed}/{total_tests}")
+            
+            # Save after each problem (incremental save to prevent data loss)
+            filename = f'{output_dir}/{selected_personality.lower()}_conversations.json'
+            with open(filename, 'w') as f:
+                json.dump(conversations, f, indent=2)
+            
+        except Exception as e:
+            print(f"    ❌ [{selected_personality}] Error: {e}")
+            import traceback
+            traceback.print_exc()
+    
+    # Final save (already saved incrementally, but do one more for safety)
+    filename = f'{output_dir}/{selected_personality.lower()}_conversations.json'
+    with open(filename, 'w') as f:
+        json.dump(conversations, f, indent=2)
+    print(f"✅ [{selected_personality}] Saved {len(conversations)} conversations to {filename}")
 
 
-process_mbpp_conversations()
+def process_mbpp_conversations(start_problem=1, end_problem=201):
+    """Process MBPP dataset and generate conversations using agents.
+    
+    Args:
+        start_problem: Starting problem number (1-based, inclusive)
+        end_problem: Ending problem number (1-based, exclusive)
+    """
+    
+    # Load MBPP problems
+    with open('benchmarks/mbpp.jsonl', 'r') as f:
+        problems = [json.loads(line) for line in f]
+    
+    # Sanitize problems to avoid pytest naming conflicts
+    print("🔍 Checking for test_ naming conflicts...")
+    problems = [sanitize_problem_data(p) for p in problems]
+    
+    # Create dated output folder with auto-increment
+    today = datetime.now().strftime("%d_%m_%Y")
+    output_dir = f'data/{today}'
+    
+    # If folder exists, append -1, -2, etc.
+    if os.path.exists(output_dir):
+        counter = 1
+        while os.path.exists(f'data/{today}-{counter}'):
+            counter += 1
+        output_dir = f'data/{today}-{counter}'
+    
+    os.makedirs(output_dir, exist_ok=True)
+    
+    # Personality prompts (all in prompts/ folder)
+    personality_paths = {
+        'CONFUSED_STUDENT': 'prompts/confused_student.txt',
+        'IMPATIENT_STUDENT': 'prompts/impatient_student.txt',
+        'OVERCONFIDENT_WRONG': 'prompts/overconfident_wrong.txt',
+        'SYNTAX_STRUGGLER': 'prompts/syntax_struggler.txt',
+        'PROGRAMMING_HELPER': 'prompts/programming_helper.txt'
+    }
+    
+    print(f"\n🎯 Starting parallel generation for problems {start_problem}-{end_problem-1} across 5 personalities...")
+    print(f"💾 Output directory: {output_dir}/")
+    
+    # Create processes for each personality
+    processes = []
+    for personality, prompt_path in personality_paths.items():
+        p = Process(target=process_personality, args=(personality, prompt_path, problems, output_dir, start_problem, end_problem))
+        processes.append(p)
+        p.start()
+    
+    # Wait for all processes to complete
+    for p in processes:
+        p.join()
+    
+    print("\n🎉 Dataset generation complete!")
+
+
+if __name__ == "__main__":
+    import sys
+    
+    # Allow command line arguments: python create_dataset.py [start] [end]
+    # Example: python create_dataset.py 1 201  (problems 1-200)
+    # Example: python create_dataset.py 155 201  (resume from 155-200)
+    
+    start = int(sys.argv[1]) if len(sys.argv) > 1 else 1
+    end = int(sys.argv[2]) if len(sys.argv) > 2 else 101
+    
+    print(f"🎬 Starting dataset generation: problems {start} to {end-1}")
+    process_mbpp_conversations(start_problem=start, end_problem=end)
+
+
+
+
+

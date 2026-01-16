@@ -1,9 +1,42 @@
+# Environment & Secrets
 .env
-venv
-.DS_Store
 .venv
-models/
-.env
+venv/
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# Database
+backend/conversations.db
+*.db
+*.sqlite
+*.sqlite3
+
+# Logs
 error_logs.json
-*pycache*/
-*/__pycache__/
+*.log
+
+# Models
+models/
+
+# Data (optional - uncomment if you don't want to commit data)
+# data/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Build
+dist/
+build/
+*.egg-info/

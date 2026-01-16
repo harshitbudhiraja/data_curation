@@ -2,10 +2,13 @@ import requests
 from dotenv import load_dotenv
 import os
 
+# Load environment variables
+load_dotenv()
+
 OPEN_ROUTER_API = os.getenv("OPENROUTER_API_KEY")
 HEADERS = {"Authorization": f"Bearer {OPEN_ROUTER_API}"}
 
-def check_key_metadata():
+def check_key_metadata():   
     url = "https://openrouter.ai/api/v1/key"
     response = requests.get(url, headers=HEADERS)
     if response.status_code == 200:
@@ -27,3 +30,8 @@ def check_credits():
 if __name__ == "__main__":
     check_key_metadata()
     # check_credits()
+
+
+
+
+

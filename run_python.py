@@ -9,31 +9,34 @@ import pytest
 def extract_python_code(llm_response: str) -> str:
     """Extract code if wrapped in <python> tags or ```python code block. Otherwise return as is."""
     llm_response_strip = llm_response.lstrip()
-    # Check <python> tag
-    if llm_response_strip.startswith("<python>"):
+    
+    # Check <python> tag - extract content between tags
+    if "<python>" in llm_response:
         match = re.search(r"<python>(.*?)</python>", llm_response, re.DOTALL)
         if match:
-            return match.group(1).strip()
-        else:
-            # Just strip the tag start if no end tag
-            return llm_response_strip.replace("<python>", "", 1).strip()
+            code = match.group(1).strip()
+            # Remove any leading text before def/import/class
+            code = re.sub(r'^.*?(?=(def |import |class |from |@))', '', code, flags=re.DOTALL)
+            return code.strip()
+    
     # Check triple-backtick python code block
-    elif llm_response_strip.startswith("```python"):
+    if "```python" in llm_response:
         match = re.search(r"```python(.*?)```", llm_response, re.DOTALL)
         if match:
             return match.group(1).strip()
-        else:
-            # Just remove the leading code fence
-            return llm_response_strip[len("```python"):].strip()
-    elif llm_response_strip.startswith("```"):
-        # fence with no python, just ``` ?
+    
+    # Check plain triple-backtick
+    if "```" in llm_response:
         match = re.search(r"```(.*?)```", llm_response, re.DOTALL)
         if match:
             return match.group(1).strip()
-        else:
-            return llm_response_strip.replace("```", "", 1).strip()
-    else:
-        return llm_response_strip
+    
+    # No tags found - try to extract code starting from def/import/class
+    code_match = re.search(r'((?:def |import |class |from |@).*)', llm_response, re.DOTALL)
+    if code_match:
+        return code_match.group(1).strip()
+    
+    return llm_response_strip
 
 def run_python_code(llm_response: str, test_cases: list) -> dict:
     """Extract and execute Python code from LLM response and run unit tests."""
@@ -47,7 +50,8 @@ def run_python_code(llm_response: str, test_cases: list) -> dict:
                 "error_type": "invalid_code",
                 "message": "No valid Python code found in response",
                 "code_output": "",
-                "test_results": ""
+                "test_results": "",
+                "tests_passed": 0
             }
             
         # Add test cases to the code
@@ -68,9 +72,9 @@ def run_python_code(llm_response: str, test_cases: list) -> dict:
                 timeout=10
             )
             
-            # Run the tests
+            # Run the tests in a subprocess
             test_result = subprocess.run(
-                ["python3", "-m", "pytest", f.name],
+                ["python3", "-m", "pytest", f.name, "-v"],
                 capture_output=True,
                 text=True,
                 timeout=10
@@ -79,15 +83,20 @@ def run_python_code(llm_response: str, test_cases: list) -> dict:
             code_output = result.stdout or result.stderr
             test_output = test_result.stdout or test_result.stderr
             
-            # Check if tests passed
-            tests_passed = test_result.returncode == 0
+            # Count how many tests passed
+            passed_match = re.search(r'(\d+) passed', test_output)
+            tests_passed_count = int(passed_match.group(1)) if passed_match else 0
+            
+            # Check if all tests passed
+            all_tests_passed = test_result.returncode == 0
             
             return {
-                "success": tests_passed,
-                "error_type": "test_failure" if not tests_passed else None,
-                "message": "Tests failed" if not tests_passed else "All tests passed",
+                "success": all_tests_passed,
+                "error_type": "test_failure" if not all_tests_passed else None,
+                "message": f"{tests_passed_count}/{len(test_cases)} tests passed" if not all_tests_passed else "All tests passed",
                 "code_output": code_output,
-                "test_results": test_output
+                "test_results": test_output,
+                "tests_passed": tests_passed_count
             }
             
     except Exception as e:
@@ -96,7 +105,8 @@ def run_python_code(llm_response: str, test_cases: list) -> dict:
             "error_type": "execution_error",
             "message": f"Error: {e}",
             "code_output": "",
-            "test_results": ""
+            "test_results": "",
+            "tests_passed": 0
         }
 
 

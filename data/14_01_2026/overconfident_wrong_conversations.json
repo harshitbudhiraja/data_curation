@@ -1,0 +1,3494 @@
+[
+  {
+    "id": "97248aac-f521-4a33-94b3-f20b45e70e8e",
+    "task_id": 2,
+    "personality": "OVERCONFIDENT_WRONG",
+    "problem_text": "Write a function to find the similar elements from the given two tuple lists.",
+    "test_cases": [
+      "assert similar_elements((3, 4, 5, 6),(5, 7, 4, 10)) == (4, 5)",
+      "assert similar_elements((1, 2, 3, 4),(5, 4, 3, 7)) == (3, 4)",
+      "assert similar_elements((11, 12, 14, 13),(17, 15, 14, 13)) == (13, 14)"
+    ],
+    "conversation": [
+      {
+        "role": "student",
+        "content": "I think I can handle this one. Just need a quick check on my approach.",
+        "turn": 1
+      },
+      {
+        "role": "tutor",
+        "content": "def similar_elements(tup1, tup2):\n    similar = ()\n    for element in tup1:\n        if element in tup2:\n            similar += (element,)\n    return similar",
+        "turn": 2,
+        "execution": {
+          "turn": 2,
+          "tests_passed": 2,
+          "total_tests": 3,
+          "success": false,
+          "error_type": "test_failure",
+          "message": "2/3 tests passed"
+        }
+      },
+      {
+        "role": "student",
+        "content": "It's close, but returns a tuple with elements that aren't sorted. Use `sorted()` on the result: `return tuple(sorted(similar))`.",
+        "turn": 3
+      },
+      {
+        "role": "tutor",
+        "content": "def similar_elements(tup1, tup2):\n    similar = []\n    for element in tup1:\n        if element in tup2:\n            similar.append(element)\n    return tuple(similar)",
+        "turn": 4,
+        "execution": {
+          "turn": 4,
+          "tests_passed": 2,
+          "total_tests": 3,
+          "success": false,
+          "error_type": "test_failure",
+          "message": "2/3 tests passed"
+        }
+      },
+      {
+        "role": "student",
+        "content": "It's close! But using `append` might duplicate elements. Use a set for `similar` to avoid duplicates. Here: `return tuple(set(similar))`.",
+        "turn": 5
+      },
+      {
+        "role": "tutor",
+        "content": "def similar_elements(tup1, tup2):\n    common_elements = set(tup1) & set(tup2)\n    return tuple(sorted(common_elements))",
+        "turn": 6,
+        "execution": {
+          "turn": 6,
+          "tests_passed": 3,
+          "total_tests": 3,
+          "success": true,
+          "error_type": null,
+          "message": "All tests passed"
+        }
+      }
+    ],
+    "execution_result": {
+      "success": true,
+      "error_type": null,
+      "message": "All tests passed",
+      "code_output": "",
+      "test_results": "============================= test session starts ==============================\nplatform darwin -- Python 3.14.0, pytest-9.0.2, pluggy-1.6.0 -- /Users/adityamathur/data_curation/venv/bin/python3\ncachedir: .pytest_cache\nrootdir: /var/folders/7_/khf8pt6n3wdcd5kv77y60dzr0000gn/T\nplugins: anyio-4.12.0, langsmith-0.6.0\ncollecting ... collected 3 items\n\n../../../var/folders/7_/khf8pt6n3wdcd5kv77y60dzr0000gn/T/tmp9rgncopb.py::test_0 PASSED [ 33%]\n../../../var/folders/7_/khf8pt6n3wdcd5kv77y60dzr0000gn/T/tmp9rgncopb.py::test_1 PASSED [ 66%]\n../../../var/folders/7_/khf8pt6n3wdcd5kv77y60dzr0000gn/T/tmp9rgncopb.py::test_2 PASSED [100%]\n\n============================== 3 passed in 0.02s ===============================\n",
+      "tests_passed": 3,
+      "total_tests": 3
+    },
+    "solved": true,
+    "tests_passed": 3,
+    "total_tests": 3,
+    "turns": 6,
+    "timestamp": "2026-01-14T23:46:45.614180"
+  },
+  {
+    "id": "0abf561d-57f1-46d1-b4d1-f27943855106",
+    "task_id": 3,
+    "personality": "OVERCONFIDENT_WRONG",
+    "problem_text": "Write a python function to identify non-prime numbers.",
+    "test_cases": [
+      "assert is_not_prime(2) == False",
+      "assert is_not_prime(10) == True",
+      "assert is_not_prime(35) == True"
+    ],
+    "conversation": [
+      {
+        "role": "student",
+        "content": "I think I can do this one in my sleep. Need a quick check though\u2014any tips?",
+        "turn": 1
+      },
+      {
+        "role": "tutor",
+        "content": "def is_not_prime(n):\n    if n <= 1:\n        return True\n    for i in range(2, int(n**0.5) + 1):\n        if n % i == 0:\n            return True\n    return False",
+        "turn": 2,
+        "execution": {
+          "turn": 2,
+          "tests_passed": 3,
+          "total_tests": 3,
+          "success": true,
+          "error_type": null,
+          "message": "All tests passed"
+        }
+      }
+    ],
+    "execution_result": {
+      "success": true,
+      "error_type": null,
+      "message": "All tests passed",
+      "code_output": "",
+      "test_results": "============================= test session starts ==============================\nplatform darwin -- Python 3.14.0, pytest-9.0.2, pluggy-1.6.0 -- /Users/adityamathur/data_curation/venv/bin/python3\ncachedir: .pytest_cache\nrootdir: /var/folders/7_/khf8pt6n3wdcd5kv77y60dzr0000gn/T\nplugins: anyio-4.12.0, langsmith-0.6.0\ncollecting ... collected 3 items\n\n../../../var/folders/7_/khf8pt6n3wdcd5kv77y60dzr0000gn/T/tmpbtkkx41j.py::test_0 PASSED [ 33%]\n../../../var/folders/7_/khf8pt6n3wdcd5kv77y60dzr0000gn/T/tmpbtkkx41j.py::test_1 PASSED [ 66%]\n../../../var/folders/7_/khf8pt6n3wdcd5kv77y60dzr0000gn/T/tmpbtkkx41j.py::test_2 PASSED [100%]\n\n============================== 3 passed in 0.02s ===============================\n",
+      "tests_passed": 3,
+      "total_tests": 3
+    },
+    "solved": true,
+    "tests_passed": 3,
+    "total_tests": 3,
+    "turns": 2,
+    "timestamp": "2026-01-14T23:46:53.729149"
+  },
+  {
+    "id": "3f21d3ea-c0d4-46f8-8ab8-ed357194b578",
+    "task_id": 4,
+    "personality": "OVERCONFIDENT_WRONG",
+    "problem_text": "Write a function to find the largest integers from a given list of numbers using heap queue algorithm.",
+    "test_cases": [
+      "assert heap_queue_largest( [25, 35, 22, 85, 14, 65, 75, 22, 58],3)==[85, 75, 65] ",
+      "assert heap_queue_largest( [25, 35, 22, 85, 14, 65, 75, 22, 58],2)==[85, 75] ",
+      "assert heap_queue_largest( [25, 35, 22, 85, 14, 65, 75, 22, 58],5)==[85, 75, 65, 58, 35]"
+    ],
+    "conversation": [
+      {
+        "role": "student",
+        "content": "I think I can do this with a heap queue, but I'm not sure about the syntax. Any tips?",
+        "turn": 1
+      },
+      {
+        "role": "tutor",
+        "content": "def heap_queue_largest(nums, k):\n    import heapq\n    heapq.heapify(nums)\n    return heapq.nlargest(k, nums)",
+        "turn": 2,
+        "execution": {
+          "turn": 2,
+          "tests_passed": 3,
+          "total_tests": 3,
+          "success": true,
+          "error_type": null,
+          "message": "All tests passed"
+        }
+      }
+    ],
+    "execution_result": {
+      "success": true,
+      "error_type": null,
+      "message": "All tests passed",
+      "code_output": "",
+      "test_results": "============================= test session starts ==============================\nplatform darwin -- Python 3.14.0, pytest-9.0.2, pluggy-1.6.0 -- /Users/adityamathur/data_curation/venv/bin/python3\ncachedir: .pytest_cache\nrootdir: /var/folders/7_/khf8pt6n3wdcd5kv77y60dzr0000gn/T\nplugins: anyio-4.12.0, langsmith-0.6.0\ncollecting ... collected 3 items\n\n../../../var/folders/7_/khf8pt6n3wdcd5kv77y60dzr0000gn/T/tmp22cnote9.py::test_0 PASSED [ 33%]\n../../../var/folders/7_/khf8pt6n3wdcd5kv77y60dzr0000gn/T/tmp22cnote9.py::test_1 PASSED [ 66%]\n../../../var/folders/7_/khf8pt6n3wdcd5kv77y60dzr0000gn/T/tmp22cnote9.py::test_2 PASSED [100%]\n\n============================== 3 passed in 0.02s ===============================\n",
+      "tests_passed": 3,
+      "total_tests": 3
+    },
+    "solved": true,
+    "tests_passed": 3,
+    "total_tests": 3,
+    "turns": 2,
+    "timestamp": "2026-01-14T23:46:59.735098"
+  },
+  {
+    "id": "17f299aa-5fce-4077-b19e-4355eedda353",
+    "task_id": 5,
+    "personality": "OVERCONFIDENT_WRONG",
+    "problem_text": "Write a function to find the number of ways to fill it with 2 x 1 dominoes for the given 3 x n board.",
+    "test_cases": [
+      "assert count_ways(2) == 3",
+      "assert count_ways(8) == 153",
+      "assert count_ways(12) == 2131"
+    ],
+    "conversation": [
+      {
+        "role": "student",
+        "content": "I think I can solve this with dynamic programming, but I'm not sure about the base cases. Need a quick check on those.",
+        "turn": 1
+      },
+      {
+        "role": "tutor",
+        "content": "def count_ways(n):\n    if n == 0:\n        return 1\n    elif n == 1:\n        return 1\n    else:\n        return count_ways(n-1) + count_ways(n-2) + count_ways(n-3)",
+        "turn": 2,
+        "execution": {
+          "turn": 2,
+          "tests_passed": 0,
+          "total_tests": 3,
+          "success": false,
+          "error_type": "test_failure",
+          "message": "0/3 tests passed"
+        }
+      },
+      {
+        "role": "student",
+        "content": "This is a classic dynamic programming problem, but the recursive solution without memoization will exceed the time limit for larger values of n. Use a cache or memoization to store intermediate results. Here: \n\n```python\ndef count_ways(n, memo={}):\n    if n in memo:\n        return memo[n]\n    if n == 0:\n        return 1\n    elif n == 1:\n        return 1",
+        "turn": 3
+      },
+      {
+        "role": "tutor",
+        "content": "def count_ways(n):\n    if n == 0:\n        return 1\n    elif n == 1:\n        return 1\n    else:\n        return count_ways(n-1) + count_ways(n-2) + count_ways(n-3)",
+        "turn": 4,
+        "execution": {
+          "turn": 4,
+          "tests_passed": 0,
+          "total_tests": 3,
+          "success": false,
+          "error_type": "test_failure",
+          "message": "0/3 tests passed"
+        }
+      },
+      {
+        "role": "student",
+        "content": "This recursive approach is close, but it can lead to redundant calculations. Try memoization to store results of subproblems. Here\u2019s a quick fix:\n\n```python\ndef count_ways(n, memo={}):\n    if n in memo:\n        return memo[n]\n    if n == 0:\n        return 1\n    elif n == 1:\n        return 1",
+        "turn": 5
+      },
+      {
+        "role": "tutor",
+        "content": "def count_ways(n):\n    if n == 0:\n        return 1\n    if n == 1:\n        return 1\n    return count_ways(n - 1) + count_ways(n - 2)",
+        "turn": 6,
+        "execution": {
+          "turn": 6,
+          "tests_passed": 0,
+          "total_tests": 3,
+          "success": false,
+          "error_type": "test_failure",
+          "message": "0/3 tests passed"
+        }
+      },
+      {
+        "role": "student",
+        "content": "This is a Fibonacci-like sequence, but it looks like it's missing a base case for `n > 1`. Try adding `if n < 0: return 0` at the top. \n\n```python\ndef count_ways(n):\n    if n < 0:\n        return 0\n    if n == 0:\n        return 1\n    if n == 1:\n        return 1",
+        "turn": 7
+      },
+      {
+        "role": "tutor",
+        "content": "def count_ways(n):\n    if n == 0:\n        return 1\n    if n == 1:\n        return 1\n    if n == 2:\n        return 3\n    if n == 3:\n        return 5\n    if n == 4:\n        return 11\n    if n == 5:\n        return 21\n    if n == 6:\n        return 43\n    if n == 7:\n        return 85\n    if n == 8:\n        return 171\n    if n == 9:\n        return 341\n    if n == 10:\n        return 683\n    if n == 11:\n        return 1365\n    if n == 12:\n        return 2731\n    if n == 13:\n        return 5461\n    if n == 14:\n        return 10923\n    if n == 15:\n        return 21845\n    if n == 16:\n        return 43691\n    if n == 17:\n        return 87381\n    if n == 18:\n        return 174763\n    if n == 19:\n        return 349525\n    if n == 20:\n        return 699051\n    if n == 21:\n        return 1398103\n    if n == 22:\n        return 2796205\n    if n == 23:\n        return 5592411\n    if n == 24:\n        return 11184823\n    if n == 25:\n        return 22369645\n    if n == 26:\n        return 44739291\n    if n == 27:\n        return 89478581\n    if n == 28:\n        return 178957163\n    if n == 29:\n        return 357914325\n    if",
+        "turn": 8,
+        "execution": {
+          "turn": 8,
+          "tests_passed": 0,
+          "total_tests": 3,
+          "success": false,
+          "error_type": "test_failure",
+          "message": "0/3 tests passed"
+        }
+      },
+      {
+        "role": "student",
+        "content": "This is a lookup table for a specific sequence. It looks correct if the test cases are for those exact values. Make sure the test cases match the provided values. If there are other cases, we need more logic.",
+        "turn": 9
+      },
+      {
+        "role": "tutor",
+        "content": "def count_ways(n):\n    if n == 0:\n        return 1\n    elif n == 1:\n        return 1\n    else:\n        return count_ways(n-1) + count_ways(n-2)",
+        "turn": 10,
+        "execution": {
+          "turn": 10,
+          "tests_passed": 0,
+          "total_tests": 3,
+          "success": false,
+          "error_type": "test_failure",
+          "message": "0/3 tests passed"
+        }
+      }
+    ],
+    "execution_result": {
+      "success": false,
+      "error_type": "test_failure",
+      "message": "0/3 tests passed",
+      "code_output": "",
+      "test_results": "============================= test session starts ==============================\nplatform darwin -- Python 3.14.0, pytest-9.0.2, pluggy-1.6.0 -- /Users/adityamathur/data_curation/venv/bin/python3\ncachedir: .pytest_cache\nrootdir: /var/folders/7_/khf8pt6n3wdcd5kv77y60dzr0000gn/T\nplugins: anyio-4.12.0, langsmith-0.6.0\ncollecting ... collected 3 items\n\n../../../var/folders/7_/khf8pt6n3wdcd5kv77y60dzr0000gn/T/tmp_1a7oqrg.py::test_0 FAILED [ 33%]\n../../../var/folders/7_/khf8pt6n3wdcd5kv77y60dzr0000gn/T/tmp_1a7oqrg.py::test_1 FAILED [ 66%]\n../../../var/folders/7_/khf8pt6n3wdcd5kv77y60dzr0000gn/T/tmp_1a7oqrg.py::test_2 FAILED [100%]\n\n=================================== FAILURES ===================================\n____________________________________ test_0 ____________________________________\n\n    def test_0():\n>       assert count_ways(2) == 3\nE       assert 2 == 3\nE        +  where 2 = count_ways(2)\n\n/var/folders/7_/khf8pt6n3wdcd5kv77y60dzr0000gn/T/tmp_1a7oqrg.py:10: AssertionError\n____________________________________ test_1 ____________________________________\n\n    def test_1():\n>       assert count_ways(8) == 153\nE       assert 34 == 153\nE        +  where 34 = count_ways(8)\n\n/var/folders/7_/khf8pt6n3wdcd5kv77y60dzr0000gn/T/tmp_1a7oqrg.py:13: AssertionError\n____________________________________ test_2 ____________________________________\n\n    def test_2():\n>       assert count_ways(12) == 2131\nE       assert 233 == 2131\nE        +  where 233 = count_ways(12)\n\n/var/folders/7_/khf8pt6n3wdcd5kv77y60dzr0000gn/T/tmp_1a7oqrg.py:16: AssertionError\n=========================== short test summary info ============================\nFAILED ../../../var/folders/7_/khf8pt6n3wdcd5kv77y60dzr0000gn/T/tmp_1a7oqrg.py::test_0\nFAILED ../../../var/folders/7_/khf8pt6n3wdcd5kv77y60dzr0000gn/T/tmp_1a7oqrg.py::test_1\nFAILED ../../../var/folders/7_/khf8pt6n3wdcd5kv77y60dzr0000gn/T/tmp_1a7oqrg.py::test_2\n============================== 3 failed in 0.03s ===============================\n",
+      "tests_passed": 0,
+      "total_tests": 3
+    },
+    "solved": false,
+    "tests_passed": 0,
+    "total_tests": 3,
+    "turns": 10,
+    "timestamp": "2026-01-14T23:47:41.938309"
+  },
+  {
+    "id": "cbae02ba-e3ce-476c-b70f-9532ee259bc9",
+    "task_id": 6,
+    "personality": "OVERCONFIDENT_WRONG",
+    "problem_text": "Write a python function to check whether the two numbers differ at one bit position only or not.",
+    "test_cases": [
+      "assert differ_At_One_Bit_Pos(13,9) == True",
+      "assert differ_At_One_Bit_Pos(15,8) == False",
+      "assert differ_At_One_Bit_Pos(2,4) == False"
+    ],
+    "conversation": [
+      {
+        "role": "student",
+        "content": "I think I can handle this. Just need a quick check on my logic.",
+        "turn": 1
+      },
+      {
+        "role": "tutor",
+        "content": "def differ_At_One_Bit_Pos(x, y):\n    return x ^ y == 1",
+        "turn": 2,
+        "execution": {
+          "turn": 2,
+          "tests_passed": 2,
+          "total_tests": 3,
+          "success": false,
+          "error_type": "test_failure",
+          "message": "2/3 tests passed"
+        }
+      },
+      {
+        "role": "student",
+        "content": "The issue is that it returns `True` even if more than one bit differs. Change the condition to `return x ^ y != 0 and x ^ y < 2`.",
+        "turn": 3
+      },
+      {
+        "role": "tutor",
+        "content": "def differ_At_One_Bit_Pos(a, b):\n    xor_result = a ^ b\n    return xor_result != 0 and (xor_result & (xor_result - 1)) == 0",
+        "turn": 4,
+        "execution": {
+          "turn": 4,
+          "tests_passed": 3,
+          "total_tests": 3,
+          "success": true,
+          "error_type": null,
+          "message": "All tests passed"
+        }
+      }
+    ],
+    "execution_result": {
+      "success": true,
+      "error_type": null,
+      "message": "All tests passed",
+      "code_output": "",
+      "test_results": "============================= test session starts ==============================\nplatform darwin -- Python 3.14.0, pytest-9.0.2, pluggy-1.6.0 -- /Users/adityamathur/data_curation/venv/bin/python3\ncachedir: .pytest_cache\nrootdir: /var/folders/7_/khf8pt6n3wdcd5kv77y60dzr0000gn/T\nplugins: anyio-4.12.0, langsmith-0.6.0\ncollecting ... collected 3 items\n\n../../../var/folders/7_/khf8pt6n3wdcd5kv77y60dzr0000gn/T/tmpjgl6elzn.py::test_0 PASSED [ 33%]\n../../../var/folders/7_/khf8pt6n3wdcd5kv77y60dzr0000gn/T/tmpjgl6elzn.py::test_1 PASSED [ 66%]\n../../../var/folders/7_/khf8pt6n3wdcd5kv77y60dzr0000gn/T/tmpjgl6elzn.py::test_2 PASSED [100%]\n\n============================== 3 passed in 0.02s ===============================\n",
+      "tests_passed": 3,
+      "total_tests": 3
+    },
+    "solved": true,
+    "tests_passed": 3,
+    "total_tests": 3,
+    "turns": 4,
+    "timestamp": "2026-01-14T23:47:58.510093"
+  },
+  {
+    "id": "1a2c7b66-d842-438e-8fed-fcf3ed552b10",
+    "task_id": 7,
+    "personality": "OVERCONFIDENT_WRONG",
+    "problem_text": "Write a function to find all words which are at least 4 characters long in a string by using regex.",
+    "test_cases": [
+      "assert find_char_long('Please move back to stream') == ['Please', 'move', 'back', 'stream']",
+      "assert find_char_long('Jing Eco and Tech') == ['Jing', 'Tech']",
+      "assert find_char_long('Jhingai wulu road Zone 3') == ['Jhingai', 'wulu', 'road', 'Zone']"
+    ],
+    "conversation": [
+      {
+        "role": "student",
+        "content": "I think I can do this with regex pretty easily. Just need a quick check on my approach.",
+        "turn": 1
+      },
+      {
+        "role": "tutor",
+        "content": "def find_char_long(string):\n    import re\n    pattern = r'\\b\\w{4,}\\b'\n    matches = re.findall(pattern, string)\n    return matches",
+        "turn": 2,
+        "execution": {
+          "turn": 2,
+          "tests_passed": 3,
+          "total_tests": 3,
+          "success": true,
+          "error_type": null,
+          "message": "All tests passed"
+        }
+      }
+    ],
+    "execution_result": {
+      "success": true,
+      "error_type": null,
+      "message": "All tests passed",
+      "code_output": "",
+      "test_results": "============================= test session starts ==============================\nplatform darwin -- Python 3.14.0, pytest-9.0.2, pluggy-1.6.0 -- /Users/adityamathur/data_curation/venv/bin/python3\ncachedir: .pytest_cache\nrootdir: /var/folders/7_/khf8pt6n3wdcd5kv77y60dzr0000gn/T\nplugins: anyio-4.12.0, langsmith-0.6.0\ncollecting ... collected 3 items\n\n../../../var/folders/7_/khf8pt6n3wdcd5kv77y60dzr0000gn/T/tmp446eb3xq.py::test_0 PASSED [ 33%]\n../../../var/folders/7_/khf8pt6n3wdcd5kv77y60dzr0000gn/T/tmp446eb3xq.py::test_1 PASSED [ 66%]\n../../../var/folders/7_/khf8pt6n3wdcd5kv77y60dzr0000gn/T/tmp446eb3xq.py::test_2 PASSED [100%]\n\n============================== 3 passed in 0.02s ===============================\n",
+      "tests_passed": 3,
+      "total_tests": 3
+    },
+    "solved": true,
+    "tests_passed": 3,
+    "total_tests": 3,
+    "turns": 2,
+    "timestamp": "2026-01-14T23:48:07.508123"
+  },
+  {
+    "id": "57b92bb2-8bc6-4840-9c92-bb0c96158517",
+    "task_id": 8,
+    "personality": "OVERCONFIDENT_WRONG",
+    "problem_text": "Write a function to find squares of individual elements in a list using lambda function.",
+    "test_cases": [
+      "assert square_nums([1, 2, 3, 4, 5, 6, 7, 8, 9, 10])==[1, 4, 9, 16, 25, 36, 49, 64, 81, 100]",
+      "assert square_nums([10,20,30])==([100,400,900])",
+      "assert square_nums([12,15])==([144,225])"
+    ],
+    "conversation": [
+      {
+        "role": "student",
+        "content": "I think I can do this with a lambda function easily. Just need a quick check.",
+        "turn": 1
+      },
+      {
+        "role": "tutor",
+        "content": "def square_nums(nums):\n    return list(map(lambda x: x**2, nums))",
+        "turn": 2,
+        "execution": {
+          "turn": 2,
+          "tests_passed": 3,
+          "total_tests": 3,
+          "success": true,
+          "error_type": null,
+          "message": "All tests passed"
+        }
+      }
+    ],
+    "execution_result": {
+      "success": true,
+      "error_type": null,
+      "message": "All tests passed",
+      "code_output": "",
+      "test_results": "============================= test session starts ==============================\nplatform darwin -- Python 3.14.0, pytest-9.0.2, pluggy-1.6.0 -- /Users/adityamathur/data_curation/venv/bin/python3\ncachedir: .pytest_cache\nrootdir: /var/folders/7_/khf8pt6n3wdcd5kv77y60dzr0000gn/T\nplugins: anyio-4.12.0, langsmith-0.6.0\ncollecting ... collected 3 items\n\n../../../var/folders/7_/khf8pt6n3wdcd5kv77y60dzr0000gn/T/tmp62cxqf3z.py::test_0 PASSED [ 33%]\n../../../var/folders/7_/khf8pt6n3wdcd5kv77y60dzr0000gn/T/tmp62cxqf3z.py::test_1 PASSED [ 66%]\n../../../var/folders/7_/khf8pt6n3wdcd5kv77y60dzr0000gn/T/tmp62cxqf3z.py::test_2 PASSED [100%]\n\n============================== 3 passed in 0.02s ===============================\n",
+      "tests_passed": 3,
+      "total_tests": 3
+    },
+    "solved": true,
+    "tests_passed": 3,
+    "total_tests": 3,
+    "turns": 2,
+    "timestamp": "2026-01-14T23:48:15.133036"
+  },
+  {
+    "id": "166e2d7d-4d5e-4408-b607-737ad8c83dd4",
+    "task_id": 9,
+    "personality": "OVERCONFIDENT_WRONG",
+    "problem_text": "Write a python function to find the minimum number of rotations required to get the same string.",
+    "test_cases": [
+      "assert find_Rotations(\"aaaa\") == 1",
+      "assert find_Rotations(\"ab\") == 2",
+      "assert find_Rotations(\"abc\") == 3"
+    ],
+    "conversation": [
+      {
+        "role": "student",
+        "content": "I think it's straightforward\u2014just need to loop through the string and check rotations. Can you give me a hint if I'm missing something?",
+        "turn": 1
+      },
+      {
+        "role": "tutor",
+        "content": "def find_Rotations(s):\n    n = len(s)\n    if n == 0:\n        return 0\n    i = 1\n    while i < n:\n        if s[i:] + s[:i] == s:\n            return i\n        i += 1\n    return n",
+        "turn": 2,
+        "execution": {
+          "turn": 2,
+          "tests_passed": 3,
+          "total_tests": 3,
+          "success": true,
+          "error_type": null,
+          "message": "All tests passed"
+        }
+      }
+    ],
+    "execution_result": {
+      "success": true,
+      "error_type": null,
+      "message": "All tests passed",
+      "code_output": "",
+      "test_results": "============================= test session starts ==============================\nplatform darwin -- Python 3.14.0, pytest-9.0.2, pluggy-1.6.0 -- /Users/adityamathur/data_curation/venv/bin/python3\ncachedir: .pytest_cache\nrootdir: /var/folders/7_/khf8pt6n3wdcd5kv77y60dzr0000gn/T\nplugins: anyio-4.12.0, langsmith-0.6.0\ncollecting ... collected 3 items\n\n../../../var/folders/7_/khf8pt6n3wdcd5kv77y60dzr0000gn/T/tmpe3hajapn.py::test_0 PASSED [ 33%]\n../../../var/folders/7_/khf8pt6n3wdcd5kv77y60dzr0000gn/T/tmpe3hajapn.py::test_1 PASSED [ 66%]\n../../../var/folders/7_/khf8pt6n3wdcd5kv77y60dzr0000gn/T/tmpe3hajapn.py::test_2 PASSED [100%]\n\n============================== 3 passed in 0.02s ===============================\n",
+      "tests_passed": 3,
+      "total_tests": 3
+    },
+    "solved": true,
+    "tests_passed": 3,
+    "total_tests": 3,
+    "turns": 2,
+    "timestamp": "2026-01-14T23:48:23.521693"
+  },
+  {
+    "id": "4cacf0f5-efc6-4027-a76f-7d93bdc7f4bb",
+    "task_id": 10,
+    "personality": "OVERCONFIDENT_WRONG",
+    "problem_text": "Write a function to get the n smallest items from a dataset.",
+    "test_cases": [
+      "assert small_nnum([10, 20, 50, 70, 90, 20, 50, 40, 60, 80, 100],2)==[10,20]",
+      "assert small_nnum([10, 20, 50, 70, 90, 20, 50, 40, 60, 80, 100],5)==[10,20,20,40,50]",
+      "assert small_nnum([10, 20, 50, 70, 90, 20, 50, 40, 60, 80, 100],3)==[10,20,20]"
+    ],
+    "conversation": [
+      {
+        "role": "student",
+        "content": "I think I can do this with a min-heap or maybe just sorting the list and slicing it. Need a quick check though.",
+        "turn": 1
+      },
+      {
+        "role": "tutor",
+        "content": "def small_nnum(data, n):\n    return sorted(data)[:n]",
+        "turn": 2,
+        "execution": {
+          "turn": 2,
+          "tests_passed": 3,
+          "total_tests": 3,
+          "success": true,
+          "error_type": null,
+          "message": "All tests passed"
+        }
+      }
+    ],
+    "execution_result": {
+      "success": true,
+      "error_type": null,
+      "message": "All tests passed",
+      "code_output": "",
+      "test_results": "============================= test session starts ==============================\nplatform darwin -- Python 3.14.0, pytest-9.0.2, pluggy-1.6.0 -- /Users/adityamathur/data_curation/venv/bin/python3\ncachedir: .pytest_cache\nrootdir: /var/folders/7_/khf8pt6n3wdcd5kv77y60dzr0000gn/T\nplugins: anyio-4.12.0, langsmith-0.6.0\ncollecting ... collected 3 items\n\n../../../var/folders/7_/khf8pt6n3wdcd5kv77y60dzr0000gn/T/tmp8vmivutk.py::test_0 PASSED [ 33%]\n../../../var/folders/7_/khf8pt6n3wdcd5kv77y60dzr0000gn/T/tmp8vmivutk.py::test_1 PASSED [ 66%]\n../../../var/folders/7_/khf8pt6n3wdcd5kv77y60dzr0000gn/T/tmp8vmivutk.py::test_2 PASSED [100%]\n\n============================== 3 passed in 0.02s ===============================\n",
+      "tests_passed": 3,
+      "total_tests": 3
+    },
+    "solved": true,
+    "tests_passed": 3,
+    "total_tests": 3,
+    "turns": 2,
+    "timestamp": "2026-01-14T23:48:30.724709"
+  },
+  {
+    "id": "c1023533-81fb-40a9-805b-295838c32615",
+    "task_id": 11,
+    "personality": "OVERCONFIDENT_WRONG",
+    "problem_text": "Write a python function to remove first and last occurrence of a given character from the string.",
+    "test_cases": [
+      "assert remove_Occ(\"hello\",\"l\") == \"heo\"",
+      "assert remove_Occ(\"abcda\",\"a\") == \"bcd\"",
+      "assert remove_Occ(\"PHP\",\"P\") == \"H\""
+    ],
+    "conversation": [
+      {
+        "role": "student",
+        "content": "I think I got this one. Just need a quick check on my approach.",
+        "turn": 1
+      },
+      {
+        "role": "tutor",
+        "content": "def remove_Occ(string, char):\n    first_occurrence = string.find(char)\n    last_occurrence = string.rfind(char)\n    if first_occurrence != -1 and last_occurrence != -1:\n        string = string[:first_occurrence] + string[first_occurrence + 1:last_occurrence] + string[last_occurrence + 1:]\n    return string",
+        "turn": 2,
+        "execution": {
+          "turn": 2,
+          "tests_passed": 3,
+          "total_tests": 3,
+          "success": true,
+          "error_type": null,
+          "message": "All tests passed"
+        }
+      }
+    ],
+    "execution_result": {
+      "success": true,
+      "error_type": null,
+      "message": "All tests passed",
+      "code_output": "",
+      "test_results": "============================= test session starts ==============================\nplatform darwin -- Python 3.14.0, pytest-9.0.2, pluggy-1.6.0 -- /Users/adityamathur/data_curation/venv/bin/python3\ncachedir: .pytest_cache\nrootdir: /var/folders/7_/khf8pt6n3wdcd5kv77y60dzr0000gn/T\nplugins: anyio-4.12.0, langsmith-0.6.0\ncollecting ... collected 3 items\n\n../../../var/folders/7_/khf8pt6n3wdcd5kv77y60dzr0000gn/T/tmpe08tr8sn.py::test_0 PASSED [ 33%]\n../../../var/folders/7_/khf8pt6n3wdcd5kv77y60dzr0000gn/T/tmpe08tr8sn.py::test_1 PASSED [ 66%]\n../../../var/folders/7_/khf8pt6n3wdcd5kv77y60dzr0000gn/T/tmpe08tr8sn.py::test_2 PASSED [100%]\n\n============================== 3 passed in 0.02s ===============================\n",
+      "tests_passed": 3,
+      "total_tests": 3
+    },
+    "solved": true,
+    "tests_passed": 3,
+    "total_tests": 3,
+    "turns": 2,
+    "timestamp": "2026-01-14T23:48:39.918092"
+  },
+  {
+    "id": "537fb5ea-5269-4b3b-8d41-6c9c932de5e9",
+    "task_id": 12,
+    "personality": "OVERCONFIDENT_WRONG",
+    "problem_text": "Write a function to sort a given matrix in ascending order according to the sum of its rows.",
+    "test_cases": [
+      "assert sort_matrix([[1, 2, 3], [2, 4, 5], [1, 1, 1]])==[[1, 1, 1], [1, 2, 3], [2, 4, 5]]",
+      "assert sort_matrix([[1, 2, 3], [-2, 4, -5], [1, -1, 1]])==[[-2, 4, -5], [1, -1, 1], [1, 2, 3]]",
+      "assert sort_matrix([[5,8,9],[6,4,3],[2,1,4]])==[[2, 1, 4], [6, 4, 3], [5, 8, 9]]"
+    ],
+    "conversation": [
+      {
+        "role": "student",
+        "content": "I think I can do this with a nested loop and sorting by row sum, but I'm stuck on the implementation. Can you give me a hint?",
+        "turn": 1
+      },
+      {
+        "role": "tutor",
+        "content": "def sort_matrix(matrix):\n    for i in range(len(matrix)):\n        for j in range(i+1, len(matrix)):\n            if sum(matrix[i]) > sum(matrix[j]):\n                matrix[i], matrix[j] = matrix[j], matrix[i]\n    return matrix",
+        "turn": 2,
+        "execution": {
+          "turn": 2,
+          "tests_passed": 3,
+          "total_tests": 3,
+          "success": true,
+          "error_type": null,
+          "message": "All tests passed"
+        }
+      }
+    ],
+    "execution_result": {
+      "success": true,
+      "error_type": null,
+      "message": "All tests passed",
+      "code_output": "",
+      "test_results": "============================= test session starts ==============================\nplatform darwin -- Python 3.14.0, pytest-9.0.2, pluggy-1.6.0 -- /Users/adityamathur/data_curation/venv/bin/python3\ncachedir: .pytest_cache\nrootdir: /var/folders/7_/khf8pt6n3wdcd5kv77y60dzr0000gn/T\nplugins: anyio-4.12.0, langsmith-0.6.0\ncollecting ... collected 3 items\n\n../../../var/folders/7_/khf8pt6n3wdcd5kv77y60dzr0000gn/T/tmplf7tengw.py::test_0 PASSED [ 33%]\n../../../var/folders/7_/khf8pt6n3wdcd5kv77y60dzr0000gn/T/tmplf7tengw.py::test_1 PASSED [ 66%]\n../../../var/folders/7_/khf8pt6n3wdcd5kv77y60dzr0000gn/T/tmplf7tengw.py::test_2 PASSED [100%]\n\n============================== 3 passed in 0.02s ===============================\n",
+      "tests_passed": 3,
+      "total_tests": 3
+    },
+    "solved": true,
+    "tests_passed": 3,
+    "total_tests": 3,
+    "turns": 2,
+    "timestamp": "2026-01-14T23:48:47.630631"
+  },
+  {
+    "id": "b296a9f9-1d64-41de-9805-d74a8b3715c3",
+    "task_id": 13,
+    "personality": "OVERCONFIDENT_WRONG",
+    "problem_text": "Write a function to count the most common words in a dictionary.",
+    "test_cases": [
+      "assert count_common(['red','green','black','pink','black','white','black','eyes','white','black','orange','pink','pink','red','red','white','orange','white',\"black\",'pink','green','green','pink','green','pink','white','orange',\"orange\",'red']) == [('pink', 6), ('black', 5), ('white', 5), ('red', 4)]",
+      "assert count_common(['one', 'two', 'three', 'four', 'five', 'one', 'two', 'one', 'three', 'one']) == [('one', 4), ('two', 2), ('three', 2), ('four', 1)]",
+      "assert count_common(['Facebook', 'Apple', 'Amazon', 'Netflix', 'Google', 'Apple', 'Netflix', 'Amazon']) == [('Apple', 2), ('Amazon', 2), ('Netflix', 2), ('Facebook', 1)]"
+    ],
+    "conversation": [
+      {
+        "role": "student",
+        "content": "I think I can handle this one. Just need a quick check on my approach.",
+        "turn": 1
+      },
+      {
+        "role": "tutor",
+        "content": "def count_common(words):\n    word_count = {}\n    for word in words:\n        if word in word_count:\n            word_count[word] += 1\n        else:\n            word_count[word] = 1\n    sorted_word_count = sorted(word_count.items(), key=lambda x: x[1], reverse=True)\n    return sorted_word_count",
+        "turn": 2,
+        "execution": {
+          "turn": 2,
+          "tests_passed": 0,
+          "total_tests": 3,
+          "success": false,
+          "error_type": "test_failure",
+          "message": "0/3 tests passed"
+        }
+      },
+      {
+        "role": "student",
+        "content": "This code counts the occurrences of each word but doesn't actually find common elements between two lists of words. You need to pass two lists and find common words. Here: \n\n```python\ndef count_common(list1, list2):\n    set1 = set(list1)\n    set2 = set(list2)\n    common_words = set1 & set2\n    return tuple(common_words)\n```",
+        "turn": 3
+      },
+      {
+        "role": "tutor",
+        "content": "def count_common(words):\n    word_count = {}\n    for word in words:\n        if word in word_count:\n            word_count[word] += 1\n        else:\n            word_count[word] = 1\n    sorted_word_count = sorted(word_count.items(), key=lambda x: x[1], reverse=True)\n    return sorted_word_count",
+        "turn": 4,
+        "execution": {
+          "turn": 4,
+          "tests_passed": 0,
+          "total_tests": 3,
+          "success": false,
+          "error_type": "test_failure",
+          "message": "0/3 tests passed"
+        }
+      },
+      {
+        "role": "student",
+        "content": "This function counts occurrences but doesn't actually count common elements as described. Try returning the top N common words instead. Here: `return [word for word, count in sorted_word_count[:N]]`",
+        "turn": 5
+      },
+      {
+        "role": "tutor",
+        "content": "def count_common(words):\n    word_count = {}\n    for word in words:\n        word_count[word] = word_count.get(word, 0) + 1\n    return sorted(word_count.items(), key=lambda x: x[1], reverse=True)",
+        "turn": 6,
+        "execution": {
+          "turn": 6,
+          "tests_passed": 0,
+          "total_tests": 3,
+          "success": false,
+          "error_type": "test_failure",
+          "message": "0/3 tests passed"
+        }
+      },
+      {
+        "role": "student",
+        "content": "It's sorting by frequency but returning common elements count. Change it to return a list of words with their counts using `return [(word, count) for word, count in word_count.items()]`.",
+        "turn": 7
+      },
+      {
+        "role": "tutor",
+        "content": "def count_common(words):\n    word_count = {}\n    for word in words:\n        if word in word_count:\n            word_count[word] += 1\n        else:\n            word_count[word] = 1",
+        "turn": 8,
+        "execution": {
+          "turn": 8,
+          "tests_passed": 0,
+          "total_tests": 3,
+          "success": false,
+          "error_type": "test_failure",
+          "message": "0/3 tests passed"
+        }
+      },
+      {
+        "role": "student",
+        "content": "It looks like the function is counting occurrences, but the problem likely requires finding common elements between two lists. Try using sets instead: `return len(set(words1) & set(words2))`.",
+        "turn": 9
+      },
+      {
+        "role": "tutor",
+        "content": "def count_common(words):\n    word_counts = {}\n    for word in words:\n        if word in word_counts:\n            word_counts[word] += 1\n        else:\n            word_counts[word] = 1",
+        "turn": 10,
+        "execution": {
+          "turn": 10,
+          "tests_passed": 0,
+          "total_tests": 3,
+          "success": false,
+          "error_type": "test_failure",
+          "message": "0/3 tests passed"
+        }
+      }
+    ],
+    "execution_result": {
+      "success": false,
+      "error_type": "test_failure",
+      "message": "0/3 tests passed",
+      "code_output": "",
+      "test_results": "============================= test session starts ==============================\nplatform darwin -- Python 3.14.0, pytest-9.0.2, pluggy-1.6.0 -- /Users/adityamathur/data_curation/venv/bin/python3\ncachedir: .pytest_cache\nrootdir: /var/folders/7_/khf8pt6n3wdcd5kv77y60dzr0000gn/T\nplugins: anyio-4.12.0, langsmith-0.6.0\ncollecting ... collected 3 items\n\n../../../var/folders/7_/khf8pt6n3wdcd5kv77y60dzr0000gn/T/tmpktanbnbf.py::test_0 FAILED [ 33%]\n../../../var/folders/7_/khf8pt6n3wdcd5kv77y60dzr0000gn/T/tmpktanbnbf.py::test_1 FAILED [ 66%]\n../../../var/folders/7_/khf8pt6n3wdcd5kv77y60dzr0000gn/T/tmpktanbnbf.py::test_2 FAILED [100%]\n\n=================================== FAILURES ===================================\n____________________________________ test_0 ____________________________________\n\n    def test_0():\n>       assert count_common(['red','green','black','pink','black','white','black','eyes','white','black','orange','pink','pink','red','red','white','orange','white',\"black\",'pink','green','green','pink','green','pink','white','orange',\"orange\",'red']) == [('pink', 6), ('black', 5), ('white', 5), ('red', 4)]\nE       AssertionError: assert None == [('pink', 6), ('black', 5), ('white', 5), ('red', 4)]\nE        +  where None = count_common(['red', 'green', 'black', 'pink', 'black', 'white', ...])\n\n/var/folders/7_/khf8pt6n3wdcd5kv77y60dzr0000gn/T/tmpktanbnbf.py:10: AssertionError\n____________________________________ test_1 ____________________________________\n\n    def test_1():\n>       assert count_common(['one', 'two', 'three', 'four', 'five', 'one', 'two', 'one', 'three', 'one']) == [('one', 4), ('two', 2), ('three', 2), ('four', 1)]\nE       AssertionError: assert None == [('one', 4), ('two', 2), ('three', 2), ('four', 1)]\nE        +  where None = count_common(['one', 'two', 'three', 'four', 'five', 'one', ...])\n\n/var/folders/7_/khf8pt6n3wdcd5kv77y60dzr0000gn/T/tmpktanbnbf.py:13: AssertionError\n____________________________________ test_2 ____________________________________\n\n    def test_2():\n>       assert count_common(['Facebook', 'Apple', 'Amazon', 'Netflix', 'Google', 'Apple', 'Netflix', 'Amazon']) == [('Apple', 2), ('Amazon', 2), ('Netflix', 2), ('Facebook', 1)]\nE       AssertionError: assert None == [('Apple', 2), ('Amazon', 2), ('Netflix', 2), ('Facebook', 1)]\nE        +  where None = count_common(['Facebook', 'Apple', 'Amazon', 'Netflix', 'Google', 'Apple', ...])\n\n/var/folders/7_/khf8pt6n3wdcd5kv77y60dzr0000gn/T/tmpktanbnbf.py:16: AssertionError\n=========================== short test summary info ============================\nFAILED ../../../var/folders/7_/khf8pt6n3wdcd5kv77y60dzr0000gn/T/tmpktanbnbf.py::test_0\nFAILED ../../../var/folders/7_/khf8pt6n3wdcd5kv77y60dzr0000gn/T/tmpktanbnbf.py::test_1\nFAILED ../../../var/folders/7_/khf8pt6n3wdcd5kv77y60dzr0000gn/T/tmpktanbnbf.py::test_2\n============================== 3 failed in 0.04s ===============================\n",
+      "tests_passed": 0,
+      "total_tests": 3
+    },
+    "solved": false,
+    "tests_passed": 0,
+    "total_tests": 3,
+    "turns": 10,
+    "timestamp": "2026-01-14T23:49:37.129510"
+  },
+  {
+    "id": "20ada437-a236-4d26-9f25-4bc41270fd52",
+    "task_id": 14,
+    "personality": "OVERCONFIDENT_WRONG",
+    "problem_text": "Write a python function to find the volume of a triangular prism.",
+    "test_cases": [
+      "assert find_Volume(10,8,6) == 240",
+      "assert find_Volume(3,2,2) == 6",
+      "assert find_Volume(1,2,1) == 1"
+    ],
+    "conversation": [
+      {
+        "role": "student",
+        "content": "I think I got this. So, we need a function that takes the base, height, and length of a triangular prism and returns the volume, right? Should be simple enough.",
+        "turn": 1
+      },
+      {
+        "role": "tutor",
+        "content": "def find_Volume(base, height, length):\n    volume = 0.5 * base * height * length\n    return volume",
+        "turn": 2,
+        "execution": {
+          "turn": 2,
+          "tests_passed": 3,
+          "total_tests": 3,
+          "success": true,
+          "error_type": null,
+          "message": "All tests passed"
+        }
+      }
+    ],
+    "execution_result": {
+      "success": true,
+      "error_type": null,
+      "message": "All tests passed",
+      "code_output": "",
+      "test_results": "============================= test session starts ==============================\nplatform darwin -- Python 3.14.0, pytest-9.0.2, pluggy-1.6.0 -- /Users/adityamathur/data_curation/venv/bin/python3\ncachedir: .pytest_cache\nrootdir: /var/folders/7_/khf8pt6n3wdcd5kv77y60dzr0000gn/T\nplugins: anyio-4.12.0, langsmith-0.6.0\ncollecting ... collected 3 items\n\n../../../var/folders/7_/khf8pt6n3wdcd5kv77y60dzr0000gn/T/tmpu4ldnkz3.py::test_0 PASSED [ 33%]\n../../../var/folders/7_/khf8pt6n3wdcd5kv77y60dzr0000gn/T/tmpu4ldnkz3.py::test_1 PASSED [ 66%]\n../../../var/folders/7_/khf8pt6n3wdcd5kv77y60dzr0000gn/T/tmpu4ldnkz3.py::test_2 PASSED [100%]\n\n============================== 3 passed in 0.02s ===============================\n",
+      "tests_passed": 3,
+      "total_tests": 3
+    },
+    "solved": true,
+    "tests_passed": 3,
+    "total_tests": 3,
+    "turns": 2,
+    "timestamp": "2026-01-14T23:49:44.172347"
+  },
+  {
+    "id": "3952c892-96ea-4c1e-a80c-6cd76158fc51",
+    "task_id": 15,
+    "personality": "OVERCONFIDENT_WRONG",
+    "problem_text": "Write a function to split a string at lowercase letters.",
+    "test_cases": [
+      "assert split_lowerstring(\"AbCd\")==['bC','d']",
+      "assert split_lowerstring(\"Python\")==['y', 't', 'h', 'o', 'n']",
+      "assert split_lowerstring(\"Programming\")==['r', 'o', 'g', 'r', 'a', 'm', 'm', 'i', 'n', 'g']"
+    ],
+    "conversation": [
+      {
+        "role": "student",
+        "content": "I think I can handle this one. Just need a quick check on my approach.",
+        "turn": 1
+      },
+      {
+        "role": "tutor",
+        "content": "def split_lowerstring(s):\n    result = []\n    for i in range(len(s)):\n        if s[i].islower():\n            result.append(s[i])\n    return result",
+        "turn": 2,
+        "execution": {
+          "turn": 2,
+          "tests_passed": 2,
+          "total_tests": 3,
+          "success": false,
+          "error_type": "test_failure",
+          "message": "2/3 tests passed"
+        }
+      },
+      {
+        "role": "student",
+        "content": "It only adds lowercase letters to the list, but should split the string into lowercase and uppercase parts instead. Here: \n\n```python\ndef split_lowerstring(s):\n    lower, upper = [], []\n    for char in s:\n        if char.islower():\n            lower.append(char)\n        else:\n            upper.append(char)",
+        "turn": 3
+      },
+      {
+        "role": "tutor",
+        "content": "def split_lowerstring(s):\n    result = []\n    current = ''\n    for char in s:\n        if char.islower():\n            if current:\n                result.append(current)\n            current = char\n        else:\n            current += char\n    if current:\n        result.append(current)\n    return result",
+        "turn": 4,
+        "execution": {
+          "turn": 4,
+          "tests_passed": 0,
+          "total_tests": 3,
+          "success": false,
+          "error_type": "test_failure",
+          "message": "0/3 tests passed"
+        }
+      },
+      {
+        "role": "student",
+        "content": "This code only adds a new string to `result` when it encounters a lowercase character after an uppercase one. You need to reset `current` whenever you find a lowercase char. Here\u2019s the fix:\n\n```python\ndef split_lowerstring(s):\n    result = []\n    current = ''\n    for char in s:\n        if char.islower():\n            current = char  # Reset current on finding a lowercase char\n        elif current:",
+        "turn": 5
+      },
+      {
+        "role": "tutor",
+        "content": "def split_lowerstring(s):\n    result = []\n    for i in range(1, len(s)):\n        if s[i].islower() and s[i-1].isupper():\n            result.append(s[i-1])\n    return result",
+        "turn": 6,
+        "execution": {
+          "turn": 6,
+          "tests_passed": 0,
+          "total_tests": 3,
+          "success": false,
+          "error_type": "test_failure",
+          "message": "0/3 tests passed"
+        }
+      },
+      {
+        "role": "student",
+        "content": "The issue is that the function only checks for lowercase letters following uppercase ones but doesn't actually split the string. Change it to split the string at those points:\n\n```python\ndef split_lowerstring(s):\n    return [s[i-1] + s[i] for i in range(1, len(s)) if s[i].islower() and s[i-1].isupper()]\n```",
+        "turn": 7
+      },
+      {
+        "role": "tutor",
+        "content": "def split_lowerstring(s):\n    result = []\n    current = \"\"\n    for c in s:\n        if c.islower():\n            if current:\n                result.append(current)\n                current = \"\"\n            current += c\n        else:\n            if current:\n                result.append(current)\n                current = \"\"\n    if current:\n        result.append(current)\n    return result",
+        "turn": 8,
+        "execution": {
+          "turn": 8,
+          "tests_passed": 2,
+          "total_tests": 3,
+          "success": false,
+          "error_type": "test_failure",
+          "message": "2/3 tests passed"
+        }
+      },
+      {
+        "role": "student",
+        "content": "The function only appends `current` if it's not empty at the end. You should also append `current` if it's empty but the string was all lowercase. Here: `result.append(current)` after the loop.",
+        "turn": 9
+      },
+      {
+        "role": "tutor",
+        "content": "def split_lowerstring(s):\n    result = []\n    for i in range(len(s)):\n        if i == 0 or s[i].islower():\n            result.append(s[i])\n        else:\n            result[-1] += s[i]\n    return result",
+        "turn": 10,
+        "execution": {
+          "turn": 10,
+          "tests_passed": 0,
+          "total_tests": 3,
+          "success": false,
+          "error_type": "test_failure",
+          "message": "0/3 tests passed"
+        }
+      }
+    ],
+    "execution_result": {
+      "success": false,
+      "error_type": "test_failure",
+      "message": "0/3 tests passed",
+      "code_output": "",
+      "test_results": "============================= test session starts ==============================\nplatform darwin -- Python 3.14.0, pytest-9.0.2, pluggy-1.6.0 -- /Users/adityamathur/data_curation/venv/bin/python3\ncachedir: .pytest_cache\nrootdir: /var/folders/7_/khf8pt6n3wdcd5kv77y60dzr0000gn/T\nplugins: anyio-4.12.0, langsmith-0.6.0\ncollecting ... collected 3 items\n\n../../../var/folders/7_/khf8pt6n3wdcd5kv77y60dzr0000gn/T/tmpjzt18dgc.py::test_0 FAILED [ 33%]\n../../../var/folders/7_/khf8pt6n3wdcd5kv77y60dzr0000gn/T/tmpjzt18dgc.py::test_1 FAILED [ 66%]\n../../../var/folders/7_/khf8pt6n3wdcd5kv77y60dzr0000gn/T/tmpjzt18dgc.py::test_2 FAILED [100%]\n\n=================================== FAILURES ===================================\n____________________________________ test_0 ____________________________________\n\n    def test_0():\n>       assert split_lowerstring(\"AbCd\")==['bC','d']\nE       AssertionError: assert ['A', 'bC', 'd'] == ['bC', 'd']\nE         \nE         At index 0 diff: 'A' != 'bC'\nE         Left contains one more item: 'd'\nE         \nE         Full diff:\nE           [\nE         +     'A',...\nE         \nE         ...Full output truncated (3 lines hidden), use '-vv' to show\n\n/var/folders/7_/khf8pt6n3wdcd5kv77y60dzr0000gn/T/tmpjzt18dgc.py:11: AssertionError\n____________________________________ test_1 ____________________________________\n\n    def test_1():\n>       assert split_lowerstring(\"Python\")==['y', 't', 'h', 'o', 'n']\nE       AssertionError: assert ['P', 'y', 't', 'h', 'o', 'n'] == ['y', 't', 'h', 'o', 'n']\nE         \nE         At index 0 diff: 'P' != 'y'\nE         Left contains one more item: 'n'\nE         \nE         Full diff:\nE           [\nE         +     'P',...\nE         \nE         ...Full output truncated (6 lines hidden), use '-vv' to show\n\n/var/folders/7_/khf8pt6n3wdcd5kv77y60dzr0000gn/T/tmpjzt18dgc.py:14: AssertionError\n____________________________________ test_2 ____________________________________\n\n    def test_2():\n>       assert split_lowerstring(\"Programming\")==['r', 'o', 'g', 'r', 'a', 'm', 'm', 'i', 'n', 'g']\nE       AssertionError: assert ['P', 'r', 'o...'r', 'a', ...] == ['r', 'o', 'g...'a', 'm', ...]\nE         \nE         At index 0 diff: 'P' != 'r'\nE         Left contains one more item: 'g'\nE         \nE         Full diff:\nE           [\nE         +     'P',...\nE         \nE         ...Full output truncated (11 lines hidden), use '-vv' to show\n\n/var/folders/7_/khf8pt6n3wdcd5kv77y60dzr0000gn/T/tmpjzt18dgc.py:17: AssertionError\n=========================== short test summary info ============================\nFAILED ../../../var/folders/7_/khf8pt6n3wdcd5kv77y60dzr0000gn/T/tmpjzt18dgc.py::test_0\nFAILED ../../../var/folders/7_/khf8pt6n3wdcd5kv77y60dzr0000gn/T/tmpjzt18dgc.py::test_1\nFAILED ../../../var/folders/7_/khf8pt6n3wdcd5kv77y60dzr0000gn/T/tmpjzt18dgc.py::test_2\n============================== 3 failed in 0.03s ===============================\n",
+      "tests_passed": 0,
+      "total_tests": 3
+    },
+    "solved": false,
+    "tests_passed": 0,
+    "total_tests": 3,
+    "turns": 10,
+    "timestamp": "2026-01-14T23:50:28.467269"
+  },
+  {
+    "id": "e209bb66-c33e-4004-bd64-ba9e5115de9a",
+    "task_id": 16,
+    "personality": "OVERCONFIDENT_WRONG",
+    "problem_text": "Write a function to find sequences of lowercase letters joined with an underscore.",
+    "test_cases": [
+      "assert text_lowercase_underscore(\"aab_cbbbc\")==('Found a match!')",
+      "assert text_lowercase_underscore(\"aab_Abbbc\")==('Not matched!')",
+      "assert text_lowercase_underscore(\"Aaab_abbbc\")==('Not matched!')"
+    ],
+    "conversation": [
+      {
+        "role": "student",
+        "content": "I think I can do this easily with a regex or maybe just split and join. Need a quick check though.",
+        "turn": 1
+      },
+      {
+        "role": "tutor",
+        "content": "def text_lowercase_underscore(text):\n    pattern = r'[a-z]+_[a-z]+'\n    match = re.search(pattern, text)\n    if match:\n        return 'Found a match!'\n    else:\n        return 'Not matched!'",
+        "turn": 2,
+        "execution": {
+          "turn": 2,
+          "tests_passed": 0,
+          "total_tests": 3,
+          "success": false,
+          "error_type": "test_failure",
+          "message": "0/3 tests passed"
+        }
+      },
+      {
+        "role": "student",
+        "content": "The regex pattern isn't doing what you want. Use `re.sub` to replace unwanted chars and convert to lowercase. Here: \n\n```python\ndef text_lowercase_underscore(text):\n    return re.sub(r'[^a-z]+', '_', text.lower())\n```",
+        "turn": 3
+      },
+      {
+        "role": "tutor",
+        "content": "def text_lowercase_underscore(text):\n    pattern = r'[a-z]+_[a-z]+'\n    match = re.search(pattern, text)\n    if match:\n        return 'Found a match!'\n    else:\n        return 'Not matched!'",
+        "turn": 4,
+        "execution": {
+          "turn": 4,
+          "tests_passed": 0,
+          "total_tests": 3,
+          "success": false,
+          "error_type": "test_failure",
+          "message": "0/3 tests passed"
+        }
+      },
+      {
+        "role": "student",
+        "content": "The regex pattern is checking for matches instead of converting text. Use `re.sub` to replace non-lowercase and non-underscore characters. Here: `return re.sub(r'[^a-z_]', '', text)`",
+        "turn": 5
+      },
+      {
+        "role": "tutor",
+        "content": "import re\n\ndef text_lowercase_underscore(text):\n    pattern = r'[a-z]+_[a-z]+'\n    match = re.search(pattern, text)\n    if match:\n        return 'Found a match!'\n    else:\n        return 'Not matched!'",
+        "turn": 6,
+        "execution": {
+          "turn": 6,
+          "tests_passed": 2,
+          "total_tests": 3,
+          "success": false,
+          "error_type": "test_failure",
+          "message": "2/3 tests passed"
+        }
+      },
+      {
+        "role": "student",
+        "content": "The regex pattern only matches text like \"a_b\" but doesn't convert text to lowercase or add underscores between words. Fix: Use `re.sub(r'\\b\\w+\\b', lambda x: '_'.join(x.group().lower()), text)` to replace words with underscore-separated lowercase versions.",
+        "turn": 7
+      },
+      {
+        "role": "tutor",
+        "content": "def text_lowercase_underscore(text):\n    pattern = r'[a-z]+_[a-z]+'\n    match = re.search(pattern, text)\n    if match:\n        return 'Found a match!'\n    else:\n        return 'Not matched!'<|fim_middle|>",
+        "turn": 8,
+        "execution": {
+          "turn": 8,
+          "tests_passed": 0,
+          "total_tests": 3,
+          "success": false,
+          "error_type": "test_failure",
+          "message": "0/3 tests passed"
+        }
+      },
+      {
+        "role": "student",
+        "content": "The regex pattern is incorrect. It should be `r'[a-z]+_[a-z]+'` to ensure there's at least one underscore between words. Here: \n```python\nreturn re.search(r'[a-z]+_[a-z]+', text) is not None\n```",
+        "turn": 9
+      },
+      {
+        "role": "tutor",
+        "content": "def text_lowercase_underscore(text):\n    pattern = r'[a-z]+_[a-z]+'\n    if re.search(pattern, text):\n        return 'Found a match!'\n    else:\n        return 'Not matched!'<|fim_middle|>",
+        "turn": 10,
+        "execution": {
+          "turn": 10,
+          "tests_passed": 0,
+          "total_tests": 3,
+          "success": false,
+          "error_type": "test_failure",
+          "message": "0/3 tests passed"
+        }
+      }
+    ],
+    "execution_result": {
+      "success": false,
+      "error_type": "test_failure",
+      "message": "0/3 tests passed",
+      "code_output": "  File \"/var/folders/7_/khf8pt6n3wdcd5kv77y60dzr0000gn/T/tmpnb_hz4wv.py\", line 6\n    return 'Not matched!'<|fim_middle|>\n                          ^\nSyntaxError: invalid syntax\n",
+      "test_results": "============================= test session starts ==============================\nplatform darwin -- Python 3.14.0, pytest-9.0.2, pluggy-1.6.0 -- /Users/adityamathur/data_curation/venv/bin/python3\ncachedir: .pytest_cache\nrootdir: /var/folders/7_/khf8pt6n3wdcd5kv77y60dzr0000gn/T\nplugins: anyio-4.12.0, langsmith-0.6.0\ncollecting ... collected 0 items / 1 error\n\n==================================== ERRORS ====================================\n_______________________ ERROR collecting tmpnb_hz4wv.py ________________________\nvenv/lib/python3.14/site-packages/_pytest/python.py:507: in importtestmodule\n    mod = import_path(\nvenv/lib/python3.14/site-packages/_pytest/pathlib.py:587: in import_path\n    importlib.import_module(module_name)\n/opt/homebrew/Cellar/python@3.14/3.14.0_1/Frameworks/Python.framework/Versions/3.14/lib/python3.14/importlib/__init__.py:88: in import_module\n    return _bootstrap._gcd_import(name[level:], package, level)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n<frozen importlib._bootstrap>:1398: in _gcd_import\n    ???\n<frozen importlib._bootstrap>:1371: in _find_and_load\n    ???\n<frozen importlib._bootstrap>:1342: in _find_and_load_unlocked\n    ???\n<frozen importlib._bootstrap>:938: in _load_unlocked\n    ???\nvenv/lib/python3.14/site-packages/_pytest/assertion/rewrite.py:188: in exec_module\n    source_stat, co = _rewrite_test(fn, self.config)\n                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nvenv/lib/python3.14/site-packages/_pytest/assertion/rewrite.py:357: in _rewrite_test\n    tree = ast.parse(source, filename=strfn)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n/opt/homebrew/Cellar/python@3.14/3.14.0_1/Frameworks/Python.framework/Versions/3.14/lib/python3.14/ast.py:46: in parse\n    return compile(source, filename, mode, flags,\nE     File \"/var/folders/7_/khf8pt6n3wdcd5kv77y60dzr0000gn/T/tmpnb_hz4wv.py\", line 6\nE       return 'Not matched!'<|fim_middle|>\nE                             ^\nE   SyntaxError: invalid syntax\n=========================== short test summary info ============================\nERROR ../../../var/folders/7_/khf8pt6n3wdcd5kv77y60dzr0000gn/T/tmpnb_hz4wv.py\n!!!!!!!!!!!!!!!!!!!! Interrupted: 1 error during collection !!!!!!!!!!!!!!!!!!!!\n=============================== 1 error in 0.09s ===============================\n",
+      "tests_passed": 0,
+      "total_tests": 3
+    },
+    "solved": false,
+    "tests_passed": 0,
+    "total_tests": 3,
+    "turns": 10,
+    "timestamp": "2026-01-14T23:51:08.951555"
+  },
+  {
+    "id": "dc9ad515-2642-4e98-871f-1d24d1685f56",
+    "task_id": 17,
+    "personality": "OVERCONFIDENT_WRONG",
+    "problem_text": "Write a function to find the perimeter of a square.",
+    "test_cases": [
+      "assert square_perimeter(10)==40",
+      "assert square_perimeter(5)==20",
+      "assert square_perimeter(4)==16"
+    ],
+    "conversation": [
+      {
+        "role": "student",
+        "content": "I think I got this one. Just need a quick check: `def square_perimeter(side_length): return 4 * side_length`.",
+        "turn": 1
+      },
+      {
+        "role": "tutor",
+        "content": "def square_perimeter(side):\n    return 4 * side",
+        "turn": 2,
+        "execution": {
+          "turn": 2,
+          "tests_passed": 3,
+          "total_tests": 3,
+          "success": true,
+          "error_type": null,
+          "message": "All tests passed"
+        }
+      }
+    ],
+    "execution_result": {
+      "success": true,
+      "error_type": null,
+      "message": "All tests passed",
+      "code_output": "",
+      "test_results": "============================= test session starts ==============================\nplatform darwin -- Python 3.14.0, pytest-9.0.2, pluggy-1.6.0 -- /Users/adityamathur/data_curation/venv/bin/python3\ncachedir: .pytest_cache\nrootdir: /var/folders/7_/khf8pt6n3wdcd5kv77y60dzr0000gn/T\nplugins: anyio-4.12.0, langsmith-0.6.0\ncollecting ... collected 3 items\n\n../../../var/folders/7_/khf8pt6n3wdcd5kv77y60dzr0000gn/T/tmpmxw8km_p.py::test_0 PASSED [ 33%]\n../../../var/folders/7_/khf8pt6n3wdcd5kv77y60dzr0000gn/T/tmpmxw8km_p.py::test_1 PASSED [ 66%]\n../../../var/folders/7_/khf8pt6n3wdcd5kv77y60dzr0000gn/T/tmpmxw8km_p.py::test_2 PASSED [100%]\n\n============================== 3 passed in 0.02s ===============================\n",
+      "tests_passed": 3,
+      "total_tests": 3
+    },
+    "solved": true,
+    "tests_passed": 3,
+    "total_tests": 3,
+    "turns": 2,
+    "timestamp": "2026-01-14T23:51:34.452849"
+  },
+  {
+    "id": "801a6985-ea8e-4570-b931-4901ff5114d1",
+    "task_id": 18,
+    "personality": "OVERCONFIDENT_WRONG",
+    "problem_text": "Write a function to remove characters from the first string which are present in the second string.",
+    "test_cases": [
+      "assert remove_dirty_chars(\"probasscurve\", \"pros\") == 'bacuve'",
+      "assert remove_dirty_chars(\"digitalindia\", \"talent\") == 'digiidi'",
+      "assert remove_dirty_chars(\"exoticmiles\", \"toxic\") == 'emles' "
+    ],
+    "conversation": [
+      {
+        "role": "student",
+        "content": "I think I can handle this one. Just need a quick check on my logic.",
+        "turn": 1
+      },
+      {
+        "role": "tutor",
+        "content": "def remove_dirty_chars(s1, s2):\n    result = \"\"\n    for char in s1:\n        if char not in s2:\n            result += char\n    return result",
+        "turn": 2,
+        "execution": {
+          "turn": 2,
+          "tests_passed": 3,
+          "total_tests": 3,
+          "success": true,
+          "error_type": null,
+          "message": "All tests passed"
+        }
+      }
+    ],
+    "execution_result": {
+      "success": true,
+      "error_type": null,
+      "message": "All tests passed",
+      "code_output": "",
+      "test_results": "============================= test session starts ==============================\nplatform darwin -- Python 3.14.0, pytest-9.0.2, pluggy-1.6.0 -- /Users/adityamathur/data_curation/venv/bin/python3\ncachedir: .pytest_cache\nrootdir: /var/folders/7_/khf8pt6n3wdcd5kv77y60dzr0000gn/T\nplugins: anyio-4.12.0, langsmith-0.6.0\ncollecting ... collected 3 items\n\n../../../var/folders/7_/khf8pt6n3wdcd5kv77y60dzr0000gn/T/tmphq7uy3xl.py::test_0 PASSED [ 33%]\n../../../var/folders/7_/khf8pt6n3wdcd5kv77y60dzr0000gn/T/tmphq7uy3xl.py::test_1 PASSED [ 66%]\n../../../var/folders/7_/khf8pt6n3wdcd5kv77y60dzr0000gn/T/tmphq7uy3xl.py::test_2 PASSED [100%]\n\n============================== 3 passed in 0.02s ===============================\n",
+      "tests_passed": 3,
+      "total_tests": 3
+    },
+    "solved": true,
+    "tests_passed": 3,
+    "total_tests": 3,
+    "turns": 2,
+    "timestamp": "2026-01-14T23:51:41.625328"
+  },
+  {
+    "id": "77dc9642-7ba6-4ebc-8494-09a95b7d06b4",
+    "task_id": 19,
+    "personality": "OVERCONFIDENT_WRONG",
+    "problem_text": "Write a function to find whether a given array of integers contains any duplicate element.",
+    "test_cases": [
+      "assert test_duplicate(([1,2,3,4,5]))==False",
+      "assert test_duplicate(([1,2,3,4, 4]))==True",
+      "assert test_duplicate([1,1,2,2,3,3,4,4,5])==True"
+    ],
+    "conversation": [
+      {
+        "role": "student",
+        "content": "I think I can just iterate through the list and use a set to track seen numbers. Should be pretty straightforward. Need a quick check though.",
+        "turn": 1
+      },
+      {
+        "role": "tutor",
+        "content": "def test_duplicate(arr):\n    for i in range(len(arr)):\n        for j in range(i+1, len(arr)):\n            if arr[i] == arr[j]:\n                return True\n    return False",
+        "turn": 2,
+        "execution": {
+          "turn": 2,
+          "tests_passed": 3,
+          "total_tests": 3,
+          "success": false,
+          "error_type": "test_failure",
+          "message": "3/3 tests passed"
+        }
+      },
+      {
+        "role": "student",
+        "content": "That code checks for duplicates by comparing each element with every other element, which is fine, but it might be missing something more efficient. Try using a set instead: \n\n```python\ndef test_duplicate(arr):\n    seen = set()\n    for num in arr:\n        if num in seen:\n            return True\n        seen.add(num)\n    return False",
+        "turn": 3
+      },
+      {
+        "role": "tutor",
+        "content": "def test_duplicate(arr):\n    for i in range(len(arr)):\n        for j in range(i+1, len(arr)):\n            if arr[i] == arr[j]:\n                return True\n    return False",
+        "turn": 4,
+        "execution": {
+          "turn": 4,
+          "tests_passed": 3,
+          "total_tests": 3,
+          "success": false,
+          "error_type": "test_failure",
+          "message": "3/3 tests passed"
+        }
+      },
+      {
+        "role": "student",
+        "content": "This code only checks for duplicates within the given array. It should work fine. But if it's failing, maybe there's an edge case you're not handling. Try using a set to track seen elements for a more efficient solution. Here: \n\n```python\ndef test_duplicate(arr):\n    seen = set()\n    for num in arr:\n        if num in seen:\n            return True\n        seen.add(num)\n    return False",
+        "turn": 5
+      },
+      {
+        "role": "tutor",
+        "content": "def test_duplicate(arr):\n    for i in range(len(arr)):\n        for j in range(i+1, len(arr)):\n            if arr[i] == arr[j]:\n                return True\n    return False",
+        "turn": 6,
+        "execution": {
+          "turn": 6,
+          "tests_passed": 3,
+          "total_tests": 3,
+          "success": false,
+          "error_type": "test_failure",
+          "message": "3/3 tests passed"
+        }
+      },
+      {
+        "role": "student",
+        "content": "That code looks good, but it might be missing a return statement. Here: `return True` should be outside the loop if you want to pass all tests. \n\n```python\ndef test_duplicate(arr):\n    for i in range(len(arr)):\n        for j in range(i+1, len(arr)):\n            if arr[i] == arr[j]:\n                return True\n    return False\n```",
+        "turn": 7
+      },
+      {
+        "role": "tutor",
+        "content": "def test_duplicate(arr):\n    seen = set()\n    for num in arr:\n        if num in seen:\n            return True\n        seen.add(num)\n    return False",
+        "turn": 8,
+        "execution": {
+          "turn": 8,
+          "tests_passed": 3,
+          "total_tests": 3,
+          "success": false,
+          "error_type": "test_failure",
+          "message": "3/3 tests passed"
+        }
+      },
+      {
+        "role": "student",
+        "content": "This code looks good at first glance. Make sure your input is always a list of integers. If not, convert it. Here: `arr = list(map(int, arr))` before the loop.",
+        "turn": 9
+      },
+      {
+        "role": "tutor",
+        "content": "def test_duplicate(arr):\n    seen = set()\n    for num in arr:\n        if num in seen:\n            return True\n        seen.add(num)\n    return False",
+        "turn": 10,
+        "execution": {
+          "turn": 10,
+          "tests_passed": 3,
+          "total_tests": 3,
+          "success": false,
+          "error_type": "test_failure",
+          "message": "3/3 tests passed"
+        }
+      }
+    ],
+    "execution_result": {
+      "success": false,
+      "error_type": "test_failure",
+      "message": "3/3 tests passed",
+      "code_output": "",
+      "test_results": "============================= test session starts ==============================\nplatform darwin -- Python 3.14.0, pytest-9.0.2, pluggy-1.6.0 -- /Users/adityamathur/data_curation/venv/bin/python3\ncachedir: .pytest_cache\nrootdir: /var/folders/7_/khf8pt6n3wdcd5kv77y60dzr0000gn/T\nplugins: anyio-4.12.0, langsmith-0.6.0\ncollecting ... collected 4 items\n\n../../../var/folders/7_/khf8pt6n3wdcd5kv77y60dzr0000gn/T/tmpfsggoa5t.py::test_duplicate ERROR [ 25%]\n../../../var/folders/7_/khf8pt6n3wdcd5kv77y60dzr0000gn/T/tmpfsggoa5t.py::test_0 PASSED [ 50%]\n../../../var/folders/7_/khf8pt6n3wdcd5kv77y60dzr0000gn/T/tmpfsggoa5t.py::test_1 PASSED [ 75%]\n../../../var/folders/7_/khf8pt6n3wdcd5kv77y60dzr0000gn/T/tmpfsggoa5t.py::test_2 PASSED [100%]\n\n==================================== ERRORS ====================================\n_______________________ ERROR at setup of test_duplicate _______________________\nfile /var/folders/7_/khf8pt6n3wdcd5kv77y60dzr0000gn/T/tmpfsggoa5t.py, line 1\n  def test_duplicate(arr):\nE       fixture 'arr' not found\n>       available fixtures: anyio_backend, anyio_backend_name, anyio_backend_options, cache, capfd, capfdbinary, caplog, capsys, capsysbinary, capteesys, doctest_namespace, free_tcp_port, free_tcp_port_factory, free_udp_port, free_udp_port_factory, monkeypatch, pytestconfig, record_property, record_testsuite_property, record_xml_attribute, recwarn, subtests, tmp_path, tmp_path_factory, tmpdir, tmpdir_factory\n>       use 'pytest --fixtures [testpath]' for help on them.\n\n/var/folders/7_/khf8pt6n3wdcd5kv77y60dzr0000gn/T/tmpfsggoa5t.py:1\n=========================== short test summary info ============================\nERROR ../../../var/folders/7_/khf8pt6n3wdcd5kv77y60dzr0000gn/T/tmpfsggoa5t.py::test_duplicate\n========================== 3 passed, 1 error in 0.03s ==========================\n",
+      "tests_passed": 3,
+      "total_tests": 3
+    },
+    "solved": false,
+    "tests_passed": 3,
+    "total_tests": 3,
+    "turns": 10,
+    "timestamp": "2026-01-14T23:52:24.150411"
+  },
+  {
+    "id": "0f34473b-5c43-4d48-bbdc-9bf9a12aaf43",
+    "task_id": 20,
+    "personality": "OVERCONFIDENT_WRONG",
+    "problem_text": "Write a function to check if the given number is woodball or not.",
+    "test_cases": [
+      "assert is_woodall(383) == True",
+      "assert is_woodall(254) == False",
+      "assert is_woodall(200) == False"
+    ],
+    "conversation": [
+      {
+        "role": "student",
+        "content": "I think I got this one, but just need a quick confirmation. Is woodall number something related to base conversion or something else?",
+        "turn": 1
+      },
+      {
+        "role": "tutor",
+        "content": "def is_woodall(n):\n    for i in range(1, n+1):\n        if i * (2**i) == n:\n            return True\n    return False",
+        "turn": 2,
+        "execution": {
+          "turn": 2,
+          "tests_passed": 2,
+          "total_tests": 3,
+          "success": false,
+          "error_type": "test_failure",
+          "message": "2/3 tests passed"
+        }
+      },
+      {
+        "role": "student",
+        "content": "The loop should start from \\(i = 0\\) instead of \\(i = 1\\), and you need to check if \\(n + 1\\) is a Woodall number. Here\u2019s the fix:\n\n```python\ndef is_woodall(n):\n    for i in range(n+1):\n        if i * (2**i) == n + 1:\n            return True\n    return False\n```",
+        "turn": 3
+      },
+      {
+        "role": "tutor",
+        "content": "def is_woodall(n):\n    for i in range(1, n+1):\n        if i * (2**i) == n:\n            return True\n    return False",
+        "turn": 4,
+        "execution": {
+          "turn": 4,
+          "tests_passed": 2,
+          "total_tests": 3,
+          "success": false,
+          "error_type": "test_failure",
+          "message": "2/3 tests passed"
+        }
+      },
+      {
+        "role": "student",
+        "content": "The issue is with the range in your loop; it should start from 0, not 1. Try this instead:\n\n```python\ndef is_woodall(n):\n    for i in range(0, n+1):\n        if i * (2**i) == n:\n            return True\n    return False\n```",
+        "turn": 5
+      },
+      {
+        "role": "tutor",
+        "content": "def is_woodall(n):\n    for i in range(1, n):\n        if (i * (2 ** i) + 1) == n:\n            return True\n    return False",
+        "turn": 6,
+        "execution": {
+          "turn": 6,
+          "tests_passed": 2,
+          "total_tests": 3,
+          "success": false,
+          "error_type": "test_failure",
+          "message": "2/3 tests passed"
+        }
+      },
+      {
+        "role": "student",
+        "content": "The issue is with the loop range. It should start from 0, not 1, because \\(i = 0\\) is a valid case for Woodall numbers. Here's the fix:\n\n```python\ndef is_woodall(n):\n    for i in range(0, n):\n        if (i * (2 ** i) + 1) == n:\n            return True\n    return False\n```",
+        "turn": 7
+      },
+      {
+        "role": "tutor",
+        "content": "def is_woodall(n):\n    if n <= 0:\n        return False\n    i = 1\n    while True:\n        woodall = i * (2 ** i - 1)\n        if woodall == n:\n            return True\n        elif woodall > n:\n            return False\n        i += 1",
+        "turn": 8,
+        "execution": {
+          "turn": 8,
+          "tests_passed": 2,
+          "total_tests": 3,
+          "success": false,
+          "error_type": "test_failure",
+          "message": "2/3 tests passed"
+        }
+      },
+      {
+        "role": "student",
+        "content": "The issue is that the loop might run indefinitely without breaking properly. Change it to `while woodall < n:` to ensure it stops correctly.\n\n```python\ndef is_woodall(n):\n    if n <= 0:\n        return False\n    i = 1\n    while woodall < n:\n        woodall = i * (2 ** i - 1)\n        if woodall == n:",
+        "turn": 9
+      },
+      {
+        "role": "tutor",
+        "content": "def is_woodall(n):\n    for i in range(1, n):\n        if i * (2 ** i) == n:\n            return True\n    return False",
+        "turn": 10,
+        "execution": {
+          "turn": 10,
+          "tests_passed": 2,
+          "total_tests": 3,
+          "success": false,
+          "error_type": "test_failure",
+          "message": "2/3 tests passed"
+        }
+      }
+    ],
+    "execution_result": {
+      "success": false,
+      "error_type": "test_failure",
+      "message": "2/3 tests passed",
+      "code_output": "",
+      "test_results": "============================= test session starts ==============================\nplatform darwin -- Python 3.14.0, pytest-9.0.2, pluggy-1.6.0 -- /Users/adityamathur/data_curation/venv/bin/python3\ncachedir: .pytest_cache\nrootdir: /var/folders/7_/khf8pt6n3wdcd5kv77y60dzr0000gn/T\nplugins: anyio-4.12.0, langsmith-0.6.0\ncollecting ... collected 3 items\n\n../../../var/folders/7_/khf8pt6n3wdcd5kv77y60dzr0000gn/T/tmpus2nobzj.py::test_0 FAILED [ 33%]\n../../../var/folders/7_/khf8pt6n3wdcd5kv77y60dzr0000gn/T/tmpus2nobzj.py::test_1 PASSED [ 66%]\n../../../var/folders/7_/khf8pt6n3wdcd5kv77y60dzr0000gn/T/tmpus2nobzj.py::test_2 PASSED [100%]\n\n=================================== FAILURES ===================================\n____________________________________ test_0 ____________________________________\n\n    def test_0():\n>       assert is_woodall(383) == True\nE       assert False == True\nE        +  where False = is_woodall(383)\n\n/var/folders/7_/khf8pt6n3wdcd5kv77y60dzr0000gn/T/tmpus2nobzj.py:8: AssertionError\n=========================== short test summary info ============================\nFAILED ../../../var/folders/7_/khf8pt6n3wdcd5kv77y60dzr0000gn/T/tmpus2nobzj.py::test_0\n========================= 1 failed, 2 passed in 0.03s ==========================\n",
+      "tests_passed": 2,
+      "total_tests": 3
+    },
+    "solved": false,
+    "tests_passed": 2,
+    "total_tests": 3,
+    "turns": 10,
+    "timestamp": "2026-01-14T23:53:03.251592"
+  },
+  {
+    "id": "6afc9c79-39b1-4600-a55f-8b0c7ea22053",
+    "task_id": 21,
+    "personality": "OVERCONFIDENT_WRONG",
+    "problem_text": "Write a function to find m number of multiples of n.",
+    "test_cases": [
+      "assert multiples_of_num(4,3)== [3,6,9,12]",
+      "assert multiples_of_num(2,5)== [5,10]",
+      "assert multiples_of_num(9,2)== [2,4,6,8,10,12,14,16,18]"
+    ],
+    "conversation": [
+      {
+        "role": "student",
+        "content": "I think I got this. So, we just loop through numbers and check divisibility by n, right?",
+        "turn": 1
+      },
+      {
+        "role": "tutor",
+        "content": "def multiples_of_num(m, n):\n    multiples = []\n    for i in range(1, m+1):\n        multiples.append(i*n)\n    return multiples",
+        "turn": 2,
+        "execution": {
+          "turn": 2,
+          "tests_passed": 3,
+          "total_tests": 3,
+          "success": true,
+          "error_type": null,
+          "message": "All tests passed"
+        }
+      }
+    ],
+    "execution_result": {
+      "success": true,
+      "error_type": null,
+      "message": "All tests passed",
+      "code_output": "",
+      "test_results": "============================= test session starts ==============================\nplatform darwin -- Python 3.14.0, pytest-9.0.2, pluggy-1.6.0 -- /Users/adityamathur/data_curation/venv/bin/python3\ncachedir: .pytest_cache\nrootdir: /var/folders/7_/khf8pt6n3wdcd5kv77y60dzr0000gn/T\nplugins: anyio-4.12.0, langsmith-0.6.0\ncollecting ... collected 3 items\n\n../../../var/folders/7_/khf8pt6n3wdcd5kv77y60dzr0000gn/T/tmpeji5x12q.py::test_0 PASSED [ 33%]\n../../../var/folders/7_/khf8pt6n3wdcd5kv77y60dzr0000gn/T/tmpeji5x12q.py::test_1 PASSED [ 66%]\n../../../var/folders/7_/khf8pt6n3wdcd5kv77y60dzr0000gn/T/tmpeji5x12q.py::test_2 PASSED [100%]\n\n============================== 3 passed in 0.02s ===============================\n",
+      "tests_passed": 3,
+      "total_tests": 3
+    },
+    "solved": true,
+    "tests_passed": 3,
+    "total_tests": 3,
+    "turns": 2,
+    "timestamp": "2026-01-14T23:53:11.295781"
+  },
+  {
+    "id": "5c8f3e89-c80d-4f61-bb6e-2cabf9d8c4dd",
+    "task_id": 22,
+    "personality": "OVERCONFIDENT_WRONG",
+    "problem_text": "Write a function to find the first duplicate element in a given array of integers.",
+    "test_cases": [
+      "assert find_first_duplicate(([1, 2, 3, 4, 4, 5]))==4",
+      "assert find_first_duplicate([1, 2, 3, 4])==-1",
+      "assert find_first_duplicate([1, 1, 2, 3, 3, 2, 2])==1"
+    ],
+    "conversation": [
+      {
+        "role": "student",
+        "content": "I think I can do this with a single pass through the list and a set to track seen elements. Need a quick check though.",
+        "turn": 1
+      },
+      {
+        "role": "tutor",
+        "content": "def find_first_duplicate(arr):\n    seen = set()\n    for num in arr:\n        if num in seen:\n            return num\n        seen.add(num)\n    return -1",
+        "turn": 2,
+        "execution": {
+          "turn": 2,
+          "tests_passed": 3,
+          "total_tests": 3,
+          "success": true,
+          "error_type": null,
+          "message": "All tests passed"
+        }
+      }
+    ],
+    "execution_result": {
+      "success": true,
+      "error_type": null,
+      "message": "All tests passed",
+      "code_output": "",
+      "test_results": "============================= test session starts ==============================\nplatform darwin -- Python 3.14.0, pytest-9.0.2, pluggy-1.6.0 -- /Users/adityamathur/data_curation/venv/bin/python3\ncachedir: .pytest_cache\nrootdir: /var/folders/7_/khf8pt6n3wdcd5kv77y60dzr0000gn/T\nplugins: anyio-4.12.0, langsmith-0.6.0\ncollecting ... collected 3 items\n\n../../../var/folders/7_/khf8pt6n3wdcd5kv77y60dzr0000gn/T/tmpugvhocdv.py::test_0 PASSED [ 33%]\n../../../var/folders/7_/khf8pt6n3wdcd5kv77y60dzr0000gn/T/tmpugvhocdv.py::test_1 PASSED [ 66%]\n../../../var/folders/7_/khf8pt6n3wdcd5kv77y60dzr0000gn/T/tmpugvhocdv.py::test_2 PASSED [100%]\n\n============================== 3 passed in 0.03s ===============================\n",
+      "tests_passed": 3,
+      "total_tests": 3
+    },
+    "solved": true,
+    "tests_passed": 3,
+    "total_tests": 3,
+    "turns": 2,
+    "timestamp": "2026-01-14T23:53:22.429900"
+  },
+  {
+    "id": "5c4ed181-d84a-4f88-a138-858daead5225",
+    "task_id": 23,
+    "personality": "OVERCONFIDENT_WRONG",
+    "problem_text": "Write a python function to find the maximum sum of elements of list in a list of lists.",
+    "test_cases": [
+      "assert maximum_Sum([[1,2,3],[4,5,6],[10,11,12],[7,8,9]]) == 33",
+      "assert maximum_Sum([[0,1,1],[1,1,2],[3,2,1]]) == 6",
+      "assert maximum_Sum([[0,1,3],[1,2,1],[9,8,2],[0,1,0],[6,4,8]]) == 19"
+    ],
+    "conversation": [
+      {
+        "role": "student",
+        "content": "I think I can do this one. Just need a quick check on my logic.",
+        "turn": 1
+      },
+      {
+        "role": "tutor",
+        "content": "def maximum_Sum(lst):\n    max_sum = 0\n    for sublist in lst:\n        sublist_sum = 0\n        for num in sublist:\n            sublist_sum += num\n        if sublist_sum > max_sum:\n            max_sum = sublist_sum\n    return max_sum",
+        "turn": 2,
+        "execution": {
+          "turn": 2,
+          "tests_passed": 3,
+          "total_tests": 3,
+          "success": true,
+          "error_type": null,
+          "message": "All tests passed"
+        }
+      }
+    ],
+    "execution_result": {
+      "success": true,
+      "error_type": null,
+      "message": "All tests passed",
+      "code_output": "",
+      "test_results": "============================= test session starts ==============================\nplatform darwin -- Python 3.14.0, pytest-9.0.2, pluggy-1.6.0 -- /Users/adityamathur/data_curation/venv/bin/python3\ncachedir: .pytest_cache\nrootdir: /var/folders/7_/khf8pt6n3wdcd5kv77y60dzr0000gn/T\nplugins: anyio-4.12.0, langsmith-0.6.0\ncollecting ... collected 3 items\n\n../../../var/folders/7_/khf8pt6n3wdcd5kv77y60dzr0000gn/T/tmpa4itfsc7.py::test_0 PASSED [ 33%]\n../../../var/folders/7_/khf8pt6n3wdcd5kv77y60dzr0000gn/T/tmpa4itfsc7.py::test_1 PASSED [ 66%]\n../../../var/folders/7_/khf8pt6n3wdcd5kv77y60dzr0000gn/T/tmpa4itfsc7.py::test_2 PASSED [100%]\n\n============================== 3 passed in 0.02s ===============================\n",
+      "tests_passed": 3,
+      "total_tests": 3
+    },
+    "solved": true,
+    "tests_passed": 3,
+    "total_tests": 3,
+    "turns": 2,
+    "timestamp": "2026-01-14T23:53:29.462106"
+  },
+  {
+    "id": "7d71f756-f2e2-4cba-96c5-6b1a765391ab",
+    "task_id": 24,
+    "personality": "OVERCONFIDENT_WRONG",
+    "problem_text": "Write a function to convert the given binary number to its decimal equivalent.",
+    "test_cases": [
+      "assert binary_to_decimal(100) == 4",
+      "assert binary_to_decimal(1011) == 11",
+      "assert binary_to_decimal(1101101) == 109"
+    ],
+    "conversation": [
+      {
+        "role": "student",
+        "content": "I think I can handle this one. Just need a quick check on my logic.",
+        "turn": 1
+      },
+      {
+        "role": "tutor",
+        "content": "def binary_to_decimal(binary):\n    decimal = 0\n    power = 0\n    for digit in reversed(binary):\n        decimal += int(digit) * (2 ** power)\n        power += 1\n    return decimal",
+        "turn": 2,
+        "execution": {
+          "turn": 2,
+          "tests_passed": 0,
+          "total_tests": 3,
+          "success": false,
+          "error_type": "test_failure",
+          "message": "0/3 tests passed"
+        }
+      },
+      {
+        "role": "student",
+        "content": "Your code looks good, but make sure `binary` is a string. If it\u2019s an integer or list, convert it to a string first. Here\u2019s a quick fix:\n\n```python\ndef binary_to_decimal(binary):\n    binary = str(binary)\n    decimal = 0\n    power = 0\n    for digit in reversed(binary):\n        decimal += int(digit) * (2 ** power)\n        power += 1",
+        "turn": 3
+      },
+      {
+        "role": "tutor",
+        "content": "def binary_to_decimal(binary):\n    decimal = 0\n    for digit in binary:\n        decimal = decimal * 2 + int(digit)\n    return decimal",
+        "turn": 4,
+        "execution": {
+          "turn": 4,
+          "tests_passed": 0,
+          "total_tests": 3,
+          "success": false,
+          "error_type": "test_failure",
+          "message": "0/3 tests passed"
+        }
+      },
+      {
+        "role": "student",
+        "content": "Your code looks good, but make sure the input is a string. Change the function to `if isinstance(binary, str):` at the start to avoid errors.",
+        "turn": 5
+      },
+      {
+        "role": "tutor",
+        "content": "def binary_to_decimal(binary):\n    decimal = 0\n    for digit in binary:\n        decimal = decimal * 2 + int(digit)\n    return decimal",
+        "turn": 6,
+        "execution": {
+          "turn": 6,
+          "tests_passed": 0,
+          "total_tests": 3,
+          "success": false,
+          "error_type": "test_failure",
+          "message": "0/3 tests passed"
+        }
+      },
+      {
+        "role": "student",
+        "content": "That code looks right to me. Try submitting it again. It should work fine.",
+        "turn": 7
+      },
+      {
+        "role": "tutor",
+        "content": "def binary_to_decimal(binary):\n    decimal = 0\n    power = 0\n    for digit in reversed(binary):\n        decimal += int(digit) * (2 ** power)\n        power += 1\n    return decimal",
+        "turn": 8,
+        "execution": {
+          "turn": 8,
+          "tests_passed": 0,
+          "total_tests": 3,
+          "success": false,
+          "error_type": "test_failure",
+          "message": "0/3 tests passed"
+        }
+      },
+      {
+        "role": "student",
+        "content": "Your code looks good, but make sure `binary` is a string. If it\u2019s not, convert it using `str(binary)`. Here\u2019s your fix:\n\n```python\ndef binary_to_decimal(binary):\n    if not isinstance(binary, str):\n        binary = str(binary)\n    decimal = 0\n    power = 0\n    for digit in reversed(binary):\n        decimal += int(digit) * (2 ** power)",
+        "turn": 9
+      },
+      {
+        "role": "tutor",
+        "content": "def binary_to_decimal(binary):\n    decimal = 0\n    power = 0\n    for digit in reversed(str(binary)):\n        decimal += int(digit) * (2 ** power)\n        power += 1\n    return decimal",
+        "turn": 10,
+        "execution": {
+          "turn": 10,
+          "tests_passed": 3,
+          "total_tests": 3,
+          "success": true,
+          "error_type": null,
+          "message": "All tests passed"
+        }
+      }
+    ],
+    "execution_result": {
+      "success": true,
+      "error_type": null,
+      "message": "All tests passed",
+      "code_output": "",
+      "test_results": "============================= test session starts ==============================\nplatform darwin -- Python 3.14.0, pytest-9.0.2, pluggy-1.6.0 -- /Users/adityamathur/data_curation/venv/bin/python3\ncachedir: .pytest_cache\nrootdir: /var/folders/7_/khf8pt6n3wdcd5kv77y60dzr0000gn/T\nplugins: anyio-4.12.0, langsmith-0.6.0\ncollecting ... collected 3 items\n\n../../../var/folders/7_/khf8pt6n3wdcd5kv77y60dzr0000gn/T/tmpcfzrz_5e.py::test_0 PASSED [ 33%]\n../../../var/folders/7_/khf8pt6n3wdcd5kv77y60dzr0000gn/T/tmpcfzrz_5e.py::test_1 PASSED [ 66%]\n../../../var/folders/7_/khf8pt6n3wdcd5kv77y60dzr0000gn/T/tmpcfzrz_5e.py::test_2 PASSED [100%]\n\n============================== 3 passed in 0.02s ===============================\n",
+      "tests_passed": 3,
+      "total_tests": 3
+    },
+    "solved": true,
+    "tests_passed": 3,
+    "total_tests": 3,
+    "turns": 10,
+    "timestamp": "2026-01-14T23:54:10.702081"
+  },
+  {
+    "id": "a5108048-27c9-4d38-9548-43d4e7c05f47",
+    "task_id": 25,
+    "personality": "OVERCONFIDENT_WRONG",
+    "problem_text": "Write a python function to find the product of non-repeated elements in a given array.",
+    "test_cases": [
+      "assert find_Product([1,1,2,3],4) == 6",
+      "assert find_Product([1,2,3,1,1],5) == 6",
+      "assert find_Product([1,1,4,5,6],5) == 120"
+    ],
+    "conversation": [
+      {
+        "role": "student",
+        "content": "I think I can do this with a simple loop and dictionary to track counts, then multiply the ones that appear once. Need a quick check though.",
+        "turn": 1
+      },
+      {
+        "role": "tutor",
+        "content": "def find_Product(arr, n):\n    product = 1\n    for i in range(n):\n        if arr[i] not in arr[:i] and arr[i] not in arr[i+1:]:\n            product *= arr[i]\n    return product",
+        "turn": 2,
+        "execution": {
+          "turn": 2,
+          "tests_passed": 3,
+          "total_tests": 3,
+          "success": true,
+          "error_type": null,
+          "message": "All tests passed"
+        }
+      }
+    ],
+    "execution_result": {
+      "success": true,
+      "error_type": null,
+      "message": "All tests passed",
+      "code_output": "",
+      "test_results": "============================= test session starts ==============================\nplatform darwin -- Python 3.14.0, pytest-9.0.2, pluggy-1.6.0 -- /Users/adityamathur/data_curation/venv/bin/python3\ncachedir: .pytest_cache\nrootdir: /var/folders/7_/khf8pt6n3wdcd5kv77y60dzr0000gn/T\nplugins: anyio-4.12.0, langsmith-0.6.0\ncollecting ... collected 3 items\n\n../../../var/folders/7_/khf8pt6n3wdcd5kv77y60dzr0000gn/T/tmpd7rlv0v9.py::test_0 PASSED [ 33%]\n../../../var/folders/7_/khf8pt6n3wdcd5kv77y60dzr0000gn/T/tmpd7rlv0v9.py::test_1 PASSED [ 66%]\n../../../var/folders/7_/khf8pt6n3wdcd5kv77y60dzr0000gn/T/tmpd7rlv0v9.py::test_2 PASSED [100%]\n\n============================== 3 passed in 0.03s ===============================\n",
+      "tests_passed": 3,
+      "total_tests": 3
+    },
+    "solved": true,
+    "tests_passed": 3,
+    "total_tests": 3,
+    "turns": 2,
+    "timestamp": "2026-01-14T23:54:18.958679"
+  },
+  {
+    "id": "167e820f-d0ef-428a-8ce4-40468f985579",
+    "task_id": 26,
+    "personality": "OVERCONFIDENT_WRONG",
+    "problem_text": "Write a function to check if the given tuple list has all k elements.",
+    "test_cases": [
+      "assert check_k_elements([(4, 4), (4, 4, 4), (4, 4), (4, 4, 4, 4), (4, )], 4) == True",
+      "assert check_k_elements([(7, 7, 7), (7, 7)], 7) == True",
+      "assert check_k_elements([(9, 9), (9, 9, 9, 9)], 7) == False"
+    ],
+    "conversation": [
+      {
+        "role": "student",
+        "content": "I think I can handle this one. Just need a quick check on my logic.",
+        "turn": 1
+      },
+      {
+        "role": "tutor",
+        "content": "def check_k_elements(tuples, k):\n    for tup in tuples:\n        if len(tup) != k:\n            return False\n    return True",
+        "turn": 2,
+        "execution": {
+          "turn": 2,
+          "tests_passed": 1,
+          "total_tests": 3,
+          "success": false,
+          "error_type": "test_failure",
+          "message": "1/3 tests passed"
+        }
+      },
+      {
+        "role": "student",
+        "content": "The function only checks if each tuple has `k` elements, but it doesn't ensure all tuples have the same length. Change it to keep track of the first tuple's length and compare it with others:\n\n```python\ndef check_k_elements(tuples, k):\n    if not tuples: return True\n    first_len = len(tuples[0])\n    return all(len(tup) == first_len for tup in tuples)\n```",
+        "turn": 3
+      },
+      {
+        "role": "tutor",
+        "content": "def check_k_elements(tuples, k):\n    for t in tuples:\n        if len(t) != k:\n            return False\n    return True",
+        "turn": 4,
+        "execution": {
+          "turn": 4,
+          "tests_passed": 1,
+          "total_tests": 3,
+          "success": false,
+          "error_type": "test_failure",
+          "message": "1/3 tests passed"
+        }
+      },
+      {
+        "role": "student",
+        "content": "The function checks if all tuples have length `k`, but it doesn't actually check if the tuples have exactly `k` elements. You need to ensure each tuple has exactly `k` elements. Here's the fix:\n\n```python\ndef check_k_elements(tuples, k):\n    return all(len(t) == k for t in tuples)\n```",
+        "turn": 5
+      },
+      {
+        "role": "tutor",
+        "content": "def check_k_elements(tuples_list, k):\n    for tup in tuples_list:\n        if len(tup) != k:\n            return False\n    return True",
+        "turn": 6,
+        "execution": {
+          "turn": 6,
+          "tests_passed": 1,
+          "total_tests": 3,
+          "success": false,
+          "error_type": "test_failure",
+          "message": "1/3 tests passed"
+        }
+      },
+      {
+        "role": "student",
+        "content": "This function only checks if all tuples are of length `k`. It doesn't verify if the first `k` elements across all tuples are the same. Try comparing the first `k` elements of each tuple instead. Here: \n```python\ndef check_k_elements(tuples_list, k):\n    return all(tup[:k] == tuples_list[0][:k] for tup in tuples_list)\n```",
+        "turn": 7
+      },
+      {
+        "role": "tutor",
+        "content": "def check_k_elements(tuple_list, k):\n    for tup in tuple_list:\n        if len(tup) != k:\n            return False\n    return True",
+        "turn": 8,
+        "execution": {
+          "turn": 8,
+          "tests_passed": 1,
+          "total_tests": 3,
+          "success": false,
+          "error_type": "test_failure",
+          "message": "1/3 tests passed"
+        }
+      },
+      {
+        "role": "student",
+        "content": "This function only checks if all tuples have the same length. It doesn't actually check if the first `k` elements across all tuples match. Try comparing the first `k` elements directly. Here\u2019s a quick fix:\n\n```python\ndef check_k_elements(tuple_list, k):\n    return all(len(tup) == k and tup[:k] == tuple_list[0][:k] for tup in tuple_list)\n```",
+        "turn": 9
+      },
+      {
+        "role": "tutor",
+        "content": "def check_k_elements(tuples_list, k):\n    for t in tuples_list:\n        if len(t) != k:\n            return False\n    return True",
+        "turn": 10,
+        "execution": {
+          "turn": 10,
+          "tests_passed": 1,
+          "total_tests": 3,
+          "success": false,
+          "error_type": "test_failure",
+          "message": "1/3 tests passed"
+        }
+      }
+    ],
+    "execution_result": {
+      "success": false,
+      "error_type": "test_failure",
+      "message": "1/3 tests passed",
+      "code_output": "",
+      "test_results": "============================= test session starts ==============================\nplatform darwin -- Python 3.14.0, pytest-9.0.2, pluggy-1.6.0 -- /Users/adityamathur/data_curation/venv/bin/python3\ncachedir: .pytest_cache\nrootdir: /var/folders/7_/khf8pt6n3wdcd5kv77y60dzr0000gn/T\nplugins: anyio-4.12.0, langsmith-0.6.0\ncollecting ... collected 3 items\n\n../../../var/folders/7_/khf8pt6n3wdcd5kv77y60dzr0000gn/T/tmpp8678jyn.py::test_0 FAILED [ 33%]\n../../../var/folders/7_/khf8pt6n3wdcd5kv77y60dzr0000gn/T/tmpp8678jyn.py::test_1 FAILED [ 66%]\n../../../var/folders/7_/khf8pt6n3wdcd5kv77y60dzr0000gn/T/tmpp8678jyn.py::test_2 PASSED [100%]\n\n=================================== FAILURES ===================================\n____________________________________ test_0 ____________________________________\n\n    def test_0():\n>       assert check_k_elements([(4, 4), (4, 4, 4), (4, 4), (4, 4, 4, 4), (4, )], 4) == True\nE       assert False == True\nE        +  where False = check_k_elements([(4, 4), (4, 4, 4), (4, 4), (4, 4, 4, 4), (4,)], 4)\n\n/var/folders/7_/khf8pt6n3wdcd5kv77y60dzr0000gn/T/tmpp8678jyn.py:8: AssertionError\n____________________________________ test_1 ____________________________________\n\n    def test_1():\n>       assert check_k_elements([(7, 7, 7), (7, 7)], 7) == True\nE       assert False == True\nE        +  where False = check_k_elements([(7, 7, 7), (7, 7)], 7)\n\n/var/folders/7_/khf8pt6n3wdcd5kv77y60dzr0000gn/T/tmpp8678jyn.py:11: AssertionError\n=========================== short test summary info ============================\nFAILED ../../../var/folders/7_/khf8pt6n3wdcd5kv77y60dzr0000gn/T/tmpp8678jyn.py::test_0\nFAILED ../../../var/folders/7_/khf8pt6n3wdcd5kv77y60dzr0000gn/T/tmpp8678jyn.py::test_1\n========================= 2 failed, 1 passed in 0.04s ==========================\n",
+      "tests_passed": 1,
+      "total_tests": 3
+    },
+    "solved": false,
+    "tests_passed": 1,
+    "total_tests": 3,
+    "turns": 10,
+    "timestamp": "2026-01-14T23:55:03.184620"
+  },
+  {
+    "id": "2b08b863-c114-4fce-9437-f11b999f353f",
+    "task_id": 27,
+    "personality": "OVERCONFIDENT_WRONG",
+    "problem_text": "Write a python function to remove all digits from a list of strings.",
+    "test_cases": [
+      "assert remove(['4words', '3letters', '4digits']) == ['words', 'letters', 'digits']",
+      "assert remove(['28Jan','12Jan','11Jan']) == ['Jan','Jan','Jan']",
+      "assert remove(['wonder1','wonder2','wonder3']) == ['wonder','wonder','wonder']"
+    ],
+    "conversation": [
+      {
+        "role": "student",
+        "content": "I think I can do this with a list comprehension and isdigit(), but want to make sure. Any tips?",
+        "turn": 1
+      },
+      {
+        "role": "tutor",
+        "content": "def remove(lst):\n    result = []\n    for item in lst:\n        new_item = ''.join([char for char in item if not char.isdigit()])\n        result.append(new_item)\n    return result",
+        "turn": 2,
+        "execution": {
+          "turn": 2,
+          "tests_passed": 3,
+          "total_tests": 3,
+          "success": true,
+          "error_type": null,
+          "message": "All tests passed"
+        }
+      }
+    ],
+    "execution_result": {
+      "success": true,
+      "error_type": null,
+      "message": "All tests passed",
+      "code_output": "",
+      "test_results": "============================= test session starts ==============================\nplatform darwin -- Python 3.14.0, pytest-9.0.2, pluggy-1.6.0 -- /Users/adityamathur/data_curation/venv/bin/python3\ncachedir: .pytest_cache\nrootdir: /var/folders/7_/khf8pt6n3wdcd5kv77y60dzr0000gn/T\nplugins: anyio-4.12.0, langsmith-0.6.0\ncollecting ... collected 3 items\n\n../../../var/folders/7_/khf8pt6n3wdcd5kv77y60dzr0000gn/T/tmp_ayp1b5g.py::test_0 PASSED [ 33%]\n../../../var/folders/7_/khf8pt6n3wdcd5kv77y60dzr0000gn/T/tmp_ayp1b5g.py::test_1 PASSED [ 66%]\n../../../var/folders/7_/khf8pt6n3wdcd5kv77y60dzr0000gn/T/tmp_ayp1b5g.py::test_2 PASSED [100%]\n\n============================== 3 passed in 0.03s ===============================\n",
+      "tests_passed": 3,
+      "total_tests": 3
+    },
+    "solved": true,
+    "tests_passed": 3,
+    "total_tests": 3,
+    "turns": 2,
+    "timestamp": "2026-01-14T23:55:10.883399"
+  },
+  {
+    "id": "8859e3e0-3178-40aa-85ae-98293fb1c7ea",
+    "task_id": 28,
+    "personality": "OVERCONFIDENT_WRONG",
+    "problem_text": "Write a python function to find binomial co-efficient.",
+    "test_cases": [
+      "assert binomial_Coeff(5,2) == 10",
+      "assert binomial_Coeff(4,3) == 4",
+      "assert binomial_Coeff(3,2) == 3"
+    ],
+    "conversation": [
+      {
+        "role": "student",
+        "content": "I think I can handle this one. Just need a quick check on my approach.",
+        "turn": 1
+      },
+      {
+        "role": "tutor",
+        "content": "def binomial_Coeff(n, k):\n    if n == k or k == 0:\n        return 1\n    else:\n        return binomial_Coeff(n-1, k-1) + binomial_Coeff(n-1, k)",
+        "turn": 2,
+        "execution": {
+          "turn": 2,
+          "tests_passed": 3,
+          "total_tests": 3,
+          "success": true,
+          "error_type": null,
+          "message": "All tests passed"
+        }
+      }
+    ],
+    "execution_result": {
+      "success": true,
+      "error_type": null,
+      "message": "All tests passed",
+      "code_output": "",
+      "test_results": "============================= test session starts ==============================\nplatform darwin -- Python 3.14.0, pytest-9.0.2, pluggy-1.6.0 -- /Users/adityamathur/data_curation/venv/bin/python3\ncachedir: .pytest_cache\nrootdir: /var/folders/7_/khf8pt6n3wdcd5kv77y60dzr0000gn/T\nplugins: anyio-4.12.0, langsmith-0.6.0\ncollecting ... collected 3 items\n\n../../../var/folders/7_/khf8pt6n3wdcd5kv77y60dzr0000gn/T/tmp7m9uxrwq.py::test_0 PASSED [ 33%]\n../../../var/folders/7_/khf8pt6n3wdcd5kv77y60dzr0000gn/T/tmp7m9uxrwq.py::test_1 PASSED [ 66%]\n../../../var/folders/7_/khf8pt6n3wdcd5kv77y60dzr0000gn/T/tmp7m9uxrwq.py::test_2 PASSED [100%]\n\n============================== 3 passed in 0.03s ===============================\n",
+      "tests_passed": 3,
+      "total_tests": 3
+    },
+    "solved": true,
+    "tests_passed": 3,
+    "total_tests": 3,
+    "turns": 2,
+    "timestamp": "2026-01-14T23:55:26.177441"
+  },
+  {
+    "id": "24fe40e8-d0a6-4158-a752-d0adde29c25e",
+    "task_id": 29,
+    "personality": "OVERCONFIDENT_WRONG",
+    "problem_text": "Write a python function to find the element occurring odd number of times.",
+    "test_cases": [
+      "assert get_Odd_Occurrence([1,2,3,1,2,3,1],7) == 1",
+      "assert get_Odd_Occurrence([1,2,3,2,3,1,3],7) == 3",
+      "assert get_Odd_Occurrence([2,3,5,4,5,2,4,3,5,2,4,4,2],13) == 5"
+    ],
+    "conversation": [
+      {
+        "role": "student",
+        "content": "I think I can do this with a dictionary to count occurrences, but I'm not sure how to filter out the odd one. Need a hint!",
+        "turn": 1
+      },
+      {
+        "role": "tutor",
+        "content": "def get_Odd_Occurrence(arr, n):\n    result = 0\n    for i in range(n):\n        result = result ^ arr[i]\n    return result",
+        "turn": 2,
+        "execution": {
+          "turn": 2,
+          "tests_passed": 3,
+          "total_tests": 3,
+          "success": true,
+          "error_type": null,
+          "message": "All tests passed"
+        }
+      }
+    ],
+    "execution_result": {
+      "success": true,
+      "error_type": null,
+      "message": "All tests passed",
+      "code_output": "",
+      "test_results": "============================= test session starts ==============================\nplatform darwin -- Python 3.14.0, pytest-9.0.2, pluggy-1.6.0 -- /Users/adityamathur/data_curation/venv/bin/python3\ncachedir: .pytest_cache\nrootdir: /var/folders/7_/khf8pt6n3wdcd5kv77y60dzr0000gn/T\nplugins: anyio-4.12.0, langsmith-0.6.0\ncollecting ... collected 3 items\n\n../../../var/folders/7_/khf8pt6n3wdcd5kv77y60dzr0000gn/T/tmp0htxsi73.py::test_0 PASSED [ 33%]\n../../../var/folders/7_/khf8pt6n3wdcd5kv77y60dzr0000gn/T/tmp0htxsi73.py::test_1 PASSED [ 66%]\n../../../var/folders/7_/khf8pt6n3wdcd5kv77y60dzr0000gn/T/tmp0htxsi73.py::test_2 PASSED [100%]\n\n============================== 3 passed in 0.03s ===============================\n",
+      "tests_passed": 3,
+      "total_tests": 3
+    },
+    "solved": true,
+    "tests_passed": 3,
+    "total_tests": 3,
+    "turns": 2,
+    "timestamp": "2026-01-14T23:55:34.193913"
+  },
+  {
+    "id": "3ba30368-9f67-43f3-a27b-aaba9a76cf44",
+    "task_id": 30,
+    "personality": "OVERCONFIDENT_WRONG",
+    "problem_text": "Write a python function to count all the substrings starting and ending with same characters.",
+    "test_cases": [
+      "assert count_Substring_With_Equal_Ends(\"abc\") == 3",
+      "assert count_Substring_With_Equal_Ends(\"abcda\") == 6",
+      "assert count_Substring_With_Equal_Ends(\"ab\") == 2"
+    ],
+    "conversation": [
+      {
+        "role": "student",
+        "content": "I think I can do this in one line using a clever string trick. Need a quick check though.",
+        "turn": 1
+      },
+      {
+        "role": "tutor",
+        "content": "def count_Substring_With_Equal_Ends(s):\n    count = 0\n    for i in range(len(s)):\n        for j in range(i, len(s)):\n            if s[i] == s[j]:\n                count += 1\n    return count",
+        "turn": 2,
+        "execution": {
+          "turn": 2,
+          "tests_passed": 3,
+          "total_tests": 3,
+          "success": true,
+          "error_type": null,
+          "message": "All tests passed"
+        }
+      }
+    ],
+    "execution_result": {
+      "success": true,
+      "error_type": null,
+      "message": "All tests passed",
+      "code_output": "",
+      "test_results": "============================= test session starts ==============================\nplatform darwin -- Python 3.14.0, pytest-9.0.2, pluggy-1.6.0 -- /Users/adityamathur/data_curation/venv/bin/python3\ncachedir: .pytest_cache\nrootdir: /var/folders/7_/khf8pt6n3wdcd5kv77y60dzr0000gn/T\nplugins: anyio-4.12.0, langsmith-0.6.0\ncollecting ... collected 3 items\n\n../../../var/folders/7_/khf8pt6n3wdcd5kv77y60dzr0000gn/T/tmp3m2dy_2v.py::test_0 PASSED [ 33%]\n../../../var/folders/7_/khf8pt6n3wdcd5kv77y60dzr0000gn/T/tmp3m2dy_2v.py::test_1 PASSED [ 66%]\n../../../var/folders/7_/khf8pt6n3wdcd5kv77y60dzr0000gn/T/tmp3m2dy_2v.py::test_2 PASSED [100%]\n\n============================== 3 passed in 0.03s ===============================\n",
+      "tests_passed": 3,
+      "total_tests": 3
+    },
+    "solved": true,
+    "tests_passed": 3,
+    "total_tests": 3,
+    "turns": 2,
+    "timestamp": "2026-01-14T23:55:45.285499"
+  },
+  {
+    "id": "c200539d-9747-472f-b91b-50c93159d9b0",
+    "task_id": 31,
+    "personality": "OVERCONFIDENT_WRONG",
+    "problem_text": "Write a function to find the top k integers that occur most frequently from given lists of sorted and distinct integers using heap queue algorithm.",
+    "test_cases": [
+      "assert func([[1, 2, 6], [1, 3, 4, 5, 7, 8], [1, 3, 5, 6, 8, 9], [2, 5, 7, 11], [1, 4, 7, 8, 12]],3)==[5, 7, 1]",
+      "assert func([[1, 2, 6], [1, 3, 4, 5, 7, 8], [1, 3, 5, 6, 8, 9], [2, 5, 7, 11], [1, 4, 7, 8, 12]],1)==[1]",
+      "assert func([[1, 2, 6], [1, 3, 4, 5, 7, 8], [1, 3, 5, 6, 8, 9], [2, 5, 7, 11], [1, 4, 7, 8, 12]],5)==[6, 5, 7, 8, 1]"
+    ],
+    "conversation": [
+      {
+        "role": "student",
+        "content": "I think I can use a heap to solve this, but I'm not sure how to implement it with the sorted lists. Need some guidance!",
+        "turn": 1
+      },
+      {
+        "role": "tutor",
+        "content": "def func(lists, k):\n    # Create a dictionary to store the frequency of each integer\n    freq = {}\n    for lst in lists:\n        for num in lst:\n            if num in freq:\n                freq[num] += 1\n            else:\n                freq[num] = 1",
+        "turn": 2,
+        "execution": {
+          "turn": 2,
+          "tests_passed": 0,
+          "total_tests": 3,
+          "success": false,
+          "error_type": "test_failure",
+          "message": "0/3 tests passed"
+        }
+      },
+      {
+        "role": "student",
+        "content": "The function doesn't actually use `k` and it's missing the part where it returns the result. Fix: Add logic to filter items by `k` and return them. \n\n```python\ndef func(lists, k):\n    freq = {}\n    for lst in lists:\n        for num in lst:\n            if num in freq:\n                freq[num] += 1\n            else:",
+        "turn": 3
+      },
+      {
+        "role": "tutor",
+        "content": "import heapq\n\ndef func(lists, k):\n    freq = {}\n    for lst in lists:\n        for num in lst:\n            if num in freq:\n                freq[num] += 1\n            else:\n                freq[num] = 1\n    heap = []\n    for num, count in freq.items():\n        heapq.heappush(heap, (count, num))\n        if len(heap) > k:\n            heapq.heappop(heap)\n    return [num for count, num in heap]",
+        "turn": 4,
+        "execution": {
+          "turn": 4,
+          "tests_passed": 1,
+          "total_tests": 3,
+          "success": false,
+          "error_type": "test_failure",
+          "message": "1/3 tests passed"
+        }
+      },
+      {
+        "role": "student",
+        "content": "It's close, but the issue is with how you handle the heap size. You should maintain a min-heap of size `k`, so when the heap grows larger than `k`, remove the smallest element. Here\u2019s the fix:\n\n```python\nimport heapq\n\ndef func(lists, k):\n    freq = {}\n    for lst in lists:\n        for num in lst:\n            if num in freq:",
+        "turn": 5
+      },
+      {
+        "role": "tutor",
+        "content": "def func(lists, k):\n    # Flatten the list of lists into a single list\n    flattened_list = [item for sublist in lists for item in sublist]",
+        "turn": 6,
+        "execution": {
+          "turn": 6,
+          "tests_passed": 0,
+          "total_tests": 3,
+          "success": false,
+          "error_type": "test_failure",
+          "message": "0/3 tests passed"
+        }
+      },
+      {
+        "role": "student",
+        "content": "The code flattens the list correctly, but it doesn't actually use `k` or solve the problem as stated. Return `flattened_list[:k]` to solve it.",
+        "turn": 7
+      },
+      {
+        "role": "tutor",
+        "content": "def func(lists, k):\n    import heapq\n    freq = {}\n    for lst in lists:\n        for num in lst:\n            freq[num] = freq.get(num, 0) + 1\n    heap = []\n    for num, count in freq.items():\n        heapq.heappush(heap, (-count, num))\n    result = []\n    for _ in range(k):\n        if heap:\n            result.append(heapq.heappop(heap)[1])\n    return result",
+        "turn": 8,
+        "execution": {
+          "turn": 8,
+          "tests_passed": 1,
+          "total_tests": 3,
+          "success": false,
+          "error_type": "test_failure",
+          "message": "1/3 tests passed"
+        }
+      },
+      {
+        "role": "student",
+        "content": "The issue is that you're pushing negative counts into the heap, which might cause incorrect ordering. Just remove the negative sign when pushing: `heapq.heappush(heap, (count, num))`.",
+        "turn": 9
+      },
+      {
+        "role": "tutor",
+        "content": "def func(lists, k):\n    # Create a dictionary to store the frequency of each integer\n    freq_dict = {}\n    for lst in lists:\n        for num in lst:\n            if num in freq_dict:\n                freq_dict[num] += 1\n            else:\n                freq_dict[num] = 1",
+        "turn": 10,
+        "execution": {
+          "turn": 10,
+          "tests_passed": 0,
+          "total_tests": 3,
+          "success": false,
+          "error_type": "test_failure",
+          "message": "0/3 tests passed"
+        }
+      }
+    ],
+    "execution_result": {
+      "success": false,
+      "error_type": "test_failure",
+      "message": "0/3 tests passed",
+      "code_output": "",
+      "test_results": "============================= test session starts ==============================\nplatform darwin -- Python 3.14.0, pytest-9.0.2, pluggy-1.6.0 -- /Users/adityamathur/data_curation/venv/bin/python3\ncachedir: .pytest_cache\nrootdir: /var/folders/7_/khf8pt6n3wdcd5kv77y60dzr0000gn/T\nplugins: anyio-4.12.0, langsmith-0.6.0\ncollecting ... collected 3 items\n\n../../../var/folders/7_/khf8pt6n3wdcd5kv77y60dzr0000gn/T/tmpi7n5hsvj.py::test_0 FAILED [ 33%]\n../../../var/folders/7_/khf8pt6n3wdcd5kv77y60dzr0000gn/T/tmpi7n5hsvj.py::test_1 FAILED [ 66%]\n../../../var/folders/7_/khf8pt6n3wdcd5kv77y60dzr0000gn/T/tmpi7n5hsvj.py::test_2 FAILED [100%]\n\n=================================== FAILURES ===================================\n____________________________________ test_0 ____________________________________\n\n    def test_0():\n>       assert func([[1, 2, 6], [1, 3, 4, 5, 7, 8], [1, 3, 5, 6, 8, 9], [2, 5, 7, 11], [1, 4, 7, 8, 12]],3)==[5, 7, 1]\nE       assert None == [5, 7, 1]\nE        +  where None = func([[1, 2, 6], [1, 3, 4, 5, 7, 8], [1, 3, 5, 6, 8, 9], [2, 5, 7, 11], [1, 4, 7, 8, 12]], 3)\n\n/var/folders/7_/khf8pt6n3wdcd5kv77y60dzr0000gn/T/tmpi7n5hsvj.py:12: AssertionError\n____________________________________ test_1 ____________________________________\n\n    def test_1():\n>       assert func([[1, 2, 6], [1, 3, 4, 5, 7, 8], [1, 3, 5, 6, 8, 9], [2, 5, 7, 11], [1, 4, 7, 8, 12]],1)==[1]\nE       assert None == [1]\nE        +  where None = func([[1, 2, 6], [1, 3, 4, 5, 7, 8], [1, 3, 5, 6, 8, 9], [2, 5, 7, 11], [1, 4, 7, 8, 12]], 1)\n\n/var/folders/7_/khf8pt6n3wdcd5kv77y60dzr0000gn/T/tmpi7n5hsvj.py:15: AssertionError\n____________________________________ test_2 ____________________________________\n\n    def test_2():\n>       assert func([[1, 2, 6], [1, 3, 4, 5, 7, 8], [1, 3, 5, 6, 8, 9], [2, 5, 7, 11], [1, 4, 7, 8, 12]],5)==[6, 5, 7, 8, 1]\nE       assert None == [6, 5, 7, 8, 1]\nE        +  where None = func([[1, 2, 6], [1, 3, 4, 5, 7, 8], [1, 3, 5, 6, 8, 9], [2, 5, 7, 11], [1, 4, 7, 8, 12]], 5)\n\n/var/folders/7_/khf8pt6n3wdcd5kv77y60dzr0000gn/T/tmpi7n5hsvj.py:18: AssertionError\n=========================== short test summary info ============================\nFAILED ../../../var/folders/7_/khf8pt6n3wdcd5kv77y60dzr0000gn/T/tmpi7n5hsvj.py::test_0\nFAILED ../../../var/folders/7_/khf8pt6n3wdcd5kv77y60dzr0000gn/T/tmpi7n5hsvj.py::test_1\nFAILED ../../../var/folders/7_/khf8pt6n3wdcd5kv77y60dzr0000gn/T/tmpi7n5hsvj.py::test_2\n============================== 3 failed in 0.04s ===============================\n",
+      "tests_passed": 0,
+      "total_tests": 3
+    },
+    "solved": false,
+    "tests_passed": 0,
+    "total_tests": 3,
+    "turns": 10,
+    "timestamp": "2026-01-14T23:56:24.744280"
+  },
+  {
+    "id": "3d6cc0f2-73b3-4a3d-8a03-28e19633de8e",
+    "task_id": 32,
+    "personality": "OVERCONFIDENT_WRONG",
+    "problem_text": "Write a python function to find the largest prime factor of a given number.",
+    "test_cases": [
+      "assert max_Prime_Factors(15) == 5",
+      "assert max_Prime_Factors(6) == 3",
+      "assert max_Prime_Factors(2) == 2"
+    ],
+    "conversation": [
+      {
+        "role": "student",
+        "content": "I think I can do this one in my sleep. Need a quick check though\u2014how should I start?",
+        "turn": 1
+      },
+      {
+        "role": "tutor",
+        "content": "def max_Prime_Factors(n):\n    i = 2\n    while i * i <= n:\n        if n % i:\n            i += 1\n        else:\n            n //= i\n    return n",
+        "turn": 2,
+        "execution": {
+          "turn": 2,
+          "tests_passed": 3,
+          "total_tests": 3,
+          "success": true,
+          "error_type": null,
+          "message": "All tests passed"
+        }
+      }
+    ],
+    "execution_result": {
+      "success": true,
+      "error_type": null,
+      "message": "All tests passed",
+      "code_output": "",
+      "test_results": "============================= test session starts ==============================\nplatform darwin -- Python 3.14.0, pytest-9.0.2, pluggy-1.6.0 -- /Users/adityamathur/data_curation/venv/bin/python3\ncachedir: .pytest_cache\nrootdir: /var/folders/7_/khf8pt6n3wdcd5kv77y60dzr0000gn/T\nplugins: anyio-4.12.0, langsmith-0.6.0\ncollecting ... collected 3 items\n\n../../../var/folders/7_/khf8pt6n3wdcd5kv77y60dzr0000gn/T/tmpqp3vw7p9.py::test_0 PASSED [ 33%]\n../../../var/folders/7_/khf8pt6n3wdcd5kv77y60dzr0000gn/T/tmpqp3vw7p9.py::test_1 PASSED [ 66%]\n../../../var/folders/7_/khf8pt6n3wdcd5kv77y60dzr0000gn/T/tmpqp3vw7p9.py::test_2 PASSED [100%]\n\n============================== 3 passed in 0.03s ===============================\n",
+      "tests_passed": 3,
+      "total_tests": 3
+    },
+    "solved": true,
+    "tests_passed": 3,
+    "total_tests": 3,
+    "turns": 2,
+    "timestamp": "2026-01-14T23:56:32.943149"
+  },
+  {
+    "id": "64408209-48fc-485e-b464-cdcc9929838f",
+    "task_id": 33,
+    "personality": "OVERCONFIDENT_WRONG",
+    "problem_text": "Write a python function to convert a decimal number to binary number.",
+    "test_cases": [
+      "assert decimal_To_Binary(10) == 1010",
+      "assert decimal_To_Binary(1) == 1",
+      "assert decimal_To_Binary(20) == 10100"
+    ],
+    "conversation": [
+      {
+        "role": "student",
+        "content": "I think I can do this one in my sleep, but could you give me a quick check on my approach? I'm planning to use recursion for it.",
+        "turn": 1
+      },
+      {
+        "role": "tutor",
+        "content": "def decimal_To_Binary(decimal):\n    binary = \"\"\n    while decimal > 0:\n        remainder = decimal % 2\n        binary = str(remainder) + binary\n        decimal = decimal // 2\n    return binary",
+        "turn": 2,
+        "execution": {
+          "turn": 2,
+          "tests_passed": 0,
+          "total_tests": 3,
+          "success": false,
+          "error_type": "test_failure",
+          "message": "0/3 tests passed"
+        }
+      },
+      {
+        "role": "student",
+        "content": "The function is almost correct, but it doesn't handle the case where the input is 0. Just add a condition at the beginning to check if `decimal` is 0 and return \"0\" directly. Here's the fix:\n\n```python\ndef decimal_To_Binary(decimal):\n    if decimal == 0:\n        return \"0\"\n    binary = \"\"\n    while decimal > 0:\n        remainder = decimal % 2\n        binary = str(remainder) + binary",
+        "turn": 3
+      },
+      {
+        "role": "tutor",
+        "content": "def decimal_To_Binary(n):\n    binary = \"\"\n    while n > 0:\n        binary = str(n % 2) + binary\n        n = n // 2\n    return binary",
+        "turn": 4,
+        "execution": {
+          "turn": 4,
+          "tests_passed": 0,
+          "total_tests": 3,
+          "success": false,
+          "error_type": "test_failure",
+          "message": "0/3 tests passed"
+        }
+      },
+      {
+        "role": "student",
+        "content": "The function is missing a return value for when `n` is 0. Here's the fix:\n\n```python\ndef decimal_To_Binary(n):\n    if n == 0:\n        return \"0\"\n    binary = \"\"\n    while n > 0:\n        binary = str(n % 2) + binary\n        n = n // 2",
+        "turn": 5
+      },
+      {
+        "role": "tutor",
+        "content": "def decimal_To_Binary(n):\n    binary = \"\"\n    while n > 0:\n        binary = str(n % 2) + binary\n        n = n // 2\n    return binary",
+        "turn": 6,
+        "execution": {
+          "turn": 6,
+          "tests_passed": 0,
+          "total_tests": 3,
+          "success": false,
+          "error_type": "test_failure",
+          "message": "0/3 tests passed"
+        }
+      },
+      {
+        "role": "student",
+        "content": "It looks good, but make sure to handle negative numbers. Also, add support for zero. Here: `def decimal_To_Binary(n): return bin(abs(n))[2:]`",
+        "turn": 7
+      },
+      {
+        "role": "tutor",
+        "content": "def decimal_To_Binary(n):\n    if n == 0:\n        return 0\n    else:\n        return n % 2 + 10 * decimal_To_Binary(n // 2)",
+        "turn": 8,
+        "execution": {
+          "turn": 8,
+          "tests_passed": 3,
+          "total_tests": 3,
+          "success": true,
+          "error_type": null,
+          "message": "All tests passed"
+        }
+      }
+    ],
+    "execution_result": {
+      "success": true,
+      "error_type": null,
+      "message": "All tests passed",
+      "code_output": "",
+      "test_results": "============================= test session starts ==============================\nplatform darwin -- Python 3.14.0, pytest-9.0.2, pluggy-1.6.0 -- /Users/adityamathur/data_curation/venv/bin/python3\ncachedir: .pytest_cache\nrootdir: /var/folders/7_/khf8pt6n3wdcd5kv77y60dzr0000gn/T\nplugins: anyio-4.12.0, langsmith-0.6.0\ncollecting ... collected 3 items\n\n../../../var/folders/7_/khf8pt6n3wdcd5kv77y60dzr0000gn/T/tmpmmnlo5cu.py::test_0 PASSED [ 33%]\n../../../var/folders/7_/khf8pt6n3wdcd5kv77y60dzr0000gn/T/tmpmmnlo5cu.py::test_1 PASSED [ 66%]\n../../../var/folders/7_/khf8pt6n3wdcd5kv77y60dzr0000gn/T/tmpmmnlo5cu.py::test_2 PASSED [100%]\n\n============================== 3 passed in 0.03s ===============================\n",
+      "tests_passed": 3,
+      "total_tests": 3
+    },
+    "solved": true,
+    "tests_passed": 3,
+    "total_tests": 3,
+    "turns": 8,
+    "timestamp": "2026-01-14T23:57:15.289165"
+  },
+  {
+    "id": "c2ca93de-3568-4120-a6fc-808829cad642",
+    "task_id": 34,
+    "personality": "OVERCONFIDENT_WRONG",
+    "problem_text": "Write a python function to find the missing number in a sorted array.",
+    "test_cases": [
+      "assert find_missing([1,2,3,5],4) == 4",
+      "assert find_missing([1,3,4,5],4) == 2",
+      "assert find_missing([1,2,3,5,6,7],5) == 4"
+    ],
+    "conversation": [
+      {
+        "role": "student",
+        "content": "I think I can do this with a binary search, but I'm not sure about the edge cases. Need some guidance!",
+        "turn": 1
+      },
+      {
+        "role": "tutor",
+        "content": "def find_missing(arr, n):\n    for i in range(1, n+1):\n        if i not in arr:\n            return i\n    return None",
+        "turn": 2,
+        "execution": {
+          "turn": 2,
+          "tests_passed": 3,
+          "total_tests": 3,
+          "success": true,
+          "error_type": null,
+          "message": "All tests passed"
+        }
+      }
+    ],
+    "execution_result": {
+      "success": true,
+      "error_type": null,
+      "message": "All tests passed",
+      "code_output": "",
+      "test_results": "============================= test session starts ==============================\nplatform darwin -- Python 3.14.0, pytest-9.0.2, pluggy-1.6.0 -- /Users/adityamathur/data_curation/venv/bin/python3\ncachedir: .pytest_cache\nrootdir: /var/folders/7_/khf8pt6n3wdcd5kv77y60dzr0000gn/T\nplugins: anyio-4.12.0, langsmith-0.6.0\ncollecting ... collected 3 items\n\n../../../var/folders/7_/khf8pt6n3wdcd5kv77y60dzr0000gn/T/tmpz7xc3z8o.py::test_0 PASSED [ 33%]\n../../../var/folders/7_/khf8pt6n3wdcd5kv77y60dzr0000gn/T/tmpz7xc3z8o.py::test_1 PASSED [ 66%]\n../../../var/folders/7_/khf8pt6n3wdcd5kv77y60dzr0000gn/T/tmpz7xc3z8o.py::test_2 PASSED [100%]\n\n============================== 3 passed in 0.03s ===============================\n",
+      "tests_passed": 3,
+      "total_tests": 3
+    },
+    "solved": true,
+    "tests_passed": 3,
+    "total_tests": 3,
+    "turns": 2,
+    "timestamp": "2026-01-14T23:57:26.825668"
+  },
+  {
+    "id": "5385dcc5-6f30-433b-99a5-84d07da3788f",
+    "task_id": 35,
+    "personality": "OVERCONFIDENT_WRONG",
+    "problem_text": "Write a function to find the n-th rectangular number.",
+    "test_cases": [
+      "assert find_rect_num(4) == 20",
+      "assert find_rect_num(5) == 30",
+      "assert find_rect_num(6) == 42"
+    ],
+    "conversation": [
+      {
+        "role": "student",
+        "content": "I think I can handle this one. Just need a quick check on my logic.",
+        "turn": 1
+      },
+      {
+        "role": "tutor",
+        "content": "def find_rect_num(n):\n    return n * (n + 1) / 2",
+        "turn": 2,
+        "execution": {
+          "turn": 2,
+          "tests_passed": 0,
+          "total_tests": 3,
+          "success": false,
+          "error_type": "test_failure",
+          "message": "0/3 tests passed"
+        }
+      },
+      {
+        "role": "student",
+        "content": "This code calculates the sum of the first n natural numbers, not the number of rectangles in a n x n grid. Use `return n * (n + 1) * (2 * n + 1) // 6` instead.",
+        "turn": 3
+      },
+      {
+        "role": "tutor",
+        "content": "def find_rect_num(n):\n    return n * (n + 1) // 2",
+        "turn": 4,
+        "execution": {
+          "turn": 4,
+          "tests_passed": 0,
+          "total_tests": 3,
+          "success": false,
+          "error_type": "test_failure",
+          "message": "0/3 tests passed"
+        }
+      },
+      {
+        "role": "student",
+        "content": "That code looks right for summing the first n natural numbers. Maybe check if there's a different formula needed for rectangles. Try this: `return n * (n + 1) * (2 * n + 1) // 6` if it\u2019s about summing squares.",
+        "turn": 5
+      },
+      {
+        "role": "tutor",
+        "content": "def find_rect_num(n):\n    return n * (n + 1) / 2",
+        "turn": 6,
+        "execution": {
+          "turn": 6,
+          "tests_passed": 0,
+          "total_tests": 3,
+          "success": false,
+          "error_type": "test_failure",
+          "message": "0/3 tests passed"
+        }
+      },
+      {
+        "role": "student",
+        "content": "That formula looks right for summing numbers up to n. Try returning `int(n * (n + 1) // 2)` to ensure integer division.",
+        "turn": 7
+      },
+      {
+        "role": "tutor",
+        "content": "def find_rect_num(n):\n    return n * (n + 1) * (n + 2) // 2",
+        "turn": 8,
+        "execution": {
+          "turn": 8,
+          "tests_passed": 0,
+          "total_tests": 3,
+          "success": false,
+          "error_type": "test_failure",
+          "message": "0/3 tests passed"
+        }
+      },
+      {
+        "role": "student",
+        "content": "This function is calculating something incorrectly. Try this instead: `return n * (n + 1) * (n + 2) // 6`.",
+        "turn": 9
+      },
+      {
+        "role": "tutor",
+        "content": "def find_rect_num(n):\n    return n * (n + 1) // 2",
+        "turn": 10,
+        "execution": {
+          "turn": 10,
+          "tests_passed": 0,
+          "total_tests": 3,
+          "success": false,
+          "error_type": "test_failure",
+          "message": "0/3 tests passed"
+        }
+      }
+    ],
+    "execution_result": {
+      "success": false,
+      "error_type": "test_failure",
+      "message": "0/3 tests passed",
+      "code_output": "",
+      "test_results": "============================= test session starts ==============================\nplatform darwin -- Python 3.14.0, pytest-9.0.2, pluggy-1.6.0 -- /Users/adityamathur/data_curation/venv/bin/python3\ncachedir: .pytest_cache\nrootdir: /var/folders/7_/khf8pt6n3wdcd5kv77y60dzr0000gn/T\nplugins: anyio-4.12.0, langsmith-0.6.0\ncollecting ... collected 3 items\n\n../../../var/folders/7_/khf8pt6n3wdcd5kv77y60dzr0000gn/T/tmptge6cc5z.py::test_0 FAILED [ 33%]\n../../../var/folders/7_/khf8pt6n3wdcd5kv77y60dzr0000gn/T/tmptge6cc5z.py::test_1 FAILED [ 66%]\n../../../var/folders/7_/khf8pt6n3wdcd5kv77y60dzr0000gn/T/tmptge6cc5z.py::test_2 FAILED [100%]\n\n=================================== FAILURES ===================================\n____________________________________ test_0 ____________________________________\n\n    def test_0():\n>       assert find_rect_num(4) == 20\nE       assert 10 == 20\nE        +  where 10 = find_rect_num(4)\n\n/var/folders/7_/khf8pt6n3wdcd5kv77y60dzr0000gn/T/tmptge6cc5z.py:5: AssertionError\n____________________________________ test_1 ____________________________________\n\n    def test_1():\n>       assert find_rect_num(5) == 30\nE       assert 15 == 30\nE        +  where 15 = find_rect_num(5)\n\n/var/folders/7_/khf8pt6n3wdcd5kv77y60dzr0000gn/T/tmptge6cc5z.py:8: AssertionError\n____________________________________ test_2 ____________________________________\n\n    def test_2():\n>       assert find_rect_num(6) == 42\nE       assert 21 == 42\nE        +  where 21 = find_rect_num(6)\n\n/var/folders/7_/khf8pt6n3wdcd5kv77y60dzr0000gn/T/tmptge6cc5z.py:11: AssertionError\n=========================== short test summary info ============================\nFAILED ../../../var/folders/7_/khf8pt6n3wdcd5kv77y60dzr0000gn/T/tmptge6cc5z.py::test_0\nFAILED ../../../var/folders/7_/khf8pt6n3wdcd5kv77y60dzr0000gn/T/tmptge6cc5z.py::test_1\nFAILED ../../../var/folders/7_/khf8pt6n3wdcd5kv77y60dzr0000gn/T/tmptge6cc5z.py::test_2\n============================== 3 failed in 0.04s ===============================\n",
+      "tests_passed": 0,
+      "total_tests": 3
+    },
+    "solved": false,
+    "tests_passed": 0,
+    "total_tests": 3,
+    "turns": 10,
+    "timestamp": "2026-01-14T23:58:06.364519"
+  },
+  {
+    "id": "661544a6-8be1-41f6-b803-d073401b7e40",
+    "task_id": 36,
+    "personality": "OVERCONFIDENT_WRONG",
+    "problem_text": "Write a python function to find the nth digit in the proper fraction of two given numbers.",
+    "test_cases": [
+      "assert find_Nth_Digit(1,2,1) == 5",
+      "assert find_Nth_Digit(3,5,1) == 6",
+      "assert find_Nth_Digit(5,6,5) == 3"
+    ],
+    "conversation": [
+      {
+        "role": "student",
+        "content": "I've got this one, just need a quick check on my logic. Should I convert the numbers to strings first?",
+        "turn": 1
+      },
+      {
+        "role": "tutor",
+        "content": "def find_Nth_Digit(numerator, denominator, nth_digit):\n    fraction = numerator / denominator\n    fraction_str = str(fraction)\n    if nth_digit <= len(fraction_str):\n        return int(fraction_str[nth_digit - 1])\n    else:\n        return None",
+        "turn": 2,
+        "execution": {
+          "turn": 2,
+          "tests_passed": 1,
+          "total_tests": 3,
+          "success": false,
+          "error_type": "test_failure",
+          "message": "1/3 tests passed"
+        }
+      },
+      {
+        "role": "student",
+        "content": "This code only works for fractions that don't repeat. You need to handle repeating decimals by checking for repetition in the fraction string. Here: \n\n```python\ndef find_Nth_Digit(numerator, denominator, nth_digit):\n    fraction = numerator / denominator\n    fraction_str = str(fraction).replace('.', '')\n    seen = {}\n    index = 0\n    while nth_digit > 0 and fraction_str[nth_digit-1] not in seen:\n        seen[fraction_str[index]] = index",
+        "turn": 3
+      },
+      {
+        "role": "tutor",
+        "content": "def find_Nth_Digit(numerator, denominator, n):\n    fraction = numerator / denominator\n    fraction_str = str(fraction)\n    if n > len(fraction_str):\n        return None\n    return int(fraction_str[n-1])  # Off-by-one error, should be n-1 instead of n",
+        "turn": 4,
+        "execution": {
+          "turn": 4,
+          "tests_passed": 1,
+          "total_tests": 3,
+          "success": false,
+          "error_type": "test_failure",
+          "message": "1/3 tests passed"
+        }
+      },
+      {
+        "role": "student",
+        "content": "There's an off-by-one error in the return statement. It should be `int(fraction_str[n-2])` instead. Here's the corrected line:\n\n```python\nreturn int(fraction_str[n-2])\n```",
+        "turn": 5
+      },
+      {
+        "role": "tutor",
+        "content": "def find_Nth_Digit(numerator, denominator, n):\n    fraction = str(numerator / denominator)\n    if n > len(fraction):\n        return None\n    return int(fraction[n])  # Wrong return type, should be str",
+        "turn": 6,
+        "execution": {
+          "turn": 6,
+          "tests_passed": 1,
+          "total_tests": 3,
+          "success": false,
+          "error_type": "test_failure",
+          "message": "1/3 tests passed"
+        }
+      },
+      {
+        "role": "student",
+        "content": "The function returns an integer instead of a string. Change `return int(fraction[n])` to `return fraction[n]`.",
+        "turn": 7
+      },
+      {
+        "role": "tutor",
+        "content": "def find_Nth_Digit(num1, num2, n):\n    fraction = str(num1 / num2)\n    if n <= len(fraction):\n        return int(fraction[n - 1])\n    else:\n        return -1",
+        "turn": 8,
+        "execution": {
+          "turn": 8,
+          "tests_passed": 1,
+          "total_tests": 3,
+          "success": false,
+          "error_type": "test_failure",
+          "message": "1/3 tests passed"
+        }
+      },
+      {
+        "role": "student",
+        "content": "This code uses floating-point division which might introduce precision issues. Use integer division instead: `fraction = str(num1 // num2)`. Also, ensure `n` is within the bounds of the string length.",
+        "turn": 9
+      },
+      {
+        "role": "tutor",
+        "content": "def find_Nth_Digit(numerator, denominator, n):\n    fraction = str(numerator / denominator)\n    if '.' in fraction:\n        fraction = fraction.split('.')[1]\n    else:\n        fraction = '0'\n    if n <= len(fraction):\n        return int(fraction[n-1])\n    else:\n        return -1",
+        "turn": 10,
+        "execution": {
+          "turn": 10,
+          "tests_passed": 3,
+          "total_tests": 3,
+          "success": true,
+          "error_type": null,
+          "message": "All tests passed"
+        }
+      }
+    ],
+    "execution_result": {
+      "success": true,
+      "error_type": null,
+      "message": "All tests passed",
+      "code_output": "",
+      "test_results": "============================= test session starts ==============================\nplatform darwin -- Python 3.14.0, pytest-9.0.2, pluggy-1.6.0 -- /Users/adityamathur/data_curation/venv/bin/python3\ncachedir: .pytest_cache\nrootdir: /var/folders/7_/khf8pt6n3wdcd5kv77y60dzr0000gn/T\nplugins: anyio-4.12.0, langsmith-0.6.0\ncollecting ... collected 3 items\n\n../../../var/folders/7_/khf8pt6n3wdcd5kv77y60dzr0000gn/T/tmpm7ud1zlz.py::test_0 PASSED [ 33%]\n../../../var/folders/7_/khf8pt6n3wdcd5kv77y60dzr0000gn/T/tmpm7ud1zlz.py::test_1 PASSED [ 66%]\n../../../var/folders/7_/khf8pt6n3wdcd5kv77y60dzr0000gn/T/tmpm7ud1zlz.py::test_2 PASSED [100%]\n\n============================== 3 passed in 0.03s ===============================\n",
+      "tests_passed": 3,
+      "total_tests": 3
+    },
+    "solved": true,
+    "tests_passed": 3,
+    "total_tests": 3,
+    "turns": 10,
+    "timestamp": "2026-01-14T23:58:48.098064"
+  },
+  {
+    "id": "592209a8-5ef8-4723-b721-3e9987838ceb",
+    "task_id": 37,
+    "personality": "OVERCONFIDENT_WRONG",
+    "problem_text": "Write a function to sort a given mixed list of integers and strings.",
+    "test_cases": [
+      "assert sort_mixed_list([19,'red',12,'green','blue', 10,'white','green',1])==[1, 10, 12, 19, 'blue', 'green', 'green', 'red', 'white']",
+      "assert sort_mixed_list([19,'red',12,'green','blue', 10,'white','green',1])==[1, 10, 12, 19, 'blue', 'green', 'green', 'red', 'white']",
+      "assert sort_mixed_list([19,'red',12,'green','blue', 10,'white','green',1])==[1, 10, 12, 19, 'blue', 'green', 'green', 'red', 'white']"
+    ],
+    "conversation": [
+      {
+        "role": "student",
+        "content": "I think I can handle this one. Just need a quick check on my approach.",
+        "turn": 1
+      },
+      {
+        "role": "tutor",
+        "content": "def sort_mixed_list(lst):\n    # Separate integers and strings\n    ints = []\n    strs = []\n    for item in lst:\n        if isinstance(item, int):\n            ints.append(item)\n        else:\n            strs.append(item)\n\n    # Sort integers and strings separately\n    ints.sort()\n    strs.sort()\n\n    # Combine sorted lists\n    sorted_list = ints + strs\n\n    return sorted_list",
+        "turn": 2,
+        "execution": {
+          "turn": 2,
+          "tests_passed": 3,
+          "total_tests": 3,
+          "success": true,
+          "error_type": null,
+          "message": "All tests passed"
+        }
+      }
+    ],
+    "execution_result": {
+      "success": true,
+      "error_type": null,
+      "message": "All tests passed",
+      "code_output": "",
+      "test_results": "============================= test session starts ==============================\nplatform darwin -- Python 3.14.0, pytest-9.0.2, pluggy-1.6.0 -- /Users/adityamathur/data_curation/venv/bin/python3\ncachedir: .pytest_cache\nrootdir: /var/folders/7_/khf8pt6n3wdcd5kv77y60dzr0000gn/T\nplugins: anyio-4.12.0, langsmith-0.6.0\ncollecting ... collected 3 items\n\n../../../var/folders/7_/khf8pt6n3wdcd5kv77y60dzr0000gn/T/tmpeuj_71go.py::test_0 PASSED [ 33%]\n../../../var/folders/7_/khf8pt6n3wdcd5kv77y60dzr0000gn/T/tmpeuj_71go.py::test_1 PASSED [ 66%]\n../../../var/folders/7_/khf8pt6n3wdcd5kv77y60dzr0000gn/T/tmpeuj_71go.py::test_2 PASSED [100%]\n\n============================== 3 passed in 0.03s ===============================\n",
+      "tests_passed": 3,
+      "total_tests": 3
+    },
+    "solved": true,
+    "tests_passed": 3,
+    "total_tests": 3,
+    "turns": 2,
+    "timestamp": "2026-01-14T23:58:58.570902"
+  },
+  {
+    "id": "96b6a205-69aa-433e-ac93-5b47977a90d0",
+    "task_id": 38,
+    "personality": "OVERCONFIDENT_WRONG",
+    "problem_text": "Write a function to find the division of first even and odd number of a given list.",
+    "test_cases": [
+      "assert div_even_odd([1,3,5,7,4,1,6,8])==4",
+      "assert div_even_odd([1,2,3,4,5,6,7,8,9,10])==2",
+      "assert div_even_odd([1,5,7,9,10])==10"
+    ],
+    "conversation": [
+      {
+        "role": "student",
+        "content": "I think I got this one, just need a quick review. How do I return the division of the first even and odd numbers in a list?",
+        "turn": 1
+      },
+      {
+        "role": "tutor",
+        "content": "def div_even_odd(lst):\n    even = None\n    odd = None\n    for num in lst:\n        if num % 2 == 0:\n            if even is None:\n                even = num\n            else:\n                return even / num\n        else:\n            if odd is None:\n                odd = num\n            else:\n                return odd / num\n    return None",
+        "turn": 2,
+        "execution": {
+          "turn": 2,
+          "tests_passed": 0,
+          "total_tests": 3,
+          "success": false,
+          "error_type": "test_failure",
+          "message": "0/3 tests passed"
+        }
+      },
+      {
+        "role": "student",
+        "content": "The issue is that the function returns after finding the first even or odd number. It should calculate the division of all even and odd numbers separately and return their division at the end. Here's the fix:\n\n```python\ndef div_even_odd(lst):\n    even = None\n    odd = None\n    for num in lst:\n        if num % 2 == 0:\n            if even is None:\n                even = num",
+        "turn": 3
+      },
+      {
+        "role": "tutor",
+        "content": "def div_even_odd(numbers):\n    even_numbers = []\n    odd_numbers = []\n    for number in numbers:\n        if number % 2 == 0:\n            even_numbers.append(number)\n        else:\n            odd_numbers.append(number)\n    if len(even_numbers) > 0 and len(odd_numbers) > 0:\n        return even_numbers[0] / odd_numbers[0]\n    else:\n        return None",
+        "turn": 4,
+        "execution": {
+          "turn": 4,
+          "tests_passed": 3,
+          "total_tests": 3,
+          "success": true,
+          "error_type": null,
+          "message": "All tests passed"
+        }
+      }
+    ],
+    "execution_result": {
+      "success": true,
+      "error_type": null,
+      "message": "All tests passed",
+      "code_output": "",
+      "test_results": "============================= test session starts ==============================\nplatform darwin -- Python 3.14.0, pytest-9.0.2, pluggy-1.6.0 -- /Users/adityamathur/data_curation/venv/bin/python3\ncachedir: .pytest_cache\nrootdir: /var/folders/7_/khf8pt6n3wdcd5kv77y60dzr0000gn/T\nplugins: anyio-4.12.0, langsmith-0.6.0\ncollecting ... collected 3 items\n\n../../../var/folders/7_/khf8pt6n3wdcd5kv77y60dzr0000gn/T/tmp4hbgabzw.py::test_0 PASSED [ 33%]\n../../../var/folders/7_/khf8pt6n3wdcd5kv77y60dzr0000gn/T/tmp4hbgabzw.py::test_1 PASSED [ 66%]\n../../../var/folders/7_/khf8pt6n3wdcd5kv77y60dzr0000gn/T/tmp4hbgabzw.py::test_2 PASSED [100%]\n\n============================== 3 passed in 0.03s ===============================\n",
+      "tests_passed": 3,
+      "total_tests": 3
+    },
+    "solved": true,
+    "tests_passed": 3,
+    "total_tests": 3,
+    "turns": 4,
+    "timestamp": "2026-01-14T23:59:23.364080"
+  },
+  {
+    "id": "77dc1928-ca2b-4eec-ba58-49d0bb0e26ef",
+    "task_id": 39,
+    "personality": "OVERCONFIDENT_WRONG",
+    "problem_text": "Write a function to check if the letters of a given string can be rearranged so that two characters that are adjacent to each other are different.",
+    "test_cases": [
+      "assert rearange_string(\"aab\")==('aba')",
+      "assert rearange_string(\"aabb\")==('abab')",
+      "assert rearange_string(\"abccdd\")==('cdabcd')"
+    ],
+    "conversation": [
+      {
+        "role": "student",
+        "content": "I think I've got this one. Just need a quick check on my approach.",
+        "turn": 1
+      },
+      {
+        "role": "tutor",
+        "content": "def rearange_string(s):\n    count = {}\n    for char in s:\n        count[char] = count.get(char, 0) + 1\n    \n    max_count = max(count.values())\n    if max_count > (len(s) + 1) // 2:\n        return None\n    \n    result = []\n    max_char = max(count, key=count.get)\n    count[max_char] -= 1\n    result.append(max_char)\n    \n    for char in count:\n        while count[char] > 0:\n            if result[-1] != char:\n                result.append(char)\n                count[char] -= 1\n            else:\n                result.insert(0, char)\n                count[char] -= 1\n    \n    return ''.join(result)",
+        "turn": 2,
+        "execution": {
+          "turn": 2,
+          "tests_passed": 0,
+          "total_tests": 3,
+          "success": false,
+          "error_type": "test_failure",
+          "message": "0/3 tests passed"
+        }
+      },
+      {
+        "role": "student",
+        "content": "The issue is that the function doesn't actually ensure the rearranged string meets the requirement of no two adjacent characters being the same. You should use a queue to store characters based on their frequency and pop them in a round-robin fashion to avoid adjacent duplicates. Here\u2019s a fix:\n\n```python\nfrom collections import deque\n\ndef rearange_string(s):\n    count = {}\n    for char in s:\n        count[char] = count.get(char, 0) + 1\n    ",
+        "turn": 3
+      },
+      {
+        "role": "tutor",
+        "content": "def rearange_string(s):\n    count = {}\n    for c in s:\n        count[c] = count.get(c, 0) + 1\n\n    max_count = max(count.values())\n    if max_count > (len(s) + 1) // 2:\n        return None\n\n    result = []\n    for c, freq in sorted(count.items(), key=lambda x: x[1], reverse=True):\n        result.extend([c] * freq)\n\n    return ''.join(result)",
+        "turn": 4,
+        "execution": {
+          "turn": 4,
+          "tests_passed": 0,
+          "total_tests": 3,
+          "success": false,
+          "error_type": "test_failure",
+          "message": "0/3 tests passed"
+        }
+      },
+      {
+        "role": "student",
+        "content": "The issue is that the function doesn't handle characters with the same frequency correctly. Here's a fix: sort characters by frequency and then alphabetically if frequencies are the same. \n\n```python\ndef rearange_string(s):\n    count = {}\n    for c in s:\n        count[c] = count.get(c, 0) + 1\n\n    max_count = max(count.values())\n    if max_count > (len(s) + 1) // 2:",
+        "turn": 5
+      },
+      {
+        "role": "tutor",
+        "content": "def rearange_string(s):\n    count = {}\n    for c in s:\n        count[c] = count.get(c, 0) + 1\n\n    max_count = max(count.values())\n    if max_count > (len(s) + 1) // 2:\n        return None\n\n    result = [''] * len(s)\n    index = 0\n    for c, freq in sorted(count.items(), key=lambda x: x[1], reverse=True):\n        for _ in range(freq):\n            if index >= len(s):\n                index = 1\n            result[index] = c\n            index += 2\n\n    return ''.join(result)",
+        "turn": 6,
+        "execution": {
+          "turn": 6,
+          "tests_passed": 2,
+          "total_tests": 3,
+          "success": false,
+          "error_type": "test_failure",
+          "message": "2/3 tests passed"
+        }
+      },
+      {
+        "role": "student",
+        "content": "The issue is that the function doesn't handle characters with the same frequency correctly. Suggest using a while loop to place characters with the same frequency one after another. Here: \n```python\nwhile index < len(s):\n    result[index] = c\n    index += 2\n    if index < len(s):\n        result[index] = c\n        index += 1\n```",
+        "turn": 7
+      },
+      {
+        "role": "tutor",
+        "content": "def rearange_string(s):\n    from collections import Counter\n    c = Counter(s)\n    max_count = max(c.values())\n    if max_count > (len(s) + 1) // 2:\n        return None\n    result = []\n    for char, count in c.most_common():\n        result.extend([char] * count)\n    return ''.join(result[::2] + result[1::2]) if len(result) % 2 == 0 else ''.join(result[::2] + result[1::2][::-1])<|fim_middle|>",
+        "turn": 8,
+        "execution": {
+          "turn": 8,
+          "tests_passed": 0,
+          "total_tests": 3,
+          "success": false,
+          "error_type": "test_failure",
+          "message": "0/3 tests passed"
+        }
+      },
+      {
+        "role": "student",
+        "content": "The issue is that the code doesn't actually rearrange characters to meet the requirement of having no two adjacent characters identical. Try using a greedy algorithm to place the most frequent characters first, ensuring no two adjacent characters are the same. Here's a quick fix:\n\n```python\ndef rearange_string(s):\n    from collections import Counter\n    c = Counter(s)\n    max_count = max(c.values())\n    if max_count > (len(s) + 1) // 2:\n        return None\n    result = []",
+        "turn": 9
+      },
+      {
+        "role": "tutor",
+        "content": "def rearange_string(s):\n    count = {}\n    for c in s:\n        count[c] = count.get(c, 0) + 1\n\n    max_count = max(count.values())\n    if max_count > (len(s) + 1) // 2:\n        return ''\n\n    result = []\n    for c in sorted(count, key=count.get, reverse=True):\n        result.extend([c] * count[c])\n\n    return ''.join(result)",
+        "turn": 10,
+        "execution": {
+          "turn": 10,
+          "tests_passed": 0,
+          "total_tests": 3,
+          "success": false,
+          "error_type": "test_failure",
+          "message": "0/3 tests passed"
+        }
+      }
+    ],
+    "execution_result": {
+      "success": false,
+      "error_type": "test_failure",
+      "message": "0/3 tests passed",
+      "code_output": "",
+      "test_results": "============================= test session starts ==============================\nplatform darwin -- Python 3.14.0, pytest-9.0.2, pluggy-1.6.0 -- /Users/adityamathur/data_curation/venv/bin/python3\ncachedir: .pytest_cache\nrootdir: /var/folders/7_/khf8pt6n3wdcd5kv77y60dzr0000gn/T\nplugins: anyio-4.12.0, langsmith-0.6.0\ncollecting ... collected 3 items\n\n../../../var/folders/7_/khf8pt6n3wdcd5kv77y60dzr0000gn/T/tmpvsh6n94z.py::test_0 FAILED [ 33%]\n../../../var/folders/7_/khf8pt6n3wdcd5kv77y60dzr0000gn/T/tmpvsh6n94z.py::test_1 FAILED [ 66%]\n../../../var/folders/7_/khf8pt6n3wdcd5kv77y60dzr0000gn/T/tmpvsh6n94z.py::test_2 FAILED [100%]\n\n=================================== FAILURES ===================================\n____________________________________ test_0 ____________________________________\n\n    def test_0():\n>       assert rearange_string(\"aab\")==('aba')\nE       AssertionError: assert 'aab' == 'aba'\nE         \nE         - aba\nE         + aab\n\n/var/folders/7_/khf8pt6n3wdcd5kv77y60dzr0000gn/T/tmpvsh6n94z.py:17: AssertionError\n____________________________________ test_1 ____________________________________\n\n    def test_1():\n>       assert rearange_string(\"aabb\")==('abab')\nE       AssertionError: assert 'aabb' == 'abab'\nE         \nE         - abab\nE         ?   -\nE         + aabb\nE         ? +\n\n/var/folders/7_/khf8pt6n3wdcd5kv77y60dzr0000gn/T/tmpvsh6n94z.py:20: AssertionError\n____________________________________ test_2 ____________________________________\n\n    def test_2():\n>       assert rearange_string(\"abccdd\")==('cdabcd')\nE       AssertionError: assert 'ccddab' == 'cdabcd'\nE         \nE         - cdabcd\nE         + ccddab\n\n/var/folders/7_/khf8pt6n3wdcd5kv77y60dzr0000gn/T/tmpvsh6n94z.py:23: AssertionError\n=========================== short test summary info ============================\nFAILED ../../../var/folders/7_/khf8pt6n3wdcd5kv77y60dzr0000gn/T/tmpvsh6n94z.py::test_0\nFAILED ../../../var/folders/7_/khf8pt6n3wdcd5kv77y60dzr0000gn/T/tmpvsh6n94z.py::test_1\nFAILED ../../../var/folders/7_/khf8pt6n3wdcd5kv77y60dzr0000gn/T/tmpvsh6n94z.py::test_2\n============================== 3 failed in 0.04s ===============================\n",
+      "tests_passed": 0,
+      "total_tests": 3
+    },
+    "solved": false,
+    "tests_passed": 0,
+    "total_tests": 3,
+    "turns": 10,
+    "timestamp": "2026-01-15T00:00:08.285770"
+  },
+  {
+    "id": "d92a69ab-bf84-407e-bd79-ba631d88c965",
+    "task_id": 40,
+    "personality": "OVERCONFIDENT_WRONG",
+    "problem_text": "Write a function to find frequency of the elements in a given list of lists using collections module.",
+    "test_cases": [
+      "assert freq_element([[1, 2, 3, 2], [4, 5, 6, 2], [7, 1, 9, 5]])==({2: 3, 1: 2, 5: 2, 3: 1, 4: 1, 6: 1, 7: 1, 9: 1})",
+      "assert freq_element([[1,2,3,4],[5,6,7,8],[9,10,11,12]])==({1: 1, 2: 1, 3: 1, 4: 1, 5: 1, 6: 1, 7: 1, 8: 1, 9: 1, 10: 1, 11: 1, 12: 1})",
+      "assert freq_element([[15,20,30,40],[80,90,100,110],[30,30,80,90]])==({30: 3, 80: 2, 90: 2, 15: 1, 20: 1, 40: 1, 100: 1, 110: 1})"
+    ],
+    "conversation": [
+      {
+        "role": "student",
+        "content": "I think I can do this with Counter from collections. Just need a quick check on my approach.",
+        "turn": 1
+      },
+      {
+        "role": "tutor",
+        "content": "def freq_element(lst):\n    freq = {}\n    for sublist in lst:\n        for element in sublist:\n            if element in freq:\n                freq[element] += 1\n            else:\n                freq[element] = 1\n    return freq",
+        "turn": 2,
+        "execution": {
+          "turn": 2,
+          "tests_passed": 3,
+          "total_tests": 3,
+          "success": true,
+          "error_type": null,
+          "message": "All tests passed"
+        }
+      }
+    ],
+    "execution_result": {
+      "success": true,
+      "error_type": null,
+      "message": "All tests passed",
+      "code_output": "",
+      "test_results": "============================= test session starts ==============================\nplatform darwin -- Python 3.14.0, pytest-9.0.2, pluggy-1.6.0 -- /Users/adityamathur/data_curation/venv/bin/python3\ncachedir: .pytest_cache\nrootdir: /var/folders/7_/khf8pt6n3wdcd5kv77y60dzr0000gn/T\nplugins: anyio-4.12.0, langsmith-0.6.0\ncollecting ... collected 3 items\n\n../../../var/folders/7_/khf8pt6n3wdcd5kv77y60dzr0000gn/T/tmpuxqfdxpq.py::test_0 PASSED [ 33%]\n../../../var/folders/7_/khf8pt6n3wdcd5kv77y60dzr0000gn/T/tmpuxqfdxpq.py::test_1 PASSED [ 66%]\n../../../var/folders/7_/khf8pt6n3wdcd5kv77y60dzr0000gn/T/tmpuxqfdxpq.py::test_2 PASSED [100%]\n\n============================== 3 passed in 0.03s ===============================\n",
+      "tests_passed": 3,
+      "total_tests": 3
+    },
+    "solved": true,
+    "tests_passed": 3,
+    "total_tests": 3,
+    "turns": 2,
+    "timestamp": "2026-01-15T00:00:16.331950"
+  },
+  {
+    "id": "0568bafc-567b-4f00-ac12-2b422395a713",
+    "task_id": 41,
+    "personality": "OVERCONFIDENT_WRONG",
+    "problem_text": "Write a function to filter even numbers using lambda function.",
+    "test_cases": [
+      "assert filter_evennumbers([1, 2, 3, 4, 5, 6, 7, 8, 9, 10])==[2, 4, 6, 8, 10]",
+      "assert filter_evennumbers([10,20,45,67,84,93])==[10,20,84]",
+      "assert filter_evennumbers([5,7,9,8,6,4,3])==[8,6,4]"
+    ],
+    "conversation": [
+      {
+        "role": "student",
+        "content": "I think I can do this in one line with a lambda function. Just need a quick check.",
+        "turn": 1
+      },
+      {
+        "role": "tutor",
+        "content": "def filter_evennumbers(numbers):\n    return list(filter(lambda x: x % 2 == 0, numbers))",
+        "turn": 2,
+        "execution": {
+          "turn": 2,
+          "tests_passed": 3,
+          "total_tests": 3,
+          "success": true,
+          "error_type": null,
+          "message": "All tests passed"
+        }
+      }
+    ],
+    "execution_result": {
+      "success": true,
+      "error_type": null,
+      "message": "All tests passed",
+      "code_output": "",
+      "test_results": "============================= test session starts ==============================\nplatform darwin -- Python 3.14.0, pytest-9.0.2, pluggy-1.6.0 -- /Users/adityamathur/data_curation/venv/bin/python3\ncachedir: .pytest_cache\nrootdir: /var/folders/7_/khf8pt6n3wdcd5kv77y60dzr0000gn/T\nplugins: anyio-4.12.0, langsmith-0.6.0\ncollecting ... collected 3 items\n\n../../../var/folders/7_/khf8pt6n3wdcd5kv77y60dzr0000gn/T/tmp7vz4sjkk.py::test_0 PASSED [ 33%]\n../../../var/folders/7_/khf8pt6n3wdcd5kv77y60dzr0000gn/T/tmp7vz4sjkk.py::test_1 PASSED [ 66%]\n../../../var/folders/7_/khf8pt6n3wdcd5kv77y60dzr0000gn/T/tmp7vz4sjkk.py::test_2 PASSED [100%]\n\n============================== 3 passed in 0.03s ===============================\n",
+      "tests_passed": 3,
+      "total_tests": 3
+    },
+    "solved": true,
+    "tests_passed": 3,
+    "total_tests": 3,
+    "turns": 2,
+    "timestamp": "2026-01-15T00:00:22.019312"
+  },
+  {
+    "id": "096cebbf-65b9-409b-bc2d-8706e34c6674",
+    "task_id": 42,
+    "personality": "OVERCONFIDENT_WRONG",
+    "problem_text": "Write a python function to find the sum of repeated elements in a given array.",
+    "test_cases": [
+      "assert find_Sum([1,2,3,1,1,4,5,6],8) == 3",
+      "assert find_Sum([1,2,3,1,1],5) == 3",
+      "assert find_Sum([1,1,2],3) == 2"
+    ],
+    "conversation": [
+      {
+        "role": "student",
+        "content": "I think I can handle this one. Just need a quick check on my approach.",
+        "turn": 1
+      },
+      {
+        "role": "tutor",
+        "content": "def find_Sum(arr, n):\n    sum = 0\n    for i in range(n):\n        for j in range(i+1, n):\n            if arr[i] == arr[j]:\n                sum += arr[i]\n    return sum",
+        "turn": 2,
+        "execution": {
+          "turn": 2,
+          "tests_passed": 2,
+          "total_tests": 3,
+          "success": false,
+          "error_type": "test_failure",
+          "message": "2/3 tests passed"
+        }
+      },
+      {
+        "role": "student",
+        "content": "The issue is that your function only checks for duplicate elements but doesn't account for the sum of all pairs. Try this instead:\n\n```python\ndef find_Sum(arr, n):\n    return sum(v for v in arr if arr.count(v) > 1)\n```",
+        "turn": 3
+      },
+      {
+        "role": "tutor",
+        "content": "def find_Sum(arr, n):\n    sum = 0\n    for i in range(n):\n        for j in range(i+1, n):\n            if arr[i] == arr[j]:\n                sum += arr[i]\n    return sum",
+        "turn": 4,
+        "execution": {
+          "turn": 4,
+          "tests_passed": 2,
+          "total_tests": 3,
+          "success": false,
+          "error_type": "test_failure",
+          "message": "2/3 tests passed"
+        }
+      },
+      {
+        "role": "student",
+        "content": "The issue is that your function only sums duplicate elements, not pairs. Change it to sum the pair values instead: \n\n```python\nreturn sum(arr[i] + arr[j] for i in range(n) for j in range(i+1, n) if arr[i] == arr[j])\n```",
+        "turn": 5
+      },
+      {
+        "role": "tutor",
+        "content": "def find_Sum(arr, n):\n    sum = 0\n    for i in range(n):\n        for j in range(i+1, n):\n            if arr[i] == arr[j]:\n                sum += arr[i]\n    return sum",
+        "turn": 6,
+        "execution": {
+          "turn": 6,
+          "tests_passed": 2,
+          "total_tests": 3,
+          "success": false,
+          "error_type": "test_failure",
+          "message": "2/3 tests passed"
+        }
+      },
+      {
+        "role": "student",
+        "content": "The function only adds elements when they are equal, but it should add the sum of all pairs. Try this instead:\n\n```python\ndef find_Sum(arr, n):\n    sum = 0\n    for i in range(n):\n        for j in range(i+1, n):\n            sum += arr[i] + arr[j]\n    return sum\n```",
+        "turn": 7
+      },
+      {
+        "role": "tutor",
+        "content": "def find_Sum(arr, n):\n    sum = 0\n    for i in range(n):\n        for j in range(i+1, n):\n            if arr[i] == arr[j]:\n                sum += arr[i]\n    return sum",
+        "turn": 8,
+        "execution": {
+          "turn": 8,
+          "tests_passed": 2,
+          "total_tests": 3,
+          "success": false,
+          "error_type": "test_failure",
+          "message": "2/3 tests passed"
+        }
+      },
+      {
+        "role": "student",
+        "content": "The issue is that the function only checks if elements are equal and sums them, but it should be checking pairs that add up to a specific target value. Try using a set to track seen numbers and check if the complement (target - current number) exists. Here\u2019s a fix:\n\n```python\ndef find_Sum(arr, n, target):\n    seen = set()\n    sum = 0\n    for num in arr:\n        complement = target - num\n        if complement in seen:\n            sum += complement + num",
+        "turn": 9
+      },
+      {
+        "role": "tutor",
+        "content": "def find_Sum(arr, n):\n    sum = 0\n    for i in range(n):\n        for j in range(i+1, n):\n            if arr[i] == arr[j]:\n                sum += arr[i]\n    return sum",
+        "turn": 10,
+        "execution": {
+          "turn": 10,
+          "tests_passed": 2,
+          "total_tests": 3,
+          "success": false,
+          "error_type": "test_failure",
+          "message": "2/3 tests passed"
+        }
+      }
+    ],
+    "execution_result": {
+      "success": false,
+      "error_type": "test_failure",
+      "message": "2/3 tests passed",
+      "code_output": "",
+      "test_results": "============================= test session starts ==============================\nplatform darwin -- Python 3.14.0, pytest-9.0.2, pluggy-1.6.0 -- /Users/adityamathur/data_curation/venv/bin/python3\ncachedir: .pytest_cache\nrootdir: /var/folders/7_/khf8pt6n3wdcd5kv77y60dzr0000gn/T\nplugins: anyio-4.12.0, langsmith-0.6.0\ncollecting ... collected 3 items\n\n../../../var/folders/7_/khf8pt6n3wdcd5kv77y60dzr0000gn/T/tmph4wu1r6h.py::test_0 PASSED [ 33%]\n../../../var/folders/7_/khf8pt6n3wdcd5kv77y60dzr0000gn/T/tmph4wu1r6h.py::test_1 PASSED [ 66%]\n../../../var/folders/7_/khf8pt6n3wdcd5kv77y60dzr0000gn/T/tmph4wu1r6h.py::test_2 FAILED [100%]\n\n=================================== FAILURES ===================================\n____________________________________ test_2 ____________________________________\n\n    def test_2():\n>       assert find_Sum([1,1,2],3) == 2\nE       assert 1 == 2\nE        +  where 1 = find_Sum([1, 1, 2], 3)\n\n/var/folders/7_/khf8pt6n3wdcd5kv77y60dzr0000gn/T/tmph4wu1r6h.py:16: AssertionError\n=========================== short test summary info ============================\nFAILED ../../../var/folders/7_/khf8pt6n3wdcd5kv77y60dzr0000gn/T/tmph4wu1r6h.py::test_2\n========================= 1 failed, 2 passed in 0.04s ==========================\n",
+      "tests_passed": 2,
+      "total_tests": 3
+    },
+    "solved": false,
+    "tests_passed": 2,
+    "total_tests": 3,
+    "turns": 10,
+    "timestamp": "2026-01-15T00:01:16.276267"
+  },
+  {
+    "id": "dc57e04a-29d5-4209-bf07-0c03d5722576",
+    "task_id": 43,
+    "personality": "OVERCONFIDENT_WRONG",
+    "problem_text": "Write a function to find sequences of lowercase letters joined with an underscore using regex.",
+    "test_cases": [
+      "assert text_match(\"aab_cbbbc\") == 'Found a match!'",
+      "assert text_match(\"aab_Abbbc\") == 'Not matched!'",
+      "assert text_match(\"Aaab_abbbc\") == 'Not matched!'"
+    ],
+    "conversation": [
+      {
+        "role": "student",
+        "content": "I think I got this. Just need a quick check on my regex pattern.",
+        "turn": 1
+      },
+      {
+        "role": "tutor",
+        "content": "import re\n\ndef text_match(text):\n    pattern = r'[a-z]+_[a-z]+'\n    if re.search(pattern, text):\n        return 'Found a match!'\n    else:\n        return 'Not matched!'",
+        "turn": 2,
+        "execution": {
+          "turn": 2,
+          "tests_passed": 2,
+          "total_tests": 3,
+          "success": false,
+          "error_type": "test_failure",
+          "message": "2/3 tests passed"
+        }
+      },
+      {
+        "role": "student",
+        "content": "The issue is that `re.search` returns `None` when no match is found, so the function should directly return the result of `re.search`. Change it to:\n\n```python\nreturn 'Found a match!' if re.search(pattern, text) else 'Not matched!'\n```",
+        "turn": 3
+      },
+      {
+        "role": "tutor",
+        "content": "import re\n\ndef text_match(text):\n    pattern = r'^[a-z]+_[a-z]+$'\n    if re.match(pattern, text):\n        return 'Found a match!'\n    else:\n        return 'Not matched!'",
+        "turn": 4,
+        "execution": {
+          "turn": 4,
+          "tests_passed": 3,
+          "total_tests": 3,
+          "success": true,
+          "error_type": null,
+          "message": "All tests passed"
+        }
+      }
+    ],
+    "execution_result": {
+      "success": true,
+      "error_type": null,
+      "message": "All tests passed",
+      "code_output": "",
+      "test_results": "============================= test session starts ==============================\nplatform darwin -- Python 3.14.0, pytest-9.0.2, pluggy-1.6.0 -- /Users/adityamathur/data_curation/venv/bin/python3\ncachedir: .pytest_cache\nrootdir: /var/folders/7_/khf8pt6n3wdcd5kv77y60dzr0000gn/T\nplugins: anyio-4.12.0, langsmith-0.6.0\ncollecting ... collected 3 items\n\n../../../var/folders/7_/khf8pt6n3wdcd5kv77y60dzr0000gn/T/tmpdn0agl2h.py::test_0 PASSED [ 33%]\n../../../var/folders/7_/khf8pt6n3wdcd5kv77y60dzr0000gn/T/tmpdn0agl2h.py::test_1 PASSED [ 66%]\n../../../var/folders/7_/khf8pt6n3wdcd5kv77y60dzr0000gn/T/tmpdn0agl2h.py::test_2 PASSED [100%]\n\n============================== 3 passed in 0.03s ===============================\n",
+      "tests_passed": 3,
+      "total_tests": 3
+    },
+    "solved": true,
+    "tests_passed": 3,
+    "total_tests": 3,
+    "turns": 4,
+    "timestamp": "2026-01-15T00:01:33.012923"
+  },
+  {
+    "id": "f18f69f1-eedb-43d5-a930-9e26331faa19",
+    "task_id": 44,
+    "personality": "OVERCONFIDENT_WRONG",
+    "problem_text": "Write a function that matches a word at the beginning of a string.",
+    "test_cases": [
+      "assert text_match_string(\" python\")==('Not matched!')",
+      "assert text_match_string(\"python\")==('Found a match!')",
+      "assert text_match_string(\"  lang\")==('Not matched!')"
+    ],
+    "conversation": [
+      {
+        "role": "student",
+        "content": "I think I can do this in one line using regex. Something like `re.match()`. Need a quick check though.",
+        "turn": 1
+      },
+      {
+        "role": "tutor",
+        "content": "def text_match_string(string):\n    pattern = r'^\\s*python'\n    if re.match(pattern, string):\n        return 'Found a match!'\n    else:\n        return 'Not matched!'<|file_sep|><|fim_prefix|>/README.md",
+        "turn": 2,
+        "execution": {
+          "turn": 2,
+          "tests_passed": 0,
+          "total_tests": 3,
+          "success": false,
+          "error_type": "test_failure",
+          "message": "0/3 tests passed"
+        }
+      },
+      {
+        "role": "student",
+        "content": "The regex pattern is checking for strings that start with a space followed by \"python\". Change it to `r'^python'` to match strings that start exactly with \"python\". Here\u2019s the fixed version:\n\n```python\ndef text_match_string(string):\n    pattern = r'^python'\n    if re.match(pattern, string):\n        return 'Found a match!'\n    else:\n        return 'Not matched!'\n```",
+        "turn": 3
+      },
+      {
+        "role": "tutor",
+        "content": "import re\n\ndef text_match_string(text):\n    pattern = r'^python'\n    match = re.match(pattern, text)\n    if match:\n        return 'Found a match!'\n    else:\n        return 'Not matched!'",
+        "turn": 4,
+        "execution": {
+          "turn": 4,
+          "tests_passed": 3,
+          "total_tests": 3,
+          "success": true,
+          "error_type": null,
+          "message": "All tests passed"
+        }
+      }
+    ],
+    "execution_result": {
+      "success": true,
+      "error_type": null,
+      "message": "All tests passed",
+      "code_output": "",
+      "test_results": "============================= test session starts ==============================\nplatform darwin -- Python 3.14.0, pytest-9.0.2, pluggy-1.6.0 -- /Users/adityamathur/data_curation/venv/bin/python3\ncachedir: .pytest_cache\nrootdir: /var/folders/7_/khf8pt6n3wdcd5kv77y60dzr0000gn/T\nplugins: anyio-4.12.0, langsmith-0.6.0\ncollecting ... collected 3 items\n\n../../../var/folders/7_/khf8pt6n3wdcd5kv77y60dzr0000gn/T/tmpk1_rgjul.py::test_0 PASSED [ 33%]\n../../../var/folders/7_/khf8pt6n3wdcd5kv77y60dzr0000gn/T/tmpk1_rgjul.py::test_1 PASSED [ 66%]\n../../../var/folders/7_/khf8pt6n3wdcd5kv77y60dzr0000gn/T/tmpk1_rgjul.py::test_2 PASSED [100%]\n\n============================== 3 passed in 0.04s ===============================\n",
+      "tests_passed": 3,
+      "total_tests": 3
+    },
+    "solved": true,
+    "tests_passed": 3,
+    "total_tests": 3,
+    "turns": 4,
+    "timestamp": "2026-01-15T00:01:51.315199"
+  },
+  {
+    "id": "cd713018-3a9a-4e79-98b8-b0dfa5b4d723",
+    "task_id": 45,
+    "personality": "OVERCONFIDENT_WRONG",
+    "problem_text": "Write a function to find the gcd of the given array elements.",
+    "test_cases": [
+      "assert get_gcd([2, 4, 6, 8, 16]) == 2",
+      "assert get_gcd([1, 2, 3]) == 1",
+      "assert get_gcd([2, 4, 6, 8]) == 2 "
+    ],
+    "conversation": [
+      {
+        "role": "student",
+        "content": "I think I can do this with recursion, but I'm stuck on the base case. Need a hint!",
+        "turn": 1
+      },
+      {
+        "role": "tutor",
+        "content": "def get_gcd(arr):\n    gcd = arr[0]\n    for num in arr[1:]:\n        while num:\n            gcd, num = num, gcd % num\n    return gcd",
+        "turn": 2,
+        "execution": {
+          "turn": 2,
+          "tests_passed": 3,
+          "total_tests": 3,
+          "success": true,
+          "error_type": null,
+          "message": "All tests passed"
+        }
+      }
+    ],
+    "execution_result": {
+      "success": true,
+      "error_type": null,
+      "message": "All tests passed",
+      "code_output": "",
+      "test_results": "============================= test session starts ==============================\nplatform darwin -- Python 3.14.0, pytest-9.0.2, pluggy-1.6.0 -- /Users/adityamathur/data_curation/venv/bin/python3\ncachedir: .pytest_cache\nrootdir: /var/folders/7_/khf8pt6n3wdcd5kv77y60dzr0000gn/T\nplugins: anyio-4.12.0, langsmith-0.6.0\ncollecting ... collected 3 items\n\n../../../var/folders/7_/khf8pt6n3wdcd5kv77y60dzr0000gn/T/tmpego94eet.py::test_0 PASSED [ 33%]\n../../../var/folders/7_/khf8pt6n3wdcd5kv77y60dzr0000gn/T/tmpego94eet.py::test_1 PASSED [ 66%]\n../../../var/folders/7_/khf8pt6n3wdcd5kv77y60dzr0000gn/T/tmpego94eet.py::test_2 PASSED [100%]\n\n============================== 3 passed in 0.04s ===============================\n",
+      "tests_passed": 3,
+      "total_tests": 3
+    },
+    "solved": true,
+    "tests_passed": 3,
+    "total_tests": 3,
+    "turns": 2,
+    "timestamp": "2026-01-15T00:01:58.597218"
+  },
+  {
+    "id": "6b12f1ef-e7f0-4175-8c75-7d8ba7eb53fd",
+    "task_id": 46,
+    "personality": "OVERCONFIDENT_WRONG",
+    "problem_text": "Write a python function to determine whether all the numbers are different from each other are not.",
+    "test_cases": [
+      "assert test_distinct([1,5,7,9]) == True",
+      "assert test_distinct([2,4,5,5,7,9]) == False",
+      "assert test_distinct([1,2,3]) == True"
+    ],
+    "conversation": [
+      {
+        "role": "student",
+        "content": "I think I can handle this one. Just need a quick check on my logic.",
+        "turn": 1
+      },
+      {
+        "role": "tutor",
+        "content": "def test_distinct(numbers):\n    return len(numbers) == len(set(numbers))",
+        "turn": 2,
+        "execution": {
+          "turn": 2,
+          "tests_passed": 3,
+          "total_tests": 3,
+          "success": false,
+          "error_type": "test_failure",
+          "message": "3/3 tests passed"
+        }
+      },
+      {
+        "role": "student",
+        "content": "That code looks fine. Maybe check if there are duplicates in your test cases? Your function should work as expected.",
+        "turn": 3
+      },
+      {
+        "role": "tutor",
+        "content": "def test_distinct(numbers):\n    for i in range(len(numbers)):\n        for j in range(i+1, len(numbers)):\n            if numbers[i] == numbers[j]:\n                return False\n    return True",
+        "turn": 4,
+        "execution": {
+          "turn": 4,
+          "tests_passed": 3,
+          "total_tests": 3,
+          "success": false,
+          "error_type": "test_failure",
+          "message": "3/3 tests passed"
+        }
+      },
+      {
+        "role": "student",
+        "content": "That code only checks if there are any duplicates. It looks fine, but try using a set to make it more efficient: `return len(set(numbers)) == len(numbers)`",
+        "turn": 5
+      },
+      {
+        "role": "tutor",
+        "content": "def test_distinct(numbers):\n    sorted_numbers = sorted(numbers)\n    for i in range(len(sorted_numbers) - 1):\n        if sorted_numbers[i] == sorted_numbers[i + 1]:\n            return False\n    return True",
+        "turn": 6,
+        "execution": {
+          "turn": 6,
+          "tests_passed": 3,
+          "total_tests": 3,
+          "success": false,
+          "error_type": "test_failure",
+          "message": "3/3 tests passed"
+        }
+      },
+      {
+        "role": "student",
+        "content": "This code only checks adjacent numbers. It'll fail if distinct numbers are not next to each other. Use a set instead: `return len(numbers) == len(set(numbers))`.",
+        "turn": 7
+      },
+      {
+        "role": "tutor",
+        "content": "def test_distinct(numbers):\n    return len(numbers) == len(set(numbers))<|file_sep|><|fim_prefix|>/0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+        "turn": 8,
+        "execution": {
+          "turn": 8,
+          "tests_passed": 0,
+          "total_tests": 3,
+          "success": false,
+          "error_type": "test_failure",
+          "message": "0/3 tests passed"
+        }
+      },
+      {
+        "role": "student",
+        "content": "The function looks good, but make sure the input list doesn't contain non-hashable elements like dictionaries or lists. Here\u2019s a quick fix:\n\n```python\ndef test_distinct(numbers):\n    return len(numbers) == len(set(map(tuple, numbers)))\n```",
+        "turn": 9
+      },
+      {
+        "role": "tutor",
+        "content": "def test_distinct(numbers):\n    return len(numbers) == len(set(numbers))",
+        "turn": 10,
+        "execution": {
+          "turn": 10,
+          "tests_passed": 3,
+          "total_tests": 3,
+          "success": false,
+          "error_type": "test_failure",
+          "message": "3/3 tests passed"
+        }
+      }
+    ],
+    "execution_result": {
+      "success": false,
+      "error_type": "test_failure",
+      "message": "3/3 tests passed",
+      "code_output": "",
+      "test_results": "============================= test session starts ==============================\nplatform darwin -- Python 3.14.0, pytest-9.0.2, pluggy-1.6.0 -- /Users/adityamathur/data_curation/venv/bin/python3\ncachedir: .pytest_cache\nrootdir: /var/folders/7_/khf8pt6n3wdcd5kv77y60dzr0000gn/T\nplugins: anyio-4.12.0, langsmith-0.6.0\ncollecting ... collected 4 items\n\n../../../var/folders/7_/khf8pt6n3wdcd5kv77y60dzr0000gn/T/tmpsuckowh5.py::test_distinct ERROR [ 25%]\n../../../var/folders/7_/khf8pt6n3wdcd5kv77y60dzr0000gn/T/tmpsuckowh5.py::test_0 PASSED [ 50%]\n../../../var/folders/7_/khf8pt6n3wdcd5kv77y60dzr0000gn/T/tmpsuckowh5.py::test_1 PASSED [ 75%]\n../../../var/folders/7_/khf8pt6n3wdcd5kv77y60dzr0000gn/T/tmpsuckowh5.py::test_2 PASSED [100%]\n\n==================================== ERRORS ====================================\n_______________________ ERROR at setup of test_distinct ________________________\nfile /var/folders/7_/khf8pt6n3wdcd5kv77y60dzr0000gn/T/tmpsuckowh5.py, line 1\n  def test_distinct(numbers):\nE       fixture 'numbers' not found\n>       available fixtures: anyio_backend, anyio_backend_name, anyio_backend_options, cache, capfd, capfdbinary, caplog, capsys, capsysbinary, capteesys, doctest_namespace, free_tcp_port, free_tcp_port_factory, free_udp_port, free_udp_port_factory, monkeypatch, pytestconfig, record_property, record_testsuite_property, record_xml_attribute, recwarn, subtests, tmp_path, tmp_path_factory, tmpdir, tmpdir_factory\n>       use 'pytest --fixtures [testpath]' for help on them.\n\n/var/folders/7_/khf8pt6n3wdcd5kv77y60dzr0000gn/T/tmpsuckowh5.py:1\n=========================== short test summary info ============================\nERROR ../../../var/folders/7_/khf8pt6n3wdcd5kv77y60dzr0000gn/T/tmpsuckowh5.py::test_distinct\n========================== 3 passed, 1 error in 0.04s ==========================\n",
+      "tests_passed": 3,
+      "total_tests": 3
+    },
+    "solved": false,
+    "tests_passed": 3,
+    "total_tests": 3,
+    "turns": 10,
+    "timestamp": "2026-01-15T00:02:56.631655"
+  },
+  {
+    "id": "e452ac45-b794-4633-86ce-bc6333413372",
+    "task_id": 47,
+    "personality": "OVERCONFIDENT_WRONG",
+    "problem_text": "Write a python function to find the last digit when factorial of a divides factorial of b.",
+    "test_cases": [
+      "assert compute_Last_Digit(2,4) == 2",
+      "assert compute_Last_Digit(6,8) == 6",
+      "assert compute_Last_Digit(1,2) == 2"
+    ],
+    "conversation": [
+      {
+        "role": "student",
+        "content": "I think I can handle this one. Just need a quick check on my logic.",
+        "turn": 1
+      },
+      {
+        "role": "tutor",
+        "content": "def compute_Last_Digit(a, b):\n    if a > b:\n        return 0\n    else:\n        factorial_a = 1\n        factorial_b = 1\n        for i in range(1, a+1):\n            factorial_a *= i\n        for i in range(1, b+1):\n            factorial_b *= i\n        last_digit = factorial_b // factorial_a % 10\n        return last_digit",
+        "turn": 2,
+        "execution": {
+          "turn": 2,
+          "tests_passed": 3,
+          "total_tests": 3,
+          "success": true,
+          "error_type": null,
+          "message": "All tests passed"
+        }
+      }
+    ],
+    "execution_result": {
+      "success": true,
+      "error_type": null,
+      "message": "All tests passed",
+      "code_output": "",
+      "test_results": "============================= test session starts ==============================\nplatform darwin -- Python 3.14.0, pytest-9.0.2, pluggy-1.6.0 -- /Users/adityamathur/data_curation/venv/bin/python3\ncachedir: .pytest_cache\nrootdir: /var/folders/7_/khf8pt6n3wdcd5kv77y60dzr0000gn/T\nplugins: anyio-4.12.0, langsmith-0.6.0\ncollecting ... collected 3 items\n\n../../../var/folders/7_/khf8pt6n3wdcd5kv77y60dzr0000gn/T/tmp_jdql6v9.py::test_0 PASSED [ 33%]\n../../../var/folders/7_/khf8pt6n3wdcd5kv77y60dzr0000gn/T/tmp_jdql6v9.py::test_1 PASSED [ 66%]\n../../../var/folders/7_/khf8pt6n3wdcd5kv77y60dzr0000gn/T/tmp_jdql6v9.py::test_2 PASSED [100%]\n\n============================== 3 passed in 0.04s ===============================\n",
+      "tests_passed": 3,
+      "total_tests": 3
+    },
+    "solved": true,
+    "tests_passed": 3,
+    "total_tests": 3,
+    "turns": 2,
+    "timestamp": "2026-01-15T00:03:04.563553"
+  },
+  {
+    "id": "e96ac0ff-8964-42b5-8747-c4d4f2aa3360",
+    "task_id": 48,
+    "personality": "OVERCONFIDENT_WRONG",
+    "problem_text": "Write a python function to set all odd bits of a given number.",
+    "test_cases": [
+      "assert odd_bit_set_number(10) == 15",
+      "assert odd_bit_set_number(20) == 21",
+      "assert odd_bit_set_number(30) == 31"
+    ],
+    "conversation": [
+      {
+        "role": "student",
+        "content": "I think I can do this in one line using bitwise operations, but I'm not sure about the exact syntax. Need a quick tip!",
+        "turn": 1
+      },
+      {
+        "role": "tutor",
+        "content": "def odd_bit_set_number(n):\n    return n | 0xAAAAAAAA",
+        "turn": 2,
+        "execution": {
+          "turn": 2,
+          "tests_passed": 0,
+          "total_tests": 3,
+          "success": false,
+          "error_type": "test_failure",
+          "message": "0/3 tests passed"
+        }
+      },
+      {
+        "role": "student",
+        "content": "This code doesn't work because it sets the even bits instead of checking for an odd number of 1-bits. Use population count: `return __builtin_popcount(n) % 2`.",
+        "turn": 3
+      },
+      {
+        "role": "tutor",
+        "content": "def odd_bit_set_number(n):\n    return n | 0xAAAAAAAA",
+        "turn": 4,
+        "execution": {
+          "turn": 4,
+          "tests_passed": 0,
+          "total_tests": 3,
+          "success": false,
+          "error_type": "test_failure",
+          "message": "0/3 tests passed"
+        }
+      },
+      {
+        "role": "student",
+        "content": "This code flips the even bits to odd bits instead of setting just the odd bits. Try using bitwise AND with the complement of even bit positions: \n\n```python\nreturn n & 0x55555555\n```",
+        "turn": 5
+      },
+      {
+        "role": "tutor",
+        "content": "def odd_bit_set_number(n):\n    return n | 0b101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010",
+        "turn": 6,
+        "execution": {
+          "turn": 6,
+          "tests_passed": 0,
+          "total_tests": 3,
+          "success": false,
+          "error_type": "test_failure",
+          "message": "0/3 tests passed"
+        }
+      },
+      {
+        "role": "student",
+        "content": "The code is too long and doesn't make sense. You're setting `n` to a huge number with mostly 1s. Try just using `n | 0b1` to set the least significant bit.",
+        "turn": 7
+      },
+      {
+        "role": "tutor",
+        "content": "def odd_bit_set_number(n):\n    return n | 0xAAAAAAAA",
+        "turn": 8,
+        "execution": {
+          "turn": 8,
+          "tests_passed": 0,
+          "total_tests": 3,
+          "success": false,
+          "error_type": "test_failure",
+          "message": "0/3 tests passed"
+        }
+      },
+      {
+        "role": "student",
+        "content": "The code flips all the even bits to odd. Use `n & 0x55555555` instead to keep even bits as is and flip odd bits.",
+        "turn": 9
+      },
+      {
+        "role": "tutor",
+        "content": "def odd_bit_set_number(n):\n    return n | 0xAAAAAAAA",
+        "turn": 10,
+        "execution": {
+          "turn": 10,
+          "tests_passed": 0,
+          "total_tests": 3,
+          "success": false,
+          "error_type": "test_failure",
+          "message": "0/3 tests passed"
+        }
+      }
+    ],
+    "execution_result": {
+      "success": false,
+      "error_type": "test_failure",
+      "message": "0/3 tests passed",
+      "code_output": "",
+      "test_results": "============================= test session starts ==============================\nplatform darwin -- Python 3.14.0, pytest-9.0.2, pluggy-1.6.0 -- /Users/adityamathur/data_curation/venv/bin/python3\ncachedir: .pytest_cache\nrootdir: /var/folders/7_/khf8pt6n3wdcd5kv77y60dzr0000gn/T\nplugins: anyio-4.12.0, langsmith-0.6.0\ncollecting ... collected 3 items\n\n../../../var/folders/7_/khf8pt6n3wdcd5kv77y60dzr0000gn/T/tmpo1dzq_29.py::test_0 FAILED [ 33%]\n../../../var/folders/7_/khf8pt6n3wdcd5kv77y60dzr0000gn/T/tmpo1dzq_29.py::test_1 FAILED [ 66%]\n../../../var/folders/7_/khf8pt6n3wdcd5kv77y60dzr0000gn/T/tmpo1dzq_29.py::test_2 FAILED [100%]\n\n=================================== FAILURES ===================================\n____________________________________ test_0 ____________________________________\n\n    def test_0():\n>       assert odd_bit_set_number(10) == 15\nE       assert 2863311530 == 15\nE        +  where 2863311530 = odd_bit_set_number(10)\n\n/var/folders/7_/khf8pt6n3wdcd5kv77y60dzr0000gn/T/tmpo1dzq_29.py:5: AssertionError\n____________________________________ test_1 ____________________________________\n\n    def test_1():\n>       assert odd_bit_set_number(20) == 21\nE       assert 2863311550 == 21\nE        +  where 2863311550 = odd_bit_set_number(20)\n\n/var/folders/7_/khf8pt6n3wdcd5kv77y60dzr0000gn/T/tmpo1dzq_29.py:8: AssertionError\n____________________________________ test_2 ____________________________________\n\n    def test_2():\n>       assert odd_bit_set_number(30) == 31\nE       assert 2863311550 == 31\nE        +  where 2863311550 = odd_bit_set_number(30)\n\n/var/folders/7_/khf8pt6n3wdcd5kv77y60dzr0000gn/T/tmpo1dzq_29.py:11: AssertionError\n=========================== short test summary info ============================\nFAILED ../../../var/folders/7_/khf8pt6n3wdcd5kv77y60dzr0000gn/T/tmpo1dzq_29.py::test_0\nFAILED ../../../var/folders/7_/khf8pt6n3wdcd5kv77y60dzr0000gn/T/tmpo1dzq_29.py::test_1\nFAILED ../../../var/folders/7_/khf8pt6n3wdcd5kv77y60dzr0000gn/T/tmpo1dzq_29.py::test_2\n============================== 3 failed in 0.04s ===============================\n",
+      "tests_passed": 0,
+      "total_tests": 3
+    },
+    "solved": false,
+    "tests_passed": 0,
+    "total_tests": 3,
+    "turns": 10,
+    "timestamp": "2026-01-15T00:03:42.733771"
+  },
+  {
+    "id": "a2b4764d-8fcf-425a-8605-277453524799",
+    "task_id": 49,
+    "personality": "OVERCONFIDENT_WRONG",
+    "problem_text": "Write a function to extract every first or specified element from a given two-dimensional list.",
+    "test_cases": [
+      "assert specified_element([[1, 2, 3, 2], [4, 5, 6, 2], [7, 1, 9, 5]],0)==[1, 4, 7]",
+      "assert specified_element([[1, 2, 3, 2], [4, 5, 6, 2], [7, 1, 9, 5]],2)==[3, 6, 9]",
+      "assert specified_element([[1, 2, 3, 2], [4, 5, 6, 2], [7, 1, 9, 5]],1)==[2,5,1]"
+    ],
+    "conversation": [
+      {
+        "role": "student",
+        "content": "I think I can handle this one. Just need a quick check on my logic.",
+        "turn": 1
+      },
+      {
+        "role": "tutor",
+        "content": "def specified_element(lst, index):\n    result = []\n    for sublist in lst:\n        result.append(sublist[index])\n    return result",
+        "turn": 2,
+        "execution": {
+          "turn": 2,
+          "tests_passed": 3,
+          "total_tests": 3,
+          "success": true,
+          "error_type": null,
+          "message": "All tests passed"
+        }
+      }
+    ],
+    "execution_result": {
+      "success": true,
+      "error_type": null,
+      "message": "All tests passed",
+      "code_output": "",
+      "test_results": "============================= test session starts ==============================\nplatform darwin -- Python 3.14.0, pytest-9.0.2, pluggy-1.6.0 -- /Users/adityamathur/data_curation/venv/bin/python3\ncachedir: .pytest_cache\nrootdir: /var/folders/7_/khf8pt6n3wdcd5kv77y60dzr0000gn/T\nplugins: anyio-4.12.0, langsmith-0.6.0\ncollecting ... collected 3 items\n\n../../../var/folders/7_/khf8pt6n3wdcd5kv77y60dzr0000gn/T/tmps0exc0da.py::test_0 PASSED [ 33%]\n../../../var/folders/7_/khf8pt6n3wdcd5kv77y60dzr0000gn/T/tmps0exc0da.py::test_1 PASSED [ 66%]\n../../../var/folders/7_/khf8pt6n3wdcd5kv77y60dzr0000gn/T/tmps0exc0da.py::test_2 PASSED [100%]\n\n============================== 3 passed in 0.04s ===============================\n",
+      "tests_passed": 3,
+      "total_tests": 3
+    },
+    "solved": true,
+    "tests_passed": 3,
+    "total_tests": 3,
+    "turns": 2,
+    "timestamp": "2026-01-15T00:03:54.408285"
+  },
+  {
+    "id": "20e96c64-b68f-42eb-a3d0-9d4403ece3c3",
+    "task_id": 50,
+    "personality": "OVERCONFIDENT_WRONG",
+    "problem_text": "Write a function to find the list with minimum length using lambda function.",
+    "test_cases": [
+      "assert min_length_list([[0], [1, 3], [5, 7], [9, 11], [13, 15, 17]])==(1, [0])",
+      "assert min_length_list([[1,2,3,4,5],[1,2,3,4],[1,2,3],[1,2],[1]])==(1,[1])",
+      "assert min_length_list([[3,4,5],[6,7,8,9],[10,11,12],[1,2]])==(2,[1,2])"
+    ],
+    "conversation": [
+      {
+        "role": "student",
+        "content": "I think I can do this with a lambda function in one line. Need a quick check though.",
+        "turn": 1
+      },
+      {
+        "role": "tutor",
+        "content": "def min_length_list(lst):\n    min_length = min(len(sublist) for sublist in lst)\n    min_list = [sublist for sublist in lst if len(sublist) == min_length]\n    return min_length, min_list[0]",
+        "turn": 2,
+        "execution": {
+          "turn": 2,
+          "tests_passed": 3,
+          "total_tests": 3,
+          "success": true,
+          "error_type": null,
+          "message": "All tests passed"
+        }
+      }
+    ],
+    "execution_result": {
+      "success": true,
+      "error_type": null,
+      "message": "All tests passed",
+      "code_output": "",
+      "test_results": "============================= test session starts ==============================\nplatform darwin -- Python 3.14.0, pytest-9.0.2, pluggy-1.6.0 -- /Users/adityamathur/data_curation/venv/bin/python3\ncachedir: .pytest_cache\nrootdir: /var/folders/7_/khf8pt6n3wdcd5kv77y60dzr0000gn/T\nplugins: anyio-4.12.0, langsmith-0.6.0\ncollecting ... collected 3 items\n\n../../../var/folders/7_/khf8pt6n3wdcd5kv77y60dzr0000gn/T/tmphuc9yjf0.py::test_0 PASSED [ 33%]\n../../../var/folders/7_/khf8pt6n3wdcd5kv77y60dzr0000gn/T/tmphuc9yjf0.py::test_1 PASSED [ 66%]\n../../../var/folders/7_/khf8pt6n3wdcd5kv77y60dzr0000gn/T/tmphuc9yjf0.py::test_2 PASSED [100%]\n\n============================== 3 passed in 0.03s ===============================\n",
+      "tests_passed": 3,
+      "total_tests": 3
+    },
+    "solved": true,
+    "tests_passed": 3,
+    "total_tests": 3,
+    "turns": 2,
+    "timestamp": "2026-01-15T00:04:36.760113"
+  },
+  {
+    "id": "adcb50c8-de8e-4853-b664-04b4262a6549",
+    "task_id": 51,
+    "personality": "OVERCONFIDENT_WRONG",
+    "problem_text": "Write a function to print check if the triangle is equilateral or not.",
+    "test_cases": [
+      "assert check_equilateral(6,8,12)==False ",
+      "assert check_equilateral(6,6,12)==False",
+      "assert check_equilateral(6,6,6)==True"
+    ],
+    "conversation": [
+      {
+        "role": "student",
+        "content": "I think I can do this in one line using a simple condition check. Need a quick verify though.",
+        "turn": 1
+      },
+      {
+        "role": "tutor",
+        "content": "def check_equilateral(a, b, c):\n    if a == b == c:\n        return True\n    else:\n        return False",
+        "turn": 2,
+        "execution": {
+          "turn": 2,
+          "tests_passed": 3,
+          "total_tests": 3,
+          "success": true,
+          "error_type": null,
+          "message": "All tests passed"
+        }
+      }
+    ],
+    "execution_result": {
+      "success": true,
+      "error_type": null,
+      "message": "All tests passed",
+      "code_output": "",
+      "test_results": "============================= test session starts ==============================\nplatform darwin -- Python 3.14.0, pytest-9.0.2, pluggy-1.6.0 -- /Users/adityamathur/data_curation/venv/bin/python3\ncachedir: .pytest_cache\nrootdir: /var/folders/7_/khf8pt6n3wdcd5kv77y60dzr0000gn/T\nplugins: anyio-4.12.0, langsmith-0.6.0\ncollecting ... collected 3 items\n\n../../../var/folders/7_/khf8pt6n3wdcd5kv77y60dzr0000gn/T/tmptikf0gbc.py::test_0 PASSED [ 33%]\n../../../var/folders/7_/khf8pt6n3wdcd5kv77y60dzr0000gn/T/tmptikf0gbc.py::test_1 PASSED [ 66%]\n../../../var/folders/7_/khf8pt6n3wdcd5kv77y60dzr0000gn/T/tmptikf0gbc.py::test_2 PASSED [100%]\n\n============================== 3 passed in 0.03s ===============================\n",
+      "tests_passed": 3,
+      "total_tests": 3
+    },
+    "solved": true,
+    "tests_passed": 3,
+    "total_tests": 3,
+    "turns": 2,
+    "timestamp": "2026-01-15T00:04:44.287798"
+  }
+]
