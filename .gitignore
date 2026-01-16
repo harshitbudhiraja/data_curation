@@ -15,10 +15,10 @@ __pycache__/
 .LSOverride
 
 # Database
-backend/conversations.db
-*.db
-*.sqlite
-*.sqlite3
+# backend/conversations.db
+# *.db
+# *.sqlite
+# *.sqlite3
 
 # Logs
 error_logs.json
