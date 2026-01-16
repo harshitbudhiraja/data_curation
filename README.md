@@ -260,6 +260,7 @@ python backend/database.py
 ./start_frontend.sh
 ```
 
+# To delete conversations from db : python delete_date_from_db.py “name of the file”
 ---
 
 ## Output Format
