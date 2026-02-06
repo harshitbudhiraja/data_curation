@@ -92,15 +92,25 @@ def process_personality(selected_personality, prompt_path, problems, output_dir,
             # Create graph for this conversation
             app = create_simulation_graph()
             
+            # Persona-based max turns (reflects skill level and patience)
+            persona_max_turns = {
+                'CONFUSED_STUDENT': 12,      # Struggles more, needs more turns
+                'IMPATIENT_STUDENT': 8,      # Gives up faster, fewer turns
+                'OVERCONFIDENT_WRONG': 10,   # Argues but eventually solves
+                'SYNTAX_STRUGGLER': 10,      # Focuses on syntax, moderate turns
+                'PROGRAMMING_HELPER': 10     # Expert but needs turns to provide complete fixes
+            }
+            max_turns = persona_max_turns.get(selected_personality, 10)
+            
             # Initial state
             initial_state = {
                 "messages": [],
                 "problem_text": problem['text'],
-                "test_cases": problem['test_list'][:3],  # Use all 3 test cases
+                "test_cases": problem['test_list'],  # Use all test cases
                 "personality_prompt": personality_prompt,
                 "personality": selected_personality,
                 "turn_count": 0,
-                "max_turns": 10,  # Maximum conversation turns
+                "max_turns": max_turns,  # Persona-specific maximum conversation turns
                 "execution_result": None,
                 "solved": False,
                 "execution_history": []
@@ -144,7 +154,7 @@ def process_personality(selected_personality, prompt_path, problems, output_dir,
                 "execution_result": final_state.get('execution_result'),
                 "solved": final_state.get('solved', False),
                 "tests_passed": final_state.get('execution_result', {}).get('tests_passed', 0) if final_state.get('execution_result') else 0,
-                "total_tests": len(problem['test_list'][:3]),
+                "total_tests": len(problem['test_list']),
                 "turns": final_state['turn_count'],
                 "timestamp": datetime.now().isoformat()
             }
@@ -174,31 +184,31 @@ def process_personality(selected_personality, prompt_path, problems, output_dir,
 
 
 def process_mbpp_conversations(start_problem=1, end_problem=201):
-    """Process MBPP dataset and generate conversations using agents.
+    """Process coding questions dataset and generate conversations using agents.
     
     Args:
         start_problem: Starting problem number (1-based, inclusive)
         end_problem: Ending problem number (1-based, exclusive)
     """
     
-    # Load MBPP problems
-    with open('benchmarks/mbpp.jsonl', 'r') as f:
-        problems = [json.loads(line) for line in f]
+    # Load coding questions (500 curated medium-high difficulty problems)
+    with open('benchmarks/coding_questions_500.json', 'r') as f:
+        problems = json.load(f)
     
-    # Sanitize problems to avoid pytest naming conflicts
-    print("🔍 Checking for test_ naming conflicts...")
-    problems = [sanitize_problem_data(p) for p in problems]
+    print(f"📚 Loaded {len(problems)} coding questions")
     
-    # Create dated output folder with auto-increment
+    # No sanitization needed - these questions are already curated
+    
+    # Create dated output folder with strategy prefix and auto-increment
     today = datetime.now().strftime("%d_%m_%Y")
-    output_dir = f'data/{today}'
+    output_dir = f'data/strategy1_{today}'
     
     # If folder exists, append -1, -2, etc.
     if os.path.exists(output_dir):
         counter = 1
-        while os.path.exists(f'data/{today}-{counter}'):
+        while os.path.exists(f'data/strategy1_{today}-{counter}'):
             counter += 1
-        output_dir = f'data/{today}-{counter}'
+        output_dir = f'data/strategy1_{today}-{counter}'
     
     os.makedirs(output_dir, exist_ok=True)
     
@@ -232,11 +242,11 @@ if __name__ == "__main__":
     import sys
     
     # Allow command line arguments: python create_dataset.py [start] [end]
-    # Example: python create_dataset.py 1 201  (problems 1-200)
+    # Example: python create_dataset.py 1 101  (problems 1-100)
     # Example: python create_dataset.py 155 201  (resume from 155-200)
     
     start = int(sys.argv[1]) if len(sys.argv) > 1 else 1
-    end = int(sys.argv[2]) if len(sys.argv) > 2 else 101
+    end = int(sys.argv[2]) if len(sys.argv) > 2 else 51  # Default to first 50 questions
     
     print(f"🎬 Starting dataset generation: problems {start} to {end-1}")
     process_mbpp_conversations(start_problem=start, end_problem=end)

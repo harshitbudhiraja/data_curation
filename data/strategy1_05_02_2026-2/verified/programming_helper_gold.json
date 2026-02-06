@@ -1,0 +1,1280 @@
+[
+  {
+    "id": "46473ac7-562c-47e3-badd-3bceb848a5fb",
+    "task_id": 4,
+    "personality": "PROGRAMMING_HELPER",
+    "conversation": [
+      {
+        "role": "student",
+        "content": "need help with re_arrange function - how should we approach rearranging an array in alternating pos and neg items? Any tips on the best algo to use?",
+        "turn": 1
+      },
+      {
+        "role": "tutor",
+        "content": "def re_arrange(arr, n):\n    pos = [x for x in arr if x >= 0]\n    neg = [x for x in arr if x < 0]\n    result = []\n    i = 0\n    j = 0\n    while i < len(pos) and j < len(neg):\n        result.append(neg[j])\n        result.append(pos[i])\n        i += 1\n        j += 1\n    while i < len(pos):\n        result.append(pos[i])\n        i += 1\n    while j < len(neg):\n        result.append(neg[j])\n        j += 1\n    return result",
+        "turn": 2,
+        "execution": {
+          "turn": 2,
+          "tests_passed": 3,
+          "total_tests": 3,
+          "success": true,
+          "error_type": null,
+          "message": "All tests passed"
+        }
+      }
+    ],
+    "solved": true,
+    "turns": 2,
+    "scores": {
+      "persona_fidelity": 5,
+      "tutor_alignment": 3,
+      "dialog_progression": 2,
+      "total_score": 10,
+      "bucket": "gold",
+      "needs_human_review": false,
+      "main_failure": "none"
+    }
+  },
+  {
+    "id": "8e16bf5c-fe2b-4170-be48-6817276f74b8",
+    "task_id": 5,
+    "personality": "PROGRAMMING_HELPER",
+    "conversation": [
+      {
+        "role": "student",
+        "content": "need help with heap_sort function implementation\nwhat's the best way to start or any key points i should consider while implementing heap sort?",
+        "turn": 1
+      },
+      {
+        "role": "tutor",
+        "content": "def heap_sort(arr):\n    def heapify(arr, n, i):\n        largest = i\n        left = 2 * i + 1\n        right = 2 * i + 2",
+        "turn": 2,
+        "execution": {
+          "turn": 2,
+          "tests_passed": 0,
+          "total_tests": 3,
+          "success": false,
+          "error_type": "test_failure",
+          "message": "0/3 tests passed"
+        }
+      },
+      {
+        "role": "student",
+        "content": "The `heapify` function is incomplete. You need to add the logic to compare the largest element with its children and swap if necessary. Here\u2019s a fix:\n\n```python\ndef heapify(arr, n, i):\n    largest = i\n    left = 2 * i + 1\n    right = 2 * i + 2\n    if left < n and arr[i] < arr[left]:\n        largest = left\n    if right < n and arr[largest] < arr[right]:",
+        "turn": 3
+      },
+      {
+        "role": "tutor",
+        "content": "def heap_sort(arr):\n    def heapify(arr, n, i):\n        largest = i\n        left = 2 * i + 1\n        right = 2 * i + 2\n\n        if left < n and arr[i] < arr[left]:\n            largest = left\n\n        if right < n and arr[largest] < arr[right]:\n            largest = right\n\n        if largest != i:\n            arr[i], arr[largest] = arr[largest], arr[i]\n            heapify(arr, n, largest)\n\n    n = len(arr)\n\n    for i in range(n // 2 - 1, -1, -1):\n        heapify(arr, n, i)\n\n    for i in range(n - 1, 0, -1):\n        arr[i], arr[0] = arr[0], arr[i]\n        heapify(arr, i, 0)\n\n    return arr",
+        "turn": 4,
+        "execution": {
+          "turn": 4,
+          "tests_passed": 3,
+          "total_tests": 3,
+          "success": true,
+          "error_type": null,
+          "message": "All tests passed"
+        }
+      }
+    ],
+    "solved": true,
+    "turns": 4,
+    "scores": {
+      "persona_fidelity": 5,
+      "tutor_alignment": 3,
+      "dialog_progression": 2,
+      "total_score": 10,
+      "bucket": "gold",
+      "needs_human_review": false,
+      "main_failure": "none"
+    }
+  },
+  {
+    "id": "c72f2178-b0b5-49b4-83b7-6ed616673ee3",
+    "task_id": 9,
+    "personality": "PROGRAMMING_HELPER",
+    "conversation": [
+      {
+        "role": "student",
+        "content": "need help with the best algo to calc permutation coeff p(n,k)",
+        "turn": 1
+      },
+      {
+        "role": "tutor",
+        "content": "def permutation_coefficient(n, k):\n    result = 1\n    for i in range(k):\n        result *= n - i\n    return result",
+        "turn": 2,
+        "execution": {
+          "turn": 2,
+          "tests_passed": 3,
+          "total_tests": 3,
+          "success": true,
+          "error_type": null,
+          "message": "All tests passed"
+        }
+      }
+    ],
+    "solved": true,
+    "turns": 2,
+    "scores": {
+      "persona_fidelity": 5,
+      "tutor_alignment": 3,
+      "dialog_progression": 2,
+      "total_score": 10,
+      "bucket": "gold",
+      "needs_human_review": false,
+      "main_failure": "none"
+    }
+  },
+  {
+    "id": "bcc0e22b-a7dd-412b-80a4-6618812c05d7",
+    "task_id": 12,
+    "personality": "PROGRAMMING_HELPER",
+    "conversation": [
+      {
+        "role": "student",
+        "content": "I'm stuck on writing the `largest_prime_factor` function. Can you help me get started? I assume n > 1 and is not a prime. For example, if n is 29, how should I approach finding its largest prime factor?",
+        "turn": 1
+      },
+      {
+        "role": "tutor",
+        "content": "def largest_prime_factor(n):\n    i = 2\n    while i * i <= n:\n        if n % i:\n            i += 1\n        else:\n            n //= i\n    return n",
+        "turn": 2,
+        "execution": {
+          "turn": 2,
+          "tests_passed": 3,
+          "total_tests": 3,
+          "success": true,
+          "error_type": null,
+          "message": "All tests passed"
+        }
+      }
+    ],
+    "solved": true,
+    "turns": 2,
+    "scores": {
+      "persona_fidelity": 5,
+      "tutor_alignment": 3,
+      "dialog_progression": 2,
+      "total_score": 10,
+      "bucket": "gold",
+      "needs_human_review": false,
+      "main_failure": "none"
+    }
+  },
+  {
+    "id": "cfa536fc-f863-4227-bfad-8c042e1cfe3d",
+    "task_id": 13,
+    "personality": "PROGRAMMING_HELPER",
+    "conversation": [
+      {
+        "role": "student",
+        "content": "need help with the `remove_dirty_chars` function - how should we start?",
+        "turn": 1
+      },
+      {
+        "role": "tutor",
+        "content": "def remove_dirty_chars(s1, s2):\n    return ''.join(c for c in s1 if c not in s2)",
+        "turn": 2,
+        "execution": {
+          "turn": 2,
+          "tests_passed": 3,
+          "total_tests": 3,
+          "success": true,
+          "error_type": null,
+          "message": "All tests passed"
+        }
+      }
+    ],
+    "solved": true,
+    "turns": 2,
+    "scores": {
+      "persona_fidelity": 5,
+      "tutor_alignment": 3,
+      "dialog_progression": 2,
+      "total_score": 10,
+      "bucket": "gold",
+      "needs_human_review": false,
+      "main_failure": "none"
+    }
+  },
+  {
+    "id": "46919907-dfe8-49f7-8cf7-1293a4233d30",
+    "task_id": 14,
+    "personality": "PROGRAMMING_HELPER",
+    "conversation": [
+      {
+        "role": "student",
+        "content": "need help writin' a function to find the n'th perrin number usin' recursion. any ideas on how we could start?",
+        "turn": 1
+      },
+      {
+        "role": "tutor",
+        "content": "def get_perrin(n):\n    if n == 0:\n        return 3\n    elif n == 1:\n        return 0\n    elif n == 2:\n        return 2\n    else:\n        return get_perrin(n - 2) + get_perrin(n - 3)",
+        "turn": 2,
+        "execution": {
+          "turn": 2,
+          "tests_passed": 3,
+          "total_tests": 3,
+          "success": true,
+          "error_type": null,
+          "message": "All tests passed"
+        }
+      }
+    ],
+    "solved": true,
+    "turns": 2,
+    "scores": {
+      "persona_fidelity": 5,
+      "tutor_alignment": 3,
+      "dialog_progression": 2,
+      "total_score": 10,
+      "bucket": "gold",
+      "needs_human_review": false,
+      "main_failure": "none"
+    }
+  },
+  {
+    "id": "e2e7b513-9f53-46cb-855a-3d1c6826074b",
+    "task_id": 26,
+    "personality": "PROGRAMMING_HELPER",
+    "conversation": [
+      {
+        "role": "student",
+        "content": "Need help with the best algorithm to implement the `is_subset_sum` function that checks if there's a subset of a given set with a sum equal to the given sum. Any tips?",
+        "turn": 1
+      },
+      {
+        "role": "tutor",
+        "content": "def is_subset_sum(arr, n, sum):\n    # Create a 2D array to store the results of subproblems\n    dp = [[False for _ in range(sum + 1)] for _ in range(n + 1)]\n\n    # Initialize the first row of the DP array\n    for i in range(n + 1):\n        dp[i][0] = True\n\n    # Fill the DP array\n    for i in range(1, n + 1):\n        for j in range(1, sum + 1):\n            if arr[i - 1] <= j:\n                dp[i][j] = dp[i - 1][j] or dp[i - 1][j - arr[i - 1]]\n            else:\n                dp[i][j] = dp[i - 1][j]\n\n    return dp[n][sum]",
+        "turn": 2,
+        "execution": {
+          "turn": 2,
+          "tests_passed": 3,
+          "total_tests": 3,
+          "success": true,
+          "error_type": null,
+          "message": "All tests passed"
+        }
+      }
+    ],
+    "solved": true,
+    "turns": 2,
+    "scores": {
+      "persona_fidelity": 5,
+      "tutor_alignment": 3,
+      "dialog_progression": 2,
+      "total_score": 10,
+      "bucket": "gold",
+      "needs_human_review": false,
+      "main_failure": "none"
+    }
+  },
+  {
+    "id": "409c5569-d31e-4115-bb6f-44ce2d4b391c",
+    "task_id": 29,
+    "personality": "PROGRAMMING_HELPER",
+    "conversation": [
+      {
+        "role": "student",
+        "content": "need help with generate_matrix function to create a square matrix with elements from 1 to n squared in spiral order. any tips on where to start?",
+        "turn": 1
+      },
+      {
+        "role": "tutor",
+        "content": "def generate_matrix(n):\n    matrix = [[0] * n for _ in range(n)]\n    num = 1\n    for layer in range((n + 1) // 2):\n        for i in range(layer, n - layer):\n            matrix[layer][i] = num ** 2\n            num += 1\n        for i in range(layer + 1, n - layer):\n            matrix[i][n - layer - 1] = num ** 2\n            num += 1\n        for i in range(layer + 1, n - layer):\n            matrix[n - layer - 1][n - i - 1] = num ** 2\n            num += 1\n        for i in range(layer + 1, n - layer - 1):\n            matrix[n - i - 1][layer] = num ** 2\n            num += 1\n    return matrix",
+        "turn": 2,
+        "execution": {
+          "turn": 2,
+          "tests_passed": 0,
+          "total_tests": 3,
+          "success": false,
+          "error_type": "test_failure",
+          "message": "0/3 tests passed"
+        }
+      },
+      {
+        "role": "student",
+        "content": "The code is setting the same value for all elements in each layer of the matrix. Change `matrix[layer][i] = num ** 2` to `matrix[layer][i] = num` to correctly fill the matrix with sequential numbers. \n\n```python\nfor i in range(layer, n - layer):\n    matrix[layer][i] = num\n    num += 1\n```",
+        "turn": 3
+      },
+      {
+        "role": "tutor",
+        "content": "def generate_matrix(n):\n    matrix = [[0 for _ in range(n)] for _ in range(n)]\n    num = 1\n    for i in range(n):\n        for j in range(i, n - i):\n            matrix[i][j] = num\n            num += 1\n        for j in range(i + 1, n - i):\n            matrix[j][n - i - 1] = num\n            num += 1\n        for j in range(n - i - 2, i - 1, -1):\n            matrix[n - i - 1][j] = num\n            num += 1\n        for j in range(n - i - 2, i, -1):\n            matrix[j][i] = num\n            num += 1\n    return matrix",
+        "turn": 4,
+        "execution": {
+          "turn": 4,
+          "tests_passed": 3,
+          "total_tests": 3,
+          "success": true,
+          "error_type": null,
+          "message": "All tests passed"
+        }
+      }
+    ],
+    "solved": true,
+    "turns": 4,
+    "scores": {
+      "persona_fidelity": 5,
+      "tutor_alignment": 3,
+      "dialog_progression": 2,
+      "total_score": 10,
+      "bucket": "gold",
+      "needs_human_review": false,
+      "main_failure": "none"
+    }
+  },
+  {
+    "id": "a0f474c1-9f83-4342-8c29-70fed790e86c",
+    "task_id": 31,
+    "personality": "PROGRAMMING_HELPER",
+    "conversation": [
+      {
+        "role": "student",
+        "content": "I'm having trouble with the `parse_nested_parens` function. The input is a string with multiple groups of nested parentheses separated by spaces. Could you give me an initial implementation to get started?",
+        "turn": 1
+      },
+      {
+        "role": "tutor",
+        "content": "def parse_nested_parens(input_str):\n    def max_depth(paren_str):\n        depth = 0\n        max_depth = 0\n        for char in paren_str:\n            if char == '(':\n                depth += 1\n                max_depth = max(max_depth, depth)\n            elif char == ')':\n                depth -= 1\n        return max_depth\n\n    groups = input_str.split()\n    return [max_depth(group) for group in groups]",
+        "turn": 2,
+        "execution": {
+          "turn": 2,
+          "tests_passed": 3,
+          "total_tests": 3,
+          "success": true,
+          "error_type": null,
+          "message": "All tests passed"
+        }
+      }
+    ],
+    "solved": true,
+    "turns": 2,
+    "scores": {
+      "persona_fidelity": 5,
+      "tutor_alignment": 3,
+      "dialog_progression": 2,
+      "total_score": 10,
+      "bucket": "gold",
+      "needs_human_review": false,
+      "main_failure": "none"
+    }
+  },
+  {
+    "id": "8a2a7f2f-e643-4f7e-9a52-9decda2d5e74",
+    "task_id": 32,
+    "personality": "PROGRAMMING_HELPER",
+    "conversation": [
+      {
+        "role": "student",
+        "content": "I'm having trouble implementing a function called `find_closest_elements`. It should take a list of numbers and return the two closest numbers in ascending order. Could you give me an initial idea or implementation to start with?",
+        "turn": 1
+      },
+      {
+        "role": "tutor",
+        "content": "def find_closest_elements(numbers):\n    numbers.sort()\n    min_diff = float('inf')\n    closest_pair = (0, 0)\n    for i in range(len(numbers) - 1):\n        diff = numbers[i+1] - numbers[i]\n        if diff < min_diff:\n            min_diff = diff\n            closest_pair = (numbers[i], numbers[i+1])\n    return closest_pair",
+        "turn": 2,
+        "execution": {
+          "turn": 2,
+          "tests_passed": 3,
+          "total_tests": 3,
+          "success": true,
+          "error_type": null,
+          "message": "All tests passed"
+        }
+      }
+    ],
+    "solved": true,
+    "turns": 2,
+    "scores": {
+      "persona_fidelity": 5,
+      "tutor_alignment": 3,
+      "dialog_progression": 2,
+      "total_score": 10,
+      "bucket": "gold",
+      "needs_human_review": false,
+      "main_failure": "none"
+    }
+  },
+  {
+    "id": "bd94c0e1-1daa-42a6-bc6a-409558b893aa",
+    "task_id": 37,
+    "personality": "PROGRAMMING_HELPER",
+    "conversation": [
+      {
+        "role": "student",
+        "content": "I'm stuck on the `count_Substring_With_Equal_Ends` function. Could you guide me on the best algorithm to use for counting all substrings that start and end with the same characters?",
+        "turn": 1
+      },
+      {
+        "role": "tutor",
+        "content": "def count_Substring_With_Equal_Ends(s):\n    count = 0\n    n = len(s)\n    for i in range(n):\n        for j in range(i+1, n+1):\n            if s[i] == s[j-1]:\n                count += 1\n    return count",
+        "turn": 2,
+        "execution": {
+          "turn": 2,
+          "tests_passed": 3,
+          "total_tests": 3,
+          "success": true,
+          "error_type": null,
+          "message": "All tests passed"
+        }
+      }
+    ],
+    "solved": true,
+    "turns": 2,
+    "scores": {
+      "persona_fidelity": 5,
+      "tutor_alignment": 3,
+      "dialog_progression": 2,
+      "total_score": 10,
+      "bucket": "gold",
+      "needs_human_review": false,
+      "main_failure": "none"
+    }
+  },
+  {
+    "id": "f456447a-f913-48ef-aa5d-1c3ce171e885",
+    "task_id": 38,
+    "personality": "PROGRAMMING_HELPER",
+    "conversation": [
+      {
+        "role": "student",
+        "content": "need help with recursive_list_sum function. What's the best algo to use for this?",
+        "turn": 1
+      },
+      {
+        "role": "tutor",
+        "content": "def recursive_list_sum(lst):\n    total = 0\n    for i in lst:\n        if isinstance(i, list):\n            total += recursive_list_sum(i)\n        else:\n            total += i\n    return total",
+        "turn": 2,
+        "execution": {
+          "turn": 2,
+          "tests_passed": 3,
+          "total_tests": 3,
+          "success": true,
+          "error_type": null,
+          "message": "All tests passed"
+        }
+      }
+    ],
+    "solved": true,
+    "turns": 2,
+    "scores": {
+      "persona_fidelity": 5,
+      "tutor_alignment": 3,
+      "dialog_progression": 2,
+      "total_score": 10,
+      "bucket": "gold",
+      "needs_human_review": false,
+      "main_failure": "none"
+    }
+  },
+  {
+    "id": "2988da80-694c-430a-8b09-0c35c00e786c",
+    "task_id": 40,
+    "personality": "PROGRAMMING_HELPER",
+    "conversation": [
+      {
+        "role": "student",
+        "content": "I'm stuck on implementing the `first_Missing_Positive` function. What's the best algorithm to use for this?",
+        "turn": 1
+      },
+      {
+        "role": "tutor",
+        "content": "def first_Missing_Positive(arr, n):\n    for i in range(n):\n        if arr[i] <= 0:\n            arr[i] = n + 1",
+        "turn": 2,
+        "execution": {
+          "turn": 2,
+          "tests_passed": 0,
+          "total_tests": 3,
+          "success": false,
+          "error_type": "test_failure",
+          "message": "0/3 tests passed"
+        }
+      },
+      {
+        "role": "student",
+        "content": "The provided code does not actually find the first missing positive integer. It only replaces non-positive numbers with `n + 1`. You need to mark the presence of integers by using their indices. Here\u2019s a specific fix:\n\n```python\ndef first_Missing_Positive(arr, n):\n    for i in range(n):\n        if arr[i] <= 0 or arr[i] > n or arr[abs(arr[i]) - 1] == abs(arr[i]):\n            continue\n        arr[abs(arr[i]) - 1] = -abs(arr[abs(arr[i]) - 1])\n```\n",
+        "turn": 3
+      },
+      {
+        "role": "tutor",
+        "content": "def first_Missing_Positive(nums, n):\n    # Initialize a set to store the numbers\n    num_set = set(nums)\n    \n    # Iterate through numbers from 1 to n\n    for i in range(1, n+1):\n        # If the number is not in the set, return it\n        if i not in num_set:\n            return i\n    # If all numbers from 1 to n are in the set, return n+1\n    return n+1",
+        "turn": 4,
+        "execution": {
+          "turn": 4,
+          "tests_passed": 3,
+          "total_tests": 3,
+          "success": true,
+          "error_type": null,
+          "message": "All tests passed"
+        }
+      }
+    ],
+    "solved": true,
+    "turns": 4,
+    "scores": {
+      "persona_fidelity": 5,
+      "tutor_alignment": 3,
+      "dialog_progression": 2,
+      "total_score": 10,
+      "bucket": "gold",
+      "needs_human_review": false,
+      "main_failure": "none"
+    }
+  },
+  {
+    "id": "2b49264f-a96f-4ab3-ab02-6bd949caf452",
+    "task_id": 45,
+    "personality": "PROGRAMMING_HELPER",
+    "conversation": [
+      {
+        "role": "student",
+        "content": "need help with implementing the check_abundant function to determine if a given number is abundant or not.",
+        "turn": 1
+      },
+      {
+        "role": "tutor",
+        "content": "def check_abundant(n):\n    divisors_sum = sum([i for i in range(1, n) if n % i == 0])\n    return divisors_sum > n",
+        "turn": 2,
+        "execution": {
+          "turn": 2,
+          "tests_passed": 3,
+          "total_tests": 3,
+          "success": true,
+          "error_type": null,
+          "message": "All tests passed"
+        }
+      }
+    ],
+    "solved": true,
+    "turns": 2,
+    "scores": {
+      "persona_fidelity": 5,
+      "tutor_alignment": 3,
+      "dialog_progression": 2,
+      "total_score": 10,
+      "bucket": "gold",
+      "needs_human_review": false,
+      "main_failure": "none"
+    }
+  },
+  {
+    "id": "12fae0b9-6e76-4c68-8e43-f9e0fcf892c2",
+    "task_id": 48,
+    "personality": "PROGRAMMING_HELPER",
+    "conversation": [
+      {
+        "role": "student",
+        "content": "need help with find_k_product function - how should we start?",
+        "turn": 1
+      },
+      {
+        "role": "tutor",
+        "content": "def find_k_product(tuples_list, k):\n    product = 1\n    for tup in tuples_list:\n        product *= tup[k]\n    return product",
+        "turn": 2,
+        "execution": {
+          "turn": 2,
+          "tests_passed": 3,
+          "total_tests": 3,
+          "success": true,
+          "error_type": null,
+          "message": "All tests passed"
+        }
+      }
+    ],
+    "solved": true,
+    "turns": 2,
+    "scores": {
+      "persona_fidelity": 5,
+      "tutor_alignment": 3,
+      "dialog_progression": 2,
+      "total_score": 10,
+      "bucket": "gold",
+      "needs_human_review": false,
+      "main_failure": "none"
+    }
+  },
+  {
+    "id": "08314a6e-cde7-4a2a-a56e-9c2895461cae",
+    "task_id": 49,
+    "personality": "PROGRAMMING_HELPER",
+    "conversation": [
+      {
+        "role": "student",
+        "content": "need help writin' a recur_gcd function to find the gcd of two nums recursively",
+        "turn": 1
+      },
+      {
+        "role": "tutor",
+        "content": "def recur_gcd(a, b):\n    if b == 0:\n        return a\n    else:\n        return recur_gcd(b, a % b)",
+        "turn": 2,
+        "execution": {
+          "turn": 2,
+          "tests_passed": 3,
+          "total_tests": 3,
+          "success": true,
+          "error_type": null,
+          "message": "All tests passed"
+        }
+      }
+    ],
+    "solved": true,
+    "turns": 2,
+    "scores": {
+      "persona_fidelity": 5,
+      "tutor_alignment": 3,
+      "dialog_progression": 2,
+      "total_score": 10,
+      "bucket": "gold",
+      "needs_human_review": false,
+      "main_failure": "none"
+    }
+  },
+  {
+    "id": "0215988e-8c63-4cfa-85de-c7ae3e233118",
+    "task_id": 54,
+    "personality": "PROGRAMMING_HELPER",
+    "conversation": [
+      {
+        "role": "student",
+        "content": "need help with implementing the `exchange` function that takes two lists of numbers and checks if it's possible to make lst1 consist only of even numbers by exchanging elements with lst2",
+        "turn": 1
+      },
+      {
+        "role": "tutor",
+        "content": "def exchange(lst1, lst2):\n    odd_count = sum(1 for num in lst1 if num % 2 != 0)\n    even_count = sum(1 for num in lst2 if num % 2 == 0)\n    if odd_count <= even_count:\n        return \"YES\"\n    else:\n        return \"NO\"",
+        "turn": 2,
+        "execution": {
+          "turn": 2,
+          "tests_passed": 3,
+          "total_tests": 3,
+          "success": true,
+          "error_type": null,
+          "message": "All tests passed"
+        }
+      }
+    ],
+    "solved": true,
+    "turns": 2,
+    "scores": {
+      "persona_fidelity": 5,
+      "tutor_alignment": 3,
+      "dialog_progression": 2,
+      "total_score": 10,
+      "bucket": "gold",
+      "needs_human_review": false,
+      "main_failure": "none"
+    }
+  },
+  {
+    "id": "4ab78a92-6b22-41d8-9d63-9a30753fa2d6",
+    "task_id": 56,
+    "personality": "PROGRAMMING_HELPER",
+    "conversation": [
+      {
+        "role": "student",
+        "content": "I'm having trouble with the `words_in_sentence` function. I have a string that's a sentence with words separated by spaces, and I need to return a new string containing only the words whose lengths are prime numbers, maintaining their original order. Could you give me an initial implementation to get started?",
+        "turn": 1
+      },
+      {
+        "role": "tutor",
+        "content": "def words_in_sentence(sentence):\n    def is_prime(n):\n        if n < 2:\n            return False\n        for i in range(2, int(n**0.5) + 1):\n            if n % i == 0:\n                return False\n        return True\n\n    words = sentence.split()\n    prime_words = [word for word in words if is_prime(len(word))]\n    return ' '.join(prime_words)",
+        "turn": 2,
+        "execution": {
+          "turn": 2,
+          "tests_passed": 3,
+          "total_tests": 3,
+          "success": true,
+          "error_type": null,
+          "message": "All tests passed"
+        }
+      }
+    ],
+    "solved": true,
+    "turns": 2,
+    "scores": {
+      "persona_fidelity": 5,
+      "tutor_alignment": 3,
+      "dialog_progression": 2,
+      "total_score": 10,
+      "bucket": "gold",
+      "needs_human_review": false,
+      "main_failure": "none"
+    }
+  },
+  {
+    "id": "56c15918-7c95-4362-a943-994315c6800f",
+    "task_id": 58,
+    "personality": "PROGRAMMING_HELPER",
+    "conversation": [
+      {
+        "role": "student",
+        "content": "need help with the power function\ncan we start by trying to write a basic version together?",
+        "turn": 1
+      },
+      {
+        "role": "tutor",
+        "content": "def power(a, b):\n    result = 1\n    for _ in range(b):\n        result *= a\n    return result",
+        "turn": 2,
+        "execution": {
+          "turn": 2,
+          "tests_passed": 3,
+          "total_tests": 3,
+          "success": true,
+          "error_type": null,
+          "message": "All tests passed"
+        }
+      }
+    ],
+    "solved": true,
+    "turns": 2,
+    "scores": {
+      "persona_fidelity": 5,
+      "tutor_alignment": 3,
+      "dialog_progression": 2,
+      "total_score": 10,
+      "bucket": "gold",
+      "needs_human_review": false,
+      "main_failure": "none"
+    }
+  },
+  {
+    "id": "17133a22-4eba-4323-bbf5-0cde41a08e55",
+    "task_id": 61,
+    "personality": "PROGRAMMING_HELPER",
+    "conversation": [
+      {
+        "role": "student",
+        "content": "need help with writing a func to multiply two ints w/o using the * operator. any tips on how to start?",
+        "turn": 1
+      },
+      {
+        "role": "tutor",
+        "content": "def multiply_int(x, y):\n    if y < 0:\n        return -multiply_int(x, -y)\n    elif y == 0:\n        return 0\n    else:\n        return x + multiply_int(x, y - 1)",
+        "turn": 2,
+        "execution": {
+          "turn": 2,
+          "tests_passed": 3,
+          "total_tests": 3,
+          "success": true,
+          "error_type": null,
+          "message": "All tests passed"
+        }
+      }
+    ],
+    "solved": true,
+    "turns": 2,
+    "scores": {
+      "persona_fidelity": 5,
+      "tutor_alignment": 3,
+      "dialog_progression": 2,
+      "total_score": 10,
+      "bucket": "gold",
+      "needs_human_review": false,
+      "main_failure": "none"
+    }
+  },
+  {
+    "id": "6443b720-55e0-4a83-95e5-4e65a87f3632",
+    "task_id": 63,
+    "personality": "PROGRAMMING_HELPER",
+    "conversation": [
+      {
+        "role": "student",
+        "content": "need help with the initial implementation of the `decode_list` function to decode a run-length encoded list",
+        "turn": 1
+      },
+      {
+        "role": "tutor",
+        "content": "def decode_list(encoded_list):\n    decoded_list = []\n    for item in encoded_list:\n        if isinstance(item, list):\n            decoded_list.extend([item[1]] * item[0])\n        else:\n            decoded_list.append(item)\n    return decoded_list",
+        "turn": 2,
+        "execution": {
+          "turn": 2,
+          "tests_passed": 3,
+          "total_tests": 3,
+          "success": true,
+          "error_type": null,
+          "message": "All tests passed"
+        }
+      }
+    ],
+    "solved": true,
+    "turns": 2,
+    "scores": {
+      "persona_fidelity": 5,
+      "tutor_alignment": 3,
+      "dialog_progression": 2,
+      "total_score": 10,
+      "bucket": "gold",
+      "needs_human_review": false,
+      "main_failure": "none"
+    }
+  },
+  {
+    "id": "676347ac-3c8e-4c29-a7ae-16f143296cee",
+    "task_id": 66,
+    "personality": "PROGRAMMING_HELPER",
+    "conversation": [
+      {
+        "role": "student",
+        "content": "need help with min_coins function - how should we start?",
+        "turn": 1
+      },
+      {
+        "role": "tutor",
+        "content": "def min_coins(coins, m, V):\n    table = [float('inf')] * (V + 1)\n    table[0] = 0",
+        "turn": 2,
+        "execution": {
+          "turn": 2,
+          "tests_passed": 0,
+          "total_tests": 3,
+          "success": false,
+          "error_type": "test_failure",
+          "message": "0/3 tests passed"
+        }
+      },
+      {
+        "role": "student",
+        "content": "The initialization of `table` is correct, but the function seems to be missing the logic to fill it. Add the inner loop to iterate through each coin and update the minimum coins required for each value up to `V`.",
+        "turn": 3
+      },
+      {
+        "role": "tutor",
+        "content": "def min_coins(coins, m, V):\n    # Initialize the table to store the minimum number of coins needed for each value\n    table = [float('inf')] * (V + 1)\n    table[0] = 0\n\n    # Build the table in bottom-up manner\n    for i in range(1, V + 1):\n        for j in range(m):\n            if coins[j] <= i:\n                sub_res = table[i - coins[j]]\n                if sub_res != float('inf') and sub_res + 1 < table[i]:\n                    table[i] = sub_res + 1\n\n    return table[V]",
+        "turn": 4,
+        "execution": {
+          "turn": 4,
+          "tests_passed": 3,
+          "total_tests": 3,
+          "success": true,
+          "error_type": null,
+          "message": "All tests passed"
+        }
+      }
+    ],
+    "solved": true,
+    "turns": 4,
+    "scores": {
+      "persona_fidelity": 5,
+      "tutor_alignment": 3,
+      "dialog_progression": 2,
+      "total_score": 10,
+      "bucket": "gold",
+      "needs_human_review": false,
+      "main_failure": "none"
+    }
+  },
+  {
+    "id": "235c7cf9-7d18-4914-b9e3-d4e0b3ee5c19",
+    "task_id": 71,
+    "personality": "PROGRAMMING_HELPER",
+    "conversation": [
+      {
+        "role": "student",
+        "content": "need help with heap_sort function. thinking we could push all values into a heap first and then pop off the smallest ones one by one? any tips on where to start?",
+        "turn": 1
+      },
+      {
+        "role": "tutor",
+        "content": "def heap_sort(arr):\n    import heapq\n    heapq.heapify(arr)\n    sorted_arr = []\n    while arr:\n        sorted_arr.append(heapq.heappop(arr))\n    return sorted_arr",
+        "turn": 2,
+        "execution": {
+          "turn": 2,
+          "tests_passed": 3,
+          "total_tests": 3,
+          "success": true,
+          "error_type": null,
+          "message": "All tests passed"
+        }
+      }
+    ],
+    "solved": true,
+    "turns": 2,
+    "scores": {
+      "persona_fidelity": 5,
+      "tutor_alignment": 3,
+      "dialog_progression": 2,
+      "total_score": 10,
+      "bucket": "gold",
+      "needs_human_review": false,
+      "main_failure": "none"
+    }
+  },
+  {
+    "id": "b6a90d0f-ab39-4dcc-97ee-6e0f901c1dec",
+    "task_id": 73,
+    "personality": "PROGRAMMING_HELPER",
+    "conversation": [
+      {
+        "role": "student",
+        "content": "Need help figuring out the best approach or algorithm to implement the `removals` function that finds the minimum number of elements to remove so amax-amin<=k. Any tips on how to start?",
+        "turn": 1
+      },
+      {
+        "role": "tutor",
+        "content": "def removals(arr, k, n):\n    arr.sort()\n    left = 0\n    right = 0\n    count = 0\n    while right < n:\n        if arr[right] - arr[left] <= k:\n            count = max(count, right - left + 1)\n            right += 1\n        else:\n            left += 1\n    return n - count",
+        "turn": 2,
+        "execution": {
+          "turn": 2,
+          "tests_passed": 0,
+          "total_tests": 3,
+          "success": false,
+          "error_type": "test_failure",
+          "message": "0/3 tests passed"
+        }
+      },
+      {
+        "role": "student",
+        "content": "The code does not handle cases where the array contains duplicate elements. Add a condition to skip duplicates by checking if `arr[right] == arr[right-1]` before incrementing `right`. \n\n```python\nif arr[right] == arr[right-1]:\n    right += 1\n    continue\n```",
+        "turn": 3
+      },
+      {
+        "role": "tutor",
+        "content": "def removals(arr, n, k):\n    arr.sort()\n    i = 0\n    j = 0\n    min_removals = float('inf')\n    while j < n:\n        if arr[j] - arr[i] <= k:\n            min_removals = min(min_removals, n - (j - i + 1))\n            j += 1\n        else:\n            i += 1\n    return min_removals",
+        "turn": 4,
+        "execution": {
+          "turn": 4,
+          "tests_passed": 3,
+          "total_tests": 3,
+          "success": true,
+          "error_type": null,
+          "message": "All tests passed"
+        }
+      }
+    ],
+    "solved": true,
+    "turns": 4,
+    "scores": {
+      "persona_fidelity": 5,
+      "tutor_alignment": 3,
+      "dialog_progression": 2,
+      "total_score": 10,
+      "bucket": "gold",
+      "needs_human_review": false,
+      "main_failure": "none"
+    }
+  },
+  {
+    "id": "502e2977-a96b-4e29-95be-094c06b5db9e",
+    "task_id": 77,
+    "personality": "PROGRAMMING_HELPER",
+    "conversation": [
+      {
+        "role": "student",
+        "content": "need help with the best algo for fibonacci seq using recursion",
+        "turn": 1
+      },
+      {
+        "role": "tutor",
+        "content": "def fibonacci(n):\n    if n <= 1:\n        return n\n    else:\n        return fibonacci(n - 1) + fibonacci(n - 2)",
+        "turn": 2,
+        "execution": {
+          "turn": 2,
+          "tests_passed": 3,
+          "total_tests": 3,
+          "success": true,
+          "error_type": null,
+          "message": "All tests passed"
+        }
+      }
+    ],
+    "solved": true,
+    "turns": 2,
+    "scores": {
+      "persona_fidelity": 5,
+      "tutor_alignment": 3,
+      "dialog_progression": 2,
+      "total_score": 10,
+      "bucket": "gold",
+      "needs_human_review": false,
+      "main_failure": "none"
+    }
+  },
+  {
+    "id": "72566b69-8e8d-45c2-9adf-a5f8d4eb7afd",
+    "task_id": 81,
+    "personality": "PROGRAMMING_HELPER",
+    "conversation": [
+      {
+        "role": "student",
+        "content": "need help writin' a python func called fib4. it's like the fibbonacci seq but diff. fib4(0) -> 0, fib4(1) -> 0, fib4(2) -> 2, fib4(3) -> 0, fib4(n) -> fib4(n-1) + fib4(n-2) + fib4(n-3) + fib4(n-4). any hints on how to start?",
+        "turn": 1
+      },
+      {
+        "role": "tutor",
+        "content": "def fib4(n):\n    if n == 0:\n        return 0\n    elif n == 1:\n        return 0\n    elif n == 2:\n        return 2\n    elif n == 3:\n        return 0\n    else:\n        a, b, c, d = 0, 0, 2, 0\n        for i in range(4, n + 1):\n            a, b, c, d = b, c, d, a + b + c + d\n        return d",
+        "turn": 2,
+        "execution": {
+          "turn": 2,
+          "tests_passed": 3,
+          "total_tests": 3,
+          "success": true,
+          "error_type": null,
+          "message": "All tests passed"
+        }
+      }
+    ],
+    "solved": true,
+    "turns": 2,
+    "scores": {
+      "persona_fidelity": 5,
+      "tutor_alignment": 3,
+      "dialog_progression": 2,
+      "total_score": 10,
+      "bucket": "gold",
+      "needs_human_review": false,
+      "main_failure": "none"
+    }
+  },
+  {
+    "id": "ba0c1526-ae8c-46dc-8d6b-778b77d3ac38",
+    "task_id": 88,
+    "personality": "PROGRAMMING_HELPER",
+    "conversation": [
+      {
+        "role": "student",
+        "content": "Need help with the best algorithm to use for writing a Python function to find the largest prime factor of a given number. Any tips?",
+        "turn": 1
+      },
+      {
+        "role": "tutor",
+        "content": "def max_Prime_Factors(n):\n    def is_prime(num):\n        if num < 2:\n            return False\n        for i in range(2, int(num ** 0.5) + 1):\n            if num % i == 0:\n                return False\n        return True",
+        "turn": 2,
+        "execution": {
+          "turn": 2,
+          "tests_passed": 0,
+          "total_tests": 3,
+          "success": false,
+          "error_type": "test_failure",
+          "message": "0/3 tests passed"
+        }
+      },
+      {
+        "role": "student",
+        "content": "The inner `is_prime` function is defined but not used within `max_Prime_Factors`. You need to call `is_prime` to find the largest prime factor. Add `return max([i for i in range(2, n+1) if n % i == 0 and is_prime(i)])` inside `max_Prime_Factors`.",
+        "turn": 3
+      },
+      {
+        "role": "tutor",
+        "content": "def max_Prime_Factors(n):\n    largest_prime = -1\n    while n % 2 == 0:\n        largest_prime = 2\n        n //= 2\n    for i in range(3, int(n**0.5) + 1, 2):\n        while n % i == 0:\n            largest_prime = i\n            n //= i\n    if n > 2:\n        largest_prime = n\n    return largest_prime",
+        "turn": 4,
+        "execution": {
+          "turn": 4,
+          "tests_passed": 3,
+          "total_tests": 3,
+          "success": true,
+          "error_type": null,
+          "message": "All tests passed"
+        }
+      }
+    ],
+    "solved": true,
+    "turns": 4,
+    "scores": {
+      "persona_fidelity": 5,
+      "tutor_alignment": 3,
+      "dialog_progression": 2,
+      "total_score": 10,
+      "bucket": "gold",
+      "needs_human_review": false,
+      "main_failure": "none"
+    }
+  },
+  {
+    "id": "ee201de7-4009-4706-9541-580529049607",
+    "task_id": 91,
+    "personality": "PROGRAMMING_HELPER",
+    "conversation": [
+      {
+        "role": "student",
+        "content": "need help writin' a comb_sort function to sort a list. any ideas where we should start?",
+        "turn": 1
+      },
+      {
+        "role": "tutor",
+        "content": "def comb_sort(lst):\n    gap = len(lst)\n    shrink_factor = 1.3\n    sorted = False",
+        "turn": 2,
+        "execution": {
+          "turn": 2,
+          "tests_passed": 0,
+          "total_tests": 3,
+          "success": false,
+          "error_type": "test_failure",
+          "message": "0/3 tests passed"
+        }
+      },
+      {
+        "role": "student",
+        "content": "The `sorted` variable is not used in the sorting algorithm, and the gap reduction logic is missing. Add `while gap > 1:` and inside it, reduce `gap` using `gap = int(gap / shrink_factor)` and check if the list is sorted by comparing each element with the next one.",
+        "turn": 3
+      },
+      {
+        "role": "tutor",
+        "content": "def comb_sort(arr):\n    gap = len(arr)\n    shrink_factor = 1.3\n    sorted = False\n\n    while not sorted:\n        gap = int(gap / shrink_factor)\n        if gap <= 1:\n            gap = 1\n            sorted = True\n\n        i = 0\n        while i + gap < len(arr):\n            if arr[i] > arr[i + gap]:\n                arr[i], arr[i + gap] = arr[i + gap], arr[i]\n                sorted = False\n            i += 1\n\n    return arr",
+        "turn": 4,
+        "execution": {
+          "turn": 4,
+          "tests_passed": 3,
+          "total_tests": 3,
+          "success": true,
+          "error_type": null,
+          "message": "All tests passed"
+        }
+      }
+    ],
+    "solved": true,
+    "turns": 4,
+    "scores": {
+      "persona_fidelity": 5,
+      "tutor_alignment": 3,
+      "dialog_progression": 2,
+      "total_score": 10,
+      "bucket": "gold",
+      "needs_human_review": false,
+      "main_failure": "none"
+    }
+  },
+  {
+    "id": "d41cec75-c9bb-4b84-9203-6c9fdcf1a79b",
+    "task_id": 93,
+    "personality": "PROGRAMMING_HELPER",
+    "conversation": [
+      {
+        "role": "student",
+        "content": "need help with reversing only the vowels in a string. What's the best way to approach this? Should I use two pointers or is there a more efficient method?",
+        "turn": 1
+      },
+      {
+        "role": "tutor",
+        "content": "def reverse_vowels(s):\n    vowels = 'aeiouAEIOU'\n    s = list(s)\n    i, j = 0, len(s) - 1\n    while i < j:\n        if s[i] in vowels and s[j] in vowels:\n            s[i], s[j] = s[j], s[i]\n            i += 1\n            j -= 1\n        elif s[i] in vowels:\n            j -= 1\n        else:\n            i += 1\n    return ''.join(s)",
+        "turn": 2,
+        "execution": {
+          "turn": 2,
+          "tests_passed": 3,
+          "total_tests": 3,
+          "success": true,
+          "error_type": null,
+          "message": "All tests passed"
+        }
+      }
+    ],
+    "solved": true,
+    "turns": 2,
+    "scores": {
+      "persona_fidelity": 5,
+      "tutor_alignment": 3,
+      "dialog_progression": 2,
+      "total_score": 10,
+      "bucket": "gold",
+      "needs_human_review": false,
+      "main_failure": "none"
+    }
+  },
+  {
+    "id": "85e0f722-afa5-4e59-96a5-75351faf2a44",
+    "task_id": 96,
+    "personality": "PROGRAMMING_HELPER",
+    "conversation": [
+      {
+        "role": "student",
+        "content": "need help with the `common_prefix` function - let's work together to get it right!",
+        "turn": 1
+      },
+      {
+        "role": "tutor",
+        "content": "def common_prefix(strings, n):\n    if not strings:\n        return \"\"\n    shortest = min(strings, key=len)\n    for i in range(len(shortest)):\n        for string in strings:\n            if string[i] != shortest[i]:\n                return shortest[:i]\n    return shortest",
+        "turn": 2,
+        "execution": {
+          "turn": 2,
+          "tests_passed": 3,
+          "total_tests": 3,
+          "success": true,
+          "error_type": null,
+          "message": "All tests passed"
+        }
+      }
+    ],
+    "solved": true,
+    "turns": 2,
+    "scores": {
+      "persona_fidelity": 5,
+      "tutor_alignment": 3,
+      "dialog_progression": 2,
+      "total_score": 10,
+      "bucket": "gold",
+      "needs_human_review": false,
+      "main_failure": "none"
+    }
+  },
+  {
+    "id": "581b3414-2da2-486e-8690-97f44739a0e7",
+    "task_id": 98,
+    "personality": "PROGRAMMING_HELPER",
+    "conversation": [
+      {
+        "role": "student",
+        "content": "need help with writing a func to find max sum of bi-tonic sub-sequence for a given array. any tips on where to start?",
+        "turn": 1
+      },
+      {
+        "role": "tutor",
+        "content": "def max_sum(arr, n):\n    if n <= 2:\n        return sum(arr)\n    \n    # Initialize dp arrays for increasing and decreasing subsequences\n    inc = [arr[i] for i in range(n)]\n    dec = [arr[i] for i in range(n)]\n    \n    # Compute increasing subsequence sums\n    for i in range(1, n):\n        for j in range(i):\n            if arr[i] > arr[j] and inc[i] < inc[j] + arr[i]:\n                inc[i] = inc[j] + arr[i]\n    \n    # Compute decreasing subsequence sums\n    for i in range(n-2, -1, -1):\n        for j in range(n-1, i, -1):\n            if arr[i] > arr[j] and dec[i] < dec[j] + arr[i]:\n                dec[i] = dec[j] + arr[i]\n    \n    # Find maximum sum of bi-tonic sub-sequence\n    max_sum = 0\n    for i in range(n):\n        max_sum = max(max_sum, inc[i] + dec[i] - arr[i])\n    \n    return max_sum",
+        "turn": 2,
+        "execution": {
+          "turn": 2,
+          "tests_passed": 3,
+          "total_tests": 3,
+          "success": true,
+          "error_type": null,
+          "message": "All tests passed"
+        }
+      }
+    ],
+    "solved": true,
+    "turns": 2,
+    "scores": {
+      "persona_fidelity": 5,
+      "tutor_alignment": 3,
+      "dialog_progression": 2,
+      "total_score": 10,
+      "bucket": "gold",
+      "needs_human_review": false,
+      "main_failure": "none"
+    }
+  },
+  {
+    "id": "48d8e4e4-a5dd-4524-b41a-f0ca20735cdd",
+    "task_id": 99,
+    "personality": "PROGRAMMING_HELPER",
+    "conversation": [
+      {
+        "role": "student",
+        "content": "need help with lps function to find the longest palindromic subsequence in a string. Any tips on where to start?",
+        "turn": 1
+      },
+      {
+        "role": "tutor",
+        "content": "def lps(s):\n    n = len(s)\n    dp = [[0]*n for _ in range(n)]\n    for i in range(n):\n        dp[i][i] = 1\n    for l in range(2, n+1):\n        for i in range(n-l+1):\n            j = i+l-1\n            if s[i] == s[j]:\n                dp[i][j] = dp[i+1][j-1] + 2\n            else:\n                dp[i][j] = max(dp[i][j-1], dp[i+1][j])\n    return dp[0][n-1]",
+        "turn": 2,
+        "execution": {
+          "turn": 2,
+          "tests_passed": 3,
+          "total_tests": 3,
+          "success": true,
+          "error_type": null,
+          "message": "All tests passed"
+        }
+      }
+    ],
+    "solved": true,
+    "turns": 2,
+    "scores": {
+      "persona_fidelity": 5,
+      "tutor_alignment": 3,
+      "dialog_progression": 2,
+      "total_score": 10,
+      "bucket": "gold",
+      "needs_human_review": false,
+      "main_failure": "none"
+    }
+  }
+]

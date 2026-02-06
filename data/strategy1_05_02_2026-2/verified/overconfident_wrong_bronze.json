@@ -1,0 +1,38 @@
+[
+  {
+    "id": "9deb34f9-3119-43ce-b5fa-db5cf3925186",
+    "task_id": 81,
+    "personality": "OVERCONFIDENT_WRONG",
+    "conversation": [
+      {
+        "role": "student",
+        "content": "\"Bet I can solve this faster. But what's the best way to start?\"",
+        "turn": 1
+      },
+      {
+        "role": "tutor",
+        "content": "def fib4(n):\n    if n == 0 or n == 1:\n        return 0\n    elif n == 2:\n        return 2\n    elif n == 3:\n        return 0\n    else:\n        return fib4(n-1) + fib4(n-2) + fib4(n-3) + fib4(n-4)",
+        "turn": 2,
+        "execution": {
+          "turn": 2,
+          "tests_passed": 3,
+          "total_tests": 3,
+          "success": true,
+          "error_type": null,
+          "message": "All tests passed"
+        }
+      }
+    ],
+    "solved": true,
+    "turns": 2,
+    "scores": {
+      "persona_fidelity": 2,
+      "tutor_alignment": 0,
+      "dialog_progression": 0,
+      "total_score": 2,
+      "bucket": "bronze",
+      "needs_human_review": false,
+      "main_failure": "persona_break"
+    }
+  }
+]

@@ -34,6 +34,7 @@ class Conversation(Base):
     timestamp = Column(String)
     date_folder = Column(String, index=True)
     discarded = Column(Boolean, default=False, index=True)
+    quality_bucket = Column(String, index=True)  # "gold", "silver", "bronze", or None
 
 
 def init_db():
@@ -87,11 +88,18 @@ def migrate_json_to_db():
                     if existing:
                         continue
                     
+                    # Handle both Strategy 1 (personality) and Strategy 2 (knowledge_level)
+                    personality_value = conv.get('personality') or conv.get('knowledge_level')
+                    
+                    if not personality_value:
+                        print(f"  ⚠️  Skipping conversation {conv.get('id', 'unknown')}: missing personality/knowledge_level")
+                        continue
+                    
                     # Create new conversation record
                     db_conv = Conversation(
                         id=conv['id'],
                         task_id=conv['task_id'],
-                        personality=conv['personality'],
+                        personality=personality_value,
                         problem_text=conv['problem_text'],
                         test_cases=json.dumps(conv['test_cases']),
                         conversation=json.dumps(conv['conversation']),
@@ -102,7 +110,8 @@ def migrate_json_to_db():
                         turns=conv.get('turns', 0),
                         timestamp=conv.get('timestamp', ''),
                         date_folder=date_folder.name,
-                        discarded=False
+                        discarded=False,
+                        quality_bucket=conv.get('quality_bucket')  # Import quality if exists
                     )
                     db.add(db_conv)
                     total_imported += 1

@@ -3,6 +3,7 @@ import axios from 'axios'
 import { ChevronDown, Filter, Trash2, CheckCircle, XCircle } from 'lucide-react'
 import ChatPanel from './ChatPanel'
 import TestResults from './TestResults'
+import CodeCanvas from './CodeCanvas'
 
 const API_BASE = 'http://localhost:8000'
 
@@ -13,9 +14,16 @@ export default function ConversationViewer() {
     const [selectedDate, setSelectedDate] = useState('')
     const [selectedPersonality, setSelectedPersonality] = useState('')
     const [selectedConversation, setSelectedConversation] = useState(null)
+    const [selectedQuality, setSelectedQuality] = useState('all')  // NEW: Quality filter
     const [showDiscarded, setShowDiscarded] = useState(false)
     const [stats, setStats] = useState(null)
     const [loading, setLoading] = useState(false)
+    
+    // Canvas state
+    const [canvasCode, setCanvasCode] = useState(null)
+    const [canvasExecution, setCanvasExecution] = useState(null)
+    const [canvasTurn, setCanvasTurn] = useState(null)
+    const [autoSync, setAutoSync] = useState(true)
 
     // Fetch dates on mount
     useEffect(() => {
@@ -29,13 +37,13 @@ export default function ConversationViewer() {
         }
     }, [selectedDate])
 
-    // Fetch conversations when personality changes
+    // Fetch conversations when personality or quality changes
     useEffect(() => {
         if (selectedDate && selectedPersonality) {
             fetchConversations(selectedDate, selectedPersonality)
             fetchStats(selectedDate, selectedPersonality)
         }
-    }, [selectedDate, selectedPersonality, showDiscarded])
+    }, [selectedDate, selectedPersonality, selectedQuality, showDiscarded])
 
     const fetchDates = async () => {
         try {
@@ -65,7 +73,7 @@ export default function ConversationViewer() {
         setLoading(true)
         try {
             const response = await axios.get(
-                `${API_BASE}/api/conversations/${date}/${personality}?include_discarded=${showDiscarded}`
+                `${API_BASE}/api/conversations/${date}/${personality}?quality=${selectedQuality}&include_discarded=${showDiscarded}`
             )
             setConversations(response.data)
             setSelectedConversation(null)
@@ -89,9 +97,34 @@ export default function ConversationViewer() {
         try {
             const response = await axios.get(`${API_BASE}/api/conversation/${id}`)
             setSelectedConversation(response.data)
+            
+            // Set initial canvas to latest tutor code
+            const tutorMessages = response.data.conversation.filter(msg => msg.role === 'tutor')
+            if (tutorMessages.length > 0) {
+                const lastTutor = tutorMessages[tutorMessages.length - 1]
+                setCanvasCode(lastTutor.content)
+                setCanvasExecution(lastTutor.execution || null)
+                setCanvasTurn(lastTutor.turn)
+            }
         } catch (error) {
             console.error('Error fetching conversation details:', error)
         }
+    }
+
+    const handleCodeInView = (codeData) => {
+        // If it's a scroll event, respect autoSync setting
+        // If it's a click event, always update
+        if (codeData.isScrollEvent && !autoSync) {
+            return // Don't update on scroll if autoSync is off
+        }
+        
+        setCanvasCode(codeData.code)
+        setCanvasExecution(codeData.execution)
+        setCanvasTurn(codeData.turn)
+    }
+
+    const toggleAutoSync = () => {
+        setAutoSync(!autoSync)
     }
 
     const toggleDiscard = async (id) => {
@@ -111,7 +144,7 @@ export default function ConversationViewer() {
         <div className="space-y-6">
             {/* Filters */}
             <div className="bg-white rounded-lg shadow p-4">
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
                     {/* Date selector */}
                     <div>
                         <label className="block text-sm font-medium text-gray-700 mb-2">
@@ -148,6 +181,23 @@ export default function ConversationViewer() {
                         </select>
                     </div>
 
+                    {/* Quality selector */}
+                    <div>
+                        <label className="block text-sm font-medium text-gray-700 mb-2">
+                            ⭐ Quality
+                        </label>
+                        <select
+                            value={selectedQuality}
+                            onChange={(e) => setSelectedQuality(e.target.value)}
+                            className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                        >
+                            <option value="all">All Quality</option>
+                            <option value="gold">🥇 Gold</option>
+                            <option value="silver">🥈 Silver</option>
+                            <option value="bronze">🥉 Bronze</option>
+                        </select>
+                    </div>
+
                     {/* Show discarded toggle */}
                     <div className="flex items-end">
                         <label className="flex items-center space-x-2 cursor-pointer">
@@ -167,7 +217,7 @@ export default function ConversationViewer() {
 
             {/* Stats */}
             {stats && (
-                <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                <div className="grid grid-cols-2 md:grid-cols-5 gap-4">
                     <div className="bg-white rounded-lg shadow p-4">
                         <div className="text-sm text-gray-600">Total</div>
                         <div className="text-2xl font-bold text-gray-900">{stats.total}</div>
@@ -177,14 +227,16 @@ export default function ConversationViewer() {
                         <div className="text-2xl font-bold text-green-600">{stats.solved}</div>
                     </div>
                     <div className="bg-white rounded-lg shadow p-4">
-                        <div className="text-sm text-gray-600">Avg Turns</div>
-                        <div className="text-2xl font-bold text-blue-600">{stats.avg_turns}</div>
+                        <div className="text-sm text-gray-600">🥇 Gold</div>
+                        <div className="text-2xl font-bold text-yellow-600">{stats.quality?.gold || 0}</div>
                     </div>
                     <div className="bg-white rounded-lg shadow p-4">
-                        <div className="text-sm text-gray-600">Tests Passed</div>
-                        <div className="text-2xl font-bold text-purple-600">
-                            {stats.total_tests_passed}/{stats.total_tests_possible}
-                        </div>
+                        <div className="text-sm text-gray-600">🥈 Silver</div>
+                        <div className="text-2xl font-bold text-gray-500">{stats.quality?.silver || 0}</div>
+                    </div>
+                    <div className="bg-white rounded-lg shadow p-4">
+                        <div className="text-sm text-gray-600">🥉 Bronze</div>
+                        <div className="text-2xl font-bold text-orange-600">{stats.quality?.bronze || 0}</div>
                     </div>
                 </div>
             )}
@@ -225,6 +277,16 @@ export default function ConversationViewer() {
                                                     ) : (
                                                         <XCircle className="w-4 h-4 text-red-500" />
                                                     )}
+                                                    {conv.quality_bucket && (
+                                                        <span className={`text-xs px-1.5 py-0.5 rounded ${
+                                                            conv.quality_bucket === 'gold' ? 'bg-yellow-100 text-yellow-700' :
+                                                            conv.quality_bucket === 'silver' ? 'bg-gray-100 text-gray-700' :
+                                                            'bg-orange-100 text-orange-700'
+                                                        }`}>
+                                                            {conv.quality_bucket === 'gold' ? '🥇' : 
+                                                             conv.quality_bucket === 'silver' ? '🥈' : '🥉'}
+                                                        </span>
+                                                    )}
                                                 </div>
                                                 <p className="text-xs text-gray-600 line-clamp-2">
                                                     {conv.problem_text}
@@ -247,7 +309,7 @@ export default function ConversationViewer() {
                     </div>
                 </div>
 
-                {/* Conversation viewer */}
+                {/* Conversation viewer - SPLIT SCREEN LAYOUT */}
                 <div className="lg:col-span-4">
                     {selectedConversation ? (
                         <div className="space-y-4">
@@ -287,10 +349,30 @@ export default function ConversationViewer() {
                                 </div>
                             </div>
 
-                            {/* Chat panel */}
-                            <ChatPanel conversation={selectedConversation.conversation} />
+                            {/* SPLIT SCREEN: Chat + Canvas */}
+                            <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+                                {/* Left: Chat panel */}
+                                <div>
+                                    <ChatPanel 
+                                        conversation={selectedConversation.conversation}
+                                        onCodeInView={handleCodeInView}
+                                        activeTurn={canvasTurn}
+                                    />
+                                </div>
 
-                            {/* Test results */}
+                                {/* Right: Code canvas */}
+                                <div>
+                                    <CodeCanvas
+                                        code={canvasCode}
+                                        execution={canvasExecution}
+                                        turn={canvasTurn}
+                                        autoSync={autoSync}
+                                        onToggleSync={toggleAutoSync}
+                                    />
+                                </div>
+                            </div>
+
+                            {/* Test results (below split screen) */}
                             {selectedConversation.execution_result && (
                                 <TestResults
                                     result={selectedConversation.execution_result}

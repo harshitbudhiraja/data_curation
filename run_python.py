@@ -116,9 +116,3 @@ code_str = """
 test_cases =["assert find_char_long('Please move back to stream') == ['Please', 'move', 'back', 'stream']", "assert find_char_long('Jing Eco and Tech') == ['Jing', 'Tech']", "assert find_char_long('Jhingai wulu road Zone 3') == ['Jhingai', 'wulu', 'road', 'Zone']"]
 
 result = run_python_code(code_str, test_cases)
-# print(result)
-# print(f"Success: {result['success']}")
-# print(f"Error Type: {result['error_type']}")
-# print(f"Message: {result['message']}")
-# print(f"Code Output:\n{result['code_output']}")
-# print(f"Test Results:\n{result['test_results']}")

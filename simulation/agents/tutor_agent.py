@@ -2,155 +2,43 @@
 import sys
 import os
 import re
-import random
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 from llm_calling import call_llm_openrouter
 from langchain_core.messages import SystemMessage
 
 
-def inject_bug(code: str, bug_type: str) -> str:
-    """Programmatically inject a bug into working code.
+# Bug injection removed - relying on natural difficulty of problems
+
+
+def get_effort_level_prompt(turn_count: int) -> tuple:
+    """Get effort level instruction and temperature based on turn count.
     
-    Args:
-        code: Working Python code
-        bug_type: Type of bug to inject ('syntax' or 'logic')
+    Strategy:
+    - Turns 1-2: Quick initial attempt (higher temp, less thorough)
+    - Turns 3-4: Refinement based on feedback (medium temp, more focused)
+    - Turns 5+: Careful complete solution (low temp, very thorough)
     
     Returns:
-        Code with injected bug
+        tuple: (instruction_text, temperature)
     """
-    lines = code.split('\n')
+    if turn_count <= 2:
+        # Early turns - quick first attempt
+        instruction = """Provide a straightforward initial solution. Focus on the core logic without overthinking edge cases.
+Write working code, but don't spend time on optimization or handling all corner cases yet."""
+        temperature = 0.7
+    elif turn_count <= 4:
+        # Middle turns - refinement
+        instruction = """Refine your solution based on the feedback. Address the specific issues mentioned.
+Focus on fixing the errors while maintaining correct logic."""
+        temperature = 0.5
+    else:
+        # Later turns - complete solution
+        instruction = """Write a complete, production-quality solution that handles all edge cases and passes all tests.
+Be thorough and careful with your implementation."""
+        temperature = 0.3
     
-    if bug_type == 'syntax':
-        # 10 different syntax bug types - pick one randomly
-        syntax_bugs = []
-        
-        # Bug 1: Remove colon from function definition
-        for i, line in enumerate(lines):
-            if 'def ' in line and ':' in line:
-                syntax_bugs.append(('remove_colon', i, lambda l: l.replace(':', '', 1)))
-        
-        # Bug 2: Remove closing parenthesis from function parameters
-        for i, line in enumerate(lines):
-            if 'def ' in line and ')' in line:
-                syntax_bugs.append(('missing_paren_def', i, lambda l: l[:l.rfind(')')] + l[l.rfind(')')+1:]))
-        
-        # Bug 3: Remove closing parenthesis from return statement
-        for i, line in enumerate(lines):
-            if 'return' in line and ')' in line:
-                syntax_bugs.append(('missing_paren_return', i, lambda l: l[:l.rfind(')')] + l[l.rfind(')')+1:]))
-        
-        # Bug 4: Remove opening parenthesis
-        for i, line in enumerate(lines):
-            if 'return' in line and '(' in line:
-                syntax_bugs.append(('missing_open_paren', i, lambda l: l.replace('(', '', 1)))
-        
-        # Bug 5: Add extra comma in function parameters
-        for i, line in enumerate(lines):
-            if 'def ' in line and ',' in line:
-                syntax_bugs.append(('extra_comma', i, lambda l: l.replace(',', ',,', 1)))
-        
-        # Bug 6: Missing equals in assignment (if any)
-        for i, line in enumerate(lines):
-            if '=' in line and 'return' not in line and 'def' not in line:
-                syntax_bugs.append(('missing_equals', i, lambda l: l.replace('=', '', 1)))
-        
-        # Bug 7: Typo in keyword (def -> deff)
-        for i, line in enumerate(lines):
-            if 'def ' in line:
-                syntax_bugs.append(('typo_def', i, lambda l: l.replace('def ', 'deff ', 1)))
-        
-        # Bug 8: Typo in return keyword
-        for i, line in enumerate(lines):
-            if 'return' in line:
-                syntax_bugs.append(('typo_return', i, lambda l: l.replace('return', 'retrun', 1)))
-        
-        # Bug 9: Missing closing bracket
-        for i, line in enumerate(lines):
-            if ']' in line:
-                syntax_bugs.append(('missing_bracket', i, lambda l: l[:l.rfind(']')] + l[l.rfind(']')+1:]))
-        
-        # Bug 10: Wrong indentation (dedent a line that should be indented)
-        for i, line in enumerate(lines):
-            if i > 0 and line.startswith('    ') and 'return' in line:
-                syntax_bugs.append(('wrong_indent', i, lambda l: l.lstrip()))
-        
-        if syntax_bugs:
-            bug_name, line_idx, transform = random.choice(syntax_bugs)
-            original = lines[line_idx]
-            lines[line_idx] = transform(original)
-            print(f"    🐛 Syntax bug '{bug_name}' on line {line_idx+1}: {original.strip()[:50]}")
-            return '\n'.join(lines)
-    
-    elif bug_type == 'logic':
-        # 10 different logic bug types - pick one randomly
-        logic_bugs = []
-        
-        # Bug 1: Change set intersection to union (& to |)
-        for i, line in enumerate(lines):
-            if '&' in line and 'set(' in line:
-                logic_bugs.append(('intersection_to_union', i, lambda l: l.replace('&', '|', 1)))
-        
-        # Bug 2: Change set union to intersection (| to &)
-        for i, line in enumerate(lines):
-            if '|' in line and 'set(' in line:
-                logic_bugs.append(('union_to_intersection', i, lambda l: l.replace('|', '&', 1)))
-        
-        # Bug 3: Remove one set() call (causes type error)
-        for i, line in enumerate(lines):
-            if line.count('set(') >= 2:
-                logic_bugs.append(('remove_set', i, lambda l: l.replace('set(', '(', 1)))
-        
-        # Bug 4: Remove tuple() wrapper (wrong return type)
-        for i, line in enumerate(lines):
-            if 'tuple(' in line and 'return' in line:
-                logic_bugs.append(('remove_tuple', i, lambda l: l.replace('tuple(', '(')))
-        
-        # Bug 5: Change list() to tuple() or vice versa
-        for i, line in enumerate(lines):
-            if 'list(' in line:
-                logic_bugs.append(('list_to_tuple', i, lambda l: l.replace('list(', 'tuple(')))
-            if 'tuple(' in line:
-                logic_bugs.append(('tuple_to_list', i, lambda l: l.replace('tuple(', 'list(')))
-        
-        # Bug 6: Remove sorted() call (causes order issues)
-        for i, line in enumerate(lines):
-            if 'sorted(' in line:
-                logic_bugs.append(('remove_sorted', i, lambda l: l.replace('sorted(', '(')))
-        
-        # Bug 7: Change comparison operator (== to !=, < to >, etc.)
-        for i, line in enumerate(lines):
-            if ' == ' in line:
-                logic_bugs.append(('flip_equals', i, lambda l: l.replace(' == ', ' != ', 1)))
-            if ' < ' in line:
-                logic_bugs.append(('flip_less', i, lambda l: l.replace(' < ', ' > ', 1)))
-            if ' > ' in line:
-                logic_bugs.append(('flip_greater', i, lambda l: l.replace(' > ', ' < ', 1)))
-        
-        # Bug 8: Change 'in' to 'not in'
-        for i, line in enumerate(lines):
-            if ' in ' in line and 'not in' not in line:
-                logic_bugs.append(('in_to_not_in', i, lambda l: l.replace(' in ', ' not in ', 1)))
-        
-        # Bug 9: Off-by-one in range (if present)
-        for i, line in enumerate(lines):
-            if 'range(' in line:
-                logic_bugs.append(('off_by_one', i, lambda l: l.replace('range(', 'range(1, ') if 'range(1' not in l else l))
-        
-        # Bug 10: Wrong variable name in operation
-        for i, line in enumerate(lines):
-            if 'tuple1' in line and 'tuple2' in line:
-                logic_bugs.append(('wrong_var', i, lambda l: l.replace('tuple2', 'tuple1', 1)))
-        
-        if logic_bugs:
-            bug_name, line_idx, transform = random.choice(logic_bugs)
-            original = lines[line_idx]
-            lines[line_idx] = transform(original)
-            print(f"    🐛 Logic bug '{bug_name}' on line {line_idx+1}: {original.strip()[:50]}")
-            return '\n'.join(lines)
-    
-    print(f"    ⚠️  No suitable location found for {bug_type} bug injection")
-    return code
+    return instruction, temperature
 
 
 # Load tutor system prompt from file
@@ -251,30 +139,14 @@ class TutorAgent:
             problem: The programming problem to solve
             function_name: Required function name
             test_cases: Test cases the code must pass
-            turn_count: Current turn number (to adjust helpfulness)
+            turn_count: Current turn number (to adjust effort level)
             execution_result: Previous execution result if any
         
         Returns:
             Tutor's response as Python code
         """
-        # ENFORCE MINIMUM 4 TURNS: Determine if we should inject bugs
-        should_inject_bug = False
-        bug_type = None
-        
-        if turn_count <= 2:
-            # First response MUST have a syntax bug
-            should_inject_bug = True
-            bug_type = 'syntax'
-            instruction = "Write CORRECT Python code that solves the problem."
-        elif turn_count <= 4:
-            # Second/third response - inject logic bug
-            should_inject_bug = True
-            bug_type = 'logic'
-            instruction = "Write CORRECT Python code that solves the problem."
-        else:
-            # After turn 4, allow correct code
-            should_inject_bug = False
-            instruction = "Write CORRECT code that passes all tests."
+        # Get effort level instruction and temperature based on turn count
+        effort_instruction, temperature = get_effort_level_prompt(turn_count)
         
         # Build execution feedback if available
         feedback = ""
@@ -283,9 +155,11 @@ class TutorAgent:
                 feedback = "Previous code passed all tests."
             else:
                 error_msg = execution_result.get('message', '')
-                feedback = f"Previous code failed: {error_msg}"
+                tests_passed = execution_result.get('tests_passed', 0)
+                total_tests = execution_result.get('total_tests', 3)
+                feedback = f"Previous code failed ({tests_passed}/{total_tests} tests passed): {error_msg}"
         
-        # Ask LLM for CORRECT code (we'll inject bugs ourselves)
+        # Build the prompt
         user_prompt = f"""Write the Python function `{function_name}` for this problem:
 
 {problem}
@@ -293,7 +167,7 @@ class TutorAgent:
 Tests it must pass:
 {chr(10).join(test_cases)}
 
-{instruction}
+{effort_instruction}
 
 {feedback}
 
@@ -307,7 +181,7 @@ Output ONLY the Python code starting with 'def {function_name}'. Nothing else.""
                 system_prompt=self.system_prompt,
                 model=self.model_name,
                 max_tokens=500,
-                temperature=0.3
+                temperature=temperature  # Dynamic temperature based on turn
             )
             
             if not response:
@@ -323,31 +197,15 @@ Output ONLY the Python code starting with 'def {function_name}'. Nothing else.""
             
             # Validate output
             if is_valid_code(code, function_name):
-                # INJECT BUG if needed
-                if should_inject_bug:
-                    original_code = code
-                    code = inject_bug(code, bug_type)
-                    if code != original_code:
-                        print(f"    🐛 Injected {bug_type} bug into code")
-                    else:
-                        print(f"    ⚠️  Bug injection failed - no suitable location found")
-                
                 return code
             else:
                 print(f"    ⚠️  Invalid code output, retrying... (attempt {attempt + 1})")
                 continue
         
         # Last resort: return a basic template if all retries fail
-        fallback = f"""def {function_name}(tuple1, tuple2):
-    result = []
-    for item in tuple1:
-        if item in tuple2:
-            result.append(item)
-    return tuple(result)"""
+        fallback = f"""def {function_name}(*args, **kwargs):
+    # TODO: Implement solution
+    pass"""
         print(f"    ⚠️  All retries failed, using fallback code")
-        
-        # Inject bug into fallback too if needed
-        if should_inject_bug:
-            fallback = inject_bug(fallback, bug_type)
         
         return fallback

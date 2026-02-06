@@ -1,0 +1,1388 @@
+[
+  {
+    "id": "ed85a664-fe94-4c67-b2b6-064236552789",
+    "task_id": 4,
+    "personality": "IMPATIENT_STUDENT",
+    "conversation": [
+      {
+        "role": "student",
+        "content": "\"just give me the code for re-arrange already?? need it now\"",
+        "turn": 1
+      },
+      {
+        "role": "tutor",
+        "content": "def re_arrange(arr, n):\n    # Separate positive and negative elements\n    positive = [x for x in arr if x >= 0]\n    negative = [x for x in arr if x < 0]",
+        "turn": 2,
+        "execution": {
+          "turn": 2,
+          "tests_passed": 0,
+          "total_tests": 3,
+          "success": false,
+          "error_type": "test_failure",
+          "message": "0/3 tests passed"
+        }
+      },
+      {
+        "role": "student",
+        "content": "ugh ANOTHER bug?? just fix it, this is taking forever.",
+        "turn": 3
+      },
+      {
+        "role": "tutor",
+        "content": "def re_arrange(arr, n):\n    pos = []\n    neg = []\n    for i in range(n):\n        if arr[i] >= 0:\n            pos.append(arr[i])\n        else:\n            neg.append(arr[i])\n    pos.sort()\n    neg.sort()\n    k = 0\n    for i in range(n):\n        if i % 2 == 0:\n            arr[i] = pos[k]\n            k += 1\n        else:\n            arr[i] = neg[k]\n            k += 1\n    return arr",
+        "turn": 4,
+        "execution": {
+          "turn": 4,
+          "tests_passed": 0,
+          "total_tests": 3,
+          "success": false,
+          "error_type": "test_failure",
+          "message": "0/3 tests passed"
+        }
+      },
+      {
+        "role": "student",
+        "content": "ugh ANOTHER bug?? This is taking forever to figure out. Just fix it.",
+        "turn": 5
+      },
+      {
+        "role": "tutor",
+        "content": "def re_arrange(arr, n):\n    pos = []\n    neg = []\n    for i in range(n):\n        if arr[i] >= 0:\n            pos.append(arr[i])\n        else:\n            neg.append(arr[i])\n    result = []\n    i = 0\n    j = 0\n    while i < len(pos) and j < len(neg):\n        result.append(neg[j])\n        result.append(pos[i])\n        i += 1\n        j += 1\n    while i < len(pos):\n        result.append(pos[i])\n        i += 1\n    while j < len(neg):\n        result.append(neg[j])\n        j += 1\n    return result",
+        "turn": 6,
+        "execution": {
+          "turn": 6,
+          "tests_passed": 3,
+          "total_tests": 3,
+          "success": true,
+          "error_type": null,
+          "message": "All tests passed"
+        }
+      }
+    ],
+    "solved": true,
+    "turns": 6,
+    "scores": {
+      "persona_fidelity": 5,
+      "tutor_alignment": 2,
+      "dialog_progression": 2,
+      "total_score": 9,
+      "bucket": "gold",
+      "needs_human_review": false,
+      "main_failure": "none"
+    }
+  },
+  {
+    "id": "189b6e94-4232-45ab-9aba-6f073c0a7dcf",
+    "task_id": 6,
+    "personality": "IMPATIENT_STUDENT",
+    "conversation": [
+      {
+        "role": "student",
+        "content": "just give me the func def plz is_multiply_prime?? ugh ANOTHER bug??",
+        "turn": 1
+      },
+      {
+        "role": "tutor",
+        "content": "def is_multiply_prime(num):\n    def is_prime(n):\n        if n < 2:\n            return False\n        for i in range(2, int(n**0.5) + 1):\n            if n % i == 0:\n                return False\n        return True",
+        "turn": 2,
+        "execution": {
+          "turn": 2,
+          "tests_passed": 0,
+          "total_tests": 3,
+          "success": false,
+          "error_type": "test_failure",
+          "message": "0/3 tests passed"
+        }
+      },
+      {
+        "role": "student",
+        "content": "ugh ANOTHER bug?? Error: 0/3 tests passed. Fix it now!",
+        "turn": 3
+      },
+      {
+        "role": "tutor",
+        "content": "def is_multiply_prime(n):\n    def is_prime(num):\n        if num < 2:\n            return False\n        for i in range(2, int(num**0.5) + 1):\n            if num % i == 0:\n                return False\n        return True\n\n    if n < 2:\n        return False\n\n    primes = [i for i in range(2, n) if is_prime(i)]\n\n    for i in primes:\n        for j in primes:\n            for k in primes:\n                if i * j * k == n:\n                    return True\n\n    return False",
+        "turn": 4,
+        "execution": {
+          "turn": 4,
+          "tests_passed": 3,
+          "total_tests": 3,
+          "success": true,
+          "error_type": null,
+          "message": "All tests passed"
+        }
+      }
+    ],
+    "solved": true,
+    "turns": 4,
+    "scores": {
+      "persona_fidelity": 5,
+      "tutor_alignment": 2,
+      "dialog_progression": 2,
+      "total_score": 9,
+      "bucket": "gold",
+      "needs_human_review": false,
+      "main_failure": "none"
+    }
+  },
+  {
+    "id": "ab10449b-8792-47f5-9a01-fb20fbcb2a20",
+    "task_id": 9,
+    "personality": "IMPATIENT_STUDENT",
+    "conversation": [
+      {
+        "role": "student",
+        "content": "just give me the function for permutation coefficient already?? ugh this is taking forever",
+        "turn": 1
+      },
+      {
+        "role": "tutor",
+        "content": "def permutation_coefficient(n, k):\n    result = 1\n    for i in range(k):\n        result *= n - i\n    return result",
+        "turn": 2,
+        "execution": {
+          "turn": 2,
+          "tests_passed": 3,
+          "total_tests": 3,
+          "success": true,
+          "error_type": null,
+          "message": "All tests passed"
+        }
+      }
+    ],
+    "solved": true,
+    "turns": 2,
+    "scores": {
+      "persona_fidelity": 5,
+      "tutor_alignment": 3,
+      "dialog_progression": 2,
+      "total_score": 10,
+      "bucket": "gold",
+      "needs_human_review": false,
+      "main_failure": "none"
+    }
+  },
+  {
+    "id": "6d791cc0-68d3-4e2a-be0a-6ce31642aa17",
+    "task_id": 13,
+    "personality": "IMPATIENT_STUDENT",
+    "conversation": [
+      {
+        "role": "student",
+        "content": "need the code for remove_dirty_chars asap??",
+        "turn": 1
+      },
+      {
+        "role": "tutor",
+        "content": "def remove_dirty_chars(str1, str2):\n    return ''.join(char for char in str1 if char not in str2)<|fim_middle|>",
+        "turn": 2,
+        "execution": {
+          "turn": 2,
+          "tests_passed": 0,
+          "total_tests": 3,
+          "success": false,
+          "error_type": "test_failure",
+          "message": "0/3 tests passed"
+        }
+      },
+      {
+        "role": "student",
+        "content": "ugh ANOTHER bug?? This is taking forever to figure out. Fix it now.",
+        "turn": 3
+      },
+      {
+        "role": "tutor",
+        "content": "def remove_dirty_chars(s1, s2):\n    result = ''\n    for char in s1:\n        if char not in s2:\n            result += char\n    return result",
+        "turn": 4,
+        "execution": {
+          "turn": 4,
+          "tests_passed": 3,
+          "total_tests": 3,
+          "success": true,
+          "error_type": null,
+          "message": "All tests passed"
+        }
+      }
+    ],
+    "solved": true,
+    "turns": 4,
+    "scores": {
+      "persona_fidelity": 5,
+      "tutor_alignment": 2,
+      "dialog_progression": 2,
+      "total_score": 9,
+      "bucket": "gold",
+      "needs_human_review": false,
+      "main_failure": "none"
+    }
+  },
+  {
+    "id": "f11e8e19-41f1-4c4a-85b5-62bff440ae5d",
+    "task_id": 14,
+    "personality": "IMPATIENT_STUDENT",
+    "conversation": [
+      {
+        "role": "student",
+        "content": "\"need help with get_perrin func using recursion ugh this is taking forever\"",
+        "turn": 1
+      },
+      {
+        "role": "tutor",
+        "content": "def get_perrin(n):\n    if n == 0 or n == 1:\n        return 3\n    elif n == 2:\n        return 2\n    else:\n        return get_perrin(n - 2) + get_perrin(n - 3)",
+        "turn": 2,
+        "execution": {
+          "turn": 2,
+          "tests_passed": 0,
+          "total_tests": 3,
+          "success": false,
+          "error_type": "test_failure",
+          "message": "0/3 tests passed"
+        }
+      },
+      {
+        "role": "student",
+        "content": "ugh ANOTHER bug?? this is taking forever. just fix it.",
+        "turn": 3
+      },
+      {
+        "role": "tutor",
+        "content": "def get_perrin(n):\n    if n == 0 or n == 1:\n        return 3\n    elif n == 2:\n        return 2\n    else:\n        return get_perrin(n - 1) + get_perrin(n - 2) - get_perrin(n - 3)",
+        "turn": 4,
+        "execution": {
+          "turn": 4,
+          "tests_passed": 0,
+          "total_tests": 3,
+          "success": false,
+          "error_type": "test_failure",
+          "message": "0/3 tests passed"
+        }
+      },
+      {
+        "role": "student",
+        "content": "ugh ANOTHER bug?? this is taking forever to fix. just give me the correct code.",
+        "turn": 5
+      },
+      {
+        "role": "tutor",
+        "content": "def get_perrin(n):\n    if n == 0:\n        return 3\n    elif n == 1:\n        return 0\n    elif n == 2:\n        return 2\n    else:\n        return get_perrin(n-2) + get_perrin(n-3)",
+        "turn": 6,
+        "execution": {
+          "turn": 6,
+          "tests_passed": 3,
+          "total_tests": 3,
+          "success": true,
+          "error_type": null,
+          "message": "All tests passed"
+        }
+      }
+    ],
+    "solved": true,
+    "turns": 6,
+    "scores": {
+      "persona_fidelity": 5,
+      "tutor_alignment": 2,
+      "dialog_progression": 2,
+      "total_score": 9,
+      "bucket": "gold",
+      "needs_human_review": false,
+      "main_failure": "none"
+    }
+  },
+  {
+    "id": "a8e84a4a-9c0e-471f-8195-8056180cdf8f",
+    "task_id": 17,
+    "personality": "IMPATIENT_STUDENT",
+    "conversation": [
+      {
+        "role": "student",
+        "content": "just give me the function for get_coordinates??",
+        "turn": 1
+      },
+      {
+        "role": "tutor",
+        "content": "def get_coordinates(coord):\n    x, y = coord\n    return [[x-1, y-1], [x-1, y], [x-1, y+1], [x, y-1], [x, y], [x, y+1], [x+1, y-1], [x+1, y], [x+1, y+1]]",
+        "turn": 2,
+        "execution": {
+          "turn": 2,
+          "tests_passed": 3,
+          "total_tests": 3,
+          "success": true,
+          "error_type": null,
+          "message": "All tests passed"
+        }
+      }
+    ],
+    "solved": true,
+    "turns": 2,
+    "scores": {
+      "persona_fidelity": 5,
+      "tutor_alignment": 3,
+      "dialog_progression": 2,
+      "total_score": 10,
+      "bucket": "gold",
+      "needs_human_review": false,
+      "main_failure": "none"
+    }
+  },
+  {
+    "id": "ed3bf407-39ea-46a6-8914-c2d91e9277ac",
+    "task_id": 18,
+    "personality": "IMPATIENT_STUDENT",
+    "conversation": [
+      {
+        "role": "student",
+        "content": "need the code for nth super ugly number using heap queue algoSeriously??",
+        "turn": 1
+      },
+      {
+        "role": "tutor",
+        "content": "import heapq\n\ndef nth_super_ugly_number(n, primes):\n    ugly_nums = [1]\n    prime_indices = [0] * len(primes)\n    while len(ugly_nums) < n:\n        next_ugly = min(ugly_nums[i] * primes[j] for i, j in enumerate(prime_indices))\n        ugly_nums.append(next_ugly)\n        for i in range(len(primes)):\n            if ugly_nums[-1] == ugly_nums[prime_indices[i]] * primes[i]:\n                prime_indices[i] += 1\n    return ugly_nums[-1]",
+        "turn": 2,
+        "execution": {
+          "turn": 2,
+          "tests_passed": 0,
+          "total_tests": 3,
+          "success": false,
+          "error_type": "test_failure",
+          "message": "0/3 tests passed"
+        }
+      },
+      {
+        "role": "student",
+        "content": "ugh ANOTHER bug?? this is taking forever to figure out why it's failing. Just fix it already.",
+        "turn": 3
+      },
+      {
+        "role": "tutor",
+        "content": "import heapq\n\ndef nth_super_ugly_number(n, primes):\n    ugly_numbers = [1]\n    heap = [(prime, prime) for prime in primes]\n    heapq.heapify(heap)\n\n    while len(ugly_numbers) < n:\n        next_ugly, prime = heapq.heappop(heap)\n        if next_ugly != ugly_numbers[-1]:\n            ugly_numbers.append(next_ugly)\n        heapq.heappush(heap, (next_ugly * prime, prime))\n\n    return ugly_numbers[-1]",
+        "turn": 4,
+        "execution": {
+          "turn": 4,
+          "tests_passed": 0,
+          "total_tests": 3,
+          "success": false,
+          "error_type": "test_failure",
+          "message": "0/3 tests passed"
+        }
+      },
+      {
+        "role": "student",
+        "content": "ANOTHER bug?? This is taking forever! Just fix it.",
+        "turn": 5
+      },
+      {
+        "role": "tutor",
+        "content": "import heapq\n\ndef nth_super_ugly_number(n, primes):\n    ugly_numbers = [1]\n    heap = [(prime, prime, 0) for prime in primes]\n    heapq.heapify(heap)\n\n    while len(ugly_numbers) < n:\n        next_ugly, prime, index = heapq.heappop(heap)\n        if next_ugly != ugly_numbers[-1]:\n            ugly_numbers.append(next_ugly)\n        heapq.heappush(heap, (prime * ugly_numbers[index + 1], prime, index + 1))\n\n    return ugly_numbers[-1]",
+        "turn": 6,
+        "execution": {
+          "turn": 6,
+          "tests_passed": 3,
+          "total_tests": 3,
+          "success": true,
+          "error_type": null,
+          "message": "All tests passed"
+        }
+      }
+    ],
+    "solved": true,
+    "turns": 6,
+    "scores": {
+      "persona_fidelity": 5,
+      "tutor_alignment": 2,
+      "dialog_progression": 2,
+      "total_score": 9,
+      "bucket": "gold",
+      "needs_human_review": false,
+      "main_failure": "none"
+    }
+  },
+  {
+    "id": "de5fc89b-a011-4ed6-8ce4-93cedecbb83f",
+    "task_id": 20,
+    "personality": "IMPATIENT_STUDENT",
+    "conversation": [
+      {
+        "role": "student",
+        "content": "just give me the func def plz seriously?? this is taking forever",
+        "turn": 1
+      },
+      {
+        "role": "tutor",
+        "content": "def rearange_string(s):\n    from collections import Counter\n    c = Counter(s)\n    if max(c.values()) > (len(s) + 1) // 2:\n        return None\n    ans = []\n    max_val = max(c.values())\n    max_char = max(c, key=c.get)\n    for i in range(max_val):\n        ans.append(max_char)\n        c[max_char] -= 1\n    for char, count in c.items():\n        for _ in range(count):\n            ans.append(char)\n            c[char] -= 1\n    return ''.join(ans)",
+        "turn": 2,
+        "execution": {
+          "turn": 2,
+          "tests_passed": 0,
+          "total_tests": 3,
+          "success": false,
+          "error_type": "test_failure",
+          "message": "0/3 tests passed"
+        }
+      },
+      {
+        "role": "student",
+        "content": "ugh ANOTHER bug?? this is taking forever, just fix it",
+        "turn": 3
+      },
+      {
+        "role": "tutor",
+        "content": "def rearange_string(s):\n    from collections import Counter\n    from heapq import heapify, heappop, heappush\n\n    counter = Counter(s)\n    heap = [(-count, char) for char, count in counter.items()]\n    heapify(heap)\n\n    result = []\n    prev_count, prev_char = 0, None\n\n    while heap:\n        count, char = heappop(heap)\n        result.append(char)\n        count += 1\n\n        if prev_count < 0:\n            heappush(heap, (prev_count, prev_char))\n\n        prev_count, prev_char = count, char\n\n    if len(result) != len(s):\n        return None\n\n    return ''.join(result)",
+        "turn": 4,
+        "execution": {
+          "turn": 4,
+          "tests_passed": 3,
+          "total_tests": 3,
+          "success": true,
+          "error_type": null,
+          "message": "All tests passed"
+        }
+      }
+    ],
+    "solved": true,
+    "turns": 4,
+    "scores": {
+      "persona_fidelity": 5,
+      "tutor_alignment": 3,
+      "dialog_progression": 2,
+      "total_score": 10,
+      "bucket": "gold",
+      "needs_human_review": false,
+      "main_failure": "none"
+    }
+  },
+  {
+    "id": "bd653857-183c-46f3-8344-610dc9c1277e",
+    "task_id": 24,
+    "personality": "IMPATIENT_STUDENT",
+    "conversation": [
+      {
+        "role": "student",
+        "content": "\"need help writing func to find k pairs from two arrays ugh\"",
+        "turn": 1
+      },
+      {
+        "role": "tutor",
+        "content": "def k_smallest_pairs(nums1, nums2, k):\n    return sorted([[num1, num2] for num1 in nums1 for num2 in nums2], key=lambda x: x[0] + x[1])[:k]",
+        "turn": 2,
+        "execution": {
+          "turn": 2,
+          "tests_passed": 3,
+          "total_tests": 3,
+          "success": true,
+          "error_type": null,
+          "message": "All tests passed"
+        }
+      }
+    ],
+    "solved": true,
+    "turns": 2,
+    "scores": {
+      "persona_fidelity": 4,
+      "tutor_alignment": 3,
+      "dialog_progression": 2,
+      "total_score": 9,
+      "bucket": "gold",
+      "needs_human_review": false,
+      "main_failure": "none"
+    }
+  },
+  {
+    "id": "2b17d647-b756-422b-ad03-73d51d9bd73c",
+    "task_id": 31,
+    "personality": "IMPATIENT_STUDENT",
+    "conversation": [
+      {
+        "role": "student",
+        "content": "\"need the code for parse_nested_parens asap seriously?? another func to write\"",
+        "turn": 1
+      },
+      {
+        "role": "tutor",
+        "content": "def parse_nested_parens(s):\n    result = []\n    for group in s.split(' '):\n        depth = 0\n        for char in group:\n            if char == '(':\n                depth += 1\n            elif char == ')':\n                depth -= 1\n        result.append(depth)\n    return result",
+        "turn": 2,
+        "execution": {
+          "turn": 2,
+          "tests_passed": 0,
+          "total_tests": 3,
+          "success": false,
+          "error_type": "test_failure",
+          "message": "0/3 tests passed"
+        }
+      },
+      {
+        "role": "student",
+        "content": "ANOTHER failure?? This is taking forever. Just fix it.",
+        "turn": 3
+      },
+      {
+        "role": "tutor",
+        "content": "def parse_nested_parens(s):\n    result = []\n    for group in s.split():\n        depth = 0\n        for char in group:\n            if char == '(':\n                depth += 1\n            elif char == ')':\n                depth -= 1\n        result.append(depth)\n    return result",
+        "turn": 4,
+        "execution": {
+          "turn": 4,
+          "tests_passed": 0,
+          "total_tests": 3,
+          "success": false,
+          "error_type": "test_failure",
+          "message": "0/3 tests passed"
+        }
+      },
+      {
+        "role": "student",
+        "content": "ugh ANOTHER bug?? This is taking forever. Just fix it.",
+        "turn": 5
+      },
+      {
+        "role": "tutor",
+        "content": "def parse_nested_parens(input_str):\n    def count_nested_parens(paren_str):\n        max_depth = 0\n        current_depth = 0\n        for char in paren_str:\n            if char == '(':\n                current_depth += 1\n                max_depth = max(max_depth, current_depth)\n            elif char == ')':\n                current_depth -= 1\n        return max_depth\n\n    return [count_nested_parens(group) for group in input_str.split()]",
+        "turn": 6,
+        "execution": {
+          "turn": 6,
+          "tests_passed": 3,
+          "total_tests": 3,
+          "success": true,
+          "error_type": null,
+          "message": "All tests passed"
+        }
+      }
+    ],
+    "solved": true,
+    "turns": 6,
+    "scores": {
+      "persona_fidelity": 5,
+      "tutor_alignment": 3,
+      "dialog_progression": 2,
+      "total_score": 10,
+      "bucket": "gold",
+      "needs_human_review": false,
+      "main_failure": "none"
+    }
+  },
+  {
+    "id": "55e36b4a-c4e2-45cf-acd7-60ca471f267f",
+    "task_id": 33,
+    "personality": "IMPATIENT_STUDENT",
+    "conversation": [
+      {
+        "role": "student",
+        "content": "just give me the code for prime_fib plz??",
+        "turn": 1
+      },
+      {
+        "role": "tutor",
+        "content": "def prime_fib(n):\n    def is_prime(num):\n        if num < 2:\n            return False\n        for i in range(2, int(num**0.5) + 1):\n            if num % i == 0:\n                return False\n        return True",
+        "turn": 2,
+        "execution": {
+          "turn": 2,
+          "tests_passed": 0,
+          "total_tests": 3,
+          "success": false,
+          "error_type": "test_failure",
+          "message": "0/3 tests passed"
+        }
+      },
+      {
+        "role": "student",
+        "content": "ugh ANOTHER bug?? need the `prime_fib` function fixed. this is taking forever.",
+        "turn": 3
+      },
+      {
+        "role": "tutor",
+        "content": "def prime_fib(n):\n    def is_prime(num):\n        if num < 2:\n            return False\n        for i in range(2, int(num ** 0.5) + 1):\n            if num % i == 0:\n                return False\n        return True\n\n    fib_nums = [0, 1]\n    while len(fib_nums) <= n:\n        fib_nums.append(fib_nums[-1] + fib_nums[-2])\n\n    fib_nums = [num for num in fib_nums if is_prime(num)]\n\n    return fib_nums[n]",
+        "turn": 4,
+        "execution": {
+          "turn": 4,
+          "tests_passed": 0,
+          "total_tests": 3,
+          "success": false,
+          "error_type": "test_failure",
+          "message": "0/3 tests passed"
+        }
+      },
+      {
+        "role": "student",
+        "content": "ugh ANOTHER bug?? this is taking forever, just fix it.",
+        "turn": 5
+      },
+      {
+        "role": "tutor",
+        "content": "def prime_fib(n):\n    def is_prime(num):\n        if num < 2:\n            return False\n        for i in range(2, int(num**0.5) + 1):\n            if num % i == 0:\n                return False\n        return True\n\n    def fibonacci(num):\n        a, b = 0, 1\n        for _ in range(num):\n            a, b = b, a + b\n        return a\n\n    count = 0\n    fib_num = 0\n    while count < n:\n        fib_num += 1\n        fib = fibonacci(fib_num)\n        if is_prime(fib):\n            count += 1\n    return fib",
+        "turn": 6,
+        "execution": {
+          "turn": 6,
+          "tests_passed": 3,
+          "total_tests": 3,
+          "success": true,
+          "error_type": null,
+          "message": "All tests passed"
+        }
+      }
+    ],
+    "solved": true,
+    "turns": 6,
+    "scores": {
+      "persona_fidelity": 5,
+      "tutor_alignment": 2,
+      "dialog_progression": 2,
+      "total_score": 9,
+      "bucket": "gold",
+      "needs_human_review": false,
+      "main_failure": "none"
+    }
+  },
+  {
+    "id": "93638cc0-de02-4afc-9279-878471e4cb24",
+    "task_id": 40,
+    "personality": "IMPATIENT_STUDENT",
+    "conversation": [
+      {
+        "role": "student",
+        "content": "just give me the code for first_Missing_Positive ugh this is taking forever",
+        "turn": 1
+      },
+      {
+        "role": "tutor",
+        "content": "def first_Missing_Positive(arr, n):\n    for i in range(n):\n        if arr[i] > 0 and arr[i] <= n:\n            index = arr[i] - 1\n            if arr[index] != arr[i]:\n                arr[index], arr[i] = arr[i], arr[index]\n                i -= 1\n    for i in range(n):\n        if arr[i] != i + 1:\n            return i + 1\n    return n + 1",
+        "turn": 2,
+        "execution": {
+          "turn": 2,
+          "tests_passed": 3,
+          "total_tests": 3,
+          "success": true,
+          "error_type": null,
+          "message": "All tests passed"
+        }
+      }
+    ],
+    "solved": true,
+    "turns": 2,
+    "scores": {
+      "persona_fidelity": 5,
+      "tutor_alignment": 3,
+      "dialog_progression": 2,
+      "total_score": 10,
+      "bucket": "gold",
+      "needs_human_review": false,
+      "main_failure": "none"
+    }
+  },
+  {
+    "id": "46cba4cc-9ac1-4531-bb3c-03d574da5351",
+    "task_id": 49,
+    "personality": "IMPATIENT_STUDENT",
+    "conversation": [
+      {
+        "role": "student",
+        "content": "need the code for gcd recursion ugh this is taking forever",
+        "turn": 1
+      },
+      {
+        "role": "tutor",
+        "content": "def recur_gcd(a, b):\n    if b == 0:\n        return a\n    else:\n        return recur_gcd(b, a % b)",
+        "turn": 2,
+        "execution": {
+          "turn": 2,
+          "tests_passed": 3,
+          "total_tests": 3,
+          "success": true,
+          "error_type": null,
+          "message": "All tests passed"
+        }
+      }
+    ],
+    "solved": true,
+    "turns": 2,
+    "scores": {
+      "persona_fidelity": 5,
+      "tutor_alignment": 3,
+      "dialog_progression": 2,
+      "total_score": 10,
+      "bucket": "gold",
+      "needs_human_review": false,
+      "main_failure": "none"
+    }
+  },
+  {
+    "id": "b0725253-8d60-4a32-b798-dd0bfd506d91",
+    "task_id": 53,
+    "personality": "IMPATIENT_STUDENT",
+    "conversation": [
+      {
+        "role": "student",
+        "content": "just give me the code for count_nums already",
+        "turn": 1
+      },
+      {
+        "role": "tutor",
+        "content": "def count_nums(nums):\n    count = 0\n    for num in nums:\n        if num > 0:\n            count += 1\n    return count",
+        "turn": 2,
+        "execution": {
+          "turn": 2,
+          "tests_passed": 3,
+          "total_tests": 3,
+          "success": true,
+          "error_type": null,
+          "message": "All tests passed"
+        }
+      }
+    ],
+    "solved": true,
+    "turns": 2,
+    "scores": {
+      "persona_fidelity": 5,
+      "tutor_alignment": 3,
+      "dialog_progression": 2,
+      "total_score": 10,
+      "bucket": "gold",
+      "needs_human_review": false,
+      "main_failure": "none"
+    }
+  },
+  {
+    "id": "cc9b1952-b180-4fbb-beed-b919eade6a7b",
+    "task_id": 54,
+    "personality": "IMPATIENT_STUDENT",
+    "conversation": [
+      {
+        "role": "student",
+        "content": "\"ugh seriously?? how to start this exchange func?\"",
+        "turn": 1
+      },
+      {
+        "role": "tutor",
+        "content": "def exchange(lst1, lst2):\n    count_odd = 0\n    count_even = 0\n    \n    for num in lst1:\n        if num % 2 == 0:\n            count_even += 1\n        else:\n            count_odd += 1\n    \n    for num in lst2:\n        if num % 2 == 0:\n            count_even += 1\n        else:\n            count_odd -= 1\n    \n    if count_odd <= count_even:\n        return \"YES\"\n    else:\n        return \"NO\"",
+        "turn": 2,
+        "execution": {
+          "turn": 2,
+          "tests_passed": 2,
+          "total_tests": 3,
+          "success": false,
+          "error_type": "test_failure",
+          "message": "2/3 tests passed"
+        }
+      },
+      {
+        "role": "student",
+        "content": "ANOTHER bug?? Just fix it. This is taking forever.",
+        "turn": 3
+      },
+      {
+        "role": "tutor",
+        "content": "def exchange(lst1, lst2):\n    odd_count = 0\n    even_count = 0\n    \n    for num in lst1:\n        if num % 2 != 0:\n            odd_count += 1\n        else:\n            even_count += 1\n    \n    if odd_count <= len(lst2):\n        return \"YES\"\n    else:\n        return \"NO\"",
+        "turn": 4,
+        "execution": {
+          "turn": 4,
+          "tests_passed": 2,
+          "total_tests": 3,
+          "success": false,
+          "error_type": "test_failure",
+          "message": "2/3 tests passed"
+        }
+      },
+      {
+        "role": "student",
+        "content": "ugh ANOTHER bug?? this is taking forever to figure out. just fix it.",
+        "turn": 5
+      },
+      {
+        "role": "tutor",
+        "content": "def exchange(lst1, lst2):\n    odd_count = sum(1 for num in lst1 if num % 2 != 0)\n    even_count = sum(1 for num in lst2 if num % 2 == 0)\n    if odd_count <= even_count:\n        return \"YES\"\n    else:\n        return \"NO\"",
+        "turn": 6,
+        "execution": {
+          "turn": 6,
+          "tests_passed": 3,
+          "total_tests": 3,
+          "success": true,
+          "error_type": null,
+          "message": "All tests passed"
+        }
+      }
+    ],
+    "solved": true,
+    "turns": 6,
+    "scores": {
+      "persona_fidelity": 5,
+      "tutor_alignment": 3,
+      "dialog_progression": 2,
+      "total_score": 10,
+      "bucket": "gold",
+      "needs_human_review": false,
+      "main_failure": "none"
+    }
+  },
+  {
+    "id": "782b22da-7752-4f5c-b1f2-f2ec29bc99ba",
+    "task_id": 58,
+    "personality": "IMPATIENT_STUDENT",
+    "conversation": [
+      {
+        "role": "student",
+        "content": "need the code for power func ugh this is taking forever",
+        "turn": 1
+      },
+      {
+        "role": "tutor",
+        "content": "def power(a, b):\n    return a ** b",
+        "turn": 2,
+        "execution": {
+          "turn": 2,
+          "tests_passed": 3,
+          "total_tests": 3,
+          "success": true,
+          "error_type": null,
+          "message": "All tests passed"
+        }
+      }
+    ],
+    "solved": true,
+    "turns": 2,
+    "scores": {
+      "persona_fidelity": 5,
+      "tutor_alignment": 3,
+      "dialog_progression": 2,
+      "total_score": 10,
+      "bucket": "gold",
+      "needs_human_review": false,
+      "main_failure": "none"
+    }
+  },
+  {
+    "id": "0767f31f-77c8-4f42-a64c-939a72b3392d",
+    "task_id": 60,
+    "personality": "IMPATIENT_STUDENT",
+    "conversation": [
+      {
+        "role": "student",
+        "content": "\"need a func to check if str is int\"",
+        "turn": 1
+      },
+      {
+        "role": "tutor",
+        "content": "def check_integer(string):\n    try:\n        int(string)\n        return True\n    except ValueError:\n        return False",
+        "turn": 2,
+        "execution": {
+          "turn": 2,
+          "tests_passed": 3,
+          "total_tests": 3,
+          "success": true,
+          "error_type": null,
+          "message": "All tests passed"
+        }
+      }
+    ],
+    "solved": true,
+    "turns": 2,
+    "scores": {
+      "persona_fidelity": 3,
+      "tutor_alignment": 3,
+      "dialog_progression": 2,
+      "total_score": 8,
+      "bucket": "gold",
+      "needs_human_review": false,
+      "main_failure": "none"
+    }
+  },
+  {
+    "id": "0dd73bfd-8ba9-42d2-aa73-6be34f28c377",
+    "task_id": 61,
+    "personality": "IMPATIENT_STUDENT",
+    "conversation": [
+      {
+        "role": "student",
+        "content": "just need the code for multiply_int plz?? ugh this is taking forever",
+        "turn": 1
+      },
+      {
+        "role": "tutor",
+        "content": "def multiply_int(a, b):\n    result = 0\n    for _ in range(abs(b)):\n        result += a\n    return result if b >= 0 else -result",
+        "turn": 2,
+        "execution": {
+          "turn": 2,
+          "tests_passed": 3,
+          "total_tests": 3,
+          "success": true,
+          "error_type": null,
+          "message": "All tests passed"
+        }
+      }
+    ],
+    "solved": true,
+    "turns": 2,
+    "scores": {
+      "persona_fidelity": 5,
+      "tutor_alignment": 3,
+      "dialog_progression": 2,
+      "total_score": 10,
+      "bucket": "gold",
+      "needs_human_review": false,
+      "main_failure": "none"
+    }
+  },
+  {
+    "id": "f8496fb2-0060-4da0-aaf1-6fdf4c2e4571",
+    "task_id": 63,
+    "personality": "IMPATIENT_STUDENT",
+    "conversation": [
+      {
+        "role": "student",
+        "content": "\"just need the func to decode run-length encoded list ugh???\"",
+        "turn": 1
+      },
+      {
+        "role": "tutor",
+        "content": "def decode_list(encoded):\n    decoded = []\n    for item in encoded:\n        if isinstance(item, list):\n            decoded.extend([item[1]] * item[0])\n        else:\n            decoded.append(item)\n    return decoded",
+        "turn": 2,
+        "execution": {
+          "turn": 2,
+          "tests_passed": 3,
+          "total_tests": 3,
+          "success": true,
+          "error_type": null,
+          "message": "All tests passed"
+        }
+      }
+    ],
+    "solved": true,
+    "turns": 2,
+    "scores": {
+      "persona_fidelity": 5,
+      "tutor_alignment": 3,
+      "dialog_progression": 2,
+      "total_score": 10,
+      "bucket": "gold",
+      "needs_human_review": false,
+      "main_failure": "none"
+    }
+  },
+  {
+    "id": "829fbb89-2555-4263-bf14-def892216143",
+    "task_id": 68,
+    "personality": "IMPATIENT_STUDENT",
+    "conversation": [
+      {
+        "role": "student",
+        "content": "\"just write the func plz largest_subset ???\"",
+        "turn": 1
+      },
+      {
+        "role": "tutor",
+        "content": "def largest_subset(arr, n):\n    arr.sort()\n    dp = [1] * n\n    for i in range(n):\n        for j in range(i):\n            if arr[i] % arr[j] == 0:\n                dp[i] = max(dp[i], dp[j] + 1)\n    return max(dp)",
+        "turn": 2,
+        "execution": {
+          "turn": 2,
+          "tests_passed": 3,
+          "total_tests": 3,
+          "success": true,
+          "error_type": null,
+          "message": "All tests passed"
+        }
+      }
+    ],
+    "solved": true,
+    "turns": 2,
+    "scores": {
+      "persona_fidelity": 5,
+      "tutor_alignment": 3,
+      "dialog_progression": 2,
+      "total_score": 10,
+      "bucket": "gold",
+      "needs_human_review": false,
+      "main_failure": "none"
+    }
+  },
+  {
+    "id": "a2092292-cb76-4efe-8b03-cff18bff607a",
+    "task_id": 70,
+    "personality": "IMPATIENT_STUDENT",
+    "conversation": [
+      {
+        "role": "student",
+        "content": "\"just need the code for replace_spaces plz\"",
+        "turn": 1
+      },
+      {
+        "role": "tutor",
+        "content": "def replace_spaces(input_string):\n    return input_string.replace(' ', '%20')",
+        "turn": 2,
+        "execution": {
+          "turn": 2,
+          "tests_passed": 3,
+          "total_tests": 3,
+          "success": true,
+          "error_type": null,
+          "message": "All tests passed"
+        }
+      }
+    ],
+    "solved": true,
+    "turns": 2,
+    "scores": {
+      "persona_fidelity": 5,
+      "tutor_alignment": 3,
+      "dialog_progression": 2,
+      "total_score": 10,
+      "bucket": "gold",
+      "needs_human_review": false,
+      "main_failure": "none"
+    }
+  },
+  {
+    "id": "eb88f776-7363-40ef-811f-686c8331e2a3",
+    "task_id": 74,
+    "personality": "IMPATIENT_STUDENT",
+    "conversation": [
+      {
+        "role": "student",
+        "content": "just give me the function definition damn it",
+        "turn": 1
+      },
+      {
+        "role": "tutor",
+        "content": "def is_subset(arr1, arr1_len, arr2, arr2_len):\n    arr1.sort()\n    arr2.sort()",
+        "turn": 2,
+        "execution": {
+          "turn": 2,
+          "tests_passed": 0,
+          "total_tests": 3,
+          "success": false,
+          "error_type": "test_failure",
+          "message": "0/3 tests passed"
+        }
+      },
+      {
+        "role": "student",
+        "content": "This is taking forever and still 0/3 tests passed?? Just fix it!",
+        "turn": 3
+      },
+      {
+        "role": "tutor",
+        "content": "def is_subset(arr1, n, arr2, m):\n    for i in range(m):\n        if arr2[i] not in arr1:\n            return False\n    return True",
+        "turn": 4,
+        "execution": {
+          "turn": 4,
+          "tests_passed": 3,
+          "total_tests": 3,
+          "success": true,
+          "error_type": null,
+          "message": "All tests passed"
+        }
+      }
+    ],
+    "solved": true,
+    "turns": 4,
+    "scores": {
+      "persona_fidelity": 5,
+      "tutor_alignment": 3,
+      "dialog_progression": 2,
+      "total_score": 10,
+      "bucket": "gold",
+      "needs_human_review": false,
+      "main_failure": "none"
+    }
+  },
+  {
+    "id": "68cbf2eb-44e3-4b35-85cd-556d2227f85d",
+    "task_id": 75,
+    "personality": "IMPATIENT_STUDENT",
+    "conversation": [
+      {
+        "role": "student",
+        "content": "just need the func to check min heap?? ugh this is taking forever",
+        "turn": 1
+      },
+      {
+        "role": "tutor",
+        "content": "def check_min_heap(arr, i):\n    n = len(arr)\n    if i > (n - 2) // 2:\n        return True\n    if arr[i] <= arr[2 * i + 1] and arr[i] <= arr[2 * i + 2] and check_min_heap(arr, 2 * i + 1) and check_min_heap(arr, 2 * i + 2):\n        return True\n    return False",
+        "turn": 2,
+        "execution": {
+          "turn": 2,
+          "tests_passed": 1,
+          "total_tests": 3,
+          "success": false,
+          "error_type": "test_failure",
+          "message": "1/3 tests passed"
+        }
+      },
+      {
+        "role": "student",
+        "content": "This is taking forever and still only 1/3 tests passed. Just fix it.",
+        "turn": 3
+      },
+      {
+        "role": "tutor",
+        "content": "def check_min_heap(arr, i):\n    n = len(arr)\n    if i >= n:\n        return True\n    left = 2 * i + 1\n    right = 2 * i + 2\n    if left < n and arr[i] > arr[left]:\n        return False\n    if right < n and arr[i] > arr[right]:\n        return False\n    return check_min_heap(arr, left) and check_min_heap(arr, right)",
+        "turn": 4,
+        "execution": {
+          "turn": 4,
+          "tests_passed": 3,
+          "total_tests": 3,
+          "success": true,
+          "error_type": null,
+          "message": "All tests passed"
+        }
+      }
+    ],
+    "solved": true,
+    "turns": 4,
+    "scores": {
+      "persona_fidelity": 5,
+      "tutor_alignment": 3,
+      "dialog_progression": 2,
+      "total_score": 10,
+      "bucket": "gold",
+      "needs_human_review": false,
+      "main_failure": "none"
+    }
+  },
+  {
+    "id": "25b7035d-6063-4ac8-944c-3095a06ac3ce",
+    "task_id": 78,
+    "personality": "IMPATIENT_STUDENT",
+    "conversation": [
+      {
+        "role": "student",
+        "content": "\"just need the func to find smallest multiple of first n nums ugh???\"",
+        "turn": 1
+      },
+      {
+        "role": "tutor",
+        "content": "def smallest_multiple(n):\n    result = 1\n    for i in range(2, n+1):\n        result *= i\n    return result",
+        "turn": 2,
+        "execution": {
+          "turn": 2,
+          "tests_passed": 2,
+          "total_tests": 3,
+          "success": false,
+          "error_type": "test_failure",
+          "message": "2/3 tests passed"
+        }
+      },
+      {
+        "role": "student",
+        "content": "ugh ANOTHER bug?? just fix it, this is taking forever.",
+        "turn": 3
+      },
+      {
+        "role": "tutor",
+        "content": "def smallest_multiple(n):\n    result = 1\n    for i in range(2, n + 1):\n        if result % i != 0:\n            for j in range(2, i + 1):\n                if result % j != 0 and i % j == 0:\n                    result *= j\n    return result",
+        "turn": 4,
+        "execution": {
+          "turn": 4,
+          "tests_passed": 2,
+          "total_tests": 3,
+          "success": false,
+          "error_type": "test_failure",
+          "message": "2/3 tests passed"
+        }
+      },
+      {
+        "role": "student",
+        "content": "ugh ANOTHER bug?? just fix it already. this is taking forever.",
+        "turn": 5
+      },
+      {
+        "role": "tutor",
+        "content": "def smallest_multiple(n):\n    def gcd(a, b):\n        while b:\n            a, b = b, a % b\n        return a\n\n    def lcm(a, b):\n        return a * b // gcd(a, b)\n\n    result = 1\n    for i in range(2, n+1):\n        result = lcm(result, i)\n    return result",
+        "turn": 6,
+        "execution": {
+          "turn": 6,
+          "tests_passed": 3,
+          "total_tests": 3,
+          "success": true,
+          "error_type": null,
+          "message": "All tests passed"
+        }
+      }
+    ],
+    "solved": true,
+    "turns": 6,
+    "scores": {
+      "persona_fidelity": 5,
+      "tutor_alignment": 3,
+      "dialog_progression": 2,
+      "total_score": 10,
+      "bucket": "gold",
+      "needs_human_review": false,
+      "main_failure": "none"
+    }
+  },
+  {
+    "id": "4c2640b8-a98d-40f3-8609-24ffc0a9e836",
+    "task_id": 81,
+    "personality": "IMPATIENT_STUDENT",
+    "conversation": [
+      {
+        "role": "student",
+        "content": "\"just give me the code for fib4 sequence?? ugh this is taking forever\"",
+        "turn": 1
+      },
+      {
+        "role": "tutor",
+        "content": "def fib4(n):\n    if n == 0 or n == 1:\n        return 0\n    elif n == 2:\n        return 2\n    elif n == 3:\n        return 0\n    else:\n        return fib4(n-1) + fib4(n-2) + fib4(n-3) + fib4(n-4)",
+        "turn": 2,
+        "execution": {
+          "turn": 2,
+          "tests_passed": 3,
+          "total_tests": 3,
+          "success": true,
+          "error_type": null,
+          "message": "All tests passed"
+        }
+      }
+    ],
+    "solved": true,
+    "turns": 2,
+    "scores": {
+      "persona_fidelity": 5,
+      "tutor_alignment": 3,
+      "dialog_progression": 2,
+      "total_score": 10,
+      "bucket": "gold",
+      "needs_human_review": false,
+      "main_failure": "none"
+    }
+  },
+  {
+    "id": "bc10c70a-74dc-4234-aab8-947ee3ff8e7f",
+    "task_id": 90,
+    "personality": "IMPATIENT_STUDENT",
+    "conversation": [
+      {
+        "role": "student",
+        "content": "just give me the code for max_len_sub plz?? ugh this is taking forever",
+        "turn": 1
+      },
+      {
+        "role": "tutor",
+        "content": "def max_len_sub(arr, n):\n    # Initialize a list to store the maximum length of subsequence for each element\n    dp = [1] * n",
+        "turn": 2,
+        "execution": {
+          "turn": 2,
+          "tests_passed": 0,
+          "total_tests": 3,
+          "success": false,
+          "error_type": "test_failure",
+          "message": "0/3 tests passed"
+        }
+      },
+      {
+        "role": "student",
+        "content": "ugh ANOTHER bug?? This initializes `dp` but doesn't calculate anything. Just fix it.",
+        "turn": 3
+      },
+      {
+        "role": "tutor",
+        "content": "def max_len_sub(arr, n):\n    dp = [1] * n\n    for i in range(1, n):\n        for j in range(i):\n            if abs(arr[i] - arr[j]) == 1:\n                dp[i] = max(dp[i], dp[j] + 1)\n    return max(dp)",
+        "turn": 4,
+        "execution": {
+          "turn": 4,
+          "tests_passed": 2,
+          "total_tests": 3,
+          "success": false,
+          "error_type": "test_failure",
+          "message": "2/3 tests passed"
+        }
+      },
+      {
+        "role": "student",
+        "content": "This is taking forever and still only 2/3 tests passed?? Just fix the logic error!",
+        "turn": 5
+      },
+      {
+        "role": "tutor",
+        "content": "def max_len_sub(arr, n):\n    dp = [1] * n\n    for i in range(1, n):\n        for j in range(i):\n            if abs(arr[i] - arr[j]) == 1:\n                dp[i] = max(dp[i], dp[j] + 1)\n    return max(dp)",
+        "turn": 6,
+        "execution": {
+          "turn": 6,
+          "tests_passed": 2,
+          "total_tests": 3,
+          "success": false,
+          "error_type": "test_failure",
+          "message": "2/3 tests passed"
+        }
+      },
+      {
+        "role": "student",
+        "content": "This is taking forever and still failed 1/3 tests. Check the logic again, fix it!",
+        "turn": 7
+      },
+      {
+        "role": "tutor",
+        "content": "def max_len_sub(arr, n):\n    dp = [[0 for _ in range(n)] for _ in range(n)]\n    for i in range(n):\n        dp[i][i] = 1\n    for i in range(n):\n        for j in range(i+1, n):\n            if abs(arr[i] - arr[j]) == 1:\n                dp[i][j] = dp[i][j-1] + 1\n            else:\n                dp[i][j] = max(dp[i][j-1], dp[i+1][j])\n    return max(max(row) for row in dp)",
+        "turn": 8,
+        "execution": {
+          "turn": 8,
+          "tests_passed": 1,
+          "total_tests": 3,
+          "success": false,
+          "error_type": "test_failure",
+          "message": "1/3 tests passed"
+        }
+      }
+    ],
+    "solved": false,
+    "turns": 8,
+    "scores": {
+      "persona_fidelity": 5,
+      "tutor_alignment": 2,
+      "dialog_progression": 2,
+      "total_score": 9,
+      "bucket": "gold",
+      "needs_human_review": false,
+      "main_failure": "none"
+    }
+  },
+  {
+    "id": "bf21fc25-eebc-4d53-832e-4fee768c316e",
+    "task_id": 97,
+    "personality": "IMPATIENT_STUDENT",
+    "conversation": [
+      {
+        "role": "student",
+        "content": "just need the code for max_sum already?? ugh this is taking forever",
+        "turn": 1
+      },
+      {
+        "role": "tutor",
+        "content": "def max_sum(triangle, n):\n    dp = [0] * n\n    dp[0] = triangle[0][0]\n    \n    for i in range(1, n):\n        for j in range(i, -1, -1):\n            if j == i:\n                dp[j] = dp[j-1] + triangle[i][j]\n            else:\n                dp[j] = max(dp[j], dp[j-1]) + triangle[i][j]\n    \n    return max(dp)",
+        "turn": 2,
+        "execution": {
+          "turn": 2,
+          "tests_passed": 0,
+          "total_tests": 3,
+          "success": false,
+          "error_type": "test_failure",
+          "message": "0/3 tests passed"
+        }
+      },
+      {
+        "role": "student",
+        "content": "ugh ANOTHER bug?? this is taking forever to figure out why it's not working. just fix it.",
+        "turn": 3
+      },
+      {
+        "role": "tutor",
+        "content": "def max_sum(triangle, n):\n    for i in range(1, n):\n        for j in range(len(triangle[i])):\n            if j == 0:\n                triangle[i][j] += triangle[i-1][j]\n            elif j == len(triangle[i])-1:\n                triangle[i][j] += triangle[i-1][j-1]\n            else:\n                triangle[i][j] += max(triangle[i-1][j-1], triangle[i-1][j])\n    return max(triangle[n-1])",
+        "turn": 4,
+        "execution": {
+          "turn": 4,
+          "tests_passed": 3,
+          "total_tests": 3,
+          "success": true,
+          "error_type": null,
+          "message": "All tests passed"
+        }
+      }
+    ],
+    "solved": true,
+    "turns": 4,
+    "scores": {
+      "persona_fidelity": 5,
+      "tutor_alignment": 3,
+      "dialog_progression": 2,
+      "total_score": 10,
+      "bucket": "gold",
+      "needs_human_review": false,
+      "main_failure": "none"
+    }
+  }
+]

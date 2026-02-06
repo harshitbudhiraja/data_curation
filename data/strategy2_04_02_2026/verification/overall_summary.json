@@ -1,0 +1,20 @@
+{
+  "HIGH": {
+    "gold": 272,
+    "silver": 36,
+    "bronze": 0,
+    "total": 308
+  },
+  "MEDIUM": {
+    "gold": 66,
+    "silver": 209,
+    "bronze": 8,
+    "total": 283
+  },
+  "LOW": {
+    "gold": 0,
+    "silver": 0,
+    "bronze": 323,
+    "total": 323
+  }
+}

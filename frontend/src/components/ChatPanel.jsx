@@ -1,6 +1,62 @@
 import { User, Bot } from 'lucide-react'
+import { useEffect, useRef } from 'react'
 
-export default function ChatPanel({ conversation }) {
+export default function ChatPanel({ conversation, onCodeInView, activeTurn }) {
+    const messageRefs = useRef({})
+    const observerRef = useRef(null)
+    // Set up Intersection Observer for scroll-driven code updates
+    useEffect(() => {
+        if (!onCodeInView) return
+
+        // Clean up previous observer
+        if (observerRef.current) {
+            observerRef.current.disconnect()
+        }
+
+        // Create new observer
+        observerRef.current = new IntersectionObserver(
+            (entries) => {
+                entries.forEach((entry) => {
+                    if (entry.isIntersecting) {
+                        const turn = parseInt(entry.target.dataset.turn)
+                        const role = entry.target.dataset.role
+                        const content = entry.target.dataset.content
+                        const execution = entry.target.dataset.execution
+
+                        // Only update for tutor messages with code
+                        // Mark as scroll event so parent can check autoSync
+                        if (role === 'tutor' && content) {
+                            onCodeInView({
+                                turn,
+                                code: content,
+                                execution: execution ? JSON.parse(execution) : null,
+                                isScrollEvent: true
+                            })
+                        }
+                    }
+                })
+            },
+            {
+                root: null,
+                rootMargin: '-40% 0px -40% 0px', // Trigger when message is in middle of viewport
+                threshold: 0.5
+            }
+        )
+
+        // Observe all tutor messages
+        Object.values(messageRefs.current).forEach((ref) => {
+            if (ref) {
+                observerRef.current.observe(ref)
+            }
+        })
+
+        return () => {
+            if (observerRef.current) {
+                observerRef.current.disconnect()
+            }
+        }
+    }, [conversation, onCodeInView])
+
     const renderCode = (content) => {
         // Check if content contains code
         const codeRegex = /```python\n([\s\S]*?)```|```\n([\s\S]*?)```/g
@@ -65,11 +121,31 @@ export default function ChatPanel({ conversation }) {
                 {conversation.map((msg, idx) => {
                     const isTutor = msg.role === 'tutor'
                     const hasExecution = msg.execution
+                    const isActive = activeTurn === msg.turn
                     
                     return (
                         <div
                             key={idx}
+                            ref={(el) => {
+                                if (isTutor) {
+                                    messageRefs.current[msg.turn] = el
+                                }
+                            }}
+                            data-turn={msg.turn}
+                            data-role={msg.role}
+                            data-content={isTutor ? msg.content : ''}
+                            data-execution={hasExecution ? JSON.stringify(hasExecution) : ''}
                             className={`flex ${isTutor ? 'justify-start' : 'justify-end'} animate-fade-in`}
+                            onClick={() => {
+                                // Allow clicking tutor messages to view their code
+                                if (isTutor && onCodeInView) {
+                                    onCodeInView({
+                                        turn: msg.turn,
+                                        code: msg.content,
+                                        execution: msg.execution || null
+                                    })
+                                }
+                            }}
                         >
                             <div className={`flex items-start space-x-3 max-w-[80%] ${isTutor ? 'flex-row' : 'flex-row-reverse space-x-reverse'}`}>
                                 {/* Avatar */}
@@ -85,13 +161,24 @@ export default function ChatPanel({ conversation }) {
 
                                 {/* Message bubble */}
                                 <div className="flex-1 min-w-0">
-                                    <div className={`rounded-2xl px-4 py-3 ${
+                                    <div className={`rounded-2xl px-4 py-3 transition-all ${
                                         isTutor
-                                            ? 'bg-emerald-100 text-gray-800 border border-emerald-200 rounded-tl-sm'
+                                            ? `bg-emerald-100 text-gray-800 border-2 rounded-tl-sm ${
+                                                isActive 
+                                                    ? 'border-blue-500 shadow-lg shadow-blue-200' 
+                                                    : 'border-emerald-200 hover:border-emerald-400 cursor-pointer'
+                                              }`
                                             : 'bg-blue-100 text-gray-800 border border-blue-200 rounded-tr-sm'
                                     } shadow-sm`}>
                                         <div className="text-xs font-semibold mb-2 opacity-70 flex items-center justify-between">
-                                            <span>{isTutor ? '👨‍🏫 Tutor' : '👨‍🎓 Student'} • Turn {msg.turn}</span>
+                                            <span>
+                                                {isTutor ? '👨‍🏫 Tutor' : '👨‍🎓 Student'} • Turn {msg.turn}
+                                                {isActive && isTutor && (
+                                                    <span className="ml-2 px-2 py-0.5 bg-blue-500 text-white rounded-full text-xs">
+                                                        Active
+                                                    </span>
+                                                )}
+                                            </span>
                                             {hasExecution && (
                                                 <span className={`ml-2 px-2 py-0.5 rounded-full text-xs font-bold ${
                                                     hasExecution.success 
@@ -103,7 +190,13 @@ export default function ChatPanel({ conversation }) {
                                             )}
                                         </div>
                                         <div className="text-sm leading-relaxed break-words">
-                                            {renderCode(msg.content)}
+                                            {isTutor ? (
+                                                <p className="text-gray-600 italic">
+                                                    {isActive ? '📍 Code displayed in canvas →' : '👆 Click to view code →'}
+                                                </p>
+                                            ) : (
+                                                renderCode(msg.content)
+                                            )}
                                         </div>
                                     </div>
                                 </div>

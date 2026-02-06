@@ -2,6 +2,41 @@
 
 A LangGraph-based system for generating realistic student-tutor debugging conversations using autonomous LLM agents. Creates high-quality training data for fine-tuning coding tutors by simulating multi-turn debugging sessions with diverse student personalities.
 
+## Quick Start (View Existing Data)
+
+**New to this project? Start here to view the generated conversations:**
+
+1. **Install dependencies**
+   ```bash
+   # Python backend
+   pip install -r requirements.txt
+   
+   # Frontend (Node.js required)
+   cd frontend && npm install && cd ..
+   ```
+
+2. **Start the backend**
+   ```bash
+   ./start_backend.sh
+   ```
+   Backend API runs on `http://localhost:8000`
+
+3. **Start the frontend** (in a new terminal)
+   ```bash
+   ./start_frontend.sh
+   ```
+   UI runs on `http://localhost:5173`
+
+4. **Browse conversations**
+   - Open `http://localhost:5173` in your browser
+   - Select a date folder (e.g., `strategy1_05_02_2026-2`)
+   - Choose a personality or knowledge level
+   - View conversations with quality ratings (gold/silver/bronze)
+
+**The database (`backend/conversations.db`) contains pre-generated conversations from both Strategy 1 (personality-based) and Strategy 2 (knowledge-level) approaches.**
+
+---
+
 ## Overview
 
 This system generates synthetic conversations where:
@@ -36,13 +71,17 @@ The result: realistic debugging conversations that teach tutors how to handle di
 - **Execution Node**: Runs code with pytest validation
 - **Router**: Decides to continue or end conversation
 
-**2. Bug Injection System** (`simulation/agents/tutor_agent.py`)
-- **20 bug types**: 10 syntax + 10 logic errors
-- **Deterministic injection**: Programmatic (not LLM-generated)
-- **Turn-based strategy**: Syntax bugs (turns 1-2), logic bugs (turns 3-4), correct code (turn 5+)
+## Bug Injection System** (`simulation/agents/tutor_agent.py`)
+- **Turn-based effort control**: Adjusts thoroughness and temperature by turn
+- **Natural errors**: Problems are difficult enough to cause natural failures
+- **Progressive refinement**: 
+  - Turns 1-2: Quick initial attempt (temp=0.7, less thorough)
+  - Turns 3-4: Refinement based on feedback (temp=0.5, focused)
+  - Turns 5+: Complete solution (temp=0.3, very thorough)
 
 **3. Data Pipeline**
-- **Generation**: Parallel processing (5 personalities × 200 problems)
+- **Generation**: Parallel processing (5 personalities × 500 problems)
+- **Dataset**: 500 curated medium-high difficulty coding questions
 - **Cleaning**: Remove hallucinations, LLM artifacts, false failures
 - **Storage**: SQLite database with FastAPI backend
 - **Viewing**: React frontend for browsing/filtering conversations
@@ -63,31 +102,32 @@ Each personality uses **tone instructions** to guide LLM behavior:
 
 ---
 
+## Effort Control Strategy
+
+### Turn-Based Progression
+
+The tutor agent adjusts its effort level based on turn count to create natural, progressive conversations:
+
+**Turns 1-2: Initial Attempt**
+- Temperature: 0.7 (more creative/sloppy)
+- Focus: Core logic without overthinking edge cases
+- Result: Natural errors due to incomplete implementation
+
+**Turns 3-4: Refinement**
+- Temperature: 0.5 (more focused)
+- Focus: Address specific issues from student feedback
+- Result: Fixes errors while maintaining correct logic
+
+**Turns 5+: Complete Solution**
+- Temperature: 0.3 (very careful)
+- Focus: Production-quality code with all edge cases
+- Result: Thorough implementation that passes all tests
+
+This creates realistic 4-8 turn conversations where student nudges actually guide the tutor's refinement process.
+
+---
+
 ## Bug Injection Types
-
-### Syntax Bugs (Turns 1-2)
-1. `remove_colon` - Missing `:` in function definition
-2. `missing_paren_def` - Missing `)` in parameters
-3. `missing_paren_return` - Missing `)` in return statement
-4. `missing_open_paren` - Missing `(` 
-5. `extra_comma` - Double comma in parameters
-6. `missing_equals` - Missing `=` in assignment
-7. `typo_def` - `deff` instead of `def`
-8. `typo_return` - `retrun` instead of `return`
-9. `missing_bracket` - Missing `]`
-10. `wrong_indent` - Incorrect indentation
-
-### Logic Bugs (Turns 3-4)
-1. `intersection_to_union` - `&` → `|` in sets
-2. `union_to_intersection` - `|` → `&` in sets
-3. `remove_set` - Missing `set()` wrapper
-4. `remove_tuple` - Missing `tuple()` wrapper
-5. `list_to_tuple` - Wrong type conversion
-6. `remove_sorted` - Missing `sorted()` call
-7. `flip_equals` - `==` → `!=`
-8. `in_to_not_in` - `in` → `not in`
-9. `off_by_one` - Range offset error
-10. `wrong_var` - Wrong variable name
 
 ---
 
@@ -96,10 +136,11 @@ Each personality uses **tone instructions** to guide LLM behavior:
 ### 1. Setup & Sanitization
 ```bash
 python create_dataset.py [start] [end]
-# Example: python create_dataset.py 1 101  (problems 1-100)
+# Example: python create_dataset.py 1 51  (problems 1-50)
+# Example: python create_dataset.py 1 501 (all 500 problems)
 ```
 
-**Sanitization**: Renames `test_*` functions to `check_*` to prevent pytest naming collisions.
+**Dataset**: Uses 500 curated medium-high difficulty coding questions from `benchmarks/coding_questions_500.json`.
 
 ### 2. Parallel Generation
 - Loads MBPP benchmark problems
@@ -110,13 +151,13 @@ python create_dataset.py [start] [end]
 ### 3. Conversation Loop (per problem)
 ```
 1. Student asks initial question (personality-based tone)
-2. Tutor provides code with syntax bug
-3. Execute → Syntax error
-4. Student points out syntax error
-5. Tutor provides code with logic bug
-6. Execute → Logic error (tests fail)
-7. Student identifies logic issue
-8. Tutor provides correct code
+2. Tutor provides code with quick initial attempt (temp=0.7)
+3. Execute → Natural errors due to incomplete edge case handling
+4. Student points out issues based on personality
+5. Tutor refines code based on feedback (temp=0.5)
+6. Execute → May still have logic errors
+7. Student identifies remaining issues
+8. Tutor provides complete solution (temp=0.3)
 9. Execute → All tests pass ✅
 10. END
 ```
@@ -142,15 +183,30 @@ python backend/database.py
 ```
 Migrates JSON files to SQLite for API access.
 
-### 6. Viewing
-```bash
-# Terminal 1: Start backend
-./start_backend.sh
+### 6. Viewing Data in UI
 
-# Terminal 2: Start frontend
+**For new users who want to view existing data:**
+
+The database (`backend/conversations.db`) contains all generated conversations. To view them:
+
+```bash
+# Terminal 1: Start backend API
+./start_backend.sh
+# Backend runs on http://localhost:8000
+
+# Terminal 2: Start frontend UI
 ./start_frontend.sh
+# Frontend runs on http://localhost:5173
 ```
-Browse conversations at `http://localhost:5173`
+
+Open `http://localhost:5173` in your browser to:
+- Browse conversations by date and personality/knowledge level
+- View both Strategy 1 (personality-based) and Strategy 2 (knowledge-level) data
+- Filter by quality (gold/silver/bronze)
+- See execution results and test outcomes
+- Discard low-quality conversations
+
+**Note**: The database already contains pre-generated conversations. You don't need to run the generation pipeline unless you want to create new data.
 
 ---
 
@@ -161,10 +217,16 @@ Browse conversations at `http://localhost:5173`
 - **Conditional routing**: Decides when to loop or end
 - **Modularity**: Easy to add new agent types or nodes
 
-### Why Inject Bugs Programmatically?
-- **LLMs are bad at generating bugs on command** (they try to fix them)
-- **Deterministic bugs** ensure quality and consistency
-- **Guarantees minimum 4 turns** for realistic debugging conversations
+### Why Turn-Based Effort Control?
+- **Natural errors**: Problems are difficult enough to cause real failures
+- **Controlled progression**: Avoids immediate solve or never solve scenarios
+- **Student influence**: Nudges actually guide the refinement process
+- **Realistic conversations**: 4-8 turns of genuine debugging
+
+### Why 500 Curated Questions?
+- **Medium-high difficulty**: ~10% success rate on first try
+- **Appropriate challenge**: Forces multiple turns without being impossible
+- **Quality over quantity**: Curated for educational value
 
 ### Why Separate Student/Tutor Models?
 - **Student**: `qwen-2.5-7b-instruct` (general instruction model for natural language)
@@ -179,6 +241,11 @@ Browse conversations at `http://localhost:5173`
 - LLMs leak prompts, explanations, wrapper tags
 - Need pure code for execution
 - Regex-based extraction with multiple fallbacks
+
+### Why Turn-Based Temperature?
+- Higher temp early = more creative/sloppy (natural errors)
+- Lower temp later = more careful (complete solutions)
+- Mimics real debugging progression
 
 ---
 
@@ -201,7 +268,8 @@ Browse conversations at `http://localhost:5173`
 ├── frontend/                   # React UI for browsing conversations
 ├── prompts/                    # System prompts for agents
 ├── benchmarks/
-│   └── mbpp.jsonl              # MBPP dataset (974 problems)
+│   ├── mbpp.jsonl              # Original MBPP dataset (974 problems)
+│   └── coding_questions_500.json  # Curated 500 medium-high difficulty questions
 ├── data/                       # Generated conversations (by date)
 ├── create_dataset.py           # Main generation script
 ├── clean_dataset_v2.py         # Post-processing pipeline
@@ -233,11 +301,17 @@ cd frontend && npm install
 
 ### Generate Dataset
 ```bash
+# Generate 50 conversations (problems 1-50) - good for testing
+python create_dataset.py 1 51
+
 # Generate 100 conversations (problems 1-100)
 python create_dataset.py 1 101
 
-# Resume from problem 50
-python create_dataset.py 50 101
+# Generate all 500 conversations
+python create_dataset.py 1 501
+
+# Resume from problem 250
+python create_dataset.py 250 501
 ```
 
 ### Clean Dataset
@@ -248,8 +322,12 @@ python clean_dataset_v2.py
 
 ### Migrate to Database
 ```bash
+# Migrates JSON files from data/ folder to SQLite database
+# Supports both Strategy 1 (personality) and Strategy 2 (knowledge_level)
 python backend/database.py
 ```
+
+**Note**: The repository includes a pre-populated database. Only run this if you've generated new conversations or want to reload data.
 
 ### View Conversations
 ```bash
@@ -315,7 +393,14 @@ Each conversation is stored as JSON:
 
 ## Utilities
 
-- `delete_date_from_db.py` - Remove conversations from specific date
+- `delete_date_from_db.py` - Remove conversations from database
+  ```bash
+  # Delete specific date folder
+  python delete_date_from_db.py strategy1_05_02_2026-2
+  
+  # Delete ALL data (with confirmation)
+  python delete_date_from_db.py --all
+  ```
 - `start_backend.sh` - Convenience script for backend
 - `start_frontend.sh` - Convenience script for frontend
 

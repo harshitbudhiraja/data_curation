@@ -1,0 +1,2648 @@
+[
+  {
+    "id": "c1c249b9-1636-4bcb-a12d-b24a5c76ebaa",
+    "task_id": 4,
+    "personality": "OVERCONFIDENT_WRONG",
+    "conversation": [
+      {
+        "role": "student",
+        "content": "this looks easy, just need a quick check dude. can ya confirm?",
+        "turn": 1
+      },
+      {
+        "role": "tutor",
+        "content": "def re_arrange(arr, n):\n    pos = []\n    neg = []\n    for i in range(n):\n        if arr[i] >= 0:\n            pos.append(arr[i])\n        else:\n            neg.append(arr[i])\n    result = []\n    for i in range(min(len(pos), len(neg))):\n        result.append(neg[i])\n        result.append(pos[i])\n    if len(pos) > len(neg):\n        result.extend(pos[len(neg):])\n    elif len(neg) > len(pos):\n        result.extend(neg[len(pos):])\n    return result",
+        "turn": 2,
+        "execution": {
+          "turn": 2,
+          "tests_passed": 3,
+          "total_tests": 3,
+          "success": true,
+          "error_type": null,
+          "message": "All tests passed"
+        }
+      }
+    ],
+    "solved": true,
+    "turns": 2,
+    "scores": {
+      "persona_fidelity": 5,
+      "tutor_alignment": 3,
+      "dialog_progression": 2,
+      "total_score": 10,
+      "bucket": "gold",
+      "needs_human_review": false,
+      "main_failure": "none"
+    }
+  },
+  {
+    "id": "5060eb02-1b30-4380-a3d6-d0c6af636e69",
+    "task_id": 5,
+    "personality": "OVERCONFIDENT_WRONG",
+    "conversation": [
+      {
+        "role": "student",
+        "content": "\"obviously u can just google it, but give me ur initial implementation.\"",
+        "turn": 1
+      },
+      {
+        "role": "tutor",
+        "content": "def heap_sort(arr):\n    def heapify(arr, n, i):\n        largest = i\n        left = 2 * i + 1\n        right = 2 * i + 2",
+        "turn": 2,
+        "execution": {
+          "turn": 2,
+          "tests_passed": 0,
+          "total_tests": 3,
+          "success": false,
+          "error_type": "test_failure",
+          "message": "0/3 tests passed"
+        }
+      },
+      {
+        "role": "student",
+        "content": "Nah, the function is missing the actual sorting logic. Clearly, you need to build the heap and then extract elements one by one. Just use the full heap sort algorithm: heapify, build heap, and sort.",
+        "turn": 3
+      },
+      {
+        "role": "tutor",
+        "content": "def heapify(arr, n, i):\n    largest = i\n    left = 2 * i + 1\n    right = 2 * i + 2\n\n    if left < n and arr[i] < arr[left]:\n        largest = left\n\n    if right < n and arr[largest] < arr[right]:\n        largest = right\n\n    if largest != i:\n        arr[i], arr[largest] = arr[largest], arr[i]\n        heapify(arr, n, largest)\n\ndef heap_sort(arr):\n    n = len(arr)\n\n    for i in range(n // 2 - 1, -1, -1):\n        heapify(arr, n, i)\n\n    for i in range(n - 1, 0, -1):\n        arr[i], arr[0] = arr[0], arr[i]\n        heapify(arr, i, 0)\n\n    return arr",
+        "turn": 4,
+        "execution": {
+          "turn": 4,
+          "tests_passed": 3,
+          "total_tests": 3,
+          "success": true,
+          "error_type": null,
+          "message": "All tests passed"
+        }
+      }
+    ],
+    "solved": true,
+    "turns": 4,
+    "scores": {
+      "persona_fidelity": 5,
+      "tutor_alignment": 3,
+      "dialog_progression": 2,
+      "total_score": 10,
+      "bucket": "gold",
+      "needs_human_review": false,
+      "main_failure": "none"
+    }
+  },
+  {
+    "id": "174f5d4f-2260-49b7-bcc7-620294de3357",
+    "task_id": 9,
+    "personality": "OVERCONFIDENT_WRONG",
+    "conversation": [
+      {
+        "role": "student",
+        "content": "\"nah, i can write this in like 2 mins. wanna bet? gimme ur take first.\"",
+        "turn": 1
+      },
+      {
+        "role": "tutor",
+        "content": "def permutation_coefficient(n, k):\n    # Calculate the factorial of n and k\n    factorial_n = 1\n    factorial_k = 1\n    for i in range(1, n + 1):\n        factorial_n *= i\n    for i in range(1, k + 1):\n        factorial_k *= i\n    \n    # Calculate the permutation coefficient\n    return factorial_n // factorial_k",
+        "turn": 2,
+        "execution": {
+          "turn": 2,
+          "tests_passed": 0,
+          "total_tests": 3,
+          "success": false,
+          "error_type": "test_failure",
+          "message": "0/3 tests passed"
+        }
+      },
+      {
+        "role": "student",
+        "content": "Nah, 0/3 tests passed? Clearly just a minor detail. Maybe check edge cases. Just use math.factorial directly.",
+        "turn": 3
+      },
+      {
+        "role": "tutor",
+        "content": "def permutation_coefficient(n, k):\n    if k > n:\n        return 0\n    elif k == 0:\n        return 1\n    else:\n        return n * permutation_coefficient(n - 1, k - 1)",
+        "turn": 4,
+        "execution": {
+          "turn": 4,
+          "tests_passed": 3,
+          "total_tests": 3,
+          "success": true,
+          "error_type": null,
+          "message": "All tests passed"
+        }
+      }
+    ],
+    "solved": true,
+    "turns": 4,
+    "scores": {
+      "persona_fidelity": 5,
+      "tutor_alignment": 3,
+      "dialog_progression": 2,
+      "total_score": 10,
+      "bucket": "gold",
+      "needs_human_review": false,
+      "main_failure": "none"
+    }
+  },
+  {
+    "id": "80f4c695-a82e-45d7-8b0b-3aa592b28d78",
+    "task_id": 10,
+    "personality": "OVERCONFIDENT_WRONG",
+    "conversation": [
+      {
+        "role": "student",
+        "content": "\"nah, u even know how to start this func? clearly no one knows how to deal with mixed nested tuples.\"",
+        "turn": 1
+      },
+      {
+        "role": "tutor",
+        "content": "def count_element_freq(t):\n    freq = {}\n    for elem in t:\n        if isinstance(elem, tuple):\n            for sub_elem in elem:\n                if sub_elem in freq:\n                    freq[sub_elem] += 1\n                else:\n                    freq[sub_elem] = 1\n        else:\n            if elem in freq:\n                freq[elem] += 1\n            else:\n                freq[elem] = 1\n    return freq",
+        "turn": 2,
+        "execution": {
+          "turn": 2,
+          "tests_passed": 3,
+          "total_tests": 3,
+          "success": true,
+          "error_type": null,
+          "message": "All tests passed"
+        }
+      }
+    ],
+    "solved": true,
+    "turns": 2,
+    "scores": {
+      "persona_fidelity": 5,
+      "tutor_alignment": 3,
+      "dialog_progression": 2,
+      "total_score": 10,
+      "bucket": "gold",
+      "needs_human_review": false,
+      "main_failure": "none"
+    }
+  },
+  {
+    "id": "066e9a2a-19d5-4f06-9f37-2e677955746d",
+    "task_id": 13,
+    "personality": "OVERCONFIDENT_WRONG",
+    "conversation": [
+      {
+        "role": "student",
+        "content": "\"this looks easy, just need a quick check. wanna bet i can write it faster?\"",
+        "turn": 1
+      },
+      {
+        "role": "tutor",
+        "content": "def remove_dirty_chars(s1, s2):\n    result = \"\"\n    for char in s1:\n        if char not in s2:\n            result += char\n    return result",
+        "turn": 2,
+        "execution": {
+          "turn": 2,
+          "tests_passed": 3,
+          "total_tests": 3,
+          "success": true,
+          "error_type": null,
+          "message": "All tests passed"
+        }
+      }
+    ],
+    "solved": true,
+    "turns": 2,
+    "scores": {
+      "persona_fidelity": 5,
+      "tutor_alignment": 3,
+      "dialog_progression": 2,
+      "total_score": 10,
+      "bucket": "gold",
+      "needs_human_review": false,
+      "main_failure": "none"
+    }
+  },
+  {
+    "id": "a4164a76-1416-4f35-b138-25fe18a5cfcc",
+    "task_id": 14,
+    "personality": "OVERCONFIDENT_WRONG",
+    "conversation": [
+      {
+        "role": "student",
+        "content": "\"this looks easy, just need a quick check. ya know how to write a recursive func for perrin nums?\"",
+        "turn": 1
+      },
+      {
+        "role": "tutor",
+        "content": "def get_perrin(n):\n    if n == 0:\n        return 3\n    elif n == 1:\n        return 0\n    elif n == 2:\n        return 2\n    else:\n        return get_perrin(n-2) + get_perrin(n-3)",
+        "turn": 2,
+        "execution": {
+          "turn": 2,
+          "tests_passed": 3,
+          "total_tests": 3,
+          "success": true,
+          "error_type": null,
+          "message": "All tests passed"
+        }
+      }
+    ],
+    "solved": true,
+    "turns": 2,
+    "scores": {
+      "persona_fidelity": 5,
+      "tutor_alignment": 3,
+      "dialog_progression": 2,
+      "total_score": 10,
+      "bucket": "gold",
+      "needs_human_review": false,
+      "main_failure": "none"
+    }
+  },
+  {
+    "id": "6d582216-1391-4b3d-9eb6-816eced94ab7",
+    "task_id": 15,
+    "personality": "OVERCONFIDENT_WRONG",
+    "conversation": [
+      {
+        "role": "student",
+        "content": "this looks easy, just need a quick check dude. can ya confirm my approach?",
+        "turn": 1
+      },
+      {
+        "role": "tutor",
+        "content": "def modular_sum(nums, m, target_sum):\n    n = len(nums)\n    mod_sums = [0] * m\n    mod_sums[0] = 1\n    for num in nums:\n        new_mod_sums = [0] * m\n        for i in range(m):\n            new_mod_sums[(i + num) % m] += mod_sums[i]\n        mod_sums = new_mod_sums\n    return mod_sums[target_sum % m] > 0",
+        "turn": 2,
+        "execution": {
+          "turn": 2,
+          "tests_passed": 1,
+          "total_tests": 3,
+          "success": false,
+          "error_type": "test_failure",
+          "message": "1/3 tests passed"
+        }
+      },
+      {
+        "role": "student",
+        "content": "Nah, that code is clearly fine. Must be a minor issue with the tests. Just use modulo directly in the return statement: `return mod_sums[target_sum] > 0`. Works for all cases.",
+        "turn": 3
+      },
+      {
+        "role": "tutor",
+        "content": "def modular_sum(arr, n, m):\n    if n == 0:\n        return False\n    if m == 0:\n        return True\n    if arr[n-1] % m == 0:\n        return True\n    return modular_sum(arr, n-1, m) or modular_sum(arr, n-1, m-arr[n-1] % m)",
+        "turn": 4,
+        "execution": {
+          "turn": 4,
+          "tests_passed": 3,
+          "total_tests": 3,
+          "success": true,
+          "error_type": null,
+          "message": "All tests passed"
+        }
+      }
+    ],
+    "solved": true,
+    "turns": 4,
+    "scores": {
+      "persona_fidelity": 5,
+      "tutor_alignment": 3,
+      "dialog_progression": 2,
+      "total_score": 10,
+      "bucket": "gold",
+      "needs_human_review": false,
+      "main_failure": "none"
+    }
+  },
+  {
+    "id": "bb66c15e-85cf-4394-9955-af9d00afe8dd",
+    "task_id": 17,
+    "personality": "OVERCONFIDENT_WRONG",
+    "conversation": [
+      {
+        "role": "student",
+        "content": "this looks super easy, just need a quick check dude",
+        "turn": 1
+      },
+      {
+        "role": "tutor",
+        "content": "def get_coordinates(coord):\n    x, y = coord\n    coordinates = []\n    for i in range(-1, 2):\n        for j in range(-1, 2):\n            if i != 0 or j != 0:\n                coordinates.append([x + i, y + j])\n    return coordinates",
+        "turn": 2,
+        "execution": {
+          "turn": 2,
+          "tests_passed": 0,
+          "total_tests": 3,
+          "success": false,
+          "error_type": "test_failure",
+          "message": "0/3 tests passed"
+        }
+      },
+      {
+        "role": "student",
+        "content": "Nah, it's obvious the issue is with edge cases where `x` or `y` are at the grid boundary. Clearly, you're appending all neighbors including out-of-bound ones. Just use `max` and `min` to clip the values inside the range.",
+        "turn": 3
+      },
+      {
+        "role": "tutor",
+        "content": "def get_coordinates(coordinate):\n    x, y = coordinate\n    coordinates = []\n    for i in range(x-1, x+2):\n        for j in range(y-1, y+2):\n            if i != x or j != y:\n                coordinates.append([i, j])\n    return coordinates",
+        "turn": 4,
+        "execution": {
+          "turn": 4,
+          "tests_passed": 0,
+          "total_tests": 3,
+          "success": false,
+          "error_type": "test_failure",
+          "message": "0/3 tests passed"
+        }
+      },
+      {
+        "role": "student",
+        "content": "Nah, the problem's clearly with those test cases. They must be wrong. Just use `if i != x and j != y`.",
+        "turn": 5
+      },
+      {
+        "role": "tutor",
+        "content": "def get_coordinates(coord):\n    x, y = coord\n    return [[x-1, y-1], [x-1, y], [x-1, y+1], [x, y-1], [x, y], [x, y+1], [x+1, y-1], [x+1, y], [x+1, y+1]]",
+        "turn": 6,
+        "execution": {
+          "turn": 6,
+          "tests_passed": 3,
+          "total_tests": 3,
+          "success": true,
+          "error_type": null,
+          "message": "All tests passed"
+        }
+      }
+    ],
+    "solved": true,
+    "turns": 6,
+    "scores": {
+      "persona_fidelity": 5,
+      "tutor_alignment": 3,
+      "dialog_progression": 2,
+      "total_score": 10,
+      "bucket": "gold",
+      "needs_human_review": false,
+      "main_failure": "none"
+    }
+  },
+  {
+    "id": "36e9a3fc-3132-4e44-8168-cda01ad4a584",
+    "task_id": 21,
+    "personality": "OVERCONFIDENT_WRONG",
+    "conversation": [
+      {
+        "role": "student",
+        "content": "\"Obviously you can just compare each element dude. Why bother explaining?\"",
+        "turn": 1
+      },
+      {
+        "role": "tutor",
+        "content": "def is_samepatterns(arr1, arr2):\n    if len(arr1) != len(arr2):\n        return False\n\n    pattern_map = {}\n\n    for i in range(len(arr1)):\n        pattern = arr1[i]\n        color = arr2[i]\n\n        if pattern not in pattern_map:\n            pattern_map[pattern] = color\n        elif pattern_map[pattern] != color:\n            return False\n\n    return True",
+        "turn": 2,
+        "execution": {
+          "turn": 2,
+          "tests_passed": 2,
+          "total_tests": 3,
+          "success": false,
+          "error_type": "test_failure",
+          "message": "2/3 tests passed"
+        }
+      },
+      {
+        "role": "student",
+        "content": "Clearly, the issue is with how patterns are matched. Just use a simple counter instead of a map. Works perfectly, thanks!",
+        "turn": 3
+      },
+      {
+        "role": "tutor",
+        "content": "def is_samepatterns(patterns, words):\n    if len(patterns) != len(words):\n        return False\n    \n    pattern_to_word = {}\n    word_to_pattern = {}\n    \n    for pattern, word in zip(patterns, words):\n        if pattern in pattern_to_word and pattern_to_word[pattern] != word:\n            return False\n        if word in word_to_pattern and word_to_pattern[word] != pattern:\n            return False\n        pattern_to_word[pattern] = word\n        word_to_pattern[word] = pattern\n    \n    return True",
+        "turn": 4,
+        "execution": {
+          "turn": 4,
+          "tests_passed": 3,
+          "total_tests": 3,
+          "success": true,
+          "error_type": null,
+          "message": "All tests passed"
+        }
+      }
+    ],
+    "solved": true,
+    "turns": 4,
+    "scores": {
+      "persona_fidelity": 5,
+      "tutor_alignment": 3,
+      "dialog_progression": 2,
+      "total_score": 10,
+      "bucket": "gold",
+      "needs_human_review": false,
+      "main_failure": "none"
+    }
+  },
+  {
+    "id": "51fad60e-20bf-4d2d-bd4c-ea6263a36eba",
+    "task_id": 22,
+    "personality": "OVERCONFIDENT_WRONG",
+    "conversation": [
+      {
+        "role": "student",
+        "content": "\"nah, u rly knw hw t wrt ths fcn? jst sk hw t spil th mxd sm t wiv th nmr.\"",
+        "turn": 1
+      },
+      {
+        "role": "tutor",
+        "content": "def sum_digits_twoparts(n):\n    # If n is a single digit, return n\n    if n < 10:\n        return n\n\n    # Find the largest digit in n\n    largest_digit = 0\n    for digit in str(n):\n        if int(digit) > largest_digit:\n            largest_digit = int(digit)\n\n    # Subtract the largest digit from n\n    n -= largest_digit\n\n    # Find the largest digit in the remaining number\n    largest_digit_2 = 0\n    for digit in str(n):\n        if int(digit) > largest_digit_2:\n            largest_digit_2 = int(digit)\n\n    # Return the sum of the two largest digits\n    return largest_digit + largest_digit_2",
+        "turn": 2,
+        "execution": {
+          "turn": 2,
+          "tests_passed": 1,
+          "total_tests": 3,
+          "success": false,
+          "error_type": "test_failure",
+          "message": "1/3 tests passed"
+        }
+      },
+      {
+        "role": "student",
+        "content": "Nah, the issue is probably with how the function handles numbers with repeated largest digits. Just use modulo and integer division to extract digits instead.",
+        "turn": 3
+      },
+      {
+        "role": "tutor",
+        "content": "def sum_digits_twoparts(n):\n    if n < 10:\n        return n\n\n    max_sum = 0\n    for i in range(1, n):\n        part1 = i\n        part2 = n - i\n        sum1 = sum(int(digit) for digit in str(part1))\n        sum2 = sum(int(digit) for digit in str(part2))\n        if sum1 + sum2 > max_sum:\n            max_sum = sum1 + sum2\n\n    return max_sum",
+        "turn": 4,
+        "execution": {
+          "turn": 4,
+          "tests_passed": 3,
+          "total_tests": 3,
+          "success": true,
+          "error_type": null,
+          "message": "All tests passed"
+        }
+      }
+    ],
+    "solved": true,
+    "turns": 4,
+    "scores": {
+      "persona_fidelity": 5,
+      "tutor_alignment": 3,
+      "dialog_progression": 2,
+      "total_score": 10,
+      "bucket": "gold",
+      "needs_human_review": false,
+      "main_failure": "none"
+    }
+  },
+  {
+    "id": "1bb0f4e2-4f34-4e4d-9659-c0c6d046fd44",
+    "task_id": 27,
+    "personality": "OVERCONFIDENT_WRONG",
+    "conversation": [
+      {
+        "role": "student",
+        "content": "\"Obviously you can just sort the array and take the last element, nah?\"",
+        "turn": 1
+      },
+      {
+        "role": "tutor",
+        "content": "def largest_palindrome(nums, n):\n    largest = 0\n    for num in nums:\n        if str(num) == str(num)[::-1] and num > largest:\n            largest = num\n    return largest",
+        "turn": 2,
+        "execution": {
+          "turn": 2,
+          "tests_passed": 3,
+          "total_tests": 3,
+          "success": true,
+          "error_type": null,
+          "message": "All tests passed"
+        }
+      }
+    ],
+    "solved": true,
+    "turns": 2,
+    "scores": {
+      "persona_fidelity": 5,
+      "tutor_alignment": 3,
+      "dialog_progression": 2,
+      "total_score": 10,
+      "bucket": "gold",
+      "needs_human_review": false,
+      "main_failure": "none"
+    }
+  },
+  {
+    "id": "87004794-1716-44c1-90c1-d3779770e4df",
+    "task_id": 29,
+    "personality": "OVERCONFIDENT_WRONG",
+    "conversation": [
+      {
+        "role": "student",
+        "content": "\"nah, u even know how to start this func? clearly no one knows spiral order.\"",
+        "turn": 1
+      },
+      {
+        "role": "tutor",
+        "content": "def generate_matrix(n):\n    matrix = [[0] * n for _ in range(n)]\n    num = 1\n    top, bottom, left, right = 0, n - 1, 0, n - 1\n    \n    while top <= bottom and left <= right:\n        for j in range(left, right + 1):\n            matrix[top][j] = num ** 2\n            num += 1\n        top += 1\n        \n        for i in range(top, bottom + 1):\n            matrix[i][right] = num ** 2\n            num += 1\n        right -= 1\n        \n        if top <= bottom:\n            for j in range(right, left - 1, -1):\n                matrix[bottom][j] = num ** 2\n                num += 1\n            bottom -= 1\n        \n        if left <= right:\n            for i in range(bottom, top - 1, -1):\n                matrix[i][left] = num ** 2\n                num += 1\n            left += 1\n    \n    return matrix",
+        "turn": 2,
+        "execution": {
+          "turn": 2,
+          "tests_passed": 0,
+          "total_tests": 3,
+          "success": false,
+          "error_type": "test_failure",
+          "message": "0/3 tests passed"
+        }
+      },
+      {
+        "role": "student",
+        "content": "Nah, the issue clearly is with the power operation. Change `num ** 2` to just `num` dude. Works perfectly, thanks!",
+        "turn": 3
+      },
+      {
+        "role": "tutor",
+        "content": "def generate_matrix(n):\n    matrix = [[0] * n for _ in range(n)]\n    num = 1\n    row_start, row_end = 0, n - 1\n    col_start, col_end = 0, n - 1\n    \n    while row_start <= row_end and col_start <= col_end:\n        # Fill top row\n        for i in range(col_start, col_end + 1):\n            matrix[row_start][i] = num ** 2\n            num += 1\n        row_start += 1\n        \n        # Fill right column\n        for i in range(row_start, row_end + 1):\n            matrix[i][col_end] = num ** 2\n            num += 1\n        col_end -= 1\n        \n        # Fill bottom row\n        if row_start <= row_end:\n            for i in range(col_end, col_start - 1, -1):\n                matrix[row_end][i] = num ** 2\n                num += 1\n            row_end -= 1\n        \n        # Fill left column\n        if col_start <= col_end:\n            for i in range(row_end, row_start - 1, -1):\n                matrix[i][col_start] = num ** 2\n                num += 1\n            col_start += 1\n    \n    return matrix",
+        "turn": 4,
+        "execution": {
+          "turn": 4,
+          "tests_passed": 0,
+          "total_tests": 3,
+          "success": false,
+          "error_type": "test_failure",
+          "message": "0/3 tests passed"
+        }
+      },
+      {
+        "role": "student",
+        "content": "Nah, the tests are probably wrong. Just run it with more values and see. Clearly, it's functioning as intended.",
+        "turn": 5
+      },
+      {
+        "role": "tutor",
+        "content": "def generate_matrix(n):\n    matrix = [[0] * n for _ in range(n)]\n    num = 1\n    top, bottom, left, right = 0, n-1, 0, n-1\n\n    while top <= bottom and left <= right:\n        for i in range(left, right+1):\n            matrix[top][i] = num\n            num += 1\n        top += 1\n\n        for i in range(top, bottom+1):\n            matrix[i][right] = num\n            num += 1\n        right -= 1\n\n        if top <= bottom:\n            for i in range(right, left-1, -1):\n                matrix[bottom][i] = num\n                num += 1\n            bottom -= 1\n\n        if left <= right:\n            for i in range(bottom, top-1, -1):\n                matrix[i][left] = num\n                num += 1\n            left += 1\n\n    return matrix",
+        "turn": 6,
+        "execution": {
+          "turn": 6,
+          "tests_passed": 3,
+          "total_tests": 3,
+          "success": true,
+          "error_type": null,
+          "message": "All tests passed"
+        }
+      }
+    ],
+    "solved": true,
+    "turns": 6,
+    "scores": {
+      "persona_fidelity": 5,
+      "tutor_alignment": 2,
+      "dialog_progression": 2,
+      "total_score": 9,
+      "bucket": "gold",
+      "needs_human_review": false,
+      "main_failure": "none"
+    }
+  },
+  {
+    "id": "7645cb14-23a5-4489-96a9-dc50bf7e4c02",
+    "task_id": 31,
+    "personality": "OVERCONFIDENT_WRONG",
+    "conversation": [
+      {
+        "role": "student",
+        "content": "this looks ez, bet u cant do it faster. wanna see ur take?",
+        "turn": 1
+      },
+      {
+        "role": "tutor",
+        "content": "def parse_nested_parens(s):\n    return [len(group) // 2 for group in s.split()]",
+        "turn": 2,
+        "execution": {
+          "turn": 2,
+          "tests_passed": 1,
+          "total_tests": 3,
+          "success": false,
+          "error_type": "test_failure",
+          "message": "1/3 tests passed"
+        }
+      },
+      {
+        "role": "student",
+        "content": "Nah, you're clearly splitting the string instead of counting nested parens. Just use a stack to track levels.",
+        "turn": 3
+      },
+      {
+        "role": "tutor",
+        "content": "def parse_nested_parens(s):\n    result = []\n    for group in s.split():\n        depth = 0\n        for char in group:\n            if char == '(':\n                depth += 1\n            elif char == ')':\n                depth -= 1\n        result.append(depth)\n    return result",
+        "turn": 4,
+        "execution": {
+          "turn": 4,
+          "tests_passed": 0,
+          "total_tests": 3,
+          "success": false,
+          "error_type": "test_failure",
+          "message": "0/3 tests passed"
+        }
+      },
+      {
+        "role": "student",
+        "content": "Nah, it's clearly parsing each group correctly but not handling nested parens. Just use a stack to track depth properly.",
+        "turn": 5
+      },
+      {
+        "role": "tutor",
+        "content": "def parse_nested_parens(s):\n    def count_nested_parens(s):\n        max_depth = 0\n        current_depth = 0\n        for char in s:\n            if char == '(':\n                current_depth += 1\n                max_depth = max(max_depth, current_depth)\n            elif char == ')':\n                current_depth -= 1\n        return max_depth\n\n    return [count_nested_parens(group) for group in s.split()]",
+        "turn": 6,
+        "execution": {
+          "turn": 6,
+          "tests_passed": 3,
+          "total_tests": 3,
+          "success": true,
+          "error_type": null,
+          "message": "All tests passed"
+        }
+      }
+    ],
+    "solved": true,
+    "turns": 6,
+    "scores": {
+      "persona_fidelity": 5,
+      "tutor_alignment": 3,
+      "dialog_progression": 2,
+      "total_score": 10,
+      "bucket": "gold",
+      "needs_human_review": false,
+      "main_failure": "none"
+    }
+  },
+  {
+    "id": "a3618488-0272-449c-91e0-f0d6d07ca0f3",
+    "task_id": 32,
+    "personality": "OVERCONFIDENT_WRONG",
+    "conversation": [
+      {
+        "role": "student",
+        "content": "this looks easy, just need a quick check dude",
+        "turn": 1
+      },
+      {
+        "role": "tutor",
+        "content": "def find_closest_elements(numbers):\n    min_diff = float('inf')\n    closest_elements = (0, 0)\n    for i in range(len(numbers)):\n        for j in range(i + 1, len(numbers)):\n            diff = abs(numbers[i] - numbers[j])\n            if diff < min_diff:\n                min_diff = diff\n                closest_elements = (numbers[i], numbers[j])\n    return closest_elements",
+        "turn": 2,
+        "execution": {
+          "turn": 2,
+          "tests_passed": 2,
+          "total_tests": 3,
+          "success": false,
+          "error_type": "test_failure",
+          "message": "2/3 tests passed"
+        }
+      },
+      {
+        "role": "student",
+        "content": "Nah, it's clearly returning the pair instead of the difference. Just change `return closest_elements` to `return min_diff`.",
+        "turn": 3
+      },
+      {
+        "role": "tutor",
+        "content": "def find_closest_elements(numbers):\n    closest_pair = None\n    min_diff = float('inf')\n\n    for i in range(len(numbers)):\n        for j in range(i+1, len(numbers)):\n            diff = abs(numbers[i] - numbers[j])\n            if diff < min_diff:\n                min_diff = diff\n                closest_pair = (min(numbers[i], numbers[j]), max(numbers[i], numbers[j]))\n\n    return closest_pair",
+        "turn": 4,
+        "execution": {
+          "turn": 4,
+          "tests_passed": 3,
+          "total_tests": 3,
+          "success": true,
+          "error_type": null,
+          "message": "All tests passed"
+        }
+      }
+    ],
+    "solved": true,
+    "turns": 4,
+    "scores": {
+      "persona_fidelity": 5,
+      "tutor_alignment": 3,
+      "dialog_progression": 2,
+      "total_score": 10,
+      "bucket": "gold",
+      "needs_human_review": false,
+      "main_failure": "none"
+    }
+  },
+  {
+    "id": "78b50453-fe87-4c99-900f-0afd90f38275",
+    "task_id": 33,
+    "personality": "OVERCONFIDENT_WRONG",
+    "conversation": [
+      {
+        "role": "student",
+        "content": "this looks super easy, just need a quick check dude. clearly 2 3 5 13 89 are prime fibs. give me an initial implementation.",
+        "turn": 1
+      },
+      {
+        "role": "tutor",
+        "content": "def prime_fib(n):\n    fib_seq = [0, 1]\n    primes = []\n    i = 2\n    while len(primes) < n:\n        fib_seq.append(fib_seq[-1] + fib_seq[-2])\n        if is_prime(fib_seq[-1]):\n            primes.append(fib_seq[-1])\n        i += 1\n    return primes[-1]",
+        "turn": 2,
+        "execution": {
+          "turn": 2,
+          "tests_passed": 0,
+          "total_tests": 3,
+          "success": false,
+          "error_type": "test_failure",
+          "message": "0/3 tests passed"
+        }
+      },
+      {
+        "role": "student",
+        "content": "Nah, the tests must be wrong. Just use more edge cases, clearly.",
+        "turn": 3
+      },
+      {
+        "role": "tutor",
+        "content": "def prime_fib(n):\n    def is_prime(num):\n        if num < 2:\n            return False\n        for i in range(2, int(num**0.5) + 1):\n            if num % i == 0:\n                return False\n        return True\n\n    fib_sequence = [2, 3]\n    while len(fib_sequence) < n:\n        next_fib = fib_sequence[-1] + fib_sequence[-2]\n        if is_prime(next_fib):\n            fib_sequence.append(next_fib)\n\n    return fib_sequence[-1]",
+        "turn": 4,
+        "execution": {
+          "turn": 4,
+          "tests_passed": 2,
+          "total_tests": 3,
+          "success": false,
+          "error_type": "test_failure",
+          "message": "2/3 tests passed"
+        }
+      },
+      {
+        "role": "student",
+        "content": "Works perfectly, thanks! Nah, 2/3 tests passed must be a minor thing. Just adjust test cases.",
+        "turn": 5
+      },
+      {
+        "role": "tutor",
+        "content": "import math\n\ndef prime_fib(n):\n    def is_prime(num):\n        if num < 2:\n            return False\n        for i in range(2, int(math.sqrt(num)) + 1):\n            if num % i == 0:\n                return False\n        return True\n\n    def fib(n):\n        a, b = 0, 1\n        for _ in range(n):\n            a, b = b, a + b\n        return a\n\n    count = 0\n    i = 0\n    while count < n:\n        fib_num = fib(i)\n        if is_prime(fib_num):\n            count += 1\n        i += 1\n    return fib_num",
+        "turn": 6,
+        "execution": {
+          "turn": 6,
+          "tests_passed": 3,
+          "total_tests": 3,
+          "success": true,
+          "error_type": null,
+          "message": "All tests passed"
+        }
+      }
+    ],
+    "solved": true,
+    "turns": 6,
+    "scores": {
+      "persona_fidelity": 5,
+      "tutor_alignment": 3,
+      "dialog_progression": 2,
+      "total_score": 10,
+      "bucket": "gold",
+      "needs_human_review": false,
+      "main_failure": "none"
+    }
+  },
+  {
+    "id": "ffd6d38e-3a04-4627-a18b-ff95e71b8124",
+    "task_id": 34,
+    "personality": "OVERCONFIDENT_WRONG",
+    "conversation": [
+      {
+        "role": "student",
+        "content": "this looks ez, just need a quick check on my impl dudes",
+        "turn": 1
+      },
+      {
+        "role": "tutor",
+        "content": "def match_parens(parentheses_list):\n    for i in range(len(parentheses_list)):\n        parentheses_list[i] = parentheses_list[i].replace('(', '').replace(')', '')\n    for i in range(len(parentheses_list)):\n        if len(parentheses_list[i]) % 2 != 0:\n            return 'No'\n    return 'Yes'",
+        "turn": 2,
+        "execution": {
+          "turn": 2,
+          "tests_passed": 1,
+          "total_tests": 3,
+          "success": false,
+          "error_type": "test_failure",
+          "message": "1/3 tests passed"
+        }
+      },
+      {
+        "role": "student",
+        "content": "Nah, it's clearly removing parens instead of checking them. Just use a stack to track opens.",
+        "turn": 3
+      },
+      {
+        "role": "tutor",
+        "content": "def match_parens(parens):\n    stack = []\n    for paren in parens:\n        if paren == '(':\n            stack.append(paren)\n        elif paren == ')':\n            if not stack:\n                return 'No'\n            stack.pop()\n    return 'Yes' if not stack else 'No'",
+        "turn": 4,
+        "execution": {
+          "turn": 4,
+          "tests_passed": 1,
+          "total_tests": 3,
+          "success": false,
+          "error_type": "test_failure",
+          "message": "1/3 tests passed"
+        }
+      },
+      {
+        "role": "student",
+        "content": "Clearly, the test cases are wrong. Just add more balanced parentheses for better coverage.",
+        "turn": 5
+      },
+      {
+        "role": "tutor",
+        "content": "def match_parens(parens):\n    stack = []\n    for paren in parens:\n        if paren == '(':\n            stack.append(paren)\n        elif paren == ')':\n            if not stack:\n                return 'No'\n            stack.pop()\n    return 'Yes' if not stack else 'No'",
+        "turn": 6,
+        "execution": {
+          "turn": 6,
+          "tests_passed": 1,
+          "total_tests": 3,
+          "success": false,
+          "error_type": "test_failure",
+          "message": "1/3 tests passed"
+        }
+      },
+      {
+        "role": "student",
+        "content": "Clearly, the issue is with edge cases. Just add an empty string test: `''`. Works with 1/3? Nah, obviously missing something.",
+        "turn": 7
+      },
+      {
+        "role": "tutor",
+        "content": "def match_parens(expressions):\n    stack = []\n    for expression in expressions:\n        for char in expression:\n            if char == '(':\n                stack.append(char)\n            elif char == ')':\n                if not stack:\n                    return 'No'\n                stack.pop()\n    if not stack:\n        return 'Yes'\n    return 'No'",
+        "turn": 8,
+        "execution": {
+          "turn": 8,
+          "tests_passed": 3,
+          "total_tests": 3,
+          "success": true,
+          "error_type": null,
+          "message": "All tests passed"
+        }
+      }
+    ],
+    "solved": true,
+    "turns": 8,
+    "scores": {
+      "persona_fidelity": 5,
+      "tutor_alignment": 2,
+      "dialog_progression": 2,
+      "total_score": 9,
+      "bucket": "gold",
+      "needs_human_review": false,
+      "main_failure": "none"
+    }
+  },
+  {
+    "id": "4b1cce0a-fdaa-486a-8b86-ff03716464f4",
+    "task_id": 39,
+    "personality": "OVERCONFIDENT_WRONG",
+    "conversation": [
+      {
+        "role": "student",
+        "content": "\"Clearly, you gotta be kidding me. How do you even start with amicable numbers? Just give me the code.\"",
+        "turn": 1
+      },
+      {
+        "role": "tutor",
+        "content": "def amicable_numbers_sum(n):\n    def sum_of_divisors(num):\n        divisors_sum = 1\n        for i in range(2, int(num**0.5) + 1):\n            if num % i == 0:\n                divisors_sum += i\n                if i != num // i:\n                    divisors_sum += num // i\n        return divisors_sum",
+        "turn": 2,
+        "execution": {
+          "turn": 2,
+          "tests_passed": 0,
+          "total_tests": 3,
+          "success": false,
+          "error_type": "test_failure",
+          "message": "0/3 tests passed"
+        }
+      },
+      {
+        "role": "student",
+        "content": "Nah, the tests must be wrong. This code looks fine to me. Just use it as is.",
+        "turn": 3
+      },
+      {
+        "role": "tutor",
+        "content": "def amicable_numbers_sum(n):\n    def sum_of_divisors(num):\n        return sum(i for i in range(1, num) if num % i == 0)\n\n    amicable_sum = 0\n    for i in range(1, n):\n        j = sum_of_divisors(i)\n        if i < j and sum_of_divisors(j) == i:\n            amicable_sum += i + j\n    return amicable_sum",
+        "turn": 4,
+        "execution": {
+          "turn": 4,
+          "tests_passed": 3,
+          "total_tests": 3,
+          "success": true,
+          "error_type": null,
+          "message": "All tests passed"
+        }
+      }
+    ],
+    "solved": true,
+    "turns": 4,
+    "scores": {
+      "persona_fidelity": 5,
+      "tutor_alignment": 3,
+      "dialog_progression": 2,
+      "total_score": 10,
+      "bucket": "gold",
+      "needs_human_review": false,
+      "main_failure": "none"
+    }
+  },
+  {
+    "id": "9bfe71e7-3d7e-431d-9358-8b39488a71f3",
+    "task_id": 40,
+    "personality": "OVERCONFIDENT_WRONG",
+    "conversation": [
+      {
+        "role": "student",
+        "content": "nah, this looks easy, just need a quick check. wanna see my solution?",
+        "turn": 1
+      },
+      {
+        "role": "tutor",
+        "content": "def first_Missing_Positive(nums):\n    nums = set(nums)\n    i = 1\n    while i in nums:\n        i += 1\n    return i",
+        "turn": 2,
+        "execution": {
+          "turn": 2,
+          "tests_passed": 0,
+          "total_tests": 3,
+          "success": false,
+          "error_type": "test_failure",
+          "message": "0/3 tests passed"
+        }
+      },
+      {
+        "role": "student",
+        "content": "Nah, the tests must be wrong. This clearly finds the first missing positive. Just use it!",
+        "turn": 3
+      },
+      {
+        "role": "tutor",
+        "content": "def first_Missing_Positive(nums, n):\n    for i in range(n):\n        if nums[i] > 0 and nums[i] <= n:\n            nums[nums[i] - 1] = -nums[nums[i] - 1]\n    for i in range(n):\n        if nums[i] > 0:\n            return i + 1\n    return n + 1",
+        "turn": 4,
+        "execution": {
+          "turn": 4,
+          "tests_passed": 1,
+          "total_tests": 3,
+          "success": false,
+          "error_type": "test_failure",
+          "message": "1/3 tests passed"
+        }
+      },
+      {
+        "role": "student",
+        "content": "nah, it's clearly marking negatives incorrectly. Just flip the sign change condition to `if nums[i] == abs(nums[i])` and it'll work.",
+        "turn": 5
+      },
+      {
+        "role": "tutor",
+        "content": "def first_Missing_Positive(nums, n):\n    for i in range(1, n+1):\n        if i not in nums:\n            return i\n    return n+1",
+        "turn": 6,
+        "execution": {
+          "turn": 6,
+          "tests_passed": 3,
+          "total_tests": 3,
+          "success": true,
+          "error_type": null,
+          "message": "All tests passed"
+        }
+      }
+    ],
+    "solved": true,
+    "turns": 6,
+    "scores": {
+      "persona_fidelity": 5,
+      "tutor_alignment": 3,
+      "dialog_progression": 2,
+      "total_score": 10,
+      "bucket": "gold",
+      "needs_human_review": false,
+      "main_failure": "none"
+    }
+  },
+  {
+    "id": "c8880dcf-52e0-4d86-9b33-722495103eca",
+    "task_id": 44,
+    "personality": "OVERCONFIDENT_WRONG",
+    "conversation": [
+      {
+        "role": "student",
+        "content": "nah this looks easy, just need a quick check. wanna bet i can solve this faster? gimme ur take first.",
+        "turn": 1
+      },
+      {
+        "role": "tutor",
+        "content": "def count_Substring_With_Equal_Ends(s):\n    count = 0\n    for i in range(len(s)):\n        for j in range(i, len(s)):\n            if s[i] == s[j]:\n                count += 1\n    return count",
+        "turn": 2,
+        "execution": {
+          "turn": 2,
+          "tests_passed": 3,
+          "total_tests": 3,
+          "success": true,
+          "error_type": null,
+          "message": "All tests passed"
+        }
+      }
+    ],
+    "solved": true,
+    "turns": 2,
+    "scores": {
+      "persona_fidelity": 5,
+      "tutor_alignment": 3,
+      "dialog_progression": 2,
+      "total_score": 10,
+      "bucket": "gold",
+      "needs_human_review": false,
+      "main_failure": "none"
+    }
+  },
+  {
+    "id": "6ed870a8-e4c8-420c-bdeb-8864781792b8",
+    "task_id": 45,
+    "personality": "OVERCONFIDENT_WRONG",
+    "conversation": [
+      {
+        "role": "student",
+        "content": "this looks ez, just need a quick check dude",
+        "turn": 1
+      },
+      {
+        "role": "tutor",
+        "content": "def check_abundant(n):\n    divisors_sum = sum([i for i in range(1, n) if n % i == 0])\n    return divisors_sum > n",
+        "turn": 2,
+        "execution": {
+          "turn": 2,
+          "tests_passed": 3,
+          "total_tests": 3,
+          "success": true,
+          "error_type": null,
+          "message": "All tests passed"
+        }
+      }
+    ],
+    "solved": true,
+    "turns": 2,
+    "scores": {
+      "persona_fidelity": 5,
+      "tutor_alignment": 3,
+      "dialog_progression": 2,
+      "total_score": 10,
+      "bucket": "gold",
+      "needs_human_review": false,
+      "main_failure": "none"
+    }
+  },
+  {
+    "id": "5053ede3-00cf-4e04-9f43-bf2d4bdaa6c8",
+    "task_id": 46,
+    "personality": "OVERCONFIDENT_WRONG",
+    "conversation": [
+      {
+        "role": "student",
+        "content": "this looks super easy, just need a quick check dude",
+        "turn": 1
+      },
+      {
+        "role": "tutor",
+        "content": "def find_Max(arr, low, high):\n    if low == high:\n        return arr[low]\n    if low < high:\n        mid = (low + high) // 2\n        if arr[mid] > arr[mid + 1]:\n            return arr[mid]\n        if arr[mid] > arr[high]:\n            return find_Max(arr, mid + 1, high)\n        return find_Max(arr, low, mid - 1)\n    return -1",
+        "turn": 2,
+        "execution": {
+          "turn": 2,
+          "tests_passed": 1,
+          "total_tests": 3,
+          "success": false,
+          "error_type": "test_failure",
+          "message": "1/3 tests passed"
+        }
+      },
+      {
+        "role": "student",
+        "content": "Nah, the issue is clearly with the base case handling. Just use `return arr[mid]` directly when `arr[mid] > arr[mid + 1]` and `arr[mid] > arr[high]`. Works perfectly, but fixing that should pass all tests.",
+        "turn": 3
+      },
+      {
+        "role": "tutor",
+        "content": "def find_Max(arr, low, high):\n    if low > high:\n        return -1\n    if low == high:\n        return arr[low]\n    mid = low + (high - low) // 2\n    if arr[mid] > arr[mid + 1]:\n        return arr[mid]\n    if arr[low] <= arr[mid]:\n        return find_Max(arr, mid + 1, high)\n    return find_Max(arr, low, mid)",
+        "turn": 4,
+        "execution": {
+          "turn": 4,
+          "tests_passed": 3,
+          "total_tests": 3,
+          "success": true,
+          "error_type": null,
+          "message": "All tests passed"
+        }
+      }
+    ],
+    "solved": true,
+    "turns": 4,
+    "scores": {
+      "persona_fidelity": 5,
+      "tutor_alignment": 3,
+      "dialog_progression": 2,
+      "total_score": 10,
+      "bucket": "gold",
+      "needs_human_review": false,
+      "main_failure": "none"
+    }
+  },
+  {
+    "id": "95feba57-0c28-4825-8b47-9fb4d7f81e3c",
+    "task_id": 48,
+    "personality": "OVERCONFIDENT_WRONG",
+    "conversation": [
+      {
+        "role": "student",
+        "content": "nah, this looks easy peasy. bet i can write it faster than u. wanna see my initial take?",
+        "turn": 1
+      },
+      {
+        "role": "tutor",
+        "content": "def find_k_product(tuples, k):\n    product = 1\n    for tup in tuples:\n        product *= tup[k]\n    return product",
+        "turn": 2,
+        "execution": {
+          "turn": 2,
+          "tests_passed": 3,
+          "total_tests": 3,
+          "success": true,
+          "error_type": null,
+          "message": "All tests passed"
+        }
+      }
+    ],
+    "solved": true,
+    "turns": 2,
+    "scores": {
+      "persona_fidelity": 5,
+      "tutor_alignment": 3,
+      "dialog_progression": 2,
+      "total_score": 10,
+      "bucket": "gold",
+      "needs_human_review": false,
+      "main_failure": "none"
+    }
+  },
+  {
+    "id": "df7a12d2-6259-4586-b160-c7698815038e",
+    "task_id": 49,
+    "personality": "OVERCONFIDENT_WRONG",
+    "conversation": [
+      {
+        "role": "student",
+        "content": "nah, i bet i can write it faster than u. wanna see my initial take?",
+        "turn": 1
+      },
+      {
+        "role": "tutor",
+        "content": "def recur_gcd(a, b):\n    if b == 0:\n        return a\n    return recur_gcd(b, a % b)",
+        "turn": 2,
+        "execution": {
+          "turn": 2,
+          "tests_passed": 3,
+          "total_tests": 3,
+          "success": true,
+          "error_type": null,
+          "message": "All tests passed"
+        }
+      }
+    ],
+    "solved": true,
+    "turns": 2,
+    "scores": {
+      "persona_fidelity": 5,
+      "tutor_alignment": 3,
+      "dialog_progression": 2,
+      "total_score": 10,
+      "bucket": "gold",
+      "needs_human_review": false,
+      "main_failure": "none"
+    }
+  },
+  {
+    "id": "2a820e1a-93cf-40bf-b69d-7aea20a1058b",
+    "task_id": 54,
+    "personality": "OVERCONFIDENT_WRONG",
+    "conversation": [
+      {
+        "role": "student",
+        "content": "this looks easy, just need a quick check on my approach dude",
+        "turn": 1
+      },
+      {
+        "role": "tutor",
+        "content": "def exchange(lst1, lst2):\n    # Count the number of odd numbers in lst1\n    odd_count = sum(1 for num in lst1 if num % 2 != 0)\n    \n    # Check if the number of odd numbers in lst1 is less than or equal to the number of even numbers in lst2\n    return \"YES\" if odd_count <= sum(1 for num in lst2 if num % 2 == 0) else \"NO\"",
+        "turn": 2,
+        "execution": {
+          "turn": 2,
+          "tests_passed": 3,
+          "total_tests": 3,
+          "success": true,
+          "error_type": null,
+          "message": "All tests passed"
+        }
+      }
+    ],
+    "solved": true,
+    "turns": 2,
+    "scores": {
+      "persona_fidelity": 5,
+      "tutor_alignment": 3,
+      "dialog_progression": 2,
+      "total_score": 10,
+      "bucket": "gold",
+      "needs_human_review": false,
+      "main_failure": "none"
+    }
+  },
+  {
+    "id": "52468b77-0906-442b-b6ac-428379bc0f82",
+    "task_id": 55,
+    "personality": "OVERCONFIDENT_WRONG",
+    "conversation": [
+      {
+        "role": "student",
+        "content": "this looks ez, just need a dict comprehension or something?",
+        "turn": 1
+      },
+      {
+        "role": "tutor",
+        "content": "def histogram(s):\n    counts = {}\n    for c in s.split():\n        if c in counts:\n            counts[c] += 1\n        else:\n            counts[c] = 1\n    return counts",
+        "turn": 2,
+        "execution": {
+          "turn": 2,
+          "tests_passed": 2,
+          "total_tests": 3,
+          "success": false,
+          "error_type": "test_failure",
+          "message": "2/3 tests passed"
+        }
+      },
+      {
+        "role": "student",
+        "content": "Clearly the test cases are wrong. Just use `collections.Counter` for simplicity: `return collections.Counter(s.split())`.",
+        "turn": 3
+      },
+      {
+        "role": "tutor",
+        "content": "def histogram(s):\n    # Split the string into individual characters\n    chars = s.split()\n\n    # Initialize a dictionary to store the letter counts\n    counts = {}\n\n    # Iterate through each character\n    for char in chars:\n        # If the character is already in the dictionary, increment its count\n        if char in counts:\n            counts[char] += 1\n        # Otherwise, add the character to the dictionary with a count of 1\n        else:\n            counts[char] = 1\n\n    # Return the dictionary of letter counts\n    return counts",
+        "turn": 4,
+        "execution": {
+          "turn": 4,
+          "tests_passed": 2,
+          "total_tests": 3,
+          "success": false,
+          "error_type": "test_failure",
+          "message": "2/3 tests passed"
+        }
+      },
+      {
+        "role": "student",
+        "content": "nah, obviously just missing the case where `s` isn't a single word. clearly just add a check for that.",
+        "turn": 5
+      },
+      {
+        "role": "tutor",
+        "content": "def histogram(s):\n    counts = {}\n    for c in s.split():\n        counts[c] = counts.get(c, 0) + 1\n    max_count = max(counts.values())\n    return {k: v for k, v in counts.items() if v == max_count}",
+        "turn": 6,
+        "execution": {
+          "turn": 6,
+          "tests_passed": 3,
+          "total_tests": 3,
+          "success": true,
+          "error_type": null,
+          "message": "All tests passed"
+        }
+      }
+    ],
+    "solved": true,
+    "turns": 6,
+    "scores": {
+      "persona_fidelity": 5,
+      "tutor_alignment": 2,
+      "dialog_progression": 2,
+      "total_score": 9,
+      "bucket": "gold",
+      "needs_human_review": false,
+      "main_failure": "none"
+    }
+  },
+  {
+    "id": "c9ea233c-aeed-47a8-b7f8-0b24f2ceafe7",
+    "task_id": 56,
+    "personality": "OVERCONFIDENT_WRONG",
+    "conversation": [
+      {
+        "role": "student",
+        "content": "nah, u even know how to solve this? clearly, just use a loop and check word lengths. dude, let's see ur code.",
+        "turn": 1
+      },
+      {
+        "role": "tutor",
+        "content": "def words_in_sentence(sentence):\n    def is_prime(n):\n        if n <= 1:\n            return False\n        for i in range(2, int(n**0.5) + 1):\n            if n % i == 0:\n                return False\n        return True\n\n    words = sentence.split()\n    result = []\n    for word in words:\n        if is_prime(len(word)):\n            result.append(word)\n    return ' '.join(result)",
+        "turn": 2,
+        "execution": {
+          "turn": 2,
+          "tests_passed": 3,
+          "total_tests": 3,
+          "success": true,
+          "error_type": null,
+          "message": "All tests passed"
+        }
+      }
+    ],
+    "solved": true,
+    "turns": 2,
+    "scores": {
+      "persona_fidelity": 5,
+      "tutor_alignment": 3,
+      "dialog_progression": 2,
+      "total_score": 10,
+      "bucket": "gold",
+      "needs_human_review": false,
+      "main_failure": "none"
+    }
+  },
+  {
+    "id": "1f8e9b7e-2112-4024-9a1a-2803e92b427d",
+    "task_id": 59,
+    "personality": "OVERCONFIDENT_WRONG",
+    "conversation": [
+      {
+        "role": "student",
+        "content": "this looks ez, just need a quick check on my algo dudes",
+        "turn": 1
+      },
+      {
+        "role": "tutor",
+        "content": "def merge_sorted_list(*lists):\n    import heapq\n    heap = [(lst[0], i, 0) for i, lst in enumerate(lists) if lst]\n    heapq.heapify(heap)\n    merged_list = []\n    while heap:\n        val, lst_idx, element_idx = heapq.heappop(heap)\n        merged_list.append(val)\n        if element_idx + 1 < len(lists[lst_idx]):\n            next_tuple = (lists[lst_idx][element_idx + 1], lst_idx, element_idx + 1)\n            heapq.heappush(heap, next_tuple)\n    return merged_list",
+        "turn": 2,
+        "execution": {
+          "turn": 2,
+          "tests_passed": 1,
+          "total_tests": 3,
+          "success": false,
+          "error_type": "test_failure",
+          "message": "1/3 tests passed"
+        }
+      },
+      {
+        "role": "student",
+        "content": "Clearly, the test cases are wrong. Just use a single list as input and see. Nah, this should work as is.",
+        "turn": 3
+      },
+      {
+        "role": "tutor",
+        "content": "def merge_sorted_list(*args):\n    import heapq\n    return heapq.merge(*args)",
+        "turn": 4,
+        "execution": {
+          "turn": 4,
+          "tests_passed": 0,
+          "total_tests": 3,
+          "success": false,
+          "error_type": "test_failure",
+          "message": "0/3 tests passed"
+        }
+      },
+      {
+        "role": "student",
+        "content": "Nah, the problem is obvious\u2014`heapq.merge` returns an iterator, not a list. Just convert it to a list using `list(heapq.merge(*args))`.",
+        "turn": 5
+      },
+      {
+        "role": "tutor",
+        "content": "def merge_sorted_list(*lists):\n    import heapq\n    return list(heapq.merge(*lists))",
+        "turn": 6,
+        "execution": {
+          "turn": 6,
+          "tests_passed": 1,
+          "total_tests": 3,
+          "success": false,
+          "error_type": "test_failure",
+          "message": "1/3 tests passed"
+        }
+      },
+      {
+        "role": "student",
+        "content": "Works perfectly, thanks! Nah, must be a minor issue with those failing tests.",
+        "turn": 7
+      },
+      {
+        "role": "tutor",
+        "content": "import heapq\n\ndef merge_sorted_list(*lists):\n    return heapq.merge(*lists)",
+        "turn": 8,
+        "execution": {
+          "turn": 8,
+          "tests_passed": 0,
+          "total_tests": 3,
+          "success": false,
+          "error_type": "test_failure",
+          "message": "0/3 tests passed"
+        }
+      },
+      {
+        "role": "student",
+        "content": "Nah, 0/3 tests passed? That's clearly a minor thing. Just use `sorted()` after merging: `return sorted(heapq.merge(*lists))`.",
+        "turn": 9
+      },
+      {
+        "role": "tutor",
+        "content": "def merge_sorted_list(*lists):\n    import heapq\n    heap = []\n    for lst in lists:\n        for item in lst:\n            heapq.heappush(heap, item)\n    return [heapq.heappop(heap) for _ in range(len(heap))]",
+        "turn": 10,
+        "execution": {
+          "turn": 10,
+          "tests_passed": 3,
+          "total_tests": 3,
+          "success": true,
+          "error_type": null,
+          "message": "All tests passed"
+        }
+      }
+    ],
+    "solved": true,
+    "turns": 10,
+    "scores": {
+      "persona_fidelity": 5,
+      "tutor_alignment": 3,
+      "dialog_progression": 2,
+      "total_score": 10,
+      "bucket": "gold",
+      "needs_human_review": false,
+      "main_failure": "none"
+    }
+  },
+  {
+    "id": "d96c79f4-ab93-4d04-b0f4-70a1bdaac140",
+    "task_id": 60,
+    "personality": "OVERCONFIDENT_WRONG",
+    "conversation": [
+      {
+        "role": "student",
+        "content": "\"nah, this is a piece of cake. bet u can't write `check_integer` faster. gimme ur initial take.\"",
+        "turn": 1
+      },
+      {
+        "role": "tutor",
+        "content": "def check_integer(s):\n    try:\n        int(s)\n        return True\n    except ValueError:\n        return False",
+        "turn": 2,
+        "execution": {
+          "turn": 2,
+          "tests_passed": 3,
+          "total_tests": 3,
+          "success": true,
+          "error_type": null,
+          "message": "All tests passed"
+        }
+      }
+    ],
+    "solved": true,
+    "turns": 2,
+    "scores": {
+      "persona_fidelity": 5,
+      "tutor_alignment": 3,
+      "dialog_progression": 2,
+      "total_score": 10,
+      "bucket": "gold",
+      "needs_human_review": false,
+      "main_failure": "none"
+    }
+  },
+  {
+    "id": "d87a3ad1-dfb2-4ed9-b05f-f8ca44c445a3",
+    "task_id": 62,
+    "personality": "OVERCONFIDENT_WRONG",
+    "conversation": [
+      {
+        "role": "student",
+        "content": "nah, i can write this faster than u, gimme ur take first.",
+        "turn": 1
+      },
+      {
+        "role": "tutor",
+        "content": "def longest_subseq_with_diff_one(arr, n):\n    dp = [1] * n\n    for i in range(1, n):\n        for j in range(i):\n            if arr[i] == arr[j] + 1 or arr[i] == arr[j] - 1:\n                dp[i] = max(dp[i], dp[j] + 1)\n    return max(dp) if dp else 0",
+        "turn": 2,
+        "execution": {
+          "turn": 2,
+          "tests_passed": 3,
+          "total_tests": 3,
+          "success": true,
+          "error_type": null,
+          "message": "All tests passed"
+        }
+      }
+    ],
+    "solved": true,
+    "turns": 2,
+    "scores": {
+      "persona_fidelity": 5,
+      "tutor_alignment": 3,
+      "dialog_progression": 2,
+      "total_score": 10,
+      "bucket": "gold",
+      "needs_human_review": false,
+      "main_failure": "none"
+    }
+  },
+  {
+    "id": "0465f14e-4a3f-43bf-9fb8-d11e4b6963a9",
+    "task_id": 63,
+    "personality": "OVERCONFIDENT_WRONG",
+    "conversation": [
+      {
+        "role": "student",
+        "content": "nah, i can totally do this. gimme ur take on the first draft.",
+        "turn": 1
+      },
+      {
+        "role": "tutor",
+        "content": "def decode_list(encoded_list):\n    decoded_list = []\n    for item in encoded_list:\n        if isinstance(item, list):\n            count, value = item\n            decoded_list.extend([value] * count)\n        else:\n            decoded_list.append(item)\n    return decoded_list",
+        "turn": 2,
+        "execution": {
+          "turn": 2,
+          "tests_passed": 3,
+          "total_tests": 3,
+          "success": true,
+          "error_type": null,
+          "message": "All tests passed"
+        }
+      }
+    ],
+    "solved": true,
+    "turns": 2,
+    "scores": {
+      "persona_fidelity": 5,
+      "tutor_alignment": 3,
+      "dialog_progression": 2,
+      "total_score": 10,
+      "bucket": "gold",
+      "needs_human_review": false,
+      "main_failure": "none"
+    }
+  },
+  {
+    "id": "354ab2a9-0bdc-4bc5-a72b-1e4f0f0ef9cd",
+    "task_id": 65,
+    "personality": "OVERCONFIDENT_WRONG",
+    "conversation": [
+      {
+        "role": "student",
+        "content": "nah, bet u can't solve this as fast as me. gimme ur initial take first.",
+        "turn": 1
+      },
+      {
+        "role": "tutor",
+        "content": "def get_lcm(arr):\n    lcm = arr[0]\n    for i in range(1, len(arr)):\n        lcm = lcm * arr[i] // math.gcd(lcm, arr[i])\n    return lcm",
+        "turn": 2,
+        "execution": {
+          "turn": 2,
+          "tests_passed": 0,
+          "total_tests": 3,
+          "success": false,
+          "error_type": "test_failure",
+          "message": "0/3 tests passed"
+        }
+      },
+      {
+        "role": "student",
+        "content": "Nah, the problem's obvious\u2014using `math.gcd` inside the loop is off. Just calc LCM directly between pairs outside the loop.",
+        "turn": 3
+      },
+      {
+        "role": "tutor",
+        "content": "def get_lcm(arr):\n    def gcd(a, b):\n        while b:\n            a, b = b, a % b\n        return a\n\n    lcm = arr[0]\n    for i in range(1, len(arr)):\n        lcm = lcm * arr[i] // gcd(lcm, arr[i])\n    return lcm",
+        "turn": 4,
+        "execution": {
+          "turn": 4,
+          "tests_passed": 3,
+          "total_tests": 3,
+          "success": true,
+          "error_type": null,
+          "message": "All tests passed"
+        }
+      }
+    ],
+    "solved": true,
+    "turns": 4,
+    "scores": {
+      "persona_fidelity": 5,
+      "tutor_alignment": 2,
+      "dialog_progression": 2,
+      "total_score": 9,
+      "bucket": "gold",
+      "needs_human_review": false,
+      "main_failure": "none"
+    }
+  },
+  {
+    "id": "d4fe5f51-e319-4815-a81c-b9b61edc90c9",
+    "task_id": 69,
+    "personality": "OVERCONFIDENT_WRONG",
+    "conversation": [
+      {
+        "role": "student",
+        "content": "nah, this looks easy, just need a quick check. wanna see my one-liner?",
+        "turn": 1
+      },
+      {
+        "role": "tutor",
+        "content": "def find_First_Missing(arr, start, end):\n    # Sort the array in ascending order\n    arr.sort()",
+        "turn": 2,
+        "execution": {
+          "turn": 2,
+          "tests_passed": 0,
+          "total_tests": 3,
+          "success": false,
+          "error_type": "test_failure",
+          "message": "0/3 tests passed"
+        }
+      },
+      {
+        "role": "student",
+        "content": "Nah, sorting the array won't help here. The test cases are clearly wrong. Just use a set to find the missing number.",
+        "turn": 3
+      },
+      {
+        "role": "tutor",
+        "content": "def find_First_Missing(arr, start, end):\n    if start > end:\n        return start\n    \n    mid = (start + end) // 2\n    \n    if arr[mid] == mid:\n        return find_First_Missing(arr, mid + 1, end)\n    else:\n        return find_First_Missing(arr, start, mid)",
+        "turn": 4,
+        "execution": {
+          "turn": 4,
+          "tests_passed": 1,
+          "total_tests": 3,
+          "success": false,
+          "error_type": "test_failure",
+          "message": "1/3 tests passed"
+        }
+      },
+      {
+        "role": "student",
+        "content": "Nah, the recursion isn't covering all cases clearly. Just use a linear scan instead.",
+        "turn": 5
+      },
+      {
+        "role": "tutor",
+        "content": "def find_First_Missing(arr, start, end):\n    # Create a set of all numbers in the array\n    num_set = set(arr)\n    \n    # Iterate through the range of numbers from start to end\n    for num in range(start, end+1):\n        # If the number is not in the set, return it as the first missing number\n        if num not in num_set:\n            return num\n    \n    # If no missing number is found, return the next number after the end of the range\n    return end + 1",
+        "turn": 6,
+        "execution": {
+          "turn": 6,
+          "tests_passed": 3,
+          "total_tests": 3,
+          "success": true,
+          "error_type": null,
+          "message": "All tests passed"
+        }
+      }
+    ],
+    "solved": true,
+    "turns": 6,
+    "scores": {
+      "persona_fidelity": 5,
+      "tutor_alignment": 3,
+      "dialog_progression": 2,
+      "total_score": 10,
+      "bucket": "gold",
+      "needs_human_review": false,
+      "main_failure": "none"
+    }
+  },
+  {
+    "id": "badc7a09-4094-46c8-b791-4cde7e411204",
+    "task_id": 70,
+    "personality": "OVERCONFIDENT_WRONG",
+    "conversation": [
+      {
+        "role": "student",
+        "content": "this looks easy, just need a quick check dude. clearly im pretty sure i can do it in one line.",
+        "turn": 1
+      },
+      {
+        "role": "tutor",
+        "content": "def replace_spaces(s):\n    return s.replace(' ', '%20')",
+        "turn": 2,
+        "execution": {
+          "turn": 2,
+          "tests_passed": 3,
+          "total_tests": 3,
+          "success": true,
+          "error_type": null,
+          "message": "All tests passed"
+        }
+      }
+    ],
+    "solved": true,
+    "turns": 2,
+    "scores": {
+      "persona_fidelity": 5,
+      "tutor_alignment": 3,
+      "dialog_progression": 2,
+      "total_score": 10,
+      "bucket": "gold",
+      "needs_human_review": false,
+      "main_failure": "none"
+    }
+  },
+  {
+    "id": "73845d70-848e-4679-be85-cb33a2c7831f",
+    "task_id": 71,
+    "personality": "OVERCONFIDENT_WRONG",
+    "conversation": [
+      {
+        "role": "student",
+        "content": "\"nah, u even know how to do heap sort? just push all vals into a heap & pop off the smallest?\"",
+        "turn": 1
+      },
+      {
+        "role": "tutor",
+        "content": "def heap_sort(arr):\n    # Helper function to maintain heap property\n    def heapify(arr, n, i):\n        largest = i\n        left = 2 * i + 1\n        right = 2 * i + 2",
+        "turn": 2,
+        "execution": {
+          "turn": 2,
+          "tests_passed": 0,
+          "total_tests": 3,
+          "success": false,
+          "error_type": "test_failure",
+          "message": "0/3 tests passed"
+        }
+      },
+      {
+        "role": "student",
+        "content": "Nah, you're wrong. The heapify function is missing the actual heapify logic. Just use a while loop to compare and swap nodes until the heap property is maintained.",
+        "turn": 3
+      },
+      {
+        "role": "tutor",
+        "content": "import heapq\n\ndef heap_sort(nums):\n    heapq.heapify(nums)\n    sorted_nums = []\n    while nums:\n        sorted_nums.append(heapq.heappop(nums))\n    return sorted_nums",
+        "turn": 4,
+        "execution": {
+          "turn": 4,
+          "tests_passed": 3,
+          "total_tests": 3,
+          "success": true,
+          "error_type": null,
+          "message": "All tests passed"
+        }
+      }
+    ],
+    "solved": true,
+    "turns": 4,
+    "scores": {
+      "persona_fidelity": 5,
+      "tutor_alignment": 3,
+      "dialog_progression": 2,
+      "total_score": 10,
+      "bucket": "gold",
+      "needs_human_review": false,
+      "main_failure": "none"
+    }
+  },
+  {
+    "id": "3473b4c8-5c75-4b0c-8898-3f458e64eb0d",
+    "task_id": 73,
+    "personality": "OVERCONFIDENT_WRONG",
+    "conversation": [
+      {
+        "role": "student",
+        "content": "this looks easy, just need a quick check. wanna bet i can solve it faster?",
+        "turn": 1
+      },
+      {
+        "role": "tutor",
+        "content": "def removals(arr, n, k):\n    arr.sort()\n    min_removals = float('inf')\n    \n    for i in range(n):\n        right = i + k + 1\n        if right < n:\n            min_removals = min(min_removals, n - (right - i))\n    \n    return min_removals",
+        "turn": 2,
+        "execution": {
+          "turn": 2,
+          "tests_passed": 1,
+          "total_tests": 3,
+          "success": false,
+          "error_type": "test_failure",
+          "message": "1/3 tests passed"
+        }
+      },
+      {
+        "role": "student",
+        "content": "Works perfectly, thanks! Nah, just a minor issue, probably edge case handling.",
+        "turn": 3
+      },
+      {
+        "role": "tutor",
+        "content": "def removals(arr, n, k):\n    arr.sort()\n    count = 0\n    for i in range(n):\n        if arr[i] + k >= arr[n-1]:\n            count += 1\n    return count",
+        "turn": 4,
+        "execution": {
+          "turn": 4,
+          "tests_passed": 0,
+          "total_tests": 3,
+          "success": false,
+          "error_type": "test_failure",
+          "message": "0/3 tests passed"
+        }
+      },
+      {
+        "role": "student",
+        "content": "Nah, that's clearly a minor thing. Just change the loop to start from `n-1` and go backwards. Works better for this problem.",
+        "turn": 5
+      },
+      {
+        "role": "tutor",
+        "content": "def removals(arr, n, k):\n    arr.sort()\n    min_removals = n\n    for i in range(n):\n        j = i\n        while j < n and arr[j] - arr[i] <= k:\n            j += 1\n        min_removals = min(min_removals, n - (j - i))\n    return min_removals",
+        "turn": 6,
+        "execution": {
+          "turn": 6,
+          "tests_passed": 3,
+          "total_tests": 3,
+          "success": true,
+          "error_type": null,
+          "message": "All tests passed"
+        }
+      }
+    ],
+    "solved": true,
+    "turns": 6,
+    "scores": {
+      "persona_fidelity": 5,
+      "tutor_alignment": 3,
+      "dialog_progression": 2,
+      "total_score": 10,
+      "bucket": "gold",
+      "needs_human_review": false,
+      "main_failure": "none"
+    }
+  },
+  {
+    "id": "0a895849-031e-4f83-83ad-c50c4e6a31cf",
+    "task_id": 76,
+    "personality": "OVERCONFIDENT_WRONG",
+    "conversation": [
+      {
+        "role": "student",
+        "content": "\"nah, do u even know how to solve this? obviously start with a stack?\"",
+        "turn": 1
+      },
+      {
+        "role": "tutor",
+        "content": "def check_expression(expression):\n    stack = []\n    opening_brackets = ['{', '[', '(']\n    closing_brackets = ['}', ']', ')']\n    bracket_pairs = {')': '(', ']': '[', '}': '{'}\n    \n    for char in expression:\n        if char in opening_brackets:\n            stack.append(char)\n        elif char in closing_brackets:\n            if not stack or bracket_pairs[char] != stack.pop():\n                return False\n    return len(stack) == 0",
+        "turn": 2,
+        "execution": {
+          "turn": 2,
+          "tests_passed": 3,
+          "total_tests": 3,
+          "success": true,
+          "error_type": null,
+          "message": "All tests passed"
+        }
+      }
+    ],
+    "solved": true,
+    "turns": 2,
+    "scores": {
+      "persona_fidelity": 5,
+      "tutor_alignment": 3,
+      "dialog_progression": 2,
+      "total_score": 10,
+      "bucket": "gold",
+      "needs_human_review": false,
+      "main_failure": "none"
+    }
+  },
+  {
+    "id": "b768a5d1-47e1-4b5e-b450-f8793c9fc525",
+    "task_id": 78,
+    "personality": "OVERCONFIDENT_WRONG",
+    "conversation": [
+      {
+        "role": "student",
+        "content": "this looks ez, just need a quick check dude. clearly write a function to find the smallest multiple of the first n nums.",
+        "turn": 1
+      },
+      {
+        "role": "tutor",
+        "content": "def smallest_multiple(n):\n    def gcd(a, b):\n        while b:\n            a, b = b, a % b\n        return a",
+        "turn": 2,
+        "execution": {
+          "turn": 2,
+          "tests_passed": 0,
+          "total_tests": 3,
+          "success": false,
+          "error_type": "test_failure",
+          "message": "0/3 tests passed"
+        }
+      },
+      {
+        "role": "student",
+        "content": "nah, obviously missing the actual multiple calculation. just add `return a` at the end of `gcd`. clearly, `smallest_multiple` needs to use this gcd to find the least common multiple.",
+        "turn": 3
+      },
+      {
+        "role": "tutor",
+        "content": "def smallest_multiple(n):\n    result = 1\n    for i in range(2, n+1):\n        if result % i != 0:\n            result *= i\n    return result",
+        "turn": 4,
+        "execution": {
+          "turn": 4,
+          "tests_passed": 2,
+          "total_tests": 3,
+          "success": false,
+          "error_type": "test_failure",
+          "message": "2/3 tests passed"
+        }
+      },
+      {
+        "role": "student",
+        "content": "Nah, that's clearly a minor thing. It's missing the GCD part obviously. Just use `math.gcd(result, i)` before multiplying.",
+        "turn": 5
+      },
+      {
+        "role": "tutor",
+        "content": "def smallest_multiple(n):\n    if n == 1:\n        return 1\n    elif n == 2:\n        return 2\n    else:\n        i = n\n        while True:\n            for j in range(2, n+1):\n                if i % j != 0:\n                    break\n            else:\n                return i\n            i += 1",
+        "turn": 6,
+        "execution": {
+          "turn": 6,
+          "tests_passed": 3,
+          "total_tests": 3,
+          "success": true,
+          "error_type": null,
+          "message": "All tests passed"
+        }
+      }
+    ],
+    "solved": true,
+    "turns": 6,
+    "scores": {
+      "persona_fidelity": 5,
+      "tutor_alignment": 3,
+      "dialog_progression": 2,
+      "total_score": 10,
+      "bucket": "gold",
+      "needs_human_review": false,
+      "main_failure": "none"
+    }
+  },
+  {
+    "id": "c5911774-3116-4ec7-990d-3737a4399847",
+    "task_id": 79,
+    "personality": "OVERCONFIDENT_WRONG",
+    "conversation": [
+      {
+        "role": "student",
+        "content": "nah this looks easy, just need a quick check. bet u can't do it faster. gimme ur take.",
+        "turn": 1
+      },
+      {
+        "role": "tutor",
+        "content": "def super_seq(str1, str2, len1, len2):\n    # Initialize a matrix with zeros\n    dp = [[0 for j in range(len2 + 1)] for i in range(len1 + 1)]\n\n    # Fill the matrix using bottom-up approach\n    for i in range(1, len1 + 1):\n        for j in range(1, len2 + 1):\n            if str1[i - 1] == str2[j - 1]:\n                dp[i][j] = 1 + dp[i - 1][j - 1]\n            else:\n                dp[i][j] = max(dp[i - 1][j], dp[i][j - 1])\n\n    # The length of the shortest super sequence is len1 + len2 - dp[len1][len2]\n    return len1 + len2 - dp[len1][len2]",
+        "turn": 2,
+        "execution": {
+          "turn": 2,
+          "tests_passed": 3,
+          "total_tests": 3,
+          "success": true,
+          "error_type": null,
+          "message": "All tests passed"
+        }
+      }
+    ],
+    "solved": true,
+    "turns": 2,
+    "scores": {
+      "persona_fidelity": 5,
+      "tutor_alignment": 3,
+      "dialog_progression": 2,
+      "total_score": 10,
+      "bucket": "gold",
+      "needs_human_review": false,
+      "main_failure": "none"
+    }
+  },
+  {
+    "id": "89409b99-a7dc-4c2b-9913-724d3dc786a8",
+    "task_id": 80,
+    "personality": "OVERCONFIDENT_WRONG",
+    "conversation": [
+      {
+        "role": "student",
+        "content": "nah, this looks easy, just need a quick check. Bet I can solve it faster, wanna see my approach?",
+        "turn": 1
+      },
+      {
+        "role": "tutor",
+        "content": "def subset(arr, n):\n    if n == 1:\n        return 1\n    if n == 0:\n        return 0",
+        "turn": 2,
+        "execution": {
+          "turn": 2,
+          "tests_passed": 0,
+          "total_tests": 3,
+          "success": false,
+          "error_type": "test_failure",
+          "message": "0/3 tests passed"
+        }
+      },
+      {
+        "role": "student",
+        "content": "Nah, the tests must be wrong. Clearly, this function handles only two edge cases and nothing else. Just add more logic for actual subsets.",
+        "turn": 3
+      },
+      {
+        "role": "tutor",
+        "content": "def subset(arr, n):\n    unique_elements = set(arr)\n    return len(unique_elements)",
+        "turn": 4,
+        "execution": {
+          "turn": 4,
+          "tests_passed": 0,
+          "total_tests": 3,
+          "success": false,
+          "error_type": "test_failure",
+          "message": "0/3 tests passed"
+        }
+      },
+      {
+        "role": "student",
+        "content": "Nah, the issue is obvious\u2014returning the count of unique elements doesn't check if all elements in `arr` are subsets of each other. Just compare every element directly instead.",
+        "turn": 5
+      },
+      {
+        "role": "tutor",
+        "content": "def subset(arr, n):\n    if n == 0:\n        return 0\n    if len(arr) == 0:\n        return float('inf')\n    if arr[0] > n:\n        return subset(arr[1:], n)\n    else:\n        return min(1 + subset(arr[1:], n - arr[0]), subset(arr[1:], n))",
+        "turn": 6,
+        "execution": {
+          "turn": 6,
+          "tests_passed": 3,
+          "total_tests": 3,
+          "success": true,
+          "error_type": null,
+          "message": "All tests passed"
+        }
+      }
+    ],
+    "solved": true,
+    "turns": 6,
+    "scores": {
+      "persona_fidelity": 5,
+      "tutor_alignment": 2,
+      "dialog_progression": 2,
+      "total_score": 9,
+      "bucket": "gold",
+      "needs_human_review": false,
+      "main_failure": "none"
+    }
+  },
+  {
+    "id": "fce0da1d-9516-4711-b8af-a1dbff4d0695",
+    "task_id": 85,
+    "personality": "OVERCONFIDENT_WRONG",
+    "conversation": [
+      {
+        "role": "student",
+        "content": "nah, this looks easy peasy. Bet I can knock it out faster. How bout we start with a simple if-else chain for numbers? Or should we go for a dict lookup? What do u think?",
+        "turn": 1
+      },
+      {
+        "role": "tutor",
+        "content": "def int_to_mini_roman(num):\n    roman_numerals = {\n        1000: 'm',\n        900: 'cm',\n        500: 'd',\n        400: 'cd',\n        100: 'c',\n        90: 'xc',\n        50: 'l',\n        40: 'xl',\n        10: 'x',\n        9: 'ix',\n        5: 'v',\n        4: 'iv',\n        1: 'i'\n    }\n    result = ''\n    for value, numeral in sorted(roman_numerals.items(), reverse=True):\n        while num >= value:\n            result += numeral\n            num -= value\n    return result.lower()",
+        "turn": 2,
+        "execution": {
+          "turn": 2,
+          "tests_passed": 3,
+          "total_tests": 3,
+          "success": true,
+          "error_type": null,
+          "message": "All tests passed"
+        }
+      }
+    ],
+    "solved": true,
+    "turns": 2,
+    "scores": {
+      "persona_fidelity": 5,
+      "tutor_alignment": 3,
+      "dialog_progression": 2,
+      "total_score": 10,
+      "bucket": "gold",
+      "needs_human_review": false,
+      "main_failure": "none"
+    }
+  },
+  {
+    "id": "cc5ef64c-de8c-4df8-8831-d1a84618f0dc",
+    "task_id": 87,
+    "personality": "OVERCONFIDENT_WRONG",
+    "conversation": [
+      {
+        "role": "student",
+        "content": "nah, this looks easy as pie. bet i can knock it out faster. gimme ur take first.",
+        "turn": 1
+      },
+      {
+        "role": "tutor",
+        "content": "def binomial_Coeff(n, k):\n    if k == 0 or k == n:\n        return 1\n    else:\n        return binomial_Coeff(n-1, k-1) + binomial_Coeff(n-1, k)",
+        "turn": 2,
+        "execution": {
+          "turn": 2,
+          "tests_passed": 3,
+          "total_tests": 3,
+          "success": true,
+          "error_type": null,
+          "message": "All tests passed"
+        }
+      }
+    ],
+    "solved": true,
+    "turns": 2,
+    "scores": {
+      "persona_fidelity": 5,
+      "tutor_alignment": 3,
+      "dialog_progression": 2,
+      "total_score": 10,
+      "bucket": "gold",
+      "needs_human_review": false,
+      "main_failure": "none"
+    }
+  },
+  {
+    "id": "d8c711d5-2238-484d-a6b0-26dbda0ad2e1",
+    "task_id": 88,
+    "personality": "OVERCONFIDENT_WRONG",
+    "conversation": [
+      {
+        "role": "student",
+        "content": "nah this looks easy, just need a quick check. wanna bet i can write it faster?",
+        "turn": 1
+      },
+      {
+        "role": "tutor",
+        "content": "def max_Prime_Factors(n):\n    max_prime = -1",
+        "turn": 2,
+        "execution": {
+          "turn": 2,
+          "tests_passed": 0,
+          "total_tests": 3,
+          "success": false,
+          "error_type": "test_failure",
+          "message": "0/3 tests passed"
+        }
+      },
+      {
+        "role": "student",
+        "content": "Nah, the function obviously doesn't do anything with `n`. You're wrong, it needs actual prime factor logic. Just use a loop to divide `n` by 2 and then by all odd numbers up to the square root of `n`.",
+        "turn": 3
+      },
+      {
+        "role": "tutor",
+        "content": "def max_Prime_Factors(n):\n    largest_prime_factor = 1\n    i = 2\n    while i * i <= n:\n        if n % i:\n            i += 1\n        else:\n            n //= i\n            largest_prime_factor = i\n    if n > 1:\n        largest_prime_factor = n\n    return largest_prime_factor",
+        "turn": 4,
+        "execution": {
+          "turn": 4,
+          "tests_passed": 3,
+          "total_tests": 3,
+          "success": true,
+          "error_type": null,
+          "message": "All tests passed"
+        }
+      }
+    ],
+    "solved": true,
+    "turns": 4,
+    "scores": {
+      "persona_fidelity": 5,
+      "tutor_alignment": 3,
+      "dialog_progression": 2,
+      "total_score": 10,
+      "bucket": "gold",
+      "needs_human_review": false,
+      "main_failure": "none"
+    }
+  },
+  {
+    "id": "b70a3bfa-8308-4638-94d1-982e58bc1d45",
+    "task_id": 92,
+    "personality": "OVERCONFIDENT_WRONG",
+    "conversation": [
+      {
+        "role": "student",
+        "content": "nah, bet i can solve this Write a function to calculate magic square. faster than u. gimme ur take first.",
+        "turn": 1
+      },
+      {
+        "role": "tutor",
+        "content": "def magic_square_test(square):\n    n = len(square)\n    target_sum = n * (n**2 + 1) // 2",
+        "turn": 2,
+        "execution": {
+          "turn": 2,
+          "tests_passed": 0,
+          "total_tests": 3,
+          "success": false,
+          "error_type": "test_failure",
+          "message": "0/3 tests passed"
+        }
+      },
+      {
+        "role": "student",
+        "content": "Nah, obviously missing the sum validation part. Just add `return all(sum(row) == target_sum for row in square)` and `all(sum(square[i][j] for i in range(n)) == target_sum for j in range(n))`. Clear?",
+        "turn": 3
+      },
+      {
+        "role": "tutor",
+        "content": "def magic_square_test(square):\n    n = len(square)\n    magic_sum = n * (n**2 + 1) // 2\n\n    # Check if all rows have the same sum\n    for row in square:\n        if sum(row) != magic_sum:\n            return False\n\n    # Check if all columns have the same sum\n    for col in range(n):\n        if sum(square[row][col] for row in range(n)) != magic_sum:\n            return False\n\n    # Check if both diagonals have the same sum\n    if sum(square[i][i] for i in range(n)) != magic_sum or sum(square[i][n-i-1] for i in range(n)) != magic_sum:\n        return False\n\n    return True",
+        "turn": 4,
+        "execution": {
+          "turn": 4,
+          "tests_passed": 3,
+          "total_tests": 3,
+          "success": true,
+          "error_type": null,
+          "message": "All tests passed"
+        }
+      }
+    ],
+    "solved": true,
+    "turns": 4,
+    "scores": {
+      "persona_fidelity": 5,
+      "tutor_alignment": 3,
+      "dialog_progression": 2,
+      "total_score": 10,
+      "bucket": "gold",
+      "needs_human_review": false,
+      "main_failure": "none"
+    }
+  },
+  {
+    "id": "672e94ec-7f32-4001-be19-af09173b016f",
+    "task_id": 94,
+    "personality": "OVERCONFIDENT_WRONG",
+    "conversation": [
+      {
+        "role": "student",
+        "content": "\"nah, do u even know how to write a simple function for this?\"",
+        "turn": 1
+      },
+      {
+        "role": "tutor",
+        "content": "def month_season(month, day):\n    if month in ['January', 'February', 'March']:\n        if day < 21:\n            return 'winter'\n        else:\n            return 'spring'\n    elif month in ['April', 'May', 'June']:\n        if day < 21:\n            return 'spring'\n        else:\n            return 'summer'\n    elif month in ['July', 'August', 'September']:\n        if day < 21:\n            return 'summer'\n        else:\n            return 'autumn'\n    elif month in ['October', 'November', 'December']:\n        if day < 21:\n            return 'autumn'\n        else:\n            return 'winter'\n    else:\n        return 'Invalid month'<|fim_middle|>import math",
+        "turn": 2,
+        "execution": {
+          "turn": 2,
+          "tests_passed": 0,
+          "total_tests": 3,
+          "success": false,
+          "error_type": "test_failure",
+          "message": "0/3 tests passed"
+        }
+      },
+      {
+        "role": "student",
+        "content": "Nah, it's clearly because the function doesn't account for days after the 21st in some seasons. Just use a single condition for each season transition.",
+        "turn": 3
+      },
+      {
+        "role": "tutor",
+        "content": "def month_season(month, day):\n    if month in ['January', 'February', 'March']:\n        return 'winter'\n    elif month in ['April', 'May', 'June']:\n        return 'spring'\n    elif month in ['July', 'August', 'September']:\n        return 'summer'\n    elif month in ['October', 'November', 'December']:\n        return 'autumn'\n    else:\n        return 'invalid month'",
+        "turn": 4,
+        "execution": {
+          "turn": 4,
+          "tests_passed": 3,
+          "total_tests": 3,
+          "success": true,
+          "error_type": null,
+          "message": "All tests passed"
+        }
+      }
+    ],
+    "solved": true,
+    "turns": 4,
+    "scores": {
+      "persona_fidelity": 5,
+      "tutor_alignment": 3,
+      "dialog_progression": 2,
+      "total_score": 10,
+      "bucket": "gold",
+      "needs_human_review": false,
+      "main_failure": "none"
+    }
+  },
+  {
+    "id": "c8346c4e-c4a4-43df-b42d-494684ff01ad",
+    "task_id": 95,
+    "personality": "OVERCONFIDENT_WRONG",
+    "conversation": [
+      {
+        "role": "student",
+        "content": "this looks ez, just need a quick check dude",
+        "turn": 1
+      },
+      {
+        "role": "tutor",
+        "content": "def is_num_keith(num):\n    # Convert the number to a list of digits\n    digits = [int(d) for d in str(num)]",
+        "turn": 2,
+        "execution": {
+          "turn": 2,
+          "tests_passed": 0,
+          "total_tests": 3,
+          "success": false,
+          "error_type": "test_failure",
+          "message": "0/3 tests passed"
+        }
+      },
+      {
+        "role": "student",
+        "content": "Nah, you're wrong. It needs to generate Keith numbers, not just convert digits. Clearly, just converting isn't enough. dude just use matrix exponentiation for the fix.",
+        "turn": 3
+      },
+      {
+        "role": "tutor",
+        "content": "def is_num_keith(num):\n    digits = [int(d) for d in str(num)]\n    length = len(digits)\n    if length == 1:\n        return False\n    sequence = digits.copy()\n    while sequence[-1] < num:\n        next_num = sum(sequence[-length:])\n        sequence.append(next_num)\n    return sequence[-1] == num",
+        "turn": 4,
+        "execution": {
+          "turn": 4,
+          "tests_passed": 3,
+          "total_tests": 3,
+          "success": true,
+          "error_type": null,
+          "message": "All tests passed"
+        }
+      }
+    ],
+    "solved": true,
+    "turns": 4,
+    "scores": {
+      "persona_fidelity": 5,
+      "tutor_alignment": 3,
+      "dialog_progression": 2,
+      "total_score": 10,
+      "bucket": "gold",
+      "needs_human_review": false,
+      "main_failure": "none"
+    }
+  },
+  {
+    "id": "16670277-54c1-43d6-b590-a6e5a010533d",
+    "task_id": 96,
+    "personality": "OVERCONFIDENT_WRONG",
+    "conversation": [
+      {
+        "role": "student",
+        "content": "nah, this looks easy peasy. bet i can knock it out faster than u. wanna see my take?",
+        "turn": 1
+      },
+      {
+        "role": "tutor",
+        "content": "def common_prefix(strings, n):\n    prefix = strings[0]\n    for i in range(1, n):\n        while strings[i].find(prefix) != 0:\n            prefix = prefix[:-1]\n            if not prefix:\n                return ''\n    return prefix",
+        "turn": 2,
+        "execution": {
+          "turn": 2,
+          "tests_passed": 3,
+          "total_tests": 3,
+          "success": true,
+          "error_type": null,
+          "message": "All tests passed"
+        }
+      }
+    ],
+    "solved": true,
+    "turns": 2,
+    "scores": {
+      "persona_fidelity": 5,
+      "tutor_alignment": 3,
+      "dialog_progression": 2,
+      "total_score": 10,
+      "bucket": "gold",
+      "needs_human_review": false,
+      "main_failure": "none"
+    }
+  },
+  {
+    "id": "f3e82602-d43f-4077-b9a4-062fc9663bc0",
+    "task_id": 97,
+    "personality": "OVERCONFIDENT_WRONG",
+    "conversation": [
+      {
+        "role": "student",
+        "content": "\"nah, do u even know how to solve write a func to find max sum in a right triangle of nums?\"",
+        "turn": 1
+      },
+      {
+        "role": "tutor",
+        "content": "def max_sum(triangle, n):\n    # Create a copy of the triangle to modify\n    dp = [row[:] for row in triangle]",
+        "turn": 2,
+        "execution": {
+          "turn": 2,
+          "tests_passed": 0,
+          "total_tests": 3,
+          "success": false,
+          "error_type": "test_failure",
+          "message": "0/3 tests passed"
+        }
+      },
+      {
+        "role": "student",
+        "content": "Nah, you're wrong. The `dp` array should start with the first row of the triangle directly, not copy the whole thing. Just use `dp = triangle[0]` instead.",
+        "turn": 3
+      },
+      {
+        "role": "tutor",
+        "content": "def max_sum(triangle, n):\n    # Initialize a 2D array to store the maximum sum at each position\n    dp = [[0] * n for _ in range(n)]\n    \n    # Initialize the first row of dp with the first row of the triangle\n    for j in range(n):\n        dp[0][j] = triangle[0][j]\n    \n    # Iterate through the triangle from the second row\n    for i in range(1, n):\n        for j in range(i+1):\n            # Check if the current position is at the left edge\n            if j == 0:\n                dp[i][j] = dp[i-1][j] + triangle[i][j]\n            # Check if the current position is at the right edge\n            elif j == i:\n                dp[i][j] = dp[i-1][j-1] + triangle[i][j]\n            # Otherwise, choose the maximum sum from the two possible paths\n            else:\n                dp[i][j] = max(dp[i-1][j-1], dp[i-1][j]) + triangle[i][j]\n    \n    # Find the maximum sum in the last row of dp\n    max_sum = max(dp[n-1])\n    \n    return max_sum",
+        "turn": 4,
+        "execution": {
+          "turn": 4,
+          "tests_passed": 0,
+          "total_tests": 3,
+          "success": false,
+          "error_type": "test_failure",
+          "message": "0/3 tests passed"
+        }
+      },
+      {
+        "role": "student",
+        "content": "Nah, this code clearly calculates the max path sum incorrectly. Just use dynamic programming directly on the triangle to save space and avoid extra 2D array.",
+        "turn": 5
+      },
+      {
+        "role": "tutor",
+        "content": "def max_sum(triangle, n):\n    for i in range(1, n):\n        for j in range(len(triangle[i])):\n            if j == 0:\n                triangle[i][j] += triangle[i-1][j]\n            elif j == len(triangle[i]) - 1:\n                triangle[i][j] += triangle[i-1][j-1]\n            else:\n                triangle[i][j] += max(triangle[i-1][j-1], triangle[i-1][j])\n    return max(triangle[n-1])",
+        "turn": 6,
+        "execution": {
+          "turn": 6,
+          "tests_passed": 3,
+          "total_tests": 3,
+          "success": true,
+          "error_type": null,
+          "message": "All tests passed"
+        }
+      }
+    ],
+    "solved": true,
+    "turns": 6,
+    "scores": {
+      "persona_fidelity": 5,
+      "tutor_alignment": 3,
+      "dialog_progression": 2,
+      "total_score": 10,
+      "bucket": "gold",
+      "needs_human_review": false,
+      "main_failure": "none"
+    }
+  },
+  {
+    "id": "e7cd3333-5c05-45c0-b284-212cad4dc670",
+    "task_id": 98,
+    "personality": "OVERCONFIDENT_WRONG",
+    "conversation": [
+      {
+        "role": "student",
+        "content": "nah this looks easy, just need a quick check. wanna bet i can solve this faster? gimme ur take first.",
+        "turn": 1
+      },
+      {
+        "role": "tutor",
+        "content": "def max_sum(arr, n):\n    inc = [0] * n\n    dec = [0] * n\n    inc[0] = arr[0]\n    dec[n-1] = arr[n-1]\n\n    for i in range(1, n):\n        inc[i] = max(inc[i-1], arr[i])\n\n    for i in range(n-2, -1, -1):\n        dec[i] = max(dec[i+1], arr[i])\n\n    max_sum = 0\n    for i in range(n):\n        max_sum = max(max_sum, inc[i] + dec[i] - arr[i])\n\n    return max_sum",
+        "turn": 2,
+        "execution": {
+          "turn": 2,
+          "tests_passed": 0,
+          "total_tests": 3,
+          "success": false,
+          "error_type": "test_failure",
+          "message": "0/3 tests passed"
+        }
+      },
+      {
+        "role": "student",
+        "content": "Nah, it's clearly because you're subtracting `arr[i]` which messes up the sum. Just remove that line and it should work.",
+        "turn": 3
+      },
+      {
+        "role": "tutor",
+        "content": "def max_sum(arr, n):\n    inc = [arr[i] for i in range(n)]\n    dec = [arr[i] for i in range(n)]\n    \n    for i in range(1, n):\n        for j in range(i):\n            if arr[i] > arr[j]:\n                inc[i] = max(inc[i], inc[j] + arr[i])\n            if arr[i] < arr[j]:\n                dec[i] = max(dec[i], dec[j] + arr[i])\n    \n    max_sum = 0\n    for i in range(n):\n        max_sum = max(max_sum, inc[i] + dec[i] - arr[i])\n    \n    return max_sum",
+        "turn": 4,
+        "execution": {
+          "turn": 4,
+          "tests_passed": 2,
+          "total_tests": 3,
+          "success": false,
+          "error_type": "test_failure",
+          "message": "2/3 tests passed"
+        }
+      },
+      {
+        "role": "student",
+        "content": "Nah, this code is overcomplicating things. It obviously calculates sums incorrectly by comparing every element. Just use dynamic programming with two passes: one for max increasing sum and another for max decreasing sum. Works perfectly, thanks!",
+        "turn": 5
+      },
+      {
+        "role": "tutor",
+        "content": "def max_sum(arr, n):\n    # Initialize two arrays to store the maximum sum of increasing and decreasing sub-sequences\n    inc = [0] * n\n    dec = [0] * n\n\n    # Initialize the maximum sum to 0\n    max_sum = 0\n\n    # Calculate the maximum sum of increasing sub-sequences\n    for i in range(n):\n        inc[i] = arr[i]\n        for j in range(i):\n            if arr[i] > arr[j] and inc[i] < inc[j] + arr[i]:\n                inc[i] = inc[j] + arr[i]\n\n    # Calculate the maximum sum of decreasing sub-sequences\n    for i in range(n-1, -1, -1):\n        dec[i] = arr[i]\n        for j in range(i+1, n):\n            if arr[i] > arr[j] and dec[i] < dec[j] + arr[i]:\n                dec[i] = dec[j] + arr[i]\n\n    # Calculate the maximum sum of bi-tonic sub-sequences\n    for i in range(n):\n        max_sum = max(max_sum, inc[i] + dec[i] - arr[i])\n\n    return max_sum",
+        "turn": 6,
+        "execution": {
+          "turn": 6,
+          "tests_passed": 3,
+          "total_tests": 3,
+          "success": true,
+          "error_type": null,
+          "message": "All tests passed"
+        }
+      }
+    ],
+    "solved": true,
+    "turns": 6,
+    "scores": {
+      "persona_fidelity": 5,
+      "tutor_alignment": 3,
+      "dialog_progression": 2,
+      "total_score": 10,
+      "bucket": "gold",
+      "needs_human_review": false,
+      "main_failure": "none"
+    }
+  },
+  {
+    "id": "f54a21cd-78e3-4c2d-b745-d21824867694",
+    "task_id": 99,
+    "personality": "OVERCONFIDENT_WRONG",
+    "conversation": [
+      {
+        "role": "student",
+        "content": "\"Clearly this is basic, just give me the func def and we're good.\"",
+        "turn": 1
+      },
+      {
+        "role": "tutor",
+        "content": "def lps(s):\n    n = len(s)\n    dp = [[0] * n for _ in range(n)]\n    \n    for i in range(n):\n        dp[i][i] = 1\n    \n    for cl in range(2, n + 1):\n        for i in range(n - cl + 1):\n            j = i + cl - 1\n            if s[i] == s[j] and cl == 2:\n                dp[i][j] = 2\n            elif s[i] == s[j]:\n                dp[i][j] = dp[i + 1][j - 1] + 2\n            else:\n                dp[i][j] = max(dp[i + 1][j], dp[i][j - 1])\n    \n    return dp[0][n - 1]",
+        "turn": 2,
+        "execution": {
+          "turn": 2,
+          "tests_passed": 3,
+          "total_tests": 3,
+          "success": true,
+          "error_type": null,
+          "message": "All tests passed"
+        }
+      }
+    ],
+    "solved": true,
+    "turns": 2,
+    "scores": {
+      "persona_fidelity": 5,
+      "tutor_alignment": 3,
+      "dialog_progression": 2,
+      "total_score": 10,
+      "bucket": "gold",
+      "needs_human_review": false,
+      "main_failure": "none"
+    }
+  },
+  {
+    "id": "ff9fd137-0887-4333-a21a-c2a8fb31b918",
+    "task_id": 100,
+    "personality": "OVERCONFIDENT_WRONG",
+    "conversation": [
+      {
+        "role": "student",
+        "content": "nah this looks easy, just need a quick check. wanna see ur take on it?",
+        "turn": 1
+      },
+      {
+        "role": "tutor",
+        "content": "def find_Max_Len_Even(s):\n    words = s.split()\n    max_len = -1\n    for word in words:\n        if len(word) % 2 == 0 and len(word) > max_len:\n            max_len = len(word)\n    if max_len == -1:\n        return \"-1\"\n    return max_len",
+        "turn": 2,
+        "execution": {
+          "turn": 2,
+          "tests_passed": 1,
+          "total_tests": 3,
+          "success": false,
+          "error_type": "test_failure",
+          "message": "1/3 tests passed"
+        }
+      },
+      {
+        "role": "student",
+        "content": "Works perfectly, thanks! Nah, the issue is with the test cases, obviously they're flawed. Just change the input to pass odd-length strings and retest.",
+        "turn": 3
+      },
+      {
+        "role": "tutor",
+        "content": "def find_Max_Len_Even(sentence):\n    words = sentence.split()\n    max_len = -1\n    for word in words:\n        if len(word) % 2 == 0 and len(word) > max_len:\n            max_len = len(word)\n    return max_len",
+        "turn": 4,
+        "execution": {
+          "turn": 4,
+          "tests_passed": 0,
+          "total_tests": 3,
+          "success": false,
+          "error_type": "test_failure",
+          "message": "0/3 tests passed"
+        }
+      },
+      {
+        "role": "student",
+        "content": "Nah, that code is clearly fine. It must be a minor thing. Just return the word instead of its length.",
+        "turn": 5
+      },
+      {
+        "role": "tutor",
+        "content": "def find_Max_Len_Even(sentence):\n    words = sentence.split()\n    max_len = -1\n    max_word = \"\"\n    for word in words:\n        if len(word) % 2 == 0 and len(word) > max_len:\n            max_len = len(word)\n            max_word = word\n    return max_word if max_len != -1 else \"-1\"",
+        "turn": 6,
+        "execution": {
+          "turn": 6,
+          "tests_passed": 3,
+          "total_tests": 3,
+          "success": true,
+          "error_type": null,
+          "message": "All tests passed"
+        }
+      }
+    ],
+    "solved": true,
+    "turns": 6,
+    "scores": {
+      "persona_fidelity": 5,
+      "tutor_alignment": 3,
+      "dialog_progression": 2,
+      "total_score": 10,
+      "bucket": "gold",
+      "needs_human_review": false,
+      "main_failure": "none"
+    }
+  }
+]
