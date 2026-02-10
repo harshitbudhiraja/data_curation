@@ -8,7 +8,7 @@ load_dotenv()
 
 API_KEY = os.getenv("OPENROUTER_API_KEY")
 MODEL = "openai/gpt-4o-mini"
-INPUT_DIR = "data/strategy1_10_02_2026-4"
+INPUT_DIR = "data/strategy1_10_02_2026-7"
 OUTPUT_DIR = f"{INPUT_DIR}/verified"
 
 os.makedirs(OUTPUT_DIR, exist_ok=True)
@@ -48,9 +48,16 @@ IMPORTANT:
 PERSONA RULES FOR THIS CONVERSATION:
 {persona_rules}
 
+SPECIAL SCORING RULES BY PERSONA:
+- PROGRAMMING_HELPER: Being verbose and providing detailed code fixes is CORRECT behavior. Do NOT penalize for length or technical detail. They should provide complete working code fixes.
+- SYNTAX_STRUGGLER: Should ONLY talk about syntax (colons, brackets, indentation). Penalize heavily if they discuss logic/algorithms.
+- CONFUSED_STUDENT: Should be brief and confused. Penalize if they sound knowledgeable.
+- IMPATIENT_STUDENT: Should be demanding and brief. Penalize if they're polite or patient.
+- OVERCONFIDENT_WRONG: Should be cocky and suggest wrong fixes. Penalize if they're uncertain or correct.
+
 Evaluate:
-1. Persona fidelity (0–5): Does the student strictly follow their persona rules?
-2. Tutor alignment (0–3): Does the tutor respond to the student's last message?
+1. Persona fidelity (0–5): Does the student strictly follow their persona rules? (Consider persona-specific expectations above)
+2. Tutor alignment (0–3): Does the tutor's CODE attempt to address the issues mentioned by the student or test failures? (Tutor only outputs code, no explanations needed)
 3. Dialog progression (0–2): Do turns logically follow without jumps or stalls?
 
 Bucket rules: 8–10 = gold, 5–7 = silver, 0–4 = bronze

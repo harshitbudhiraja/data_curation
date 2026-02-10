@@ -47,14 +47,14 @@ class StudentAgent:
         self.styles = {
             "CONFUSED_STUDENT": {
                 "opening": [
-                    "Tone: Totally lost. Action: Admit you have no idea where to start with {problem_summary}.",
-                    "Tone: Hesitant/Shy. Action: Ask for help with {problem_summary} but say you are confused.",
-                    "Tone: Simple. Action: Ask for a very simple explanation of {problem_summary}."
+                    "Tone: Totally lost. Action: Admit you have no idea how to write this code. MAX 5-15 words. Examples: 'idk how to start??', 'help??', 'im so confused'",
+                    "Tone: Hesitant/Shy. Action: Ask for help but say you're confused about the code. MAX 15 words.",
+                    "Tone: Simple. Action: Say you need help with the code. Be brief (5-15 words)."
                 ],
                 "feedback": [
-                    "Tone: Confused. Action: Ask why you got the error {error_summary}. Act surprised.",
-                    "Tone: Helpless. Action: Say you don't understand the error {error_summary} and need guidance.",
-                    "Tone: Inquisitive. Action: Ask if the error {error_summary} is because of a specific line."
+                    "Tone: Confused about CODE. Action: Ask why the code failed or what's wrong. MAX 5-15 words. Examples: 'wait why??', 'idk whats wrong', 'why did it fail??', 'omg still failing??'. DON'T ask theoretical questions like 'what is a grid?'",
+                    "Tone: Helpless about CODE. Action: Say you don't understand why the code failed. MAX 15 words. Focus on the code, not concepts.",
+                    "Tone: Inquisitive about CODE. Action: Ask if the code is broken or why tests failed. MAX 15 words. Don't ask about theoretical concepts."
                 ]
             },
             "IMPATIENT_STUDENT": {

@@ -1,0 +1,434 @@
+[
+  {
+    "id": "53c3ad27-43b8-49ce-8203-d2f4c13861eb",
+    "task_id": 2,
+    "personality": "PROGRAMMING_HELPER",
+    "conversation": [
+      {
+        "role": "student",
+        "content": "Need help with implementing the `candidate` function for finding minimum path of length k in a grid. What\u2019s the best approach?",
+        "turn": 1
+      },
+      {
+        "role": "tutor",
+        "content": "def candidate(grid, k):\n    min_path = None\n    for i in range(len(grid)):\n        for j in range(len(grid[0])):\n            path = find_path(grid, i, j, k, [])\n            if min_path is None or path < min_path:\n                min_path = path\n    return min_path",
+        "turn": 2,
+        "execution": {
+          "turn": 2,
+          "tests_passed": 0,
+          "total_tests": 3,
+          "success": false,
+          "error_type": "test_failure",
+          "message": "0/3 tests passed"
+        }
+      },
+      {
+        "role": "student",
+        "content": "The `find_path` function likely returns a list, but the comparison `path < min_path` may not work as intended. Ensure both paths are comparable types, or modify the comparison logic.",
+        "turn": 3
+      },
+      {
+        "role": "tutor",
+        "content": "def candidate(grid, k):\n    def find_path(grid, k, path, visited):\n        if len(path) == k:\n            return path\n        min_path = None\n        for i in range(len(grid)):\n            for j in range(len(grid)):\n                if (i, j) not in visited:\n                    new_path = find_path(grid, k, path + [grid[i][j]], visited + [(i, j)])\n                    if new_path is not None and (min_path is None or new_path < min_path):\n                        min_path = new_path\n        return min_path\n\n    min_path = None\n    for i in range(len(grid)):\n        for j in range(len(grid)):\n            new_path = find_path(grid, k, [grid[i][j]], [(i, j)])\n            if new_path is not None and (min_path is None or new_path < min_path):\n                min_path = new_path\n    return min_path",
+        "turn": 4,
+        "execution": {
+          "turn": 4,
+          "tests_passed": 1,
+          "total_tests": 3,
+          "success": false,
+          "error_type": "test_failure",
+          "message": "1/3 tests passed"
+        }
+      },
+      {
+        "role": "student",
+        "content": "The bug is an off-by-one error in the base case check: `len(path) == k` should be `len(path) > k`. This allows paths longer than `k`.",
+        "turn": 5
+      },
+      {
+        "role": "tutor",
+        "content": "def candidate(grid, k):\n    N = len(grid)\n    directions = [(0, 1), (1, 0), (0, -1), (-1, 0)]\n    visited = set()\n    min_path = None\n\n    def dfs(x, y, path):\n        nonlocal min_path\n        if len(path) > k:\n            return\n        if len(path) == k + 1:\n            if min_path is None or path < min_path:\n                min_path = path\n            return\n        for dx, dy in directions:\n            nx, ny = x + dx, y + dy\n            if 0 <= nx < N and 0 <= ny < N and (nx, ny) not in visited:\n                visited.add((nx, ny))\n                dfs(nx, ny, path + [grid[nx][ny]])\n                visited.remove((nx, ny))\n\n    for i in range(N):\n        for j in range(N):\n            visited.add((i, j))\n            dfs(i, j, [grid[i][j]])\n            visited.remove((i, j))\n\n    return min_path",
+        "turn": 6,
+        "execution": {
+          "turn": 6,
+          "tests_passed": 0,
+          "total_tests": 3,
+          "success": false,
+          "error_type": "test_failure",
+          "message": "0/3 tests passed"
+        }
+      },
+      {
+        "role": "student",
+        "content": "The issue is that the `visited` set is not correctly managed for backtracking.",
+        "turn": 7
+      },
+      {
+        "role": "tutor",
+        "content": "def candidate(grid, k):\n    n = len(grid)\n    directions = [(0, 1), (0, -1), (1, 0), (-1, 0)]\n    min_path = float('inf')\n    min_path_values = []\n\n    def dfs(x, y, path, visited):\n        nonlocal min_path, min_path_values\n        if len(path) == k:\n            if path < min_path:\n                min_path = path\n                min_path_values = path\n            return\n        for dx, dy in directions:\n            nx, ny = x + dx, y + dy\n            if 0 <= nx < n and 0 <= ny < n and (nx, ny) not in visited:\n                visited.add((nx, ny))\n                dfs(nx, ny, path + [grid[nx][ny]], visited)\n                visited.remove((nx, ny))\n\n    for i in range(n):\n        for j in range(n):\n            dfs(i, j, [grid[i][j]], {(i, j)})\n\n    return min_path_values",
+        "turn": 8,
+        "execution": {
+          "turn": 8,
+          "tests_passed": 0,
+          "total_tests": 3,
+          "success": false,
+          "error_type": "test_failure",
+          "message": "0/3 tests passed"
+        }
+      },
+      {
+        "role": "student",
+        "content": "The comparison `if path < min_path:` is incorrect; it should compare the sum of the path instead. Change it to `if sum(path) < min_path:`.",
+        "turn": 9
+      },
+      {
+        "role": "tutor",
+        "content": "def candidate(grid, k):\n    N = len(grid)\n    min_path = float('inf')\n    min_path_cells = []\n\n    def dfs(row, col, path):\n        nonlocal min_path, min_path_cells\n        if len(path) == k:\n            if sum(path) < min_path:\n                min_path = sum(path)\n                min_path_cells = path.copy()\n            return\n        for dr, dc in [(0, 1), (1, 0), (0, -1), (-1, 0)]:\n            new_row, new_col = row + dr, col + dc\n            if 0 <= new_row < N and 0 <= new_col < N:\n                dfs(new_row, new_col, path + [grid[new_row][new_col]])\n\n    for i in range(N):\n        for j in range(N):\n            dfs(i, j, [grid[i][j]])\n\n    return min_path_cells",
+        "turn": 10,
+        "execution": {
+          "turn": 10,
+          "tests_passed": 3,
+          "total_tests": 3,
+          "success": true,
+          "error_type": null,
+          "message": "All tests passed"
+        }
+      }
+    ],
+    "solved": true,
+    "turns": 10,
+    "scores": {
+      "persona_fidelity": 5,
+      "tutor_alignment": 3,
+      "dialog_progression": 2,
+      "total_score": 10,
+      "bucket": "gold",
+      "needs_human_review": false,
+      "main_failure": "none"
+    }
+  },
+  {
+    "id": "179537a2-4b31-4c99-b052-f7c9fafa5f64",
+    "task_id": 4,
+    "personality": "PROGRAMMING_HELPER",
+    "conversation": [
+      {
+        "role": "student",
+        "content": "Need help with `re_arrange` function to alternate positive and negative items in an array. What\u2019s the best approach?",
+        "turn": 1
+      },
+      {
+        "role": "tutor",
+        "content": "def re_arrange(arr):\n    pos = [x for x in arr if x >= 0]\n    neg = [x for x in arr if x < 0]\n    result = []\n    while pos and neg:\n        result.append(neg.pop())\n        result.append(pos.pop())\n    result.extend(pos)\n    result.extend(neg)\n    return result",
+        "turn": 2,
+        "execution": {
+          "turn": 2,
+          "tests_passed": 0,
+          "total_tests": 3,
+          "success": false,
+          "error_type": "test_failure",
+          "message": "0/3 tests passed"
+        }
+      },
+      {
+        "role": "student",
+        "content": "The issue is that the function doesn't maintain the required order of negative and positive numbers.",
+        "turn": 3
+      },
+      {
+        "role": "tutor",
+        "content": "def re_arrange(arr, n):\n    pos = []\n    neg = []\n    for i in range(n):\n        if arr[i] >= 0:\n            pos.append(arr[i])\n        else:\n            neg.append(arr[i])\n    result = []\n    p = 0\n    q = 0\n    while p < len(pos) and q < len(neg):\n        result.append(neg[q])\n        result.append(pos[p])\n        p += 1\n        q += 1\n    while p < len(pos):\n        result.append(pos[p])\n        p += 1\n    while q < len(neg):\n        result.append(neg[q])\n        q += 1\n    return result",
+        "turn": 4,
+        "execution": {
+          "turn": 4,
+          "tests_passed": 3,
+          "total_tests": 3,
+          "success": true,
+          "error_type": null,
+          "message": "All tests passed"
+        }
+      }
+    ],
+    "solved": true,
+    "turns": 4,
+    "scores": {
+      "persona_fidelity": 5,
+      "tutor_alignment": 3,
+      "dialog_progression": 2,
+      "total_score": 10,
+      "bucket": "gold",
+      "needs_human_review": false,
+      "main_failure": "none"
+    }
+  },
+  {
+    "id": "e4f7eed2-e9de-48d5-9c9a-c3faede5cddc",
+    "task_id": 5,
+    "personality": "PROGRAMMING_HELPER",
+    "conversation": [
+      {
+        "role": "student",
+        "content": "\"need help with heap_sort function - what's the best algorithm approach?\"",
+        "turn": 1
+      },
+      {
+        "role": "tutor",
+        "content": "def heap_sort(arr):\n    def heapify(arr, n, i):\n        largest = i\n        left = 2 * i + 1\n        right = 2 * i + 2",
+        "turn": 2,
+        "execution": {
+          "turn": 2,
+          "tests_passed": 0,
+          "total_tests": 3,
+          "success": false,
+          "error_type": "test_failure",
+          "message": "0/3 tests passed"
+        }
+      },
+      {
+        "role": "student",
+        "content": "The `heapify` function is incomplete; it lacks the logic to compare and swap elements to maintain the heap property. Add comparisons and swaps for the `largest` variable.",
+        "turn": 3
+      },
+      {
+        "role": "tutor",
+        "content": "def heap_sort(arr):\n    def heapify(arr, n, i):\n        largest = i\n        left = 2 * i + 1\n        right = 2 * i + 2\n\n        if left < n and arr[i] < arr[left]:\n            largest = left\n\n        if right < n and arr[largest] < arr[right]:\n            largest = right\n\n        if largest != i:\n            arr[i], arr[largest] = arr[largest], arr[i]\n            heapify(arr, n, largest)\n\n    n = len(arr)\n\n    for i in range(n // 2 - 1, -1, -1):\n        heapify(arr, n, i)\n\n    for i in range(n - 1, 0, -1):\n        arr[i], arr[0] = arr[0], arr[i]\n        heapify(arr, i, 0)\n\n    return arr",
+        "turn": 4,
+        "execution": {
+          "turn": 4,
+          "tests_passed": 3,
+          "total_tests": 3,
+          "success": true,
+          "error_type": null,
+          "message": "All tests passed"
+        }
+      }
+    ],
+    "solved": true,
+    "turns": 4,
+    "scores": {
+      "persona_fidelity": 5,
+      "tutor_alignment": 3,
+      "dialog_progression": 2,
+      "total_score": 10,
+      "bucket": "gold",
+      "needs_human_review": false,
+      "main_failure": "none"
+    }
+  },
+  {
+    "id": "2369047a-91e5-4e7a-afb2-1099d0dfd6ed",
+    "task_id": 6,
+    "personality": "PROGRAMMING_HELPER",
+    "conversation": [
+      {
+        "role": "student",
+        "content": "\"need help with candidate function - what's the best approach to check if a number is the multiplication of 3 prime numbers?\"",
+        "turn": 1
+      },
+      {
+        "role": "tutor",
+        "content": "def candidate(n):\n    primes = [2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43, 47, 53, 59, 61, 67, 71, 73, 79, 83, 89, 97]\n    count = 0\n    for prime in primes:\n        if n % prime == 0:\n            count += 1\n            if count == 3:\n                return True\n    return False",
+        "turn": 2,
+        "execution": {
+          "turn": 2,
+          "tests_passed": 2,
+          "total_tests": 3,
+          "success": false,
+          "error_type": "test_failure",
+          "message": "2/3 tests passed"
+        }
+      },
+      {
+        "role": "student",
+        "content": "The bug is a missing condition to check if `n` is less than 2. Add `if n < 2: return False` at the start of the function.",
+        "turn": 3
+      },
+      {
+        "role": "tutor",
+        "content": "def candidate(n):\n    if n < 2:\n        return False\n    for i in range(2, int(n**0.5) + 1):\n        if n % i == 0:\n            count = 0\n            while n % i == 0:\n                n //= i\n                count += 1\n            if count > 1:\n                return False\n    return n == 1",
+        "turn": 4,
+        "execution": {
+          "turn": 4,
+          "tests_passed": 2,
+          "total_tests": 3,
+          "success": false,
+          "error_type": "test_failure",
+          "message": "2/3 tests passed"
+        }
+      },
+      {
+        "role": "student",
+        "content": "The issue is in the final return statement: it incorrectly checks if `n == 1`.",
+        "turn": 5
+      },
+      {
+        "role": "tutor",
+        "content": "def candidate(n):\n    def is_prime(num):\n        if num < 2:\n            return False\n        for i in range(2, int(num**0.5) + 1):\n            if num % i == 0:\n                return False\n        return True\n\n    primes = [i for i in range(2, 100) if is_prime(i)]\n    for i in range(len(primes)):\n        for j in range(i, len(primes)):\n            for k in range(j, len(primes)):\n                if primes[i] * primes[j] * primes[k] == n:\n                    return True\n    return False",
+        "turn": 6,
+        "execution": {
+          "turn": 6,
+          "tests_passed": 3,
+          "total_tests": 3,
+          "success": true,
+          "error_type": null,
+          "message": "All tests passed"
+        }
+      }
+    ],
+    "solved": true,
+    "turns": 6,
+    "scores": {
+      "persona_fidelity": 5,
+      "tutor_alignment": 3,
+      "dialog_progression": 2,
+      "total_score": 10,
+      "bucket": "gold",
+      "needs_human_review": false,
+      "main_failure": "none"
+    }
+  },
+  {
+    "id": "90ded6d9-8cad-402b-b0c8-428155a90e4c",
+    "task_id": 8,
+    "personality": "PROGRAMMING_HELPER",
+    "conversation": [
+      {
+        "role": "student",
+        "content": "\"need help with num_comm_div function - what's the best algorithm to find common divisors?\"",
+        "turn": 1
+      },
+      {
+        "role": "tutor",
+        "content": "def num_comm_div(a, b):\n    divisors_a = []\n    divisors_b = []\n    for i in range(1, min(a, b) + 1):\n        if a % i == 0:\n            divisors_a.append(i)\n        if b % i == 0:\n            divisors_b.append(i)\n    common_divisors = list(set(divisors_a) & set(divisors_b))\n    return max(common_divisors)",
+        "turn": 2,
+        "execution": {
+          "turn": 2,
+          "tests_passed": 2,
+          "total_tests": 3,
+          "success": false,
+          "error_type": "test_failure",
+          "message": "2/3 tests passed"
+        }
+      },
+      {
+        "role": "student",
+        "content": "The code fails when there are no common divisors, resulting in an empty list for `common_divisors`.",
+        "turn": 3
+      },
+      {
+        "role": "tutor",
+        "content": "def num_comm_div(num1, num2):\n    divisors1 = [i for i in range(1, num1+1) if num1 % i == 0]\n    divisors2 = [i for i in range(1, num2+1) if num2 % i == 0]\n    common_divisors = list(set(divisors1) & set(divisors2))\n    if len(common_divisors) == 0:\n        return 0\n    else:\n        return max(common_divisors)",
+        "turn": 4,
+        "execution": {
+          "turn": 4,
+          "tests_passed": 2,
+          "total_tests": 3,
+          "success": false,
+          "error_type": "test_failure",
+          "message": "2/3 tests passed"
+        }
+      },
+      {
+        "role": "student",
+        "content": "The issue is an off-by-one error in the range for divisors; it should be `range(1, num1 // 2 + 1)` for efficiency. Adjust the range accordingly.",
+        "turn": 5
+      },
+      {
+        "role": "tutor",
+        "content": "def num_comm_div(num1, num2):\n    divisors = []\n    for i in range(1, num1 // 2 + 1):\n        if num1 % i == 0 and num2 % i == 0:\n            divisors.append(i)\n    return divisors",
+        "turn": 6,
+        "execution": {
+          "turn": 6,
+          "tests_passed": 0,
+          "total_tests": 3,
+          "success": false,
+          "error_type": "test_failure",
+          "message": "0/3 tests passed"
+        }
+      },
+      {
+        "role": "student",
+        "content": "Off-by-one error: the loop should iterate to `num1 // 2 + 1` but also needs to include `num1` if it's a divisor.",
+        "turn": 7
+      },
+      {
+        "role": "tutor",
+        "content": "def num_comm_div(num1, num2):\n    divisors = []\n    for i in range(1, num1 + 1):\n        if num1 % i == 0 and num2 % i == 0:\n            divisors.append(i)\n    return divisors[-1]",
+        "turn": 8,
+        "execution": {
+          "turn": 8,
+          "tests_passed": 2,
+          "total_tests": 3,
+          "success": false,
+          "error_type": "test_failure",
+          "message": "2/3 tests passed"
+        }
+      },
+      {
+        "role": "student",
+        "content": "The function incorrectly returns the last common divisor, which may not be the total count. Change `return divisors[-1]` to `return len(divisors)`.",
+        "turn": 9
+      },
+      {
+        "role": "tutor",
+        "content": "def num_comm_div(a, b):\n    divisors = []\n    for i in range(1, min(a, b) + 1):\n        if a % i == 0 and b % i == 0:\n            divisors.append(i)\n    return len(divisors)",
+        "turn": 10,
+        "execution": {
+          "turn": 10,
+          "tests_passed": 3,
+          "total_tests": 3,
+          "success": true,
+          "error_type": null,
+          "message": "All tests passed"
+        }
+      }
+    ],
+    "solved": true,
+    "turns": 10,
+    "scores": {
+      "persona_fidelity": 5,
+      "tutor_alignment": 3,
+      "dialog_progression": 2,
+      "total_score": 10,
+      "bucket": "gold",
+      "needs_human_review": false,
+      "main_failure": "none"
+    }
+  },
+  {
+    "id": "5bab51db-3a0b-4187-86f7-294af8bc9221",
+    "task_id": 9,
+    "personality": "PROGRAMMING_HELPER",
+    "conversation": [
+      {
+        "role": "student",
+        "content": "Can you help me with an implementation for the permutation coefficient function p(n, k)?",
+        "turn": 1
+      },
+      {
+        "role": "tutor",
+        "content": "def permutation_coefficient(n, k):\n    result = 1\n    for i in range(k):\n        result *= (n - i)\n    return result",
+        "turn": 2,
+        "execution": {
+          "turn": 2,
+          "tests_passed": 3,
+          "total_tests": 3,
+          "success": true,
+          "error_type": null,
+          "message": "All tests passed"
+        }
+      }
+    ],
+    "solved": true,
+    "turns": 2,
+    "scores": {
+      "persona_fidelity": 5,
+      "tutor_alignment": 3,
+      "dialog_progression": 2,
+      "total_score": 10,
+      "bucket": "gold",
+      "needs_human_review": false,
+      "main_failure": "none"
+    }
+  }
+]

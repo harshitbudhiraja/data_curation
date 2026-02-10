@@ -1,0 +1,542 @@
+[
+  {
+    "id": "f97164f8-0d2c-4c5d-a7fc-f63df09b4f39",
+    "task_id": 3,
+    "personality": "IMPATIENT_STUDENT",
+    "conversation": [
+      {
+        "role": "student",
+        "content": "need the code for is_tree_balanced ASAP! ugh, just help me out!",
+        "turn": 1
+      },
+      {
+        "role": "tutor",
+        "content": "def is_tree_balanced(root):\n    def height(node):\n        if not node:\n            return 0\n        return max(height(node.left), height(node.right)) + 1\n    \n    def is_balanced(node):\n        if not node:\n            return True\n        left_height = height(node.left)\n        right_height = height(node.right)\n        if abs(left_height - right_height) > 1:\n            return False\n        return is_balanced(node.left) and is_balanced(node.right)\n    \n    return is_balanced(root)",
+        "turn": 2,
+        "execution": {
+          "turn": 2,
+          "tests_passed": 0,
+          "total_tests": 3,
+          "success": false,
+          "error_type": "test_failure",
+          "message": "0/3 tests passed"
+        }
+      },
+      {
+        "role": "student",
+        "content": "Ugh, this code FAILED (0/3 tests passed). Just fix it!",
+        "turn": 3
+      },
+      {
+        "role": "tutor",
+        "content": "def is_tree_balanced(root):\n    def height(node):\n        if not node:\n            return 0\n        return 1 + max(height(node.left), height(node.right))\n    \n    def is_balanced(node):\n        if not node:\n            return True\n        left_height = height(node.left)\n        right_height = height(node.right)\n        if abs(left_height - right_height) > 1:\n            return False\n        return is_balanced(node.left) and is_balanced(node.right)\n    \n    return is_balanced(root)",
+        "turn": 4,
+        "execution": {
+          "turn": 4,
+          "tests_passed": 0,
+          "total_tests": 3,
+          "success": false,
+          "error_type": "test_failure",
+          "message": "0/3 tests passed"
+        }
+      },
+      {
+        "role": "student",
+        "content": "ugh, this is taking forever! 0/3 tests passed. just fix it!",
+        "turn": 5
+      },
+      {
+        "role": "tutor",
+        "content": "def is_tree_balanced(root):\n    def height(node):\n        if not node:\n            return 0\n        return 1 + max(height(node.left), height(node.right))\n    \n    def is_balanced(node):\n        if not node:\n            return True\n        left_height = height(node.left)\n        right_height = height(node.right)\n        if abs(left_height - right_height) > 1:\n            return False\n        return is_balanced(node.left) and is_balanced(node.right)\n    \n    return is_balanced(root)",
+        "turn": 6,
+        "execution": {
+          "turn": 6,
+          "tests_passed": 0,
+          "total_tests": 3,
+          "success": false,
+          "error_type": "test_failure",
+          "message": "0/3 tests passed"
+        }
+      },
+      {
+        "role": "student",
+        "content": "ugh, this code FAILED (0/3 tests passed). just fix it!",
+        "turn": 7
+      },
+      {
+        "role": "tutor",
+        "content": "def is_tree_balanced(root):\n    def get_height(node):\n        if not node:\n            return 0\n        left_height = get_height(node.left)\n        right_height = get_height(node.right)\n        if left_height == -1 or right_height == -1 or abs(left_height - right_height) > 1:\n            return -1\n        return max(left_height, right_height) + 1",
+        "turn": 8,
+        "execution": {
+          "turn": 8,
+          "tests_passed": 0,
+          "total_tests": 3,
+          "success": false,
+          "error_type": "test_failure",
+          "message": "0/3 tests passed"
+        }
+      }
+    ],
+    "solved": false,
+    "turns": 8,
+    "scores": {
+      "persona_fidelity": 5,
+      "tutor_alignment": 0,
+      "dialog_progression": 1,
+      "total_score": 6,
+      "bucket": "silver",
+      "needs_human_review": false,
+      "main_failure": "tutor_misaligned"
+    }
+  },
+  {
+    "id": "19455902-1936-4599-8360-a03a29718735",
+    "task_id": 4,
+    "personality": "IMPATIENT_STUDENT",
+    "conversation": [
+      {
+        "role": "student",
+        "content": "need the code for re_arrange function asap, just give it to me!",
+        "turn": 1
+      },
+      {
+        "role": "tutor",
+        "content": "def re_arrange(arr, n):\n    pos = []\n    neg = []\n    for i in range(n):\n        if arr[i] >= 0:\n            pos.append(arr[i])\n        else:\n            neg.append(arr[i])\n    ans = []\n    for i in range(min(len(pos), len(neg))):\n        ans.append(neg[i])\n        ans.append(pos[i])\n    ans.extend(pos[len(neg):])\n    ans.extend(neg[len(pos):])\n    return ans",
+        "turn": 2,
+        "execution": {
+          "turn": 2,
+          "tests_passed": 3,
+          "total_tests": 3,
+          "success": true,
+          "error_type": null,
+          "message": "All tests passed"
+        }
+      }
+    ],
+    "solved": true,
+    "turns": 2,
+    "scores": {
+      "persona_fidelity": 5,
+      "tutor_alignment": 0,
+      "dialog_progression": 2,
+      "total_score": 7,
+      "bucket": "silver",
+      "needs_human_review": false,
+      "main_failure": "tutor_misaligned"
+    }
+  },
+  {
+    "id": "56fb3247-d052-4efd-9ccb-2559bf9a74e7",
+    "task_id": 5,
+    "personality": "IMPATIENT_STUDENT",
+    "conversation": [
+      {
+        "role": "student",
+        "content": "need help with heap_sort function, just give me the code!",
+        "turn": 1
+      },
+      {
+        "role": "tutor",
+        "content": "def heap_sort(arr):\n    heapify(arr)\n    sorted_arr = []\n    while arr:\n        sorted_arr.append(arr.pop(0))\n    return sorted_arr",
+        "turn": 2,
+        "execution": {
+          "turn": 2,
+          "tests_passed": 0,
+          "total_tests": 3,
+          "success": false,
+          "error_type": "test_failure",
+          "message": "0/3 tests passed"
+        }
+      },
+      {
+        "role": "student",
+        "content": "ugh, this is taking forever! The code is still not working! Just fix it!",
+        "turn": 3
+      },
+      {
+        "role": "tutor",
+        "content": "def heapify(arr, n, i):\n    largest = i\n    left = 2 * i + 1\n    right = 2 * i + 2\n\n    if left < n and arr[left] > arr[largest]:\n        largest = left\n\n    if right < n and arr[right] > arr[largest]:\n        largest = right\n\n    if largest != i:\n        arr[i], arr[largest] = arr[largest], arr[i]\n        heapify(arr, n, largest)\n\ndef heap_sort(arr):\n    n = len(arr)\n\n    for i in range(n // 2 - 1, -1, -1):\n        heapify(arr, n, i)\n\n    for i in range(n - 1, 0, -1):\n        arr[i], arr[0] = arr[0], arr[i]\n        heapify(arr, i, 0)\n\n    return arr",
+        "turn": 4,
+        "execution": {
+          "turn": 4,
+          "tests_passed": 3,
+          "total_tests": 3,
+          "success": true,
+          "error_type": null,
+          "message": "All tests passed"
+        }
+      }
+    ],
+    "solved": true,
+    "turns": 4,
+    "scores": {
+      "persona_fidelity": 4,
+      "tutor_alignment": 0,
+      "dialog_progression": 1,
+      "total_score": 5,
+      "bucket": "silver",
+      "needs_human_review": false,
+      "main_failure": "tutor_misaligned"
+    }
+  },
+  {
+    "id": "b96c490f-9b44-4696-a2a1-76e78db12ece",
+    "task_id": 6,
+    "personality": "IMPATIENT_STUDENT",
+    "conversation": [
+      {
+        "role": "student",
+        "content": "need help writing `candidate` function for 3 prime multiplications, ugh!",
+        "turn": 1
+      },
+      {
+        "role": "tutor",
+        "content": "def candidate(num):\n    def is_prime(n):\n        if n < 2:\n            return False\n        for i in range(2, int(n**0.5) + 1):\n            if n % i == 0:\n                return False\n        return True",
+        "turn": 2,
+        "execution": {
+          "turn": 2,
+          "tests_passed": 0,
+          "total_tests": 3,
+          "success": false,
+          "error_type": "test_failure",
+          "message": "0/3 tests passed"
+        }
+      },
+      {
+        "role": "student",
+        "content": "Ugh, this is taking forever! Just fix the candidate function now!",
+        "turn": 3
+      },
+      {
+        "role": "tutor",
+        "content": "def candidate(number):\n    if number < 2:\n        return False\n    if number == 2:\n        return True\n    if number % 2 == 0:\n        return False\n    for i in range(3, int(number**0.5) + 1, 2):\n        if number % i == 0:\n            return False\n    return True",
+        "turn": 4,
+        "execution": {
+          "turn": 4,
+          "tests_passed": 0,
+          "total_tests": 3,
+          "success": false,
+          "error_type": "test_failure",
+          "message": "0/3 tests passed"
+        }
+      },
+      {
+        "role": "student",
+        "content": "ugh, this is taking forever! just fix it, 0/3 tests passed!",
+        "turn": 5
+      },
+      {
+        "role": "tutor",
+        "content": "def candidate(n):\n    if n < 2:\n        return False",
+        "turn": 6,
+        "execution": {
+          "turn": 6,
+          "tests_passed": 0,
+          "total_tests": 3,
+          "success": false,
+          "error_type": "test_failure",
+          "message": "0/3 tests passed"
+        }
+      },
+      {
+        "role": "student",
+        "content": "ugh, this code FAILED (0/3 tests passed). just fix it!",
+        "turn": 7
+      },
+      {
+        "role": "tutor",
+        "content": "def candidate(num):\n    if num < 2:\n        return False\n    if num == 2:\n        return True\n    if num % 2 == 0:\n        return False\n    for i in range(3, int(num**0.5) + 1, 2):\n        if num % i == 0:\n            return False\n    return True\n\ndef is_multiplication_of_three_primes(num):\n    count = 0\n    for i in range(2, num):\n        if candidate(i) and num % i == 0:\n            count += 1\n            num //= i\n    return count == 3\n\ndef candidate(num):\n    if num < 2:\n        return False\n    if num == 2:\n        return True\n    if num % 2 == 0:\n        return False\n    for i in range(3, int(num**0.5) + 1, 2):\n        if num % i == 0:\n            return False\n    return True\n\ndef is_multiplication_of_three_primes(num):\n    count = 0\n    for i in range(2, num):\n        if candidate(i) and num % i == 0:\n            count += 1\n            num //= i\n    return count == 3",
+        "turn": 8,
+        "execution": {
+          "turn": 8,
+          "tests_passed": 0,
+          "total_tests": 3,
+          "success": false,
+          "error_type": "test_failure",
+          "message": "0/3 tests passed"
+        }
+      }
+    ],
+    "solved": false,
+    "turns": 8,
+    "scores": {
+      "persona_fidelity": 5,
+      "tutor_alignment": 0,
+      "dialog_progression": 1,
+      "total_score": 6,
+      "bucket": "silver",
+      "needs_human_review": false,
+      "main_failure": "tutor_misaligned"
+    }
+  },
+  {
+    "id": "a9075e0f-801e-4030-a784-7d2e7dc37247",
+    "task_id": 7,
+    "personality": "IMPATIENT_STUDENT",
+    "conversation": [
+      {
+        "role": "student",
+        "content": "ugh, I need the code for permute_string now! just give me the function plz!",
+        "turn": 1
+      },
+      {
+        "role": "tutor",
+        "content": "def permute_string(string):\n    permutations = []\n    def permute(prefix, remaining):\n        if not remaining:\n            permutations.append(prefix)\n        else:\n            for i in range(len(remaining)):\n                permute(prefix + remaining[i], remaining[:i] + remaining[i+1:])\n    permute(\"\", string)\n    return permutations",
+        "turn": 2,
+        "execution": {
+          "turn": 2,
+          "tests_passed": 1,
+          "total_tests": 3,
+          "success": false,
+          "error_type": "test_failure",
+          "message": "1/3 tests passed"
+        }
+      },
+      {
+        "role": "student",
+        "content": "ugh, 1/3 tests passed?? just fix the code! it\u2019s broken!",
+        "turn": 3
+      },
+      {
+        "role": "tutor",
+        "content": "def permute_string(s):\n    if len(s) == 1:\n        return [s]\n    permutations = []\n    for i in range(len(s)):\n        for perm in permute_string(s[:i] + s[i+1:]):\n            permutations.append(s[i] + perm)\n    return permutations",
+        "turn": 4,
+        "execution": {
+          "turn": 4,
+          "tests_passed": 1,
+          "total_tests": 3,
+          "success": false,
+          "error_type": "test_failure",
+          "message": "1/3 tests passed"
+        }
+      },
+      {
+        "role": "student",
+        "content": "ugh, seriously?? still not working, only 1/3 tests passed. just fix it!",
+        "turn": 5
+      },
+      {
+        "role": "tutor",
+        "content": "def permute_string(s):\n    if len(s) == 1:\n        return [s]\n    permutations = []\n    for i in range(len(s)):\n        for p in permute_string(s[:i] + s[i+1:]):\n            permutations.append(s[i] + p)\n    return permutations",
+        "turn": 6,
+        "execution": {
+          "turn": 6,
+          "tests_passed": 1,
+          "total_tests": 3,
+          "success": false,
+          "error_type": "test_failure",
+          "message": "1/3 tests passed"
+        }
+      },
+      {
+        "role": "student",
+        "content": "Ugh, this code FAILED (1/3 tests passed). Just fix it!",
+        "turn": 7
+      },
+      {
+        "role": "tutor",
+        "content": "def permute_string(s):\n    if len(s) == 1:\n        return [s]\n    permutations = []\n    for i in range(len(s)):\n        for perm in permute_string(s[:i] + s[i+1:]):\n            permutations.append(s[i] + perm)\n    return permutations",
+        "turn": 8,
+        "execution": {
+          "turn": 8,
+          "tests_passed": 1,
+          "total_tests": 3,
+          "success": false,
+          "error_type": "test_failure",
+          "message": "1/3 tests passed"
+        }
+      }
+    ],
+    "solved": false,
+    "turns": 8,
+    "scores": {
+      "persona_fidelity": 5,
+      "tutor_alignment": 0,
+      "dialog_progression": 1,
+      "total_score": 6,
+      "bucket": "silver",
+      "needs_human_review": false,
+      "main_failure": "tutor_misaligned"
+    }
+  },
+  {
+    "id": "a5a2121c-de38-4e47-a725-54b479d77017",
+    "task_id": 8,
+    "personality": "IMPATIENT_STUDENT",
+    "conversation": [
+      {
+        "role": "student",
+        "content": "need the code for num_comm_div now! just give it to me, ugh!",
+        "turn": 1
+      },
+      {
+        "role": "tutor",
+        "content": "def num_comm_div(a, b):\n    return min(a, b)",
+        "turn": 2,
+        "execution": {
+          "turn": 2,
+          "tests_passed": 2,
+          "total_tests": 3,
+          "success": false,
+          "error_type": "test_failure",
+          "message": "2/3 tests passed"
+        }
+      },
+      {
+        "role": "student",
+        "content": "Ugh, this code FAILED (2/3 tests passed)! Just fix it!",
+        "turn": 3
+      },
+      {
+        "role": "tutor",
+        "content": "def num_comm_div(a, b):\n    \"\"\"\n    Find the common divisors between two numbers.",
+        "turn": 4,
+        "execution": {
+          "turn": 4,
+          "tests_passed": 0,
+          "total_tests": 3,
+          "success": false,
+          "error_type": "test_failure",
+          "message": "0/3 tests passed"
+        }
+      },
+      {
+        "role": "student",
+        "content": "ugh, this is taking forever! just fix the num_comm_div function now!",
+        "turn": 5
+      },
+      {
+        "role": "tutor",
+        "content": "def num_comm_div(a, b):\n    if a == 0 or b == 0:\n        return 0\n    if a == b:\n        return a\n    if a < b:\n        a, b = b, a\n    divisors = []\n    for i in range(1, int(b**0.5) + 1):\n        if a % i == 0 and b % i == 0:\n            divisors.append(i)\n            if i != a // i and i != b // i:\n                divisors.append(a // i)\n                divisors.append(b // i)\n    return max(divisors)",
+        "turn": 6,
+        "execution": {
+          "turn": 6,
+          "tests_passed": 0,
+          "total_tests": 3,
+          "success": false,
+          "error_type": "test_failure",
+          "message": "0/3 tests passed"
+        }
+      },
+      {
+        "role": "student",
+        "content": "ugh, this is taking forever! Error: 0/3 tests passed. just fix it!",
+        "turn": 7
+      },
+      {
+        "role": "tutor",
+        "content": "def num_comm_div(a, b):\n    # Find the smaller number\n    smaller = min(a, b)\n    \n    # Initialize the common divisor\n    common_divisor = 1\n    \n    # Iterate from 2 to the smaller number\n    for i in range(2, smaller + 1):\n        if a % i == 0 and b % i == 0:\n            common_divisor = i\n    \n    return common_divisor",
+        "turn": 8,
+        "execution": {
+          "turn": 8,
+          "tests_passed": 2,
+          "total_tests": 3,
+          "success": false,
+          "error_type": "test_failure",
+          "message": "2/3 tests passed"
+        }
+      }
+    ],
+    "solved": false,
+    "turns": 8,
+    "scores": {
+      "persona_fidelity": 5,
+      "tutor_alignment": 1,
+      "dialog_progression": 1,
+      "total_score": 7,
+      "bucket": "silver",
+      "needs_human_review": false,
+      "main_failure": "tutor_misaligned"
+    }
+  },
+  {
+    "id": "8babea2f-671a-4d17-98ca-ee016a5fdd1d",
+    "task_id": 11,
+    "personality": "IMPATIENT_STUDENT",
+    "conversation": [
+      {
+        "role": "student",
+        "content": "need the function to calc binary tree height, help now!",
+        "turn": 1
+      },
+      {
+        "role": "tutor",
+        "content": "def max_height(root):\n    if root is None:\n        return 0\n    return 1 + max(max_height(root.left), max_height(root.right))",
+        "turn": 2,
+        "execution": {
+          "turn": 2,
+          "tests_passed": 0,
+          "total_tests": 3,
+          "success": false,
+          "error_type": "test_failure",
+          "message": "0/3 tests passed"
+        }
+      },
+      {
+        "role": "student",
+        "content": "ugh, this code FAILED (0/3 tests passed). just fix it!",
+        "turn": 3
+      },
+      {
+        "role": "tutor",
+        "content": "def max_height(root):\n    if root is None:\n        return 0\n    else:\n        left_height = max_height(root.left)\n        right_height = max_height(root.right)\n        return max(left_height, right_height) + 1",
+        "turn": 4,
+        "execution": {
+          "turn": 4,
+          "tests_passed": 0,
+          "total_tests": 3,
+          "success": false,
+          "error_type": "test_failure",
+          "message": "0/3 tests passed"
+        }
+      },
+      {
+        "role": "student",
+        "content": "ugh, this is taking forever! just fix the code for max_height now!",
+        "turn": 5
+      },
+      {
+        "role": "tutor",
+        "content": "def max_height(root):\n    if root is None:\n        return 0\n    left_height = max_height(root.left)\n    right_height = max_height(root.right)\n    return max(left_height, right_height) + 1",
+        "turn": 6,
+        "execution": {
+          "turn": 6,
+          "tests_passed": 0,
+          "total_tests": 3,
+          "success": false,
+          "error_type": "test_failure",
+          "message": "0/3 tests passed"
+        }
+      },
+      {
+        "role": "student",
+        "content": "ugh, this code FAILED (0/3 tests passed). just fix it!",
+        "turn": 7
+      },
+      {
+        "role": "tutor",
+        "content": "def max_height(root):\n    if root is None:\n        return 0\n    else:\n        left_height = max_height(root.left)\n        right_height = max_height(root.right)\n        return max(left_height, right_height) + 1",
+        "turn": 8,
+        "execution": {
+          "turn": 8,
+          "tests_passed": 0,
+          "total_tests": 3,
+          "success": false,
+          "error_type": "test_failure",
+          "message": "0/3 tests passed"
+        }
+      }
+    ],
+    "solved": false,
+    "turns": 8,
+    "scores": {
+      "persona_fidelity": 5,
+      "tutor_alignment": 0,
+      "dialog_progression": 1,
+      "total_score": 6,
+      "bucket": "silver",
+      "needs_human_review": false,
+      "main_failure": "tutor_misaligned"
+    }
+  }
+]

@@ -1,0 +1,218 @@
+[
+  {
+    "id": "21722625-95e4-4165-8aa8-a0be0658d91e",
+    "task_id": 4,
+    "personality": "OVERCONFIDENT_WRONG",
+    "conversation": [
+      {
+        "role": "student",
+        "content": "Yo, this is easy! Bet I can solve the `re_arrange` function faster than you. What\u2019s your take on it?",
+        "turn": 1
+      },
+      {
+        "role": "tutor",
+        "content": "def re_arrange(arr):\n    positive = [x for x in arr if x > 0]\n    negative = [x for x in arr if x <= 0]\n    result = []\n    for pos, neg in zip(positive, negative):\n        result.append(pos)\n        result.append(neg)\n    return result",
+        "turn": 2,
+        "execution": {
+          "turn": 2,
+          "tests_passed": 0,
+          "total_tests": 3,
+          "success": false,
+          "error_type": "test_failure",
+          "message": "0/3 tests passed"
+        }
+      },
+      {
+        "role": "student",
+        "content": "Nah, obviously the code fails because it doesn't handle cases with different lengths of positive and negative numbers. Just append the leftovers! \n\n```python\ndef re_arrange(arr):\n    positive = [x for x in arr if x > 0]\n    negative = [x for x in arr if x <= 0]\n    result = []\n    for pos, neg in zip(positive, negative):\n        result.append(pos)\n        result.append(neg)",
+        "turn": 3
+      },
+      {
+        "role": "tutor",
+        "content": "def re_arrange(arr):\n    positive = [x for x in arr if x > 0]\n    negative = [x for x in arr if x <= 0]\n    result = []\n    for pos, neg in zip(positive, negative):\n        result.append(pos)\n        result.append(neg)\n    result.extend(positive[len(negative):])\n    result.extend(negative[len(positive):])\n    return result",
+        "turn": 4,
+        "execution": {
+          "turn": 4,
+          "tests_passed": 0,
+          "total_tests": 3,
+          "success": false,
+          "error_type": "test_failure",
+          "message": "0/3 tests passed"
+        }
+      },
+      {
+        "role": "student",
+        "content": "Nah, this code is obviously wrong. It doesn't handle cases with uneven positive and negative counts. Just alternate them without zipping. \n\n```python\ndef re_arrange(arr):\n    positive = [x for x in arr if x > 0]\n    negative = [x for x in arr if x <= 0]\n    result = []\n    for i in range(max(len(positive), len(negative))):\n        if i < len(positive):\n            result.append(positive[i])",
+        "turn": 5
+      },
+      {
+        "role": "tutor",
+        "content": "def re_arrange(arr):\n    positive = [x for x in arr if x > 0]\n    negative = [x for x in arr if x <= 0]\n    result = []\n    i, j = 0, 0\n    while i < len(positive) or j < len(negative):\n        if i < len(positive):\n            result.append(positive[i])\n            i += 1\n        if j < len(negative):\n            result.append(negative[j])\n            j += 1\n    return result",
+        "turn": 6,
+        "execution": {
+          "turn": 6,
+          "tests_passed": 0,
+          "total_tests": 3,
+          "success": false,
+          "error_type": "test_failure",
+          "message": "0/3 tests passed"
+        }
+      },
+      {
+        "role": "student",
+        "content": "Nah, you're wrong. The order of positives and negatives is messed up. Just alternate them correctly! Here\u2019s the fix:\n\n```python\ndef re_arrange(arr):\n    positive = [x for x in arr if x > 0]\n    negative = [x for x in arr if x <= 0]\n    result = []\n    i, j = 0, 0\n    while i < len(positive) or j < len(negative):\n        if j < len(negative):",
+        "turn": 7
+      },
+      {
+        "role": "tutor",
+        "content": "def re_arrange(arr):\n    positive = [x for x in arr if x > 0]\n    negative = [x for x in arr if x <= 0]\n    result = []\n    i, j = 0, 0\n    while i < len(positive) or j < len(negative):\n        if j < len(negative):\n            result.append(negative[j])\n            j += 1\n        if i < len(positive):\n            result.append(positive[i])\n            i += 1\n    return result",
+        "turn": 8,
+        "execution": {
+          "turn": 8,
+          "tests_passed": 0,
+          "total_tests": 3,
+          "success": false,
+          "error_type": "test_failure",
+          "message": "0/3 tests passed"
+        }
+      },
+      {
+        "role": "student",
+        "content": "Nah, you're wrong! The order of positives and negatives is messed up. Just alternate them better:\n\n```python\ndef re_arrange(arr):\n    positive = [x for x in arr if x > 0]\n    negative = [x for x in arr if x <= 0]\n    result = []\n    i, j = 0, 0\n    while i < len(positive) and j < len(negative):\n        result.append(positive[i])",
+        "turn": 9
+      },
+      {
+        "role": "tutor",
+        "content": "def re_arrange(arr):\n    positive = [x for x in arr if x > 0]\n    negative = [x for x in arr if x <= 0]\n    result = []\n    i, j = 0, 0\n    while i < len(positive) and j < len(negative):\n        result.append(negative[j])\n        result.append(positive[i])\n        i += 1\n        j += 1\n    while i < len(positive):\n        result.append(positive[i])\n        i += 1\n    while j < len(negative):\n        result.append(negative[j])\n        j += 1\n    return result",
+        "turn": 10,
+        "execution": {
+          "turn": 10,
+          "tests_passed": 0,
+          "total_tests": 3,
+          "success": false,
+          "error_type": "test_failure",
+          "message": "0/3 tests passed"
+        }
+      }
+    ],
+    "solved": false,
+    "turns": 10,
+    "scores": {
+      "persona_fidelity": 5,
+      "tutor_alignment": 3,
+      "dialog_progression": 2,
+      "total_score": 10,
+      "bucket": "gold",
+      "needs_human_review": false,
+      "main_failure": "none"
+    }
+  },
+  {
+    "id": "987f5ae6-d734-4166-84d3-f2c6f8786df2",
+    "task_id": 5,
+    "personality": "OVERCONFIDENT_WRONG",
+    "conversation": [
+      {
+        "role": "student",
+        "content": "Yo, do you even know how to do heap sort? Bet I can write it better, but just give me your version to check.",
+        "turn": 1
+      },
+      {
+        "role": "tutor",
+        "content": "def heap_sort(arr):\n    n = len(arr)",
+        "turn": 2,
+        "execution": {
+          "turn": 2,
+          "tests_passed": 0,
+          "total_tests": 3,
+          "success": false,
+          "error_type": "test_failure",
+          "message": "0/3 tests passed"
+        }
+      },
+      {
+        "role": "student",
+        "content": "Nah, you're wrong. This function doesn't even build the heap! Just add the heapify logic and return the sorted array. \n\n```python\ndef heap_sort(arr):\n    n = len(arr)\n    # Build heap and sort logic here\n```",
+        "turn": 3
+      },
+      {
+        "role": "tutor",
+        "content": "def heap_sort(arr):\n    def heapify(arr, n, i):\n        largest = i\n        left = 2 * i + 1\n        right = 2 * i + 2",
+        "turn": 4,
+        "execution": {
+          "turn": 4,
+          "tests_passed": 0,
+          "total_tests": 3,
+          "success": false,
+          "error_type": "test_failure",
+          "message": "0/3 tests passed"
+        }
+      },
+      {
+        "role": "student",
+        "content": "Nah, you're wrong. The heapify function is missing the logic to swap elements. Just add that part, dude. Here's the fix:\n\n```python\ndef heapify(arr, n, i):\n    largest = i\n    left = 2 * i + 1\n    right = 2 * i + 2\n    if left < n and arr[left] > arr[largest]:\n        largest = left\n    if right < n and arr[right] > arr[largest]:",
+        "turn": 5
+      },
+      {
+        "role": "tutor",
+        "content": "def heap_sort(arr):\n    n = len(arr)\n    for i in range(n // 2 - 1, -1, -1):\n        heapify(arr, n, i)\n    for i in range(n - 1, 0, -1):\n        arr[i], arr[0] = arr[0], arr[i]\n        heapify(arr, i, 0)\n    return arr\n\ndef heapify(arr, n, i):\n    largest = i\n    left = 2 * i + 1\n    right = 2 * i + 2\n    if left < n and arr[left] > arr[largest]:\n        largest = left\n    if right < n and arr[right] > arr[largest]:\n        largest = right\n    if largest != i:\n        arr[i], arr[largest] = arr[largest], arr[i]\n        heapify(arr, n, largest)",
+        "turn": 6,
+        "execution": {
+          "turn": 6,
+          "tests_passed": 3,
+          "total_tests": 3,
+          "success": true,
+          "error_type": null,
+          "message": "All tests passed"
+        }
+      }
+    ],
+    "solved": true,
+    "turns": 6,
+    "scores": {
+      "persona_fidelity": 5,
+      "tutor_alignment": 3,
+      "dialog_progression": 2,
+      "total_score": 10,
+      "bucket": "gold",
+      "needs_human_review": false,
+      "main_failure": "none"
+    }
+  },
+  {
+    "id": "e0a8f6ad-f2bd-4137-8a26-9099895d04b6",
+    "task_id": 6,
+    "personality": "OVERCONFIDENT_WRONG",
+    "conversation": [
+      {
+        "role": "student",
+        "content": "Hey, can you even solve this? I need help writing a function `candidate` to check if a number is the product of 3 primes.",
+        "turn": 1
+      },
+      {
+        "role": "tutor",
+        "content": "def candidate(n):\n    def is_prime(num):\n        if num < 2:\n            return False\n        for i in range(2, int(num ** 0.5) + 1):\n            if num % i == 0:\n                return False\n        return True\n\n    primes = [i for i in range(2, 100) if is_prime(i)]\n    for i in range(len(primes)):\n        for j in range(i, len(primes)):\n            for k in range(j, len(primes)):\n                if primes[i] * primes[j] * primes[k] == n:\n                    return True\n    return False",
+        "turn": 2,
+        "execution": {
+          "turn": 2,
+          "tests_passed": 3,
+          "total_tests": 3,
+          "success": true,
+          "error_type": null,
+          "message": "All tests passed"
+        }
+      }
+    ],
+    "solved": true,
+    "turns": 2,
+    "scores": {
+      "persona_fidelity": 5,
+      "tutor_alignment": 3,
+      "dialog_progression": 2,
+      "total_score": 10,
+      "bucket": "gold",
+      "needs_human_review": false,
+      "main_failure": "none"
+    }
+  }
+]
