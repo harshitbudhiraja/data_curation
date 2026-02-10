@@ -1,0 +1,200 @@
+[
+  {
+    "id": "a4506d51-4bfc-4122-8b0e-7a26f93345a3",
+    "task_id": 4,
+    "personality": "SYNTAX_STRUGGLER",
+    "conversation": [
+      {
+        "role": "student",
+        "content": "help with this?? how do i write a function called `re_arrange` without messing up indentation?",
+        "turn": 1
+      },
+      {
+        "role": "tutor",
+        "content": "def re_arrange(arr):\n    for i in range(len(arr)):\n        if arr[i] >= 0:\n            j = i + 1\n            while j < len(arr) and arr[j] >= 0:\n                j += 1\n            if j < len(arr):\n                arr[i], arr[j] = arr[j], arr[i]\n        else:\n            j = i + 1\n            while j < len(arr) and arr[j] < 0:\n                j += 1\n            if j < len(arr):\n                arr[i], arr[j] = arr[j], arr[i]\n    return arr",
+        "turn": 2,
+        "execution": {
+          "turn": 2,
+          "tests_passed": 0,
+          "total_tests": 3,
+          "success": false,
+          "error_type": "test_failure",
+          "message": "0/3 tests passed"
+        }
+      },
+      {
+        "role": "student",
+        "content": "Oh no! Is there a missing colon after the `if` statements? What about the indentation? I\u2019m worried I broke it!",
+        "turn": 3
+      },
+      {
+        "role": "tutor",
+        "content": "def re_arrange(arr, n):\n    pos = []\n    neg = []\n    for i in range(n):\n        if arr[i] >= 0:\n            pos.append(arr[i])\n        else:\n            neg.append(arr[i])\n    i = 0\n    j = 0\n    k = 0\n    while i < len(pos) and j < len(neg):\n        arr[k] = neg[j]\n        j += 1\n        k += 1\n        arr[k] = pos[i]\n        i += 1\n        k += 1\n    while i < len(pos):\n        arr[k] = pos[i]\n        i += 1\n        k += 1\n    while j < len(neg):\n        arr[k] = neg[j]\n        j += 1\n        k += 1\n    return arr",
+        "turn": 4,
+        "execution": {
+          "turn": 4,
+          "tests_passed": 3,
+          "total_tests": 3,
+          "success": true,
+          "error_type": null,
+          "message": "All tests passed"
+        }
+      }
+    ],
+    "solved": true,
+    "turns": 4,
+    "scores": {
+      "persona_fidelity": 3,
+      "tutor_alignment": 0,
+      "dialog_progression": 1,
+      "total_score": 4,
+      "bucket": "bronze",
+      "needs_human_review": false,
+      "main_failure": "tutor_misaligned"
+    }
+  },
+  {
+    "id": "7a41f21a-331f-436f-b8c0-e63fc921e484",
+    "task_id": 5,
+    "personality": "SYNTAX_STRUGGLER",
+    "conversation": [
+      {
+        "role": "student",
+        "content": "can u help me?? need help with python syntax for writing a heap_sort function. any tips on colons or indentation?",
+        "turn": 1
+      },
+      {
+        "role": "tutor",
+        "content": "def heap_sort(arr):\n    n = len(arr)",
+        "turn": 2,
+        "execution": {
+          "turn": 2,
+          "tests_passed": 0,
+          "total_tests": 3,
+          "success": false,
+          "error_type": "test_failure",
+          "message": "0/3 tests passed"
+        }
+      },
+      {
+        "role": "student",
+        "content": "Why does Python raise 0/3 tests passed here? Is there a missing colon or indentation issue in the `heap_sort` function?",
+        "turn": 3
+      },
+      {
+        "role": "tutor",
+        "content": "def heapify(arr, n, i):\n    largest = i\n    left = 2 * i + 1\n    right = 2 * i + 2\n\n    if left < n and arr[left] > arr[largest]:\n        largest = left\n\n    if right < n and arr[right] > arr[largest]:\n        largest = right\n\n    if largest != i:\n        arr[i], arr[largest] = arr[largest], arr[i]\n        heapify(arr, n, largest)\n\ndef heap_sort(arr):\n    n = len(arr)\n\n    for i in range(n // 2 - 1, -1, -1):\n        heapify(arr, n, i)\n\n    for i in range(n - 1, 0, -1):\n        arr[i], arr[0] = arr[0], arr[i]\n        heapify(arr, i, 0)\n\n    return arr",
+        "turn": 4,
+        "execution": {
+          "turn": 4,
+          "tests_passed": 3,
+          "total_tests": 3,
+          "success": true,
+          "error_type": null,
+          "message": "All tests passed"
+        }
+      }
+    ],
+    "solved": true,
+    "turns": 4,
+    "scores": {
+      "persona_fidelity": 2,
+      "tutor_alignment": 0,
+      "dialog_progression": 1,
+      "total_score": 3,
+      "bucket": "bronze",
+      "needs_human_review": false,
+      "main_failure": "persona_break"
+    }
+  },
+  {
+    "id": "fab51118-32ec-4894-9050-aeb5882a90e2",
+    "task_id": 9,
+    "personality": "SYNTAX_STRUGGLER",
+    "conversation": [
+      {
+        "role": "student",
+        "content": "can u help me?? need to write a function called `permutation_coefficient`, but python syntax is confusing! any tips on colons or indentation?",
+        "turn": 1
+      },
+      {
+        "role": "tutor",
+        "content": "def permutation_coefficient(n, k):\n    return factorial(n) / factorial(n - k)",
+        "turn": 2,
+        "execution": {
+          "turn": 2,
+          "tests_passed": 0,
+          "total_tests": 3,
+          "success": false,
+          "error_type": "test_failure",
+          "message": "0/3 tests passed"
+        }
+      },
+      {
+        "role": "student",
+        "content": "Why did it raise 0/3 tests passed? Is there a missing import for `factorial`? Also, should there be parentheses around `n - k`?",
+        "turn": 3
+      },
+      {
+        "role": "tutor",
+        "content": "def permutation_coefficient(n, k):\n    if k > n:\n        return 0\n    result = 1\n    for i in range(k):\n        result *= (n - i)\n    return result",
+        "turn": 4,
+        "execution": {
+          "turn": 4,
+          "tests_passed": 3,
+          "total_tests": 3,
+          "success": true,
+          "error_type": null,
+          "message": "All tests passed"
+        }
+      }
+    ],
+    "solved": true,
+    "turns": 4,
+    "scores": {
+      "persona_fidelity": 3,
+      "tutor_alignment": 0,
+      "dialog_progression": 1,
+      "total_score": 4,
+      "bucket": "bronze",
+      "needs_human_review": false,
+      "main_failure": "tutor_misaligned"
+    }
+  },
+  {
+    "id": "d4997d17-bba2-41cc-ba7f-6fca9e4eee59",
+    "task_id": 10,
+    "personality": "SYNTAX_STRUGGLER",
+    "conversation": [
+      {
+        "role": "student",
+        "content": "can u help me?? how do i write a function to count element freq in a nested tuple without messing up indentation?",
+        "turn": 1
+      },
+      {
+        "role": "tutor",
+        "content": "def count_element_freq(nested_tuple):\n    freq_dict = {}\n    for item in nested_tuple:\n        if isinstance(item, tuple):\n            for sub_item in item:\n                if sub_item in freq_dict:\n                    freq_dict[sub_item] += 1\n                else:\n                    freq_dict[sub_item] = 1\n        else:\n            if item in freq_dict:\n                freq_dict[item] += 1\n            else:\n                freq_dict[item] = 1\n    return freq_dict",
+        "turn": 2,
+        "execution": {
+          "turn": 2,
+          "tests_passed": 3,
+          "total_tests": 3,
+          "success": true,
+          "error_type": null,
+          "message": "All tests passed"
+        }
+      }
+    ],
+    "solved": true,
+    "turns": 2,
+    "scores": {
+      "persona_fidelity": 1,
+      "tutor_alignment": 0,
+      "dialog_progression": 0,
+      "total_score": 1,
+      "bucket": "bronze",
+      "needs_human_review": false,
+      "main_failure": "tutor_misaligned"
+    }
+  }
+]

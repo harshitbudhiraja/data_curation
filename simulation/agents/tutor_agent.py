@@ -23,9 +23,12 @@ def get_effort_level_prompt(turn_count: int) -> tuple:
         tuple: (instruction_text, temperature)
     """
     if turn_count <= 2:
-        # Early turns - quick first attempt
-        instruction = """Provide a straightforward initial solution. Focus on the core logic without overthinking edge cases.
-Write working code, but don't spend time on optimization or handling all corner cases yet."""
+        # Early turns - BRIEF & NAIVE (works with 150 token limit)
+        instruction = """Write a BRIEF, naive implementation. 
+Focus ONLY on the core logic for the "happy path". 
+IGNORE edge cases (empty inputs, negatives, large inputs).
+Keep the code SHORT (under 10 lines) as we are testing the basic logic first.
+It is EXPECTED that this version will fail some tests."""
         temperature = 0.7
     elif turn_count <= 4:
         # Middle turns - refinement
@@ -159,6 +162,17 @@ class TutorAgent:
                 total_tests = execution_result.get('total_tests', 3)
                 feedback = f"Previous code failed ({tests_passed}/{total_tests} tests passed): {error_msg}"
         
+        # Extract student's last feedback/suggestion
+        student_feedback = ""
+        if conversation_history and len(conversation_history) > 0:
+            for msg in reversed(conversation_history):
+                role = msg.name if hasattr(msg, 'name') else msg.get('name', msg.get('role', ''))
+                if role == 'student':
+                    content = msg.content if hasattr(msg, 'content') else msg.get('content', '')
+                    if content:
+                        student_feedback = f"\nStudent's feedback: {content}"
+                    break
+        
         # Build the prompt
         user_prompt = f"""Write the Python function `{function_name}` for this problem:
 
@@ -169,18 +183,21 @@ Tests it must pass:
 
 {effort_instruction}
 
-{feedback}
+{feedback}{student_feedback}
 
 Output ONLY the Python code starting with 'def {function_name}'. Nothing else."""
 
         # Call LLM with validation and retry
         max_retries = 4
+        # Force short responses in early turns to prevent perfect solutions
+        current_max_tokens = 150 if turn_count <= 2 else 500
+        
         for attempt in range(max_retries):
             response = call_llm_openrouter(
                 user_prompt=user_prompt,
                 system_prompt=self.system_prompt,
                 model=self.model_name,
-                max_tokens=500,
+                max_tokens=current_max_tokens,
                 temperature=temperature  # Dynamic temperature based on turn
             )
             

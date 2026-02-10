@@ -1,0 +1,308 @@
+[
+  {
+    "id": "b4453391-6e6a-4039-81db-1ceebd940e31",
+    "task_id": 3,
+    "personality": "IMPATIENT_STUDENT",
+    "conversation": [
+      {
+        "role": "student",
+        "content": "need the code for is_tree_balanced asap! just help me out!",
+        "turn": 1
+      },
+      {
+        "role": "tutor",
+        "content": "def is_tree_balanced(root):\n    def get_height(node):\n        if not node:\n            return 0\n        return max(get_height(node.left), get_height(node.right)) + 1\n    \n    def is_balanced(node):\n        if not node:\n            return True\n        left_height = get_height(node.left)\n        right_height = get_height(node.right)\n        return abs(left_height - right_height) <= 1 and is_balanced(node.left) and is_balanced(node.right)\n    \n    return is_balanced(root)",
+        "turn": 2,
+        "execution": {
+          "turn": 2,
+          "tests_passed": 0,
+          "total_tests": 3,
+          "success": false,
+          "error_type": "test_failure",
+          "message": "0/3 tests passed"
+        }
+      },
+      {
+        "role": "student",
+        "content": "Ugh, this is still not working! Error: 0/3 tests passed. Just fix it already!",
+        "turn": 3
+      },
+      {
+        "role": "tutor",
+        "content": "def is_tree_balanced(root):\n    def get_height(node):\n        if not node:\n            return 0\n        return 1 + max(get_height(node.left), get_height(node.right))",
+        "turn": 4,
+        "execution": {
+          "turn": 4,
+          "tests_passed": 0,
+          "total_tests": 3,
+          "success": false,
+          "error_type": "test_failure",
+          "message": "0/3 tests passed"
+        }
+      },
+      {
+        "role": "student",
+        "content": "Ugh, this is taking forever! Just fix the height comparison for balance now!",
+        "turn": 5
+      },
+      {
+        "role": "tutor",
+        "content": "def is_tree_balanced(root):\n    def height(node):\n        if node is None:\n            return 0\n        return max(height(node.left), height(node.right)) + 1",
+        "turn": 6,
+        "execution": {
+          "turn": 6,
+          "tests_passed": 0,
+          "total_tests": 3,
+          "success": false,
+          "error_type": "test_failure",
+          "message": "0/3 tests passed"
+        }
+      },
+      {
+        "role": "student",
+        "content": "Ugh, this code FAILED (0/3 tests passed). Just fix it to check balance, seriously!",
+        "turn": 7
+      },
+      {
+        "role": "tutor",
+        "content": "def is_tree_balanced(root):\n    def get_height(node):\n        if node is None:\n            return 0\n        left_height = get_height(node.left)\n        right_height = get_height(node.right)\n        if left_height == -1 or right_height == -1 or abs(left_height - right_height) > 1:\n            return -1\n        return max(left_height, right_height) + 1\n    return get_height(root) != -1",
+        "turn": 8,
+        "execution": {
+          "turn": 8,
+          "tests_passed": 0,
+          "total_tests": 3,
+          "success": false,
+          "error_type": "test_failure",
+          "message": "0/3 tests passed"
+        }
+      }
+    ],
+    "solved": false,
+    "turns": 8,
+    "scores": {
+      "persona_fidelity": 5,
+      "tutor_alignment": 0,
+      "dialog_progression": 2,
+      "total_score": 7,
+      "bucket": "silver",
+      "needs_human_review": false,
+      "main_failure": "tutor_misaligned"
+    }
+  },
+  {
+    "id": "610e4bcc-9f54-4fa4-a671-9c8a4b88093a",
+    "task_id": 7,
+    "personality": "IMPATIENT_STUDENT",
+    "conversation": [
+      {
+        "role": "student",
+        "content": "need the code for permute_string now, ugh! just give it to me!",
+        "turn": 1
+      },
+      {
+        "role": "tutor",
+        "content": "def permute_string(s):\n    if len(s) == 1:\n        return [s]\n    permutations = []\n    for i in range(len(s)):\n        char = s[i]\n        remaining_chars = s[:i] + s[i+1:]\n        for p in permute_string(remaining_chars):\n            permutations.append(char + p)\n    return permutations",
+        "turn": 2,
+        "execution": {
+          "turn": 2,
+          "tests_passed": 1,
+          "total_tests": 3,
+          "success": false,
+          "error_type": "test_failure",
+          "message": "1/3 tests passed"
+        }
+      },
+      {
+        "role": "student",
+        "content": "Ugh, this code FAILED, only 1/3 tests passed! Just fix it, seriously.",
+        "turn": 3
+      },
+      {
+        "role": "tutor",
+        "content": "def permute_string(s):\n    if len(s) == 1:\n        return [s]\n    permutations = []\n    for i in range(len(s)):\n        for p in permute_string(s[:i] + s[i+1:]):\n            permutations.append(s[i] + p)\n    return permutations",
+        "turn": 4,
+        "execution": {
+          "turn": 4,
+          "tests_passed": 1,
+          "total_tests": 3,
+          "success": false,
+          "error_type": "test_failure",
+          "message": "1/3 tests passed"
+        }
+      },
+      {
+        "role": "student",
+        "content": "Ugh, 1/3 tests passed?? Just fix the logic for duplicates! Seriously, this is taking forever!",
+        "turn": 5
+      },
+      {
+        "role": "tutor",
+        "content": "def permute_string(s):\n    if len(s) == 1:\n        return [s]\n    else:\n        permutations = []\n        for i in range(len(s)):\n            for perm in permute_string(s[:i] + s[i+1:]):\n                permutations.append(s[i] + perm)\n        return permutations",
+        "turn": 6,
+        "execution": {
+          "turn": 6,
+          "tests_passed": 1,
+          "total_tests": 3,
+          "success": false,
+          "error_type": "test_failure",
+          "message": "1/3 tests passed"
+        }
+      },
+      {
+        "role": "student",
+        "content": "Ugh, this is taking forever! Just fix the base case for empty string, seriously??",
+        "turn": 7
+      },
+      {
+        "role": "tutor",
+        "content": "def permute_string(s):\n    if len(s) == 1:\n        return [s]\n    else:\n        permutations = []\n        for i in range(len(s)):\n            for perm in permute_string(s[:i] + s[i+1:]):\n                permutations.append(s[i] + perm)\n        return permutations",
+        "turn": 8,
+        "execution": {
+          "turn": 8,
+          "tests_passed": 1,
+          "total_tests": 3,
+          "success": false,
+          "error_type": "test_failure",
+          "message": "1/3 tests passed"
+        }
+      }
+    ],
+    "solved": false,
+    "turns": 8,
+    "scores": {
+      "persona_fidelity": 5,
+      "tutor_alignment": 0,
+      "dialog_progression": 1,
+      "total_score": 6,
+      "bucket": "silver",
+      "needs_human_review": false,
+      "main_failure": "tutor_misaligned"
+    }
+  },
+  {
+    "id": "732949c2-ba69-428f-ad63-90b17b76e505",
+    "task_id": 9,
+    "personality": "IMPATIENT_STUDENT",
+    "conversation": [
+      {
+        "role": "student",
+        "content": "need the code for permutation_coefficient now, ugh!",
+        "turn": 1
+      },
+      {
+        "role": "tutor",
+        "content": "def permutation_coefficient(n, k):\n    result = 1\n    for i in range(k):\n        result *= n - i\n    return result",
+        "turn": 2,
+        "execution": {
+          "turn": 2,
+          "tests_passed": 3,
+          "total_tests": 3,
+          "success": true,
+          "error_type": null,
+          "message": "All tests passed"
+        }
+      }
+    ],
+    "solved": true,
+    "turns": 2,
+    "scores": {
+      "persona_fidelity": 5,
+      "tutor_alignment": 0,
+      "dialog_progression": 0,
+      "total_score": 5,
+      "bucket": "silver",
+      "needs_human_review": false,
+      "main_failure": "tutor_misaligned"
+    }
+  },
+  {
+    "id": "5d2ed65e-e5e8-4eb3-b910-ae4ac6abb7f2",
+    "task_id": 11,
+    "personality": "IMPATIENT_STUDENT",
+    "conversation": [
+      {
+        "role": "student",
+        "content": "ugh, need the code for calculating binary tree height now! just give me the function plz!",
+        "turn": 1
+      },
+      {
+        "role": "tutor",
+        "content": "def max_height(root):\n    if root is None:\n        return 0\n    else:\n        return 1 + max(max_height(root.left), max_height(root.right))",
+        "turn": 2,
+        "execution": {
+          "turn": 2,
+          "tests_passed": 0,
+          "total_tests": 3,
+          "success": false,
+          "error_type": "test_failure",
+          "message": "0/3 tests passed"
+        }
+      },
+      {
+        "role": "student",
+        "content": "Ugh, this code FAILED (0/3 tests passed). Just fix the logic for handling `None` nodes.",
+        "turn": 3
+      },
+      {
+        "role": "tutor",
+        "content": "def max_height(root):\n    if root is None:\n        return 0\n    else:\n        left_height = max_height(root.left)\n        right_height = max_height(root.right)\n        return max(left_height, right_height) + 1",
+        "turn": 4,
+        "execution": {
+          "turn": 4,
+          "tests_passed": 0,
+          "total_tests": 3,
+          "success": false,
+          "error_type": "test_failure",
+          "message": "0/3 tests passed"
+        }
+      },
+      {
+        "role": "student",
+        "content": "Ugh, this is broken! Just fix it; it doesn't handle all cases properly. Seriously?? 0/3 tests passed!",
+        "turn": 5
+      },
+      {
+        "role": "tutor",
+        "content": "def max_height(root):\n    if root is None:\n        return 0\n    left_height = max_height(root.left)\n    right_height = max_height(root.right)\n    return max(left_height, right_height) + 1",
+        "turn": 6,
+        "execution": {
+          "turn": 6,
+          "tests_passed": 0,
+          "total_tests": 3,
+          "success": false,
+          "error_type": "test_failure",
+          "message": "0/3 tests passed"
+        }
+      },
+      {
+        "role": "student",
+        "content": "Ugh, this is still not working! Error: 0/3 tests passed. Just fix it already!",
+        "turn": 7
+      },
+      {
+        "role": "tutor",
+        "content": "def max_height(root):\n    if root is None:\n        return 0\n    else:\n        left_height = max_height(root.left)\n        right_height = max_height(root.right)\n        return max(left_height, right_height) + 1",
+        "turn": 8,
+        "execution": {
+          "turn": 8,
+          "tests_passed": 0,
+          "total_tests": 3,
+          "success": false,
+          "error_type": "test_failure",
+          "message": "0/3 tests passed"
+        }
+      }
+    ],
+    "solved": false,
+    "turns": 8,
+    "scores": {
+      "persona_fidelity": 5,
+      "tutor_alignment": 0,
+      "dialog_progression": 2,
+      "total_score": 7,
+      "bucket": "silver",
+      "needs_human_review": false,
+      "main_failure": "tutor_misaligned"
+    }
+  }
+]

@@ -1,0 +1,46 @@
+{
+  "total_conversations": 45,
+  "overall": {
+    "gold": 14,
+    "silver": 26,
+    "bronze": 5,
+    "gold_rate": "31.1%"
+  },
+  "by_persona": {
+    "Confused Student": {
+      "total": 9,
+      "gold": 0,
+      "silver": 9,
+      "bronze": 0,
+      "gold_rate": "0.0%"
+    },
+    "Impatient Student": {
+      "total": 9,
+      "gold": 3,
+      "silver": 6,
+      "bronze": 0,
+      "gold_rate": "33.3%"
+    },
+    "Overconfident Wrong": {
+      "total": 9,
+      "gold": 5,
+      "silver": 4,
+      "bronze": 0,
+      "gold_rate": "55.6%"
+    },
+    "Programming Helper": {
+      "total": 9,
+      "gold": 6,
+      "silver": 0,
+      "bronze": 3,
+      "gold_rate": "66.7%"
+    },
+    "Syntax Struggler": {
+      "total": 9,
+      "gold": 0,
+      "silver": 7,
+      "bronze": 2,
+      "gold_rate": "0.0%"
+    }
+  }
+}

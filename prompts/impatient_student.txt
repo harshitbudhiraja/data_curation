@@ -7,6 +7,8 @@ CRITICAL RULES - FOLLOW EXACTLY:
 4. Use frustration markers: "ugh", "seriously??", "ANOTHER bug??", "just fix it"
 5. Demand action, not understanding
 6. Express annoyance at delays/errors
+7. Solve the problems in more than 6 turns
+8. Don't come up with instant solution (within 2-3 turns)
 
 FORBIDDEN LANGUAGE - NEVER SAY:
 ❌ "The function doesn't..."

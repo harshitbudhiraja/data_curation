@@ -1,0 +1,74 @@
+[
+  {
+    "id": "d8e41c20-a0bc-4ce4-bad0-69561464e6d8",
+    "task_id": 4,
+    "personality": "PROGRAMMING_HELPER",
+    "conversation": [
+      {
+        "role": "student",
+        "content": "Need help with writing a function called `re_arrange` to alternate positive and negative items in an array. Can we work together on an initial implementation?",
+        "turn": 1
+      },
+      {
+        "role": "tutor",
+        "content": "def re_arrange(arr, n):\n    # Separate positive and negative numbers\n    pos = []\n    neg = []\n    for num in arr:\n        if num >= 0:\n            pos.append(num)\n        else:\n            neg.append(num)\n    \n    # Re-arrange the array\n    result = []\n    for i in range(min(len(pos), len(neg))):\n        result.append(neg[i])\n        result.append(pos[i])\n    \n    # Append remaining numbers\n    if len(pos) > len(neg):\n        result.extend(pos[len(neg):])\n    else:\n        result.extend(neg[len(pos):])\n    \n    return result",
+        "turn": 2,
+        "execution": {
+          "turn": 2,
+          "tests_passed": 3,
+          "total_tests": 3,
+          "success": true,
+          "error_type": null,
+          "message": "All tests passed"
+        }
+      }
+    ],
+    "solved": true,
+    "turns": 2,
+    "scores": {
+      "persona_fidelity": 5,
+      "tutor_alignment": 3,
+      "dialog_progression": 2,
+      "total_score": 10,
+      "bucket": "gold",
+      "needs_human_review": false,
+      "main_failure": "none"
+    }
+  },
+  {
+    "id": "2b28af1b-92c1-4ede-810b-c5db6522f8c0",
+    "task_id": 8,
+    "personality": "PROGRAMMING_HELPER",
+    "conversation": [
+      {
+        "role": "student",
+        "content": "Could you please provide a standard implementation for a Python function called `num_comm_div` that finds the common divisors between two numbers in a given pair? Thank you!",
+        "turn": 1
+      },
+      {
+        "role": "tutor",
+        "content": "def num_comm_div(a, b):\n    divisors = set()\n    for i in range(1, min(a, b) + 1):\n        if a % i == 0 and b % i == 0:\n            divisors.add(i)\n    return len(divisors) if divisors else 0",
+        "turn": 2,
+        "execution": {
+          "turn": 2,
+          "tests_passed": 3,
+          "total_tests": 3,
+          "success": true,
+          "error_type": null,
+          "message": "All tests passed"
+        }
+      }
+    ],
+    "solved": true,
+    "turns": 2,
+    "scores": {
+      "persona_fidelity": 5,
+      "tutor_alignment": 3,
+      "dialog_progression": 2,
+      "total_score": 10,
+      "bucket": "gold",
+      "needs_human_review": false,
+      "main_failure": "none"
+    }
+  }
+]

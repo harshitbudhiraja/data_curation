@@ -66,7 +66,7 @@ def run_python_code(llm_response: str, test_cases: list) -> dict:
             
             # Run the code
             result = subprocess.run(
-                ["python3", f.name],
+                ["venv/bin/python", f.name],
                 capture_output=True,
                 text=True,
                 timeout=10
@@ -74,7 +74,7 @@ def run_python_code(llm_response: str, test_cases: list) -> dict:
             
             # Run the tests in a subprocess
             test_result = subprocess.run(
-                ["python3", "-m", "pytest", f.name, "-v"],
+                ["venv/bin/python", "-m", "pytest", f.name, "-v"],
                 capture_output=True,
                 text=True,
                 timeout=10

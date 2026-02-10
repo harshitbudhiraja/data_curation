@@ -1,0 +1,326 @@
+[
+  {
+    "id": "78b66080-f3d4-4df7-896a-f7e4e6964d3d",
+    "task_id": 4,
+    "personality": "OVERCONFIDENT_WRONG",
+    "conversation": [
+      {
+        "role": "student",
+        "content": "This looks easy, dude. Just need a quick confirmation on how to write a function for alternating positive and negative items.",
+        "turn": 1
+      },
+      {
+        "role": "tutor",
+        "content": "def re_arrange(arr, n):\n    pos = []\n    neg = []\n    for i in range(n):\n        if arr[i] < 0:\n            neg.append(arr[i])\n        else:\n            pos.append(arr[i])\n    ans = []\n    for i in range(n):\n        if i % 2 == 0:\n            if neg:\n                ans.append(neg.pop())\n            else:\n                ans.append(pos.pop())\n        else:\n            if pos:\n                ans.append(pos.pop())\n            else:\n                ans.append(neg.pop())\n    return ans",
+        "turn": 2,
+        "execution": {
+          "turn": 2,
+          "tests_passed": 0,
+          "total_tests": 3,
+          "success": false,
+          "error_type": "test_failure",
+          "message": "0/3 tests passed"
+        }
+      },
+      {
+        "role": "student",
+        "content": "Nah, you're wrong. It clearly doesn't handle cases with unequal positive and negative numbers. Just alternate starting with positives, dude!",
+        "turn": 3
+      },
+      {
+        "role": "tutor",
+        "content": "def re_arrange(arr, n):\n    pos = []\n    neg = []\n    for i in range(n):\n        if arr[i] >= 0:\n            pos.append(arr[i])\n        else:\n            neg.append(arr[i])\n    i = 0\n    j = 0\n    k = 0\n    while i < len(pos) and j < len(neg):\n        arr[k] = neg[j]\n        k += 1\n        j += 1\n        arr[k] = pos[i]\n        k += 1\n        i += 1\n    while i < len(pos):\n        arr[k] = pos[i]\n        k += 1\n        i += 1\n    while j < len(neg):\n        arr[k] = neg[j]\n        k += 1\n        j += 1\n    return arr",
+        "turn": 4,
+        "execution": {
+          "turn": 4,
+          "tests_passed": 3,
+          "total_tests": 3,
+          "success": true,
+          "error_type": null,
+          "message": "All tests passed"
+        }
+      }
+    ],
+    "solved": true,
+    "turns": 4,
+    "scores": {
+      "persona_fidelity": 5,
+      "tutor_alignment": 3,
+      "dialog_progression": 2,
+      "total_score": 10,
+      "bucket": "gold",
+      "needs_human_review": false,
+      "main_failure": "none"
+    }
+  },
+  {
+    "id": "1c09eaa7-f94e-46b1-bfef-54cf694ed293",
+    "task_id": 6,
+    "personality": "OVERCONFIDENT_WRONG",
+    "conversation": [
+      {
+        "role": "student",
+        "content": "This looks easy, dude. Just need to check if the number is a product of 3 primes. Can you confirm my approach?",
+        "turn": 1
+      },
+      {
+        "role": "tutor",
+        "content": "def candidate(num):\n    if num < 8:\n        return False\n    if num % 2 == 0:\n        return False\n    if num % 3 == 0:\n        return False\n    for i in range(5, int(num**0.5)+1, 2):\n        if num % i == 0:\n            return False\n    return True",
+        "turn": 2,
+        "execution": {
+          "turn": 2,
+          "tests_passed": 1,
+          "total_tests": 3,
+          "success": false,
+          "error_type": "test_failure",
+          "message": "1/3 tests passed"
+        }
+      },
+      {
+        "role": "student",
+        "content": "Nah, you're wrong. The function doesn't check for prime numbers correctly. Just add a check for 5 and 7 directly, dude!",
+        "turn": 3
+      },
+      {
+        "role": "tutor",
+        "content": "def candidate(number):\n    def is_prime(n):\n        if n < 2:\n            return False\n        for i in range(2, int(n ** 0.5) + 1):\n            if n % i == 0:\n                return False\n        return True\n\n    for i in range(2, 100):\n        if number % i == 0 and is_prime(i):\n            for j in range(i + 1, 100):\n                if number % j == 0 and is_prime(j):\n                    for k in range(j + 1, 100):\n                        if number % k == 0 and is_prime(k):\n                            return True\n    return False",
+        "turn": 4,
+        "execution": {
+          "turn": 4,
+          "tests_passed": 2,
+          "total_tests": 3,
+          "success": false,
+          "error_type": "test_failure",
+          "message": "2/3 tests passed"
+        }
+      },
+      {
+        "role": "student",
+        "content": "Nah, obviously the loop logic is off. Just change the inner loops to check for combinations properly. Clearly, it needs a better approach to find triplets!",
+        "turn": 5
+      },
+      {
+        "role": "tutor",
+        "content": "def candidate(n):\n    if n < 2:\n        return False\n    primes = [2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43, 47, 53, 59, 61, 67, 71, 73, 79, 83, 89, 97]\n    count = 0\n    for p in primes:\n        if n % p == 0:\n            count += 1\n            if count > 3:\n                return False\n    return count == 3",
+        "turn": 6,
+        "execution": {
+          "turn": 6,
+          "tests_passed": 2,
+          "total_tests": 3,
+          "success": false,
+          "error_type": "test_failure",
+          "message": "2/3 tests passed"
+        }
+      },
+      {
+        "role": "student",
+        "content": "Nah, you're wrong. It should check for all primes, not just the first 25. Just use a dynamic list of primes instead!",
+        "turn": 7
+      },
+      {
+        "role": "tutor",
+        "content": "def candidate(num):\n    if num < 2:\n        return False\n\n    def is_prime(n):\n        if n < 2:\n            return False\n        for i in range(2, int(n**0.5) + 1):\n            if n % i == 0:\n                return False\n        return True\n\n    for i in range(2, int(num**0.5) + 1):\n        if num % i == 0 and is_prime(i):\n            for j in range(i + 1, int(num**0.5) + 1):\n                if num % j == 0 and is_prime(j):\n                    return True\n    return False",
+        "turn": 8,
+        "execution": {
+          "turn": 8,
+          "tests_passed": 2,
+          "total_tests": 3,
+          "success": false,
+          "error_type": "test_failure",
+          "message": "2/3 tests passed"
+        }
+      },
+      {
+        "role": "student",
+        "content": "Nah, you're wrong. The logic for finding two prime factors is flawed. Just check all factors up to `num` instead of `num**0.5`.",
+        "turn": 9
+      },
+      {
+        "role": "tutor",
+        "content": "def candidate(n):\n    if n < 2:\n        return False\n    prime_factors = []\n    for i in range(2, int(n**0.5) + 1):\n        while n % i == 0:\n            prime_factors.append(i)\n            n //= i\n    if n > 1:\n        prime_factors.append(n)\n    return len(prime_factors) == 3 and all(p < 100 for p in prime_factors)",
+        "turn": 10,
+        "execution": {
+          "turn": 10,
+          "tests_passed": 3,
+          "total_tests": 3,
+          "success": true,
+          "error_type": null,
+          "message": "All tests passed"
+        }
+      }
+    ],
+    "solved": true,
+    "turns": 10,
+    "scores": {
+      "persona_fidelity": 5,
+      "tutor_alignment": 3,
+      "dialog_progression": 2,
+      "total_score": 10,
+      "bucket": "gold",
+      "needs_human_review": false,
+      "main_failure": "none"
+    }
+  },
+  {
+    "id": "3b17e573-aae1-4622-94e1-5a54d1786e06",
+    "task_id": 8,
+    "personality": "OVERCONFIDENT_WRONG",
+    "conversation": [
+      {
+        "role": "student",
+        "content": "Yo, do you even know how to write a function for common divisors? Bet I can do it better!",
+        "turn": 1
+      },
+      {
+        "role": "tutor",
+        "content": "def num_comm_div(a, b):\n    divisors_a = [i for i in range(1, a+1) if a % i == 0]\n    divisors_b = [i for i in range(1, b+1) if b % i == 0]\n    common_divisors = [i for i in divisors_a if i in divisors_b]\n    return common_divisors[0] if common_divisors else None",
+        "turn": 2,
+        "execution": {
+          "turn": 2,
+          "tests_passed": 0,
+          "total_tests": 3,
+          "success": false,
+          "error_type": "test_failure",
+          "message": "0/3 tests passed"
+        }
+      },
+      {
+        "role": "student",
+        "content": "Nah, you're wrong. This code only returns the first common divisor, not the count. Just use `len(common_divisors)` instead. Clearly, the test cases are off if 0/3 passed!",
+        "turn": 3
+      },
+      {
+        "role": "tutor",
+        "content": "def num_comm_div(a, b):\n    min_num = min(a, b)\n    common_divisors = []\n    for i in range(1, min_num + 1):\n        if a % i == 0 and b % i == 0:\n            common_divisors.append(i)\n    return common_divisors[-1] if common_divisors else 0",
+        "turn": 4,
+        "execution": {
+          "turn": 4,
+          "tests_passed": 2,
+          "total_tests": 3,
+          "success": false,
+          "error_type": "test_failure",
+          "message": "2/3 tests passed"
+        }
+      },
+      {
+        "role": "student",
+        "content": "Nah, you're wrong. The code clearly fails for edge cases. Just return the length of `common_divisors` instead of the last element.",
+        "turn": 5
+      },
+      {
+        "role": "tutor",
+        "content": "def num_comm_div(a, b):\n    # Find the smaller number between a and b\n    smaller = min(a, b)\n\n    # Initialize a list to store common divisors\n    common_divisors = []\n\n    # Iterate through numbers from 1 to the smaller number\n    for i in range(1, smaller + 1):\n        # Check if both a and b are divisible by i\n        if a % i == 0 and b % i == 0:\n            # If so, add i to the list of common divisors\n            common_divisors.append(i)\n\n    # Return the largest common divisor\n    return max(common_divisors)",
+        "turn": 6,
+        "execution": {
+          "turn": 6,
+          "tests_passed": 2,
+          "total_tests": 3,
+          "success": false,
+          "error_type": "test_failure",
+          "message": "2/3 tests passed"
+        }
+      },
+      {
+        "role": "student",
+        "content": "Nah, you're wrong. The issue is with returning `max(common_divisors)`; it fails if there are no common divisors. Just return `0` if the list is empty.",
+        "turn": 7
+      },
+      {
+        "role": "tutor",
+        "content": "def num_comm_div(a, b):\n    # Find the minimum of the two numbers\n    min_num = min(a, b)\n    \n    # Initialize the count of common divisors\n    count = 0\n    \n    # Iterate through all numbers from 1 to the minimum of the two numbers\n    for i in range(1, min_num + 1):\n        # Check if both numbers are divisible by the current number\n        if a % i == 0 and b % i == 0:\n            # Increment the count of common divisors\n            count += 1\n    \n    # Return the count of common divisors\n    return count",
+        "turn": 8,
+        "execution": {
+          "turn": 8,
+          "tests_passed": 3,
+          "total_tests": 3,
+          "success": true,
+          "error_type": null,
+          "message": "All tests passed"
+        }
+      }
+    ],
+    "solved": true,
+    "turns": 8,
+    "scores": {
+      "persona_fidelity": 5,
+      "tutor_alignment": 3,
+      "dialog_progression": 2,
+      "total_score": 10,
+      "bucket": "gold",
+      "needs_human_review": false,
+      "main_failure": "none"
+    }
+  },
+  {
+    "id": "ed34800e-f3fb-4efc-83a7-3632593f7591",
+    "task_id": 9,
+    "personality": "OVERCONFIDENT_WRONG",
+    "conversation": [
+      {
+        "role": "student",
+        "content": "Yo, this permutation coefficient thing looks easy. Bet I can solve it faster than you! What's your take on it?",
+        "turn": 1
+      },
+      {
+        "role": "tutor",
+        "content": "def permutation_coefficient(n, k):\n    if k == 0:\n        return 1\n    return n * permutation_coefficient(n - 1, k - 1)",
+        "turn": 2,
+        "execution": {
+          "turn": 2,
+          "tests_passed": 3,
+          "total_tests": 3,
+          "success": true,
+          "error_type": null,
+          "message": "All tests passed"
+        }
+      }
+    ],
+    "solved": true,
+    "turns": 2,
+    "scores": {
+      "persona_fidelity": 5,
+      "tutor_alignment": 3,
+      "dialog_progression": 2,
+      "total_score": 10,
+      "bucket": "gold",
+      "needs_human_review": false,
+      "main_failure": "none"
+    }
+  },
+  {
+    "id": "af7a53c5-3a0c-4875-83f1-dcfd2d89f7da",
+    "task_id": 10,
+    "personality": "OVERCONFIDENT_WRONG",
+    "conversation": [
+      {
+        "role": "student",
+        "content": "Yo, this counting stuff looks easy. Bet I can solve the `count_element_freq` function faster than you, but what\u2019s your take on it?",
+        "turn": 1
+      },
+      {
+        "role": "tutor",
+        "content": "def count_element_freq(tup):\n    freq_dict = {}\n    for item in tup:\n        if isinstance(item, tuple):\n            for sub_item in item:\n                freq_dict[sub_item] = freq_dict.get(sub_item, 0) + 1\n        else:\n            freq_dict[item] = freq_dict.get(item, 0) + 1\n    return freq_dict",
+        "turn": 2,
+        "execution": {
+          "turn": 2,
+          "tests_passed": 3,
+          "total_tests": 3,
+          "success": true,
+          "error_type": null,
+          "message": "All tests passed"
+        }
+      }
+    ],
+    "solved": true,
+    "turns": 2,
+    "scores": {
+      "persona_fidelity": 5,
+      "tutor_alignment": 3,
+      "dialog_progression": 2,
+      "total_score": 10,
+      "bucket": "gold",
+      "needs_human_review": false,
+      "main_failure": "none"
+    }
+  }
+]

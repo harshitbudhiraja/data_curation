@@ -38,7 +38,7 @@ def clean_response(response: str) -> str:
 class StudentAgent:
     """Student agent that asks questions and provides corrections."""
     
-    def __init__(self, personality_prompt: str, personality_name: str = "CONFUSED_STUDENT", model_name: str = "qwen/qwen-2.5-7b-instruct"):
+    def __init__(self, personality_prompt: str, personality_name: str = "CONFUSED_STUDENT", model_name: str = "openai/gpt-4o-mini"):
         self.model_name = model_name
         self.personality_prompt = personality_prompt
         self.personality_name = personality_name
@@ -83,26 +83,26 @@ class StudentAgent:
             },
             "SYNTAX_STRUGGLER": {
                 "opening": [
-                    "Tone: Frustrated. Action: Complain that you keep getting syntax errors on {problem_summary}.",
-                    "Tone: Worried. Action: Ask how to write {problem_summary} without messing up indentation.",
-                    "Tone: Specific. Action: Ask specifically about the syntax for {problem_summary}."
+                    "Tone: Syntax-Confused. Action: Say you need help with {problem_summary} because Python syntax confuses you. MAX 10-25 words. Examples: 'help with this?? python syntax confuses me', 'can u help? im new to python syntax'",
+                    "Tone: Syntax-Worried. Action: Complain about syntax errors with {problem_summary}. Keep it under 25 words.",
+                    "Tone: Indentation-Focused. Action: Ask about {problem_summary} but mention indentation/syntax issues. Be brief (10-25 words)."
                 ],
                 "feedback": [
-                    "Tone: Syntax-Fixated. Action: Ask if {error_summary} is a missing colon or bracket.",
-                    "Tone: Panicked. Action: Worry that you broke the code because of {error_summary}.",
-                    "Tone: Curious. Action: Ask why Python raises {error_summary} there."
+                    "Tone: Syntax-ONLY. Action: Ask ONLY about syntax for {error_summary} - colons, brackets, indentation, parentheses. MAX 10-25 words. Examples: 'is it a missing colon??', 'did u forget the bracket?', 'indentation error maybe?'. IGNORE logic completely!",
+                    "Tone: Punctuation-Obsessed. Action: Focus ONLY on punctuation/syntax in {error_summary}. Ask about colons, brackets, semicolons. MAX 25 words. Don't mention logic or algorithms!",
+                    "Tone: Syntax-Fixated. Action: Ask if {error_summary} is due to missing colon, bracket, or indentation. MAX 25 words. Sometimes suggest C/Java syntax by mistake (semicolons, for loops)."
                 ]
             },
             "PROGRAMMING_HELPER": {
                 "opening": [
-                    "Tone: Professional. Action: Ask for a standard implementation of {problem_summary}.",
-                    "Tone: Collaborative. Action: Suggest working together on {problem_summary}.",
-                    "Tone: Theoretical. Action: Ask about the best algorithm for {problem_summary}."
+                    "Tone: Expert/Direct. Action: Ask for help with {problem_summary} - be brief (10-15 words max). Examples: 'need help with minPath function - what's the best algo?', 'how should I approach the is_tree_balanced problem?'",
+                    "Tone: Technical/Brief. Action: Ask about implementation for {problem_summary} - keep it under 15 words.",
+                    "Tone: Professional/Concise. Action: Request algorithm approach for {problem_summary} - be direct and brief."
                 ],
                 "feedback": [
-                    "Tone: Analytical. Action: Point out {error_summary} objectively.",
-                    "Tone: Helpful. Action: Suggest a potential fix for {error_summary}.",
-                    "Tone: Encouraging. Action: Acknowledge the effort but note {error_summary}."
+                    "Tone: Expert Fix Provider. Action: PROVIDE COMPLETE WORKING CODE FIX for {error_summary}. Don't just point out errors - GIVE THE EXACT CODE. Be technical and precise. Include the full corrected function or specific line changes.",
+                    "Tone: Direct Code Fixer. Action: Identify the EXACT bug in {error_summary} and provide COMPLETE working code fix. No vague hints - show the actual code.",
+                    "Tone: Aggressive Debugger. Action: Analyze {error_summary}, identify the bug, and provide COMPLETE code fix immediately. Be fast and technical."
                 ]
             }
         }
@@ -175,14 +175,29 @@ Remember: Stay focused on the `{function_name}` function.
 Instructions:
 {style_instruction}
 
-Constraints:
-- Be brief (2-3 sentences max).
+CRITICAL CONSTRAINTS - FOLLOW EXACTLY:
+- Follow your personality rules STRICTLY (check your system prompt)
+- If you're PROGRAMMING_HELPER: Provide COMPLETE working code fixes, not explanations
+- If you're SYNTAX_STRUGGLER: Ask ONLY about syntax (colons, brackets, indentation) - MAX 25 words
+- If you're CONFUSED_STUDENT: Ask basic questions - MAX 15 words
+- If you're IMPATIENT_STUDENT: Be demanding and brief - MAX 15 words
+- If you're OVERCONFIDENT_WRONG: Be cocky and suggest fixes - MAX 25 words
 - If the code works (all tests passed), just say "Works perfectly, thanks!" or similar.
-- If the code FAILED, DO NOT say it works! Point out the error.
-- Do NOT write the full corrected code unless asked."""
+- If the code FAILED, DO NOT say it works! Stay in character while pointing out the error."""
         
         # Call LLM
         max_retries = 3
+        
+        # Adjust max_tokens based on personality to enforce brevity
+        if self.personality_name in ["CONFUSED_STUDENT", "IMPATIENT_STUDENT"]:
+            max_tokens = 100  # Very short responses (5-15 words)
+        elif self.personality_name in ["SYNTAX_STRUGGLER", "OVERCONFIDENT_WRONG"]:
+            max_tokens = 150  # Short responses (10-25 words)
+        elif self.personality_name == "PROGRAMMING_HELPER":
+            max_tokens = 400  # Longer for code fixes, but still controlled
+        else:
+            max_tokens = 300  # Default
+        
         for attempt in range(max_retries):
             response = call_llm_openrouter(
                 user_prompt=user_prompt,

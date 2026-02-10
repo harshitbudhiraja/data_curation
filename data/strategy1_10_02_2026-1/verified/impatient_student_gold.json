@@ -1,0 +1,290 @@
+[
+  {
+    "id": "8d7fa522-1d8e-4203-a7b6-fe85fbd27257",
+    "task_id": 4,
+    "personality": "IMPATIENT_STUDENT",
+    "conversation": [
+      {
+        "role": "student",
+        "content": "need help with re_arrange function ASAP! just give me the code plz!",
+        "turn": 1
+      },
+      {
+        "role": "tutor",
+        "content": "def re_arrange(arr, n):\n    positive = [x for x in arr if x >= 0]\n    negative = [x for x in arr if x < 0]\n\n    result = []\n    while positive or negative:\n        if positive:\n            result.append(positive.pop(0))\n        if negative:\n            result.append(negative.pop(0))\n\n    return result",
+        "turn": 2,
+        "execution": {
+          "turn": 2,
+          "tests_passed": 0,
+          "total_tests": 3,
+          "success": false,
+          "error_type": "test_failure",
+          "message": "0/3 tests passed"
+        }
+      },
+      {
+        "role": "student",
+        "content": "Ugh, this is still not working! Error: 0/3 tests passed. Just fix it already!",
+        "turn": 3
+      },
+      {
+        "role": "tutor",
+        "content": "def re_arrange(arr, n):\n    pos = []\n    neg = []\n    for i in range(n):\n        if arr[i] >= 0:\n            pos.append(arr[i])\n        else:\n            neg.append(arr[i])\n    ans = []\n    i = 0\n    j = 0\n    while i < len(pos) and j < len(neg):\n        ans.append(neg[j])\n        ans.append(pos[i])\n        i += 1\n        j += 1\n    while i < len(pos):\n        ans.append(pos[i])\n        i += 1\n    while j < len(neg):\n        ans.append(neg[j])\n        j += 1\n    return ans",
+        "turn": 4,
+        "execution": {
+          "turn": 4,
+          "tests_passed": 3,
+          "total_tests": 3,
+          "success": true,
+          "error_type": null,
+          "message": "All tests passed"
+        }
+      }
+    ],
+    "solved": true,
+    "turns": 4,
+    "scores": {
+      "persona_fidelity": 5,
+      "tutor_alignment": 3,
+      "dialog_progression": 2,
+      "total_score": 10,
+      "bucket": "gold",
+      "needs_human_review": false,
+      "main_failure": "none"
+    }
+  },
+  {
+    "id": "f50315fe-b255-4c24-b408-ebb19c326fc7",
+    "task_id": 6,
+    "personality": "IMPATIENT_STUDENT",
+    "conversation": [
+      {
+        "role": "student",
+        "content": "need help with candidate function, just give me the code plz!",
+        "turn": 1
+      },
+      {
+        "role": "tutor",
+        "content": "def candidate(number):\n    def is_prime(n):\n        if n < 2:\n            return False\n        for i in range(2, int(n**0.5) + 1):\n            if n % i == 0:\n                return False\n        return True\n\n    if number < 3:\n        return False\n\n    for i in range(2, int(number**0.5) + 1):\n        if number % i == 0:\n            if is_prime(i) and is_prime(number // i):\n                return True\n    return False",
+        "turn": 2,
+        "execution": {
+          "turn": 2,
+          "tests_passed": 1,
+          "total_tests": 3,
+          "success": false,
+          "error_type": "test_failure",
+          "message": "1/3 tests passed"
+        }
+      },
+      {
+        "role": "student",
+        "content": "Ugh, this is still not working! Error: 1/3 tests passed. Just fix the logic for checking factors!",
+        "turn": 3
+      },
+      {
+        "role": "tutor",
+        "content": "def candidate(num):\n    if num < 2:\n        return False\n    primes = [2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43, 47, 53, 59, 61, 67, 71, 73, 79, 83, 89, 97]\n    count = 0\n    for prime in primes:\n        if num % prime == 0:\n            count += 1\n            num //= prime\n    return count == 3 and num == 1",
+        "turn": 4,
+        "execution": {
+          "turn": 4,
+          "tests_passed": 2,
+          "total_tests": 3,
+          "success": false,
+          "error_type": "test_failure",
+          "message": "2/3 tests passed"
+        }
+      },
+      {
+        "role": "student",
+        "content": "Ugh, seriously?? 2/3 tests passed? It's not handling numbers with more than three prime factors correctly. Just fix it!",
+        "turn": 5
+      },
+      {
+        "role": "tutor",
+        "content": "def candidate(n):\n    def is_prime(num):\n        if num < 2:\n            return False\n        for i in range(2, int(num ** 0.5) + 1):\n            if num % i == 0:\n                return False\n        return True\n\n    if n < 1:\n        return False\n\n    for i in range(2, int(n ** 0.5) + 1):\n        if n % i == 0:\n            if is_prime(i) and is_prime(n // i):\n                return True\n    return False",
+        "turn": 6,
+        "execution": {
+          "turn": 6,
+          "tests_passed": 1,
+          "total_tests": 3,
+          "success": false,
+          "error_type": "test_failure",
+          "message": "1/3 tests passed"
+        }
+      },
+      {
+        "role": "student",
+        "content": "Ugh, this is taking forever! The logic for checking pairs is wrong. Just fix it now!",
+        "turn": 7
+      },
+      {
+        "role": "tutor",
+        "content": "def candidate(number):\n    if number < 2:\n        return False\n\n    def is_prime(n):\n        if n < 2:\n            return False\n        for i in range(2, int(n**0.5) + 1):\n            if n % i == 0:\n                return False\n        return True\n\n    primes = [i for i in range(2, 100) if is_prime(i)]\n\n    for i in range(len(primes)):\n        for j in range(i, len(primes)):\n            for k in range(j, len(primes)):\n                if primes[i] * primes[j] * primes[k] == number:\n                    return True\n    return False",
+        "turn": 8,
+        "execution": {
+          "turn": 8,
+          "tests_passed": 3,
+          "total_tests": 3,
+          "success": true,
+          "error_type": null,
+          "message": "All tests passed"
+        }
+      }
+    ],
+    "solved": true,
+    "turns": 8,
+    "scores": {
+      "persona_fidelity": 5,
+      "tutor_alignment": 3,
+      "dialog_progression": 2,
+      "total_score": 10,
+      "bucket": "gold",
+      "needs_human_review": false,
+      "main_failure": "none"
+    }
+  },
+  {
+    "id": "5f01a3c2-fd74-490c-b233-1eec5b1192e0",
+    "task_id": 8,
+    "personality": "IMPATIENT_STUDENT",
+    "conversation": [
+      {
+        "role": "student",
+        "content": "ugh, I don't have time for this! just give me the code for num_comm_div, plz!",
+        "turn": 1
+      },
+      {
+        "role": "tutor",
+        "content": "def num_comm_div(a, b):\n    common_divisors = []\n    for i in range(1, min(a, b) + 1):\n        if a % i == 0 and b % i == 0:\n            common_divisors.append(i)\n    return common_divisors",
+        "turn": 2,
+        "execution": {
+          "turn": 2,
+          "tests_passed": 0,
+          "total_tests": 3,
+          "success": false,
+          "error_type": "test_failure",
+          "message": "0/3 tests passed"
+        }
+      },
+      {
+        "role": "student",
+        "content": "ugh, this is taking forever! ANOTHER bug?? Just fix the logic in that loop!",
+        "turn": 3
+      },
+      {
+        "role": "tutor",
+        "content": "def num_comm_div(a, b):\n    common_divisors = []\n    for i in range(1, min(a, b) + 1):\n        if a % i == 0 and b % i == 0:\n            common_divisors.append(i)\n    return max(common_divisors)",
+        "turn": 4,
+        "execution": {
+          "turn": 4,
+          "tests_passed": 2,
+          "total_tests": 3,
+          "success": false,
+          "error_type": "test_failure",
+          "message": "2/3 tests passed"
+        }
+      },
+      {
+        "role": "student",
+        "content": "ugh, this is taking forever! Just fix it; it doesn't handle the case when there are no common divisors!",
+        "turn": 5
+      },
+      {
+        "role": "tutor",
+        "content": "def num_comm_div(a, b):\n    common_divisors = []\n    for i in range(1, min(a, b) + 1):\n        if a % i == 0 and b % i == 0:\n            common_divisors.append(i)\n    return max(common_divisors)",
+        "turn": 6,
+        "execution": {
+          "turn": 6,
+          "tests_passed": 2,
+          "total_tests": 3,
+          "success": false,
+          "error_type": "test_failure",
+          "message": "2/3 tests passed"
+        }
+      },
+      {
+        "role": "student",
+        "content": "Ugh, this is still not working! Just fix it to handle cases where there are no common divisors. Seriously??",
+        "turn": 7
+      },
+      {
+        "role": "tutor",
+        "content": "def num_comm_div(a, b):\n    divisors_a = [i for i in range(1, a+1) if a % i == 0]\n    divisors_b = [i for i in range(1, b+1) if b % i == 0]\n    common_divisors = [i for i in divisors_a if i in divisors_b]\n    return max(common_divisors)",
+        "turn": 8,
+        "execution": {
+          "turn": 8,
+          "tests_passed": 2,
+          "total_tests": 3,
+          "success": false,
+          "error_type": "test_failure",
+          "message": "2/3 tests passed"
+        }
+      }
+    ],
+    "solved": false,
+    "turns": 8,
+    "scores": {
+      "persona_fidelity": 5,
+      "tutor_alignment": 2,
+      "dialog_progression": 2,
+      "total_score": 9,
+      "bucket": "gold",
+      "needs_human_review": false,
+      "main_failure": "none"
+    }
+  },
+  {
+    "id": "ee24a3d0-a0e5-4944-81c3-5a33560a5ce0",
+    "task_id": 9,
+    "personality": "IMPATIENT_STUDENT",
+    "conversation": [
+      {
+        "role": "student",
+        "content": "ugh, I need the code for permutation_coefficient now! just give me the function plz!",
+        "turn": 1
+      },
+      {
+        "role": "tutor",
+        "content": "def permutation_coefficient(n, k):\n    return factorial(n) / factorial(n - k)",
+        "turn": 2,
+        "execution": {
+          "turn": 2,
+          "tests_passed": 0,
+          "total_tests": 3,
+          "success": false,
+          "error_type": "test_failure",
+          "message": "0/3 tests passed"
+        }
+      },
+      {
+        "role": "student",
+        "content": "Ugh, this code FAILED (0/3 tests passed). Just fix the division to use integer division or return an integer.",
+        "turn": 3
+      },
+      {
+        "role": "tutor",
+        "content": "def permutation_coefficient(n, k):\n    if k > n:\n        return 0\n    result = 1\n    for i in range(n, n-k, -1):\n        result *= i\n    return result",
+        "turn": 4,
+        "execution": {
+          "turn": 4,
+          "tests_passed": 3,
+          "total_tests": 3,
+          "success": true,
+          "error_type": null,
+          "message": "All tests passed"
+        }
+      }
+    ],
+    "solved": true,
+    "turns": 4,
+    "scores": {
+      "persona_fidelity": 5,
+      "tutor_alignment": 3,
+      "dialog_progression": 2,
+      "total_score": 10,
+      "bucket": "gold",
+      "needs_human_review": false,
+      "main_failure": "none"
+    }
+  }
+]

@@ -1,0 +1,110 @@
+[
+  {
+    "id": "d64d0b2a-7def-442d-bc19-49797068278e",
+    "task_id": 2,
+    "personality": "SYNTAX_STRUGGLER",
+    "conversation": [
+      {
+        "role": "student",
+        "content": "help! im stuck with syntax errors on my function candidate for the grid with N rows and columns. can u guide me?",
+        "turn": 1
+      },
+      {
+        "role": "tutor",
+        "content": "def candidate(grid, k):\n    n = len(grid)\n    directions = [(0, 1), (0, -1), (1, 0), (-1, 0)]\n    min_path = None\n\n    def backtrack(row, col, path):\n        nonlocal min_path\n        if len(path) == k:\n            if min_path is None or path < min_path:\n                min_path = path\n            return\n        if min_path is not None and path >= min_path:\n            return\n        for dr, dc in directions:\n            new_row, new_col = row + dr, col + dc\n            if 0 <= new_row < n and 0 <= new_col < n:\n                backtrack(new_row, new_col, path + [grid[new_row][new_col]])\n\n    for row in range(n):\n        for col in range(n):\n            backtrack(row, col, [grid[row][col]])\n\n    return min_path",
+        "turn": 2,
+        "execution": {
+          "turn": 2,
+          "tests_passed": 3,
+          "total_tests": 3,
+          "success": true,
+          "error_type": null,
+          "message": "All tests passed"
+        }
+      }
+    ],
+    "solved": true,
+    "turns": 2,
+    "scores": {
+      "persona_fidelity": 1,
+      "tutor_alignment": 0,
+      "dialog_progression": 0,
+      "total_score": 1,
+      "bucket": "bronze",
+      "needs_human_review": false,
+      "main_failure": "persona_break"
+    }
+  },
+  {
+    "id": "13f8383e-0674-4f76-869b-758d64a9e0d4",
+    "task_id": 5,
+    "personality": "SYNTAX_STRUGGLER",
+    "conversation": [
+      {
+        "role": "student",
+        "content": "help!! i keep getting syntax errors when trying to write a function for heap sort. what am i missing??",
+        "turn": 1
+      },
+      {
+        "role": "tutor",
+        "content": "def heap_sort(arr):\n    n = len(arr)\n    \n    # Build a max heap\n    for i in range(n // 2 - 1, -1, -1):\n        heapify(arr, n, i)\n    \n    # Extract elements from the heap one by one\n    for i in range(n - 1, 0, -1):\n        arr[0], arr[i] = arr[i], arr[0]\n        heapify(arr, i, 0)\n    \n    return arr\n\ndef heapify(arr, n, i):\n    largest = i\n    left = 2 * i + 1\n    right = 2 * i + 2\n    \n    if left < n and arr[left] > arr[largest]:\n        largest = left\n    \n    if right < n and arr[right] > arr[largest]:\n        largest = right\n    \n    if largest != i:\n        arr[i], arr[largest] = arr[largest], arr[i]\n        heapify(arr, n, largest)",
+        "turn": 2,
+        "execution": {
+          "turn": 2,
+          "tests_passed": 3,
+          "total_tests": 3,
+          "success": true,
+          "error_type": null,
+          "message": "All tests passed"
+        }
+      }
+    ],
+    "solved": true,
+    "turns": 2,
+    "scores": {
+      "persona_fidelity": 1,
+      "tutor_alignment": 0,
+      "dialog_progression": 1,
+      "total_score": 2,
+      "bucket": "bronze",
+      "needs_human_review": false,
+      "main_failure": "persona_break"
+    }
+  },
+  {
+    "id": "33367067-3419-402e-9067-08af9f452168",
+    "task_id": 10,
+    "personality": "SYNTAX_STRUGGLER",
+    "conversation": [
+      {
+        "role": "student",
+        "content": "help with this?? how do i write a function count_element_freq without messing up indentation?",
+        "turn": 1
+      },
+      {
+        "role": "tutor",
+        "content": "def count_element_freq(nested_tuple):\n    element_freq = {}\n    for element in nested_tuple:\n        if isinstance(element, tuple):\n            for sub_element in count_element_freq(element):\n                element_freq[sub_element] = element_freq.get(sub_element, 0) + 1\n        else:\n            element_freq[element] = element_freq.get(element, 0) + 1\n    return element_freq",
+        "turn": 2,
+        "execution": {
+          "turn": 2,
+          "tests_passed": 3,
+          "total_tests": 3,
+          "success": true,
+          "error_type": null,
+          "message": "All tests passed"
+        }
+      }
+    ],
+    "solved": true,
+    "turns": 2,
+    "scores": {
+      "persona_fidelity": 2,
+      "tutor_alignment": 0,
+      "dialog_progression": 0,
+      "total_score": 2,
+      "bucket": "bronze",
+      "needs_human_review": false,
+      "main_failure": "tutor_misaligned"
+    }
+  }
+]
