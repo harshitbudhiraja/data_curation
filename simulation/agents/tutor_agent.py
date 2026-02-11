@@ -15,33 +15,48 @@ def get_effort_level_prompt(turn_count: int) -> tuple:
     """Get effort level instruction and temperature based on turn count.
     
     Strategy:
-    - Turns 1-2: Quick initial attempt (higher temp, less thorough)
-    - Turns 3-4: Refinement based on feedback (medium temp, more focused)
-    - Turns 5+: Careful complete solution (low temp, very thorough)
+    - Turns 1-2: INCOMPLETE first draft (MUST fail tests)
+    - Turns 3-4: Refinement based on feedback (fix specific issues)
+    - Turns 5+: Complete solution (handle all cases)
     
     Returns:
-        tuple: (instruction_text, temperature)
+        tuple: (instruction_text, temperature, max_tokens)
     """
     if turn_count <= 2:
-        # Early turns - BRIEF & NAIVE (works with 150 token limit)
-        instruction = """Write a BRIEF, naive implementation. 
-Focus ONLY on the core logic for the "happy path". 
-IGNORE edge cases (empty inputs, negatives, large inputs).
-Keep the code SHORT (under 10 lines) as we are testing the basic logic first.
-It is EXPECTED that this version will fail some tests."""
-        temperature = 0.7
+        # Early turns - FORCE INCOMPLETE CODE
+        instruction = """Write an INCOMPLETE first draft with these REQUIRED limitations:
+1. Maximum 6-8 lines of code
+2. Handle ONLY the simplest case (e.g., positive integers, non-empty lists)
+3. DO NOT handle: empty inputs, negative numbers, zero, None, edge cases
+4. DO NOT add error checking or validation
+5. Use the most naive approach possible
+6. This code MUST fail at least 1-2 test cases
+
+Example: For "sum a list", just write: return sum(lst)
+Do NOT handle empty list, None, or non-numeric values.
+
+Your code should be a starting point that needs student feedback to improve."""
+        temperature = 0.8
+        max_tokens = 120  # Very strict limit
     elif turn_count <= 4:
-        # Middle turns - refinement
-        instruction = """Refine your solution based on the feedback. Address the specific issues mentioned.
-Focus on fixing the errors while maintaining correct logic."""
-        temperature = 0.5
+        # Middle turns - gradual refinement
+        instruction = """Improve the code based on student's SPECIFIC feedback.
+Fix ONLY the issue they mentioned (e.g., "add base case", "handle empty input").
+Do NOT fix everything at once - this is iterative learning.
+Keep improvements focused and minimal."""
+        temperature = 0.6
+        max_tokens = 300
     else:
         # Later turns - complete solution
-        instruction = """Write a complete, production-quality solution that handles all edge cases and passes all tests.
-Be thorough and careful with your implementation."""
+        instruction = """Write a complete, production-quality solution:
+- Handle ALL edge cases (empty, None, negative, zero, large inputs)
+- Add proper error handling
+- Ensure all tests pass
+- Use efficient algorithms"""
         temperature = 0.3
+        max_tokens = 500
     
-    return instruction, temperature
+    return instruction, temperature, max_tokens
 
 
 # Load tutor system prompt from file
@@ -150,7 +165,7 @@ class TutorAgent:
             Tutor's response as Python code
         """
         # Get effort level instruction and temperature based on turn count
-        effort_instruction, temperature = get_effort_level_prompt(turn_count)
+        effort_instruction, temperature, max_tokens = get_effort_level_prompt(turn_count)
         
         # Adjust for SYNTAX_STRUGGLER: write code more carelessly to naturally produce syntax errors
         if student_personality == "SYNTAX_STRUGGLER":
@@ -159,19 +174,23 @@ class TutorAgent:
                 effort_instruction = """Write code QUICKLY without overthinking syntax.
 Focus on the core logic but don't worry about perfect syntax (colons, indentation, brackets).
 Write like you're in a hurry - syntax mistakes are natural and expected.
-Keep it SHORT (under 10 lines)."""
+Keep it SHORT (under 8 lines) and INCOMPLETE (missing edge cases).
+Your code SHOULD have syntax errors - this is intentional for learning."""
                 temperature = 0.85  # Higher temp = more mistakes
+                max_tokens = 120
             elif turn_count <= 5:
                 # Middle turns: Fix syntax issues but logic might still be off
                 effort_instruction = """Fix the syntax errors mentioned by the student.
 Check colons, brackets, and indentation carefully.
 The logic might still need work but focus on clean syntax first."""
                 temperature = 0.6
+                max_tokens = 300
             else:
                 # Later turns: Both syntax and logic should be correct
                 effort_instruction = """Write clean, syntactically correct code with proper logic.
 Handle all edge cases and ensure all tests pass."""
                 temperature = 0.3
+                max_tokens = 500
         
         # Build execution feedback if available
         feedback = ""
@@ -211,15 +230,13 @@ Output ONLY the Python code starting with 'def {function_name}'. Nothing else.""
 
         # Call LLM with validation and retry
         max_retries = 4
-        # Force short responses in early turns to prevent perfect solutions
-        current_max_tokens = 150 if turn_count <= 2 else 500
         
         for attempt in range(max_retries):
             response = call_llm_openrouter(
                 user_prompt=user_prompt,
                 system_prompt=self.system_prompt,
                 model=self.model_name,
-                max_tokens=current_max_tokens,
+                max_tokens=max_tokens,  # Use dynamic max_tokens from effort level
                 temperature=temperature  # Dynamic temperature based on turn
             )
             

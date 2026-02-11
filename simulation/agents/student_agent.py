@@ -47,26 +47,30 @@ class StudentAgent:
         self.styles = {
             "CONFUSED_STUDENT": {
                 "opening": [
-                    "Tone: Totally lost. Action: Admit you have no idea how to write this code. MAX 5-15 words. Examples: 'idk how to start??', 'help??', 'im so confused'",
-                    "Tone: Hesitant/Shy. Action: Ask for help but say you're confused about the code. MAX 15 words.",
-                    "Tone: Simple. Action: Say you need help with the code. Be brief (5-15 words)."
+                    "Tone: Lost/Uncertain. Action: Ask for help but keep it simple. MAX 15 words. Examples: 'help?? idk how to start??', 'um need help with this??'",
+                    "Tone: Confused. Action: Say you're confused about the code. MAX 15 words.",
+                    "Tone: Simple. Action: Just ask for help. Be brief (10-15 words)."
                 ],
                 "feedback": [
-                    "Tone: Confused about CODE. Action: Ask why the code failed or what's wrong. MAX 5-15 words. Examples: 'wait why??', 'idk whats wrong', 'why did it fail??', 'omg still failing??'. DON'T ask theoretical questions like 'what is a grid?'",
-                    "Tone: Helpless about CODE. Action: Say you don't understand why the code failed. MAX 15 words. Focus on the code, not concepts.",
-                    "Tone: Inquisitive about CODE. Action: Ask if the code is broken or why tests failed. MAX 15 words. Don't ask about theoretical concepts."
+                    "Tone: Confused but SPECIFIC. Action: Point out what's missing/wrong using uncertain language. Examples: 'wait i think you forgot the base case??', 'um shouldnt there be a return??', 'wheres the sorting logic?? idk'. MAX 20 words. MUST mention specific code element (base case, loop, return, edge case, condition)! VARY your phrasing - don't repeat patterns!",
+                    "Tone: Uncertain but ACTIONABLE. Action: Question specific parts. Examples: 'shouldnt it handle empty arrays??', 'i think the loop is wrong??', 'um you need error checking??', 'forgot the None check??'. MAX 20 words. Always mention WHAT needs fixing! Use different confusion markers each time!",
+                    "Tone: Lost but HELPFUL. Action: Identify the issue uncertainly. Examples: 'wait is the recursion missing??', 'um forgot the None check??', 'i think the index is off??', 'wheres the edge case handling??'. MAX 20 words. Be specific about the bug! Mix up your language naturally!",
+                    "Tone: Questioning but SPECIFIC. Action: Ask about missing elements. Examples: 'shouldnt it check for negatives??', 'wait you need initialization??', 'um the condition looks off??', 'i think it needs sorting first??'. MAX 20 words. Natural variety in phrasing!",
+                    "Tone: Hesitant but DIRECT. Action: Point to the problem. Examples: 'forgot to return anything??', 'wait the loop starts wrong??', 'um missing the recursive call??', 'shouldnt there be error handling??'. MAX 20 words. Keep it natural and varied!"
                 ]
             },
             "IMPATIENT_STUDENT": {
                 "opening": [
-                    "Tone: Direct/Urgent. Action: Ask for the code for {problem_summary} immediately.",
-                    "Tone: Annoyed. Action: Say you don't have time and just need the solution for {problem_summary}.",
-                    "Tone: Concise. Action: Use as few words as possible to ask for {problem_summary}."
+                    "Tone: Direct/Urgent. Action: Demand the code immediately. MAX 15 words. Examples: 'need the code now!', 'just give me the function!'",
+                    "Tone: Blunt. Action: Ask for solution with urgency. MAX 15 words.",
+                    "Tone: Demanding. Action: Request code briefly. MAX 10 words."
                 ],
                 "feedback": [
-                    "Tone: Blunt. Action: State that it failed ({error_summary}) and tell the tutor to fix it.",
-                    "Tone: Annoyed. Action: Complain that it's still not working (Error: {error_summary}).",
-                    "Tone: Demanding. Action: Demand a fix for {error_summary} right now."
+                    "Tone: Demanding and SPECIFIC. Action: Tell them exactly what to add/fix. Examples: 'just add the base case!', 'ugh fix the loop already!', 'handle empty arrays!', 'add the return statement!'. MAX 20 words. MUST specify WHAT to fix! NEVER repeat the same phrase - vary your commands!",
+                    "Tone: Impatient and DIRECT. Action: Command specific fixes. Examples: 'add the return statement!', 'ugh fix the condition!', 'just handle None cases!', 'fix the recursion!'. MAX 20 words. Always say WHAT needs fixing! Use different frustration markers!",
+                    "Tone: Frustrated and ACTIONABLE. Action: Demand specific changes. Examples: 'fix the edge case already!', 'just add error handling!', 'ugh sort it first!', 'handle negatives!'. MAX 15 words. Be specific about what to do! Natural variety!",
+                    "Tone: Blunt and COMMANDING. Action: Direct specific actions. Examples: 'add the None check!', 'seriously fix that loop!', 'just initialize it properly!', 'ugh check the index!'. MAX 20 words. Mix up your impatience naturally!",
+                    "Tone: Urgent and SPECIFIC. Action: Demand immediate fixes. Examples: 'fix that condition now!', 'just add the base case already!', 'handle the edge case!', 'ugh add error checking!'. MAX 20 words. Vary your language - don't repeat!"
                 ]
             },
             "OVERCONFIDENT_WRONG": {
@@ -154,9 +158,46 @@ Constraints:
                     exec_feedback = f"""The code FAILED ({tests_passed}/{total_tests} tests passed).
 Error: {error_msg}
 
-Point out what's wrong and suggest a fix. Be brief (2-3 sentences max).
-DO NOT say it works or thank the tutor - the code is broken!
-You can respond with just text, or text + a code snippet showing the fix."""
+CRITICAL FOR CODE-ONLY TUTOR:
+The tutor can ONLY output Python code - no English explanations.
+You MUST tell them EXACTLY what code element to fix/add.
+
+Required: Mention a SPECIFIC code element:
+- base case, return statement, loop logic, edge case handling
+- sorting, condition, recursion, error checking, None handling
+- index, variable initialization, etc.
+
+ANALYZE THE ERROR AND CODE:
+1. What's missing? → "forgot the base case", "missing return", "no edge case handling"
+2. What's wrong? → "loop logic is off", "condition is incorrect", "wrong index"
+3. What to add? → "need sorting", "add None check", "handle empty arrays"
+
+YOUR PERSONALITY STYLE:
+- CONFUSED: "wait i think you forgot X??", "um shouldnt there be X??", "wheres the X??", "i think its missing X??", "shouldnt it have X??"
+- IMPATIENT: "just add X!", "ugh fix the X already!", "handle X!", "add X now!", "fix that X!"
+
+ANTI-REPETITION - CRITICAL:
+NEVER use the same phrasing pattern twice in this conversation!
+If you said "wait i think" last time, use "um shouldnt" or "wheres the" this time.
+If you said "just add" last time, use "ugh fix" or "handle" this time.
+VARY your language naturally - GPT-4o-mini can handle this!
+
+Examples of GOOD feedback (actionable + varied):
+- CONFUSED Turn 3: "wait i think you forgot the base case??"
+- CONFUSED Turn 5: "um shouldnt there be a return statement??"
+- CONFUSED Turn 7: "wheres the edge case handling??"
+- IMPATIENT Turn 3: "just add the base case!"
+- IMPATIENT Turn 5: "ugh fix the loop already!"
+- IMPATIENT Turn 7: "handle empty arrays!"
+
+Examples of BAD feedback (vague OR repetitive):
+- "wait why did it fail??" [doesn't say what to fix]
+- "ugh this is taking forever!" [no instruction]
+- "just fix it!" [fix what?]
+- Using "wait i think" three times in a row [REPETITIVE]
+- Using "just add" every single turn [BORING]
+
+REMEMBER: Tutor outputs code only. Be brief, SPECIFIC, and VARIED about what to fix."""
             
             # Styles for feedback/response
             error_hint = error_msg[:100] if 'error_msg' in locals() else "logic error"
@@ -190,7 +231,7 @@ CRITICAL CONSTRAINTS - FOLLOW EXACTLY:
         
         # Adjust max_tokens based on personality to enforce brevity
         if self.personality_name in ["CONFUSED_STUDENT", "IMPATIENT_STUDENT"]:
-            max_tokens = 100  # Very short responses (5-15 words)
+            max_tokens = 150  # Slightly increased for specific code element mentions
         elif self.personality_name in ["SYNTAX_STRUGGLER", "OVERCONFIDENT_WRONG"]:
             max_tokens = 150  # Short responses (10-25 words)
         elif self.personality_name == "PROGRAMMING_HELPER":
@@ -204,7 +245,7 @@ CRITICAL CONSTRAINTS - FOLLOW EXACTLY:
                 system_prompt=self.personality_prompt,
                 model=self.model_name,
                 max_tokens=300,  # Keep student responses short
-                temperature=0.5
+                temperature=0.7  # Increased for more natural variety and less repetition
             )
             
             if not response or not response.strip():

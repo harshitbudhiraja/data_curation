@@ -213,15 +213,16 @@ def process_mbpp_conversations(start_problem=1, end_problem=201):
     os.makedirs(output_dir, exist_ok=True)
     
     # Personality prompts (all in prompts/ folder)
+    # ONLY GENERATING CONFUSED_STUDENT AND IMPATIENT_STUDENT
     personality_paths = {
         'CONFUSED_STUDENT': 'prompts/confused_student.txt',
         'IMPATIENT_STUDENT': 'prompts/impatient_student.txt',
-        'OVERCONFIDENT_WRONG': 'prompts/overconfident_wrong.txt',
-        'SYNTAX_STRUGGLER': 'prompts/syntax_struggler.txt',
-        'PROGRAMMING_HELPER': 'prompts/programming_helper.txt'
+        # 'OVERCONFIDENT_WRONG': 'prompts/overconfident_wrong.txt',
+        # 'SYNTAX_STRUGGLER': 'prompts/syntax_struggler.txt',
+        # 'PROGRAMMING_HELPER': 'prompts/programming_helper.txt'
     }
     
-    print(f"\n🎯 Starting parallel generation for problems {start_problem}-{end_problem-1} across 5 personalities...")
+    print(f"\n🎯 Starting parallel generation for problems {start_problem}-{end_problem-1} across 2 personalities (CONFUSED_STUDENT, IMPATIENT_STUDENT)...")
     print(f"💾 Output directory: {output_dir}/")
     
     # Create processes for each personality

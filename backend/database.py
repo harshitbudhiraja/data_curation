@@ -66,12 +66,17 @@ def migrate_json_to_db():
     
     total_imported = 0
     
-    # Iterate through date folders
-    for date_folder in data_dir.iterdir():
-        if not date_folder.is_dir() or date_folder.name.startswith('.'):
-            continue
-        
-        print(f"Processing {date_folder.name}...")
+    # ONLY migrate strategy1_11_02_2026-Golden folder
+    target_folder = data_dir / "strategy1_11_02_2026-Golden"
+    
+    if not target_folder.exists():
+        print(f"❌ Target folder not found: {target_folder}")
+        return
+    
+    print(f"Processing {target_folder.name}...")
+    
+    # Process only this folder
+    for date_folder in [target_folder]:
         
         # Find all conversation JSON files
         for json_file in date_folder.glob("*_conversations.json"):

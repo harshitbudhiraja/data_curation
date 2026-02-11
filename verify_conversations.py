@@ -8,7 +8,7 @@ load_dotenv()
 
 API_KEY = os.getenv("OPENROUTER_API_KEY")
 MODEL = "openai/gpt-4o-mini"
-INPUT_DIR = "data/strategy1_10_02_2026-9"
+INPUT_DIR = "data/strategy1_11_02_2026"  # New confused + impatient data
 OUTPUT_DIR = f"{INPUT_DIR}/verified"
 
 os.makedirs(OUTPUT_DIR, exist_ok=True)
@@ -49,7 +49,12 @@ PERSONA RULES FOR THIS CONVERSATION:
 {persona_rules}
 
 SPECIAL SCORING RULES BY PERSONA:
-- PROGRAMMING_HELPER: Being verbose and providing detailed code fixes is CORRECT behavior. Do NOT penalize for length or technical detail. They should provide complete working code fixes.
+- PROGRAMMING_HELPER: Being verbose and providing detailed technical explanations is CORRECT and EXPECTED behavior. They are EXPERTS who can provide both code fixes AND explanations. Do NOT penalize for:
+  * Length or verbosity (they explain things thoroughly)
+  * Providing explanations before/after code
+  * Giving partial code snippets with explanations
+  * Being technical and detailed
+  ONLY penalize if they are vague, uncertain, or give up. As long as they provide actionable technical feedback (with or without complete code), score them HIGH (4-5).
 - SYNTAX_STRUGGLER: Should ONLY talk about syntax (colons, brackets, indentation). Penalize heavily if they discuss logic/algorithms.
 - CONFUSED_STUDENT: Should be brief and confused. Penalize if they sound knowledgeable.
 - IMPATIENT_STUDENT: Should be demanding and brief. Penalize if they're polite or patient.
@@ -102,6 +107,19 @@ def judge_conversation(conversation_obj):
     persona = conversation_obj['personality']
     conversation_text = format_conversation(conversation_obj['conversation'])
     persona_rules = PERSONA_RULES.get(persona, "No rules found")
+    
+    # AUTO-REJECT: 2-turn conversations (too short, no learning)
+    turns = conversation_obj.get('turns', 0)
+    if turns <= 2:
+        return {
+            "persona_fidelity": 0,
+            "tutor_alignment": 0,
+            "dialog_progression": 0,
+            "total_score": 0,
+            "bucket": "bronze",
+            "needs_human_review": False,
+            "main_failure": "too_short_2_turns"
+        }
     
     prompt = JUDGE_PROMPT_TEMPLATE.format(
         persona_rules=persona_rules,
@@ -172,7 +190,11 @@ def process_persona_file(filepath, persona_name):
         else:
             bronze.append(record)
         
-        print(f"{bucket.upper()} ({verdict['total_score']})")
+        # Show reason if auto-rejected
+        if verdict.get('main_failure') == 'too_short_2_turns':
+            print(f"BRONZE (2 turns - auto-reject)")
+        else:
+            print(f"{bucket.upper()} ({verdict['total_score']})")
     
     base_name = persona_name.lower().replace(' ', '_')
     json.dump(gold, open(f"{OUTPUT_DIR}/{base_name}_gold.json", "w"), indent=2)
@@ -197,9 +219,10 @@ def main():
     persona_files = {
         'Confused Student': f'{INPUT_DIR}/confused_student_conversations.json',
         'Impatient Student': f'{INPUT_DIR}/impatient_student_conversations.json',
-        'Overconfident Wrong': f'{INPUT_DIR}/overconfident_wrong_conversations.json',
-        'Programming Helper': f'{INPUT_DIR}/programming_helper_conversations.json',
-        'Syntax Struggler': f'{INPUT_DIR}/syntax_struggler_conversations.json'
+        # Only processing these 2 personalities - others commented out
+        # 'Overconfident Wrong': f'{INPUT_DIR}/overconfident_wrong_conversations.json',
+        # 'Programming Helper': f'{INPUT_DIR}/programming_helper_conversations.json',
+        # 'Syntax Struggler': f'{INPUT_DIR}/syntax_struggler_conversations.json'
     }
     
     all_stats = {}

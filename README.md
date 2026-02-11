@@ -2,6 +2,8 @@
 
 A LangGraph-based system for generating realistic student-tutor debugging conversations using autonomous LLM agents. Creates high-quality training data for fine-tuning coding tutors by simulating multi-turn debugging sessions with diverse student personalities.
 
+**Latest Dataset**: `strategy1_11_02_2026-Golden` contains 2,495 conversations with quality ratings (1,241 gold+silver ready for training).
+
 ## Quick Start (View Existing Data)
 
 **New to this project? Start here to view the generated conversations:**
@@ -29,23 +31,39 @@ A LangGraph-based system for generating realistic student-tutor debugging conver
 
 4. **Browse conversations**
    - Open `http://localhost:5173` in your browser
-   - Select a date folder (e.g., `strategy1_05_02_2026-2`)
-   - Choose a personality or knowledge level
-   - View conversations with quality ratings (gold/silver/bronze)
+   - Select `strategy1_11_02_2026-Golden` (latest dataset)
+   - Choose a personality (Confused, Impatient, Overconfident, Programming Helper, Syntax Struggler)
+   - View conversations with quality ratings:
+     - 🥇 **Gold** (824): High-quality collaborative debugging
+     - 🥈 **Silver** (417): Good quality with minor issues
+     - 🥉 **Bronze** (1,254): Low quality (2-turn instant solutions)
 
-**The database (`backend/conversations.db`) contains pre-generated conversations from both Strategy 1 (personality-based) and Strategy 2 (knowledge-level) approaches.**
+**The database contains 2,495 pre-generated conversations with LLM judge quality ratings.**
 
 ---
 
 ## Overview
 
 This system generates synthetic conversations where:
-- **Student agents** (5 personalities) ask questions and provide feedback
-- **Tutor agents** provide code solutions with intentionally injected bugs
-- **Execution engine** validates code against test cases
-- **Conversations** naturally evolve through debugging cycles (4-10 turns)
+- **Student agents** (5 personalities) ask questions and provide specific, actionable feedback
+- **Tutor agents** provide code solutions with intentionally incomplete early attempts
+- **Execution engine** validates code against test cases using pytest
+- **LLM judge** rates conversation quality (persona adherence, tutor responsiveness, dialog flow)
+- **Conversations** naturally evolve through collaborative debugging (target: 6-10 turns)
 
-The result: realistic debugging conversations that teach tutors how to handle different student behaviors and common coding mistakes.
+The result: realistic debugging conversations that teach tutors how to handle different student behaviors and guide them through iterative problem-solving.
+
+### Key Metrics (Golden Dataset)
+
+| Metric | Target | Result | Status |
+|--------|--------|--------|--------|
+| Actionable Feedback | >70% | 94.8% | ✅ |
+| Completion Rate | 60-80% | 63-77% | ✅ |
+| Turn Efficiency | 6-10 avg | 4.4-5.4 avg | ⚠️ Fixed* |
+| Tutor Responsiveness | >70% | 94.8% | ✅ |
+| Persona Adherence | >70% | 89.8% | ✅ |
+
+*Fixed in pipeline: Tutor now forces incomplete code in turns 1-2 to ensure minimum 4-6 turns.
 
 ---
 
@@ -57,32 +75,42 @@ The result: realistic debugging conversations that teach tutors how to handle di
 ┌─────────────────────────────────────────────────────────────┐
 │                    LangGraph Workflow                       │
 │                                                             │
-│  Student → Tutor → Execute → Router                         │
+│  Student → Tutor → Execute → Router → LLM Judge            │
 │     ↑                           │                           │
 │     └───────────────────────────┘                           │
-│         (loop until solved)                                 │
+│         (loop until solved or max turns)                    │
 └─────────────────────────────────────────────────────────────┘
 ```
 
 **1. Simulation Engine** (`simulation/`)
 - **LangGraph state machine** orchestrates agent interactions
-- **Student Agent**: Generates questions/feedback (5 personalities)
-- **Tutor Agent**: Provides code solutions with bug injection
+- **Student Agent**: Generates questions/feedback (5 personalities with specific code element references)
+- **Tutor Agent**: Provides code solutions with progressive refinement
 - **Execution Node**: Runs code with pytest validation
 - **Router**: Decides to continue or end conversation
 
-## Bug Injection System** (`simulation/agents/tutor_agent.py`)
-- **Turn-based effort control**: Adjusts thoroughness and temperature by turn
-- **Natural errors**: Problems are difficult enough to cause natural failures
-- **Progressive refinement**: 
-  - Turns 1-2: Quick initial attempt (temp=0.7, less thorough)
-  - Turns 3-4: Refinement based on feedback (temp=0.5, focused)
-  - Turns 5+: Complete solution (temp=0.3, very thorough)
+**2. Progressive Refinement System** (`simulation/agents/tutor_agent.py`)
+- **Turn-based effort control**: Forces incomplete solutions early, complete solutions later
+- **Turns 1-2**: INCOMPLETE code (max 120 tokens, temp 0.8, ignores edge cases) - MUST fail tests
+- **Turns 3-4**: Gradual refinement (max 300 tokens, temp 0.6, fixes specific issues)
+- **Turns 5+**: Complete solution (max 500 tokens, temp 0.3, handles all edge cases)
+- **Result**: Minimum 4-6 turns of collaborative debugging
 
-**3. Data Pipeline**
+**3. Quality Verification** (`verify_conversations.py`)
+- **LLM Judge** (GPT-4o-mini) rates each conversation on:
+  - Persona fidelity (0-5): Does student follow their personality rules?
+  - Tutor alignment (0-3): Does tutor address student feedback?
+  - Dialog progression (0-2): Does conversation flow logically?
+- **Quality Buckets**:
+  - 🥇 Gold (8-10 points): High-quality collaborative debugging
+  - 🥈 Silver (5-7 points): Good quality with minor issues
+  - 🥉 Bronze (0-4 points): Low quality (auto-assigned to 2-turn instant solutions)
+
+**4. Data Pipeline**
 - **Generation**: Parallel processing (5 personalities × 500 problems)
 - **Dataset**: 500 curated medium-high difficulty coding questions
-- **Cleaning**: Remove hallucinations, LLM artifacts, false failures
+- **Verification**: LLM judge scores all conversations
+- **Quality Assignment**: Gold/Silver/Bronze buckets
 - **Storage**: SQLite database with FastAPI backend
 - **Viewing**: React frontend for browsing/filtering conversations
 
@@ -90,50 +118,85 @@ The result: realistic debugging conversations that teach tutors how to handle di
 
 ## Student Personalities
 
-Each personality uses **tone instructions** to guide LLM behavior:
+Each personality provides **specific, actionable feedback** with code element references:
 
-| Personality | Behavior | Example |
-|------------|----------|---------|
-| **CONFUSED_STUDENT** | Lost, asks basic questions | "wait i think you're returning a list but it should be a tuple?" |
-| **IMPATIENT_STUDENT** | Direct, demands quick fixes | "that failed, just fix it please" |
+| Personality | Behavior | Example Feedback |
+|------------|----------|------------------|
+| **CONFUSED_STUDENT** | Lost but specific | "wait i think you forgot the base case??" |
+| **IMPATIENT_STUDENT** | Direct, demanding | "just add the return statement!" |
 | **OVERCONFIDENT_WRONG** | Arrogant, questions tutor | "the error must be minor, maybe the test cases are wrong?" |
-| **SYNTAX_STRUGGLER** | Fixated on syntax errors | "is it a missing colon or bracket?" |
-| **PROGRAMMING_HELPER** | Professional, collaborative | "I see the issue - you used \| instead of & for intersection" |
+| **SYNTAX_STRUGGLER** | Fixated on syntax only | "is it a missing colon or bracket?" |
+| **PROGRAMMING_HELPER** | Expert, provides code fixes | "The function returns wrong type. Here's the fix: return tuple(result)" |
+
+**Key Feature**: 94.8% of student responses contain specific code element references (base case, loop, return, edge case, etc.)
 
 ---
 
-## Effort Control Strategy
+## Progressive Refinement Strategy
 
-### Turn-Based Progression
+### Turn-Based Code Quality Control
 
-The tutor agent adjusts its effort level based on turn count to create natural, progressive conversations:
+The tutor agent **forces incomplete code** in early turns to ensure collaborative debugging:
 
-**Turns 1-2: Initial Attempt**
-- Temperature: 0.7 (more creative/sloppy)
-- Focus: Core logic without overthinking edge cases
-- Result: Natural errors due to incomplete implementation
+**Turns 1-2: INCOMPLETE First Draft (MUST FAIL)**
+- Max tokens: 120 (very strict limit)
+- Temperature: 0.8 (more creative/sloppy)
+- Instructions: "Write 6-8 lines max, ignore edge cases, MUST fail 1-2 tests"
+- Result: Incomplete code that requires student feedback
 
-**Turns 3-4: Refinement**
-- Temperature: 0.5 (more focused)
-- Focus: Address specific issues from student feedback
-- Result: Fixes errors while maintaining correct logic
+**Turns 3-4: Gradual Refinement**
+- Max tokens: 300
+- Temperature: 0.6 (more focused)
+- Instructions: "Fix ONLY the specific issue student mentioned"
+- Result: Addresses feedback but may still have issues
 
 **Turns 5+: Complete Solution**
+- Max tokens: 500
 - Temperature: 0.3 (very careful)
-- Focus: Production-quality code with all edge cases
-- Result: Thorough implementation that passes all tests
+- Instructions: "Handle ALL edge cases, pass all tests"
+- Result: Production-quality code
 
-This creates realistic 4-8 turn conversations where student nudges actually guide the tutor's refinement process.
+**Impact**: Ensures minimum 4-6 turns of genuine collaborative debugging (vs 46% 2-turn instant solutions in old system).
 
 ---
 
-## Bug Injection Types
+## Quality Verification System
+
+### LLM Judge Scoring
+
+After generation, all conversations are rated by GPT-4o-mini on three dimensions:
+
+**1. Persona Fidelity (0-5 points)**
+- Does the student strictly follow their personality rules?
+- Are they using appropriate language and behavior?
+- Special rules per persona (e.g., Programming Helper can be verbose)
+
+**2. Tutor Alignment (0-3 points)**
+- Does the tutor's code address student feedback?
+- Are modifications based on student suggestions?
+- Measures genuine collaboration
+
+**3. Dialog Progression (0-2 points)**
+- Does conversation flow logically?
+- No jumps or stalls?
+- Natural turn-taking
+
+**Quality Buckets** (based on total score 0-10):
+- 🥇 **Gold** (8-10): High-quality collaborative debugging
+- 🥈 **Silver** (5-7): Good quality with minor issues  
+- 🥉 **Bronze** (0-4): Low quality or 2-turn instant solutions (auto-assigned)
+
+**Golden Dataset Results**:
+- 824 Gold (33.0%)
+- 417 Silver (16.7%)
+- 1,254 Bronze (50.3%)
+- **1,241 usable for training** (Gold + Silver = 49.7%)
 
 ---
 
 ## Dataset Generation Pipeline
 
-### 1. Setup & Sanitization
+### 1. Generate Conversations
 ```bash
 python create_dataset.py [start] [end]
 # Example: python create_dataset.py 1 51  (problems 1-50)
@@ -142,110 +205,90 @@ python create_dataset.py [start] [end]
 
 **Dataset**: Uses 500 curated medium-high difficulty coding questions from `benchmarks/coding_questions_500.json`.
 
-### 2. Parallel Generation
-- Loads MBPP benchmark problems
-- Spawns 5 processes (one per personality)
-- Each process generates 100-200 conversations
-- Incremental saves prevent data loss
+**Output**: Saves to `data/strategy1_[DATE]/[personality]_conversations.json`
 
-### 3. Conversation Loop (per problem)
-```
-1. Student asks initial question (personality-based tone)
-2. Tutor provides code with quick initial attempt (temp=0.7)
-3. Execute → Natural errors due to incomplete edge case handling
-4. Student points out issues based on personality
-5. Tutor refines code based on feedback (temp=0.5)
-6. Execute → May still have logic errors
-7. Student identifies remaining issues
-8. Tutor provides complete solution (temp=0.3)
-9. Execute → All tests pass ✅
-10. END
-```
-
-### 4. Post-Processing
+### 2. Verify Quality
 ```bash
-python clean_dataset_v2.py
+python verify_conversations.py
 ```
 
-**Filters:**
-- ✅ Must be solved (all tests pass)
-- ❌ Remove hallucinations (tutor roleplaying as student)
-- 🚑 Rescue false failures (trust test results over flags)
+**Process**:
+- Loads conversations from specified folder
+- Calls GPT-4o-mini judge for each conversation
+- Scores on persona fidelity, tutor alignment, dialog progression
+- Auto-assigns Bronze to 2-turn conversations
+- Saves verified conversations with scores to `verified/` subfolder
 
-**Cleaning:**
-- Remove LLM artifacts (`<|tokens|>`, `<think>` tags)
-- Remove style instructions leaking into output
-- Regenerate UUIDs
+**Output**: 
+- `[personality]_gold.json` (8-10 points)
+- `[personality]_silver.json` (5-7 points)
+- `[personality]_bronze.json` (0-4 points)
+- `verification_summary.json` (statistics)
 
-### 5. Database Migration
+### 3. Assign Quality Buckets
+```bash
+python add_quality_buckets.py
+```
+
+**Process**:
+- Reads verified conversations
+- Adds `quality_bucket` field to each conversation
+- Saves updated conversations to Golden folder
+
+**Output**: `data/strategy1_[DATE]-Golden/` with quality_bucket field
+
+### 4. Migrate to Database
 ```bash
 python backend/database.py
 ```
-Migrates JSON files to SQLite for API access.
 
-### 6. Viewing Data in UI
+Migrates JSON files to SQLite for API access. Imports `quality_bucket` field automatically.
 
-**For new users who want to view existing data:**
-
-The database (`backend/conversations.db`) contains all generated conversations. To view them:
-
+### 5. View in UI
 ```bash
-# Terminal 1: Start backend API
-./start_backend.sh
-# Backend runs on http://localhost:8000
-
-# Terminal 2: Start frontend UI
-./start_frontend.sh
-# Frontend runs on http://localhost:5173
+./start_backend.sh  # Terminal 1
+./start_frontend.sh # Terminal 2
 ```
 
-Open `http://localhost:5173` in your browser to:
-- Browse conversations by date and personality/knowledge level
-- View both Strategy 1 (personality-based) and Strategy 2 (knowledge-level) data
-- Filter by quality (gold/silver/bronze)
-- See execution results and test outcomes
-- Discard low-quality conversations
-
-**Note**: The database already contains pre-generated conversations. You don't need to run the generation pipeline unless you want to create new data.
+Browse conversations at `http://localhost:5173` with quality filters.
 
 ---
 
 ## Key Design Decisions
+
+### Why Force Incomplete Code in Early Turns?
+- **Problem**: 46% of conversations solved in just 2 turns (no collaborative learning)
+- **Solution**: Strict token limits (120) + explicit instructions to ignore edge cases
+- **Result**: Minimum 4-6 turns of genuine debugging where student feedback matters
+
+### Why LLM Judge Verification?
+- **Automated quality control**: Scores 2,495 conversations consistently
+- **Multi-dimensional**: Persona fidelity, tutor responsiveness, dialog flow
+- **Actionable buckets**: Gold/Silver for training, Bronze for filtering
+
+### Why Specific Code Element Feedback?
+- **Vague feedback doesn't help**: "something is wrong" vs "forgot base case"
+- **94.8% actionable**: Students reference specific code elements
+- **Tutor responsiveness**: 94.8% of tutors address the specific feedback
 
 ### Why LangGraph?
 - **State management**: Tracks conversation history, execution results, turn count
 - **Conditional routing**: Decides when to loop or end
 - **Modularity**: Easy to add new agent types or nodes
 
-### Why Turn-Based Effort Control?
-- **Natural errors**: Problems are difficult enough to cause real failures
-- **Controlled progression**: Avoids immediate solve or never solve scenarios
-- **Student influence**: Nudges actually guide the refinement process
-- **Realistic conversations**: 4-8 turns of genuine debugging
-
 ### Why 500 Curated Questions?
-- **Medium-high difficulty**: ~10% success rate on first try
-- **Appropriate challenge**: Forces multiple turns without being impossible
+- **Medium-high difficulty**: Appropriate challenge level
+- **Forces multiple turns**: Not too easy (instant solve) or too hard (never solve)
 - **Quality over quantity**: Curated for educational value
 
 ### Why Separate Student/Tutor Models?
-- **Student**: `qwen-2.5-7b-instruct` (general instruction model for natural language)
+- **Student**: `gpt-4o-mini` (general instruction model for natural language)
 - **Tutor**: `qwen2.5-coder-7b-instruct` (specialized code model)
 
 ### Why Tone Instructions Instead of Templates?
 - More flexible (LLM interprets tone naturally)
 - Avoids repetitive phrasing
 - Random selection adds variety
-
-### Why Aggressive Code Extraction?
-- LLMs leak prompts, explanations, wrapper tags
-- Need pure code for execution
-- Regex-based extraction with multiple fallbacks
-
-### Why Turn-Based Temperature?
-- Higher temp early = more creative/sloppy (natural errors)
-- Lower temp later = more careful (complete solutions)
-- Mimics real debugging progression
 
 ---
 
@@ -255,8 +298,8 @@ Open `http://localhost:5173` in your browser to:
 .
 ├── simulation/
 │   ├── agents/
-│   │   ├── student_agent.py    # 5 personality types with tone instructions
-│   │   └── tutor_agent.py      # Code generation + bug injection
+│   │   ├── student_agent.py    # 5 personalities with specific feedback
+│   │   └── tutor_agent.py      # Progressive refinement (120→300→500 tokens)
 │   └── graph/
 │       ├── graph.py            # LangGraph workflow assembly
 │       ├── nodes.py            # Student/Tutor/Execute node wrappers
@@ -264,18 +307,25 @@ Open `http://localhost:5173` in your browser to:
 │       └── state.py            # Shared state schema
 ├── backend/
 │   ├── main.py                 # FastAPI server
-│   └── database.py             # SQLite models + migration
+│   ├── database.py             # SQLite models + migration
+│   └── conversations.db        # Pre-populated database
 ├── frontend/                   # React UI for browsing conversations
 ├── prompts/                    # System prompts for agents
 ├── benchmarks/
-│   ├── mbpp.jsonl              # Original MBPP dataset (974 problems)
-│   └── coding_questions_500.json  # Curated 500 medium-high difficulty questions
-├── data/                       # Generated conversations (by date)
+│   └── coding_questions_500.json  # Curated 500 problems
+├── data/
+│   ├── strategy1_11_02_2026-Golden/  # Latest dataset (2,495 conversations)
+│   ├── strategy1_05_02_2026-2/       # With LLM judge scores
+│   └── strategy2_04_02_2026/         # Knowledge-level strategy
+├── viz_*.jpg                   # Metrics visualizations
 ├── create_dataset.py           # Main generation script
-├── clean_dataset_v2.py         # Post-processing pipeline
+├── verify_conversations.py     # LLM judge verification
+├── add_quality_buckets.py      # Assign gold/silver/bronze
+├── clean_db_for_golden.py      # Database cleanup utility
 ├── llm_calling.py              # OpenRouter API integration
 ├── run_python.py               # Code execution with pytest
-└── rate_limiter.py             # Thread-safe rate limiting
+├── rate_limiter.py             # Thread-safe rate limiting
+
 
 ```
 
@@ -329,83 +379,19 @@ python backend/database.py
 
 **Note**: The repository includes a pre-populated database. Only run this if you've generated new conversations or want to reload data.
 
-### View Conversations
-```bash
-# Start backend (port 8000)
-./start_backend.sh
 
-# Start frontend (port 5173)
-./start_frontend.sh
-```
 
-# To delete conversations from db : python delete_date_from_db.py “name of the file”
----
-
-## Output Format
-
-Each conversation is stored as JSON:
-
-```json
-{
-  "id": "uuid",
-  "task_id": 19,
-  "personality": "CONFUSED_STUDENT",
-  "problem_text": "Write a function to find duplicate elements...",
-  "test_cases": ["assert check_duplicate([1,2,3]) == False", ...],
-  "conversation": [
-    {
-      "role": "student",
-      "content": "hey can you help with check_duplicate?",
-      "turn": 1
-    },
-    {
-      "role": "tutor",
-      "content": "def check_duplicate(arr):\n    return len(arr) != len(set(arr)",
-      "turn": 2,
-      "execution": {
-        "success": false,
-        "tests_passed": 0,
-        "total_tests": 3,
-        "error_type": "syntax_error",
-        "message": "SyntaxError: invalid syntax"
-      }
-    }
-  ],
-  "solved": true,
-  "tests_passed": 3,
-  "total_tests": 3,
-  "turns": 6
-}
-```
-
----
-
-## API Endpoints
-
-- `GET /api/dates` - List available date folders
-- `GET /api/personalities/{date}` - List personalities for date
-- `GET /api/conversations/{date}/{personality}` - List conversations
-- `GET /api/conversation/{id}` - Get full conversation details
-- `PATCH /api/conversations/{id}/discard` - Toggle discard status
-- `GET /api/stats/{date}/{personality}` - Get statistics
-
----
 
 ## Utilities
 
-- `delete_date_from_db.py` - Remove conversations from database
-  ```bash
-  # Delete specific date folder
-  python delete_date_from_db.py strategy1_05_02_2026-2
-  
-  # Delete ALL data (with confirmation)
-  python delete_date_from_db.py --all
-  ```
-- `start_backend.sh` - Convenience script for backend
-- `start_frontend.sh` - Convenience script for frontend
+**Database Management:**
+```bash
+# Clean database before re-importing Golden dataset
+python clean_db_for_golden.py
+```
+
+**Server Scripts:**
+- `start_backend.sh` - Start FastAPI backend (port 8000)
+- `start_frontend.sh` - Start React frontend (port 5173)
 
 ---
-
-## License
-
-MIT

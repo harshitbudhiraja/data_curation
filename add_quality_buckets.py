@@ -11,10 +11,10 @@ def add_quality_tags(conversations_file, verified_folder):
     """Add quality_bucket to conversations based on verified files."""
     print(f"\n📁 Processing: {conversations_file}")
     
-    # Create backup
-    backup_file = conversations_file.replace('.json', f'_backup_{datetime.now().strftime("%Y%m%d_%H%M%S")}.json')
-    shutil.copy(conversations_file, backup_file)
-    print(f"✅ Backup created: {backup_file}")
+    # Backup disabled - user request
+    # backup_file = conversations_file.replace('.json', f'_backup_{datetime.now().strftime("%Y%m%d_%H%M%S")}.json')
+    # shutil.copy(conversations_file, backup_file)
+    # print(f"✅ Backup created: {backup_file}")
     
     # Load conversations
     with open(conversations_file) as f:
@@ -140,7 +140,6 @@ def main():
     print(f"\n📁 Updated files in: {data_path}")
     for personality in personalities:
         print(f"   - {personality}_conversations.json")
-    print(f"\n💾 Backups created with timestamp")
     print(f"\n✅ Ready to migrate to database!")
     print(f"   Run: python backend/database.py")
 
