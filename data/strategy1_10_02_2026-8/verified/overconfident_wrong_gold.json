@@ -1,0 +1,560 @@
+[
+  {
+    "id": "1081ede0-425b-4d8f-9fdc-86f1f4fa9536",
+    "task_id": 2,
+    "personality": "OVERCONFIDENT_WRONG",
+    "conversation": [
+      {
+        "role": "student",
+        "content": "this looks easy, dude. just need a quick confirmation on my approach for the candidate function. let's get this done!",
+        "turn": 1
+      },
+      {
+        "role": "tutor",
+        "content": "def candidate(grid, k):\n    n = len(grid)\n    result = []\n    for i in range(n):\n        for j in range(n):\n            current = grid[i][j]\n            result.append(current)\n    return result",
+        "turn": 2,
+        "execution": {
+          "turn": 2,
+          "tests_passed": 0,
+          "total_tests": 3,
+          "success": false,
+          "error_type": "test_failure",
+          "message": "0/3 tests passed"
+        }
+      },
+      {
+        "role": "student",
+        "content": "Nah, you're wrong. This code just collects all elements without any logic! Clearly, it should filter based on `k`. Just use:\n\n```python\ndef candidate(grid, k):\n    return [grid[i][j] for i in range(len(grid)) for j in range(len(grid)) if grid[i][j] > k]\n```",
+        "turn": 3
+      },
+      {
+        "role": "tutor",
+        "content": "def candidate(grid, k):\n    min_path = []\n    for i in range(len(grid)):\n        for j in range(len(grid)):\n            path = [grid[i][j]]\n            if len(path) == k:\n                if min_path == [] or path < min_path:\n                    min_path = path\n    return min_path",
+        "turn": 4,
+        "execution": {
+          "turn": 4,
+          "tests_passed": 1,
+          "total_tests": 3,
+          "success": false,
+          "error_type": "test_failure",
+          "message": "1/3 tests passed"
+        }
+      },
+      {
+        "role": "student",
+        "content": "Nah, you're wrong. The code only checks individual elements, not paths. Just add a recursive function to explore all paths. \n\n```python\ndef candidate(grid, k):\n    def find_paths(i, j, path):\n        if len(path) == k:\n            min_path.append(path)\n            return\n        # Add logic to explore down and right\n    min_path = []",
+        "turn": 5
+      },
+      {
+        "role": "tutor",
+        "content": "def candidate(grid, k):\n    def find_paths(i, j, path):\n        if len(path) == k:\n            min_path.append(path)\n            return\n        for di, dj in [(0, 1), (1, 0), (0, -1), (-1, 0)]:\n            ni, nj = i + di, j + dj\n            if 0 <= ni < n and 0 <= nj < n and grid[ni][nj] not in path:\n                find_paths(ni, nj, path + [grid[ni][nj]])\n\n    n = len(grid)\n    min_path = []\n    for i in range(n):\n        for j in range(n):\n            find_paths(i, j, [grid[i][j]])\n\n    min_path.sort()\n    return min_path[0]",
+        "turn": 6,
+        "execution": {
+          "turn": 6,
+          "tests_passed": 1,
+          "total_tests": 3,
+          "success": false,
+          "error_type": "test_failure",
+          "message": "1/3 tests passed"
+        }
+      },
+      {
+        "role": "student",
+        "content": "Nah, you're wrong. This code doesn't handle backtracking properly. Just change the path check to allow revisits. Here's the fix:\n\n```python\ndef candidate(grid, k):\n    def find_paths(i, j, path):\n        if len(path) == k:\n            min_path.append(path)\n            return\n        for di, dj in [(0, 1), (1, 0), (0, -1), (-1, 0)]:\n            ni, nj = i + di, j + dj",
+        "turn": 7
+      },
+      {
+        "role": "tutor",
+        "content": "def candidate(grid, k):\n    def find_paths(i, j, path):\n        if len(path) == k:\n            min_path.append(path)\n            return\n        for di, dj in [(0, 1), (1, 0), (0, -1), (-1, 0)]:\n            ni, nj = i + di, j + dj\n            if 0 <= ni < len(grid) and 0 <= nj < len(grid[0]) and grid[ni][nj] not in path:\n                find_paths(ni, nj, path + [grid[ni][nj]])\n\n    min_path = []\n    for i in range(len(grid)):\n        for j in range(len(grid[0])):\n            find_paths(i, j, [grid[i][j]])\n\n    return min(min_path)",
+        "turn": 8,
+        "execution": {
+          "turn": 8,
+          "tests_passed": 1,
+          "total_tests": 3,
+          "success": false,
+          "error_type": "test_failure",
+          "message": "1/3 tests passed"
+        }
+      },
+      {
+        "role": "student",
+        "content": "Nah, 1/3 tests passed? That's obviously a minor issue. Just change `min(min_path)` to `max(min_path)` for the correct result.",
+        "turn": 9
+      },
+      {
+        "role": "tutor",
+        "content": "def candidate(grid, k):\n    n = len(grid)\n    min_path = []\n    for i in range(n):\n        for j in range(n):\n            path = [(i, j)]\n            visited = set([(i, j)])\n            dfs(grid, i, j, k, path, visited, min_path)\n    return min_path\n\ndef dfs(grid, i, j, k, path, visited, min_path):\n    if len(path) == k:\n        if not min_path or path < min_path:\n            min_path[:] = path\n        return\n    for di, dj in [(0, 1), (0, -1), (1, 0), (-1, 0)]:\n        ni, nj = i + di, j + dj\n        if 0 <= ni < len(grid) and 0 <= nj < len(grid) and (ni, nj) not in visited:\n            visited.add((ni, nj))\n            path.append(grid[ni][nj])\n            dfs(grid, ni, nj, k, path, visited, min_path)\n            path.pop()\n            visited.remove((ni, nj))",
+        "turn": 10,
+        "execution": {
+          "turn": 10,
+          "tests_passed": 0,
+          "total_tests": 3,
+          "success": false,
+          "error_type": "test_failure",
+          "message": "0/3 tests passed"
+        }
+      }
+    ],
+    "solved": false,
+    "turns": 10,
+    "scores": {
+      "persona_fidelity": 5,
+      "tutor_alignment": 3,
+      "dialog_progression": 2,
+      "total_score": 10,
+      "bucket": "gold",
+      "needs_human_review": false,
+      "main_failure": "none"
+    }
+  },
+  {
+    "id": "bc3e352c-1675-48bb-bee2-f9757001efec",
+    "task_id": 4,
+    "personality": "OVERCONFIDENT_WRONG",
+    "conversation": [
+      {
+        "role": "student",
+        "content": "Yo, do you even know how to write a function to re-arrange an array in alternating positive and negative items? This seems pretty basic, dude.",
+        "turn": 1
+      },
+      {
+        "role": "tutor",
+        "content": "def re_arrange(arr, n):\n    pos, neg = [], []\n    for i in range(n):\n        if arr[i] < 0:\n            neg.append(arr[i])\n        else:\n            pos.append(arr[i])\n    return neg + pos",
+        "turn": 2,
+        "execution": {
+          "turn": 2,
+          "tests_passed": 0,
+          "total_tests": 3,
+          "success": false,
+          "error_type": "test_failure",
+          "message": "0/3 tests passed"
+        }
+      },
+      {
+        "role": "student",
+        "content": "Nah, you're wrong. The code doesn't maintain the order of positive and negative numbers. Just use a single loop with a flag to alternate. Check this out:\n\n```python\ndef re_arrange(arr, n):\n    result = []\n    pos, neg = [], []\n    for i in range(n):\n        if arr[i] < 0:\n            neg.append(arr[i])\n        else:",
+        "turn": 3
+      },
+      {
+        "role": "tutor",
+        "content": "def re_arrange(arr, n):\n    result = []\n    pos, neg = [], []\n    for i in range(n):\n        if arr[i] < 0:\n            neg.append(arr[i])\n        else:\n            pos.append(arr[i])\n    i, j = 0, 0\n    while i < len(pos) and j < len(neg):\n        result.append(neg[j])\n        result.append(pos[i])\n        i += 1\n        j += 1\n    while i < len(pos):\n        result.append(pos[i])\n        i += 1\n    while j < len(neg):\n        result.append(neg[j])\n        j += 1\n    return result",
+        "turn": 4,
+        "execution": {
+          "turn": 4,
+          "tests_passed": 3,
+          "total_tests": 3,
+          "success": true,
+          "error_type": null,
+          "message": "All tests passed"
+        }
+      }
+    ],
+    "solved": true,
+    "turns": 4,
+    "scores": {
+      "persona_fidelity": 5,
+      "tutor_alignment": 3,
+      "dialog_progression": 2,
+      "total_score": 10,
+      "bucket": "gold",
+      "needs_human_review": false,
+      "main_failure": "none"
+    }
+  },
+  {
+    "id": "8ee5b8c0-6da3-4030-a46b-abd06aa75959",
+    "task_id": 5,
+    "personality": "OVERCONFIDENT_WRONG",
+    "conversation": [
+      {
+        "role": "student",
+        "content": "Hey, do you even know how to write a heap sort function? This should be easy, right?",
+        "turn": 1
+      },
+      {
+        "role": "tutor",
+        "content": "def heap_sort(arr):\n    def heapify(arr, n, i):\n        largest = i\n        left = 2 * i + 1\n        right = 2 * i + 2",
+        "turn": 2,
+        "execution": {
+          "turn": 2,
+          "tests_passed": 0,
+          "total_tests": 3,
+          "success": false,
+          "error_type": "test_failure",
+          "message": "0/3 tests passed"
+        }
+      },
+      {
+        "role": "student",
+        "content": "Nah, you're wrong. The heapify function is incomplete! Just add the swapping logic and call it properly. Check this:\n\n```python\ndef heap_sort(arr):\n    def heapify(arr, n, i):\n        largest = i\n        left = 2 * i + 1\n        right = 2 * i + 2\n        if left < n and arr[left] > arr[largest]:\n            largest = left",
+        "turn": 3
+      },
+      {
+        "role": "tutor",
+        "content": "def heap_sort(arr):\n    def heapify(arr, n, i):\n        largest = i\n        left = 2 * i + 1\n        right = 2 * i + 2\n        if left < n and arr[left] > arr[largest]:\n            largest = left\n        if right < n and arr[right] > arr[largest]:\n            largest = right\n        if largest != i:\n            arr[i], arr[largest] = arr[largest], arr[i]\n            heapify(arr, n, largest)\n\n    n = len(arr)\n    for i in range(n // 2 - 1, -1, -1):\n        heapify(arr, n, i)\n    for i in range(n - 1, 0, -1):\n        arr[i], arr[0] = arr[0], arr[i]\n        heapify(arr, i, 0)\n    return arr",
+        "turn": 4,
+        "execution": {
+          "turn": 4,
+          "tests_passed": 3,
+          "total_tests": 3,
+          "success": true,
+          "error_type": null,
+          "message": "All tests passed"
+        }
+      }
+    ],
+    "solved": true,
+    "turns": 4,
+    "scores": {
+      "persona_fidelity": 5,
+      "tutor_alignment": 3,
+      "dialog_progression": 2,
+      "total_score": 10,
+      "bucket": "gold",
+      "needs_human_review": false,
+      "main_failure": "none"
+    }
+  },
+  {
+    "id": "0c805707-a9d4-48c3-ada0-6a2cb62669e7",
+    "task_id": 7,
+    "personality": "OVERCONFIDENT_WRONG",
+    "conversation": [
+      {
+        "role": "student",
+        "content": "This looks easy, dude. Just need a quick confirmation on how to print all permutations of a string with duplicates.",
+        "turn": 1
+      },
+      {
+        "role": "tutor",
+        "content": "def permute_string(s):\n    return [''.join(p) for p in itertools.permutations(s)]",
+        "turn": 2,
+        "execution": {
+          "turn": 2,
+          "tests_passed": 0,
+          "total_tests": 3,
+          "success": false,
+          "error_type": "test_failure",
+          "message": "0/3 tests passed"
+        }
+      },
+      {
+        "role": "student",
+        "content": "Nah, you're wrong. The issue is probably with not importing `itertools`. Just add `import itertools` at the top. Here's the fixed code:\n\n```python\nimport itertools\n\ndef permute_string(s):\n    return [''.join(p) for p in itertools.permutations(s)]\n```",
+        "turn": 3
+      },
+      {
+        "role": "tutor",
+        "content": "import itertools\n\ndef permute_string(s):\n    return [''.join(p) for p in itertools.permutations(s)]",
+        "turn": 4,
+        "execution": {
+          "turn": 4,
+          "tests_passed": 1,
+          "total_tests": 3,
+          "success": false,
+          "error_type": "test_failure",
+          "message": "1/3 tests passed"
+        }
+      },
+      {
+        "role": "student",
+        "content": "Nah, you're wrong. It obviously doesn't handle duplicates. Just use a set to filter them out. \n\n```python\ndef permute_string(s):\n    return list(set([''.join(p) for p in itertools.permutations(s)]))\n```",
+        "turn": 5
+      },
+      {
+        "role": "tutor",
+        "content": "def permute_string(s):\n    permutations = set()\n    def backtrack(prefix, remaining):\n        if not remaining:\n            permutations.add(prefix)\n        else:\n            for i in range(len(remaining)):\n                backtrack(prefix + remaining[i], remaining[:i] + remaining[i+1:])\n    backtrack('', s)\n    return list(permutations)",
+        "turn": 6,
+        "execution": {
+          "turn": 6,
+          "tests_passed": 0,
+          "total_tests": 3,
+          "success": false,
+          "error_type": "test_failure",
+          "message": "0/3 tests passed"
+        }
+      },
+      {
+        "role": "student",
+        "content": "Nah, you're wrong. The code's not generating duplicates properly. Just use a list instead of a set for permutations. Here's the fix:\n\n```python\ndef permute_string(s):\n    permutations = []\n    def backtrack(prefix, remaining):\n        if not remaining:\n            permutations.append(prefix)\n        else:\n            for i in range(len(remaining)):",
+        "turn": 7
+      },
+      {
+        "role": "tutor",
+        "content": "def permute_string(s):\n    permutations = []\n    def backtrack(prefix, remaining):\n        if not remaining:\n            permutations.append(prefix)\n        else:\n            for i in range(len(remaining)):\n                backtrack(prefix + remaining[i], remaining[:i] + remaining[i+1:])\n    backtrack('', s)\n    return permutations",
+        "turn": 8,
+        "execution": {
+          "turn": 8,
+          "tests_passed": 1,
+          "total_tests": 3,
+          "success": false,
+          "error_type": "test_failure",
+          "message": "1/3 tests passed"
+        }
+      },
+      {
+        "role": "student",
+        "content": "Nah, you're wrong. The test cases are obviously flawed. Just use a set to avoid duplicates:\n\n```python\ndef permute_string(s):\n    return list(set(permutations(s)))\n```",
+        "turn": 9
+      },
+      {
+        "role": "tutor",
+        "content": "from itertools import permutations\n\ndef permute_string(s):\n    return [''.join(p) for p in set(permutations(s))]",
+        "turn": 10,
+        "execution": {
+          "turn": 10,
+          "tests_passed": 1,
+          "total_tests": 3,
+          "success": false,
+          "error_type": "test_failure",
+          "message": "1/3 tests passed"
+        }
+      }
+    ],
+    "solved": false,
+    "turns": 10,
+    "scores": {
+      "persona_fidelity": 5,
+      "tutor_alignment": 3,
+      "dialog_progression": 2,
+      "total_score": 10,
+      "bucket": "gold",
+      "needs_human_review": false,
+      "main_failure": "none"
+    }
+  },
+  {
+    "id": "5c17c440-009f-4166-943e-94311b06e5f9",
+    "task_id": 8,
+    "personality": "OVERCONFIDENT_WRONG",
+    "conversation": [
+      {
+        "role": "student",
+        "content": "Yo, this looks easy, dude. Just need a quick check on writing a function to find common divisors between two numbers. Confirm my approach?",
+        "turn": 1
+      },
+      {
+        "role": "tutor",
+        "content": "def num_comm_div(num1, num2):\n    divisors = []\n    for i in range(1, min(num1, num2) + 1):\n        if num1 % i == 0 and num2 % i == 0:\n            divisors.append(i)\n    return divisors",
+        "turn": 2,
+        "execution": {
+          "turn": 2,
+          "tests_passed": 0,
+          "total_tests": 3,
+          "success": false,
+          "error_type": "test_failure",
+          "message": "0/3 tests passed"
+        }
+      },
+      {
+        "role": "student",
+        "content": "Nah, you're wrong! This function just returns divisors, not the count. Just return `len(divisors)` instead. Here's the fix:\n\n```python\ndef num_comm_div(num1, num2):\n    divisors = []\n    for i in range(1, min(num1, num2) + 1):\n        if num1 % i == 0 and num2 % i == 0:\n            divisors.append(i)\n    return len(divisors)\n```",
+        "turn": 3
+      },
+      {
+        "role": "tutor",
+        "content": "def num_comm_div(num1, num2):\n    divisors = []\n    for i in range(1, min(num1, num2) + 1):\n        if num1 % i == 0 and num2 % i == 0:\n            divisors.append(i)\n    return len(divisors)",
+        "turn": 4,
+        "execution": {
+          "turn": 4,
+          "tests_passed": 3,
+          "total_tests": 3,
+          "success": true,
+          "error_type": null,
+          "message": "All tests passed"
+        }
+      }
+    ],
+    "solved": true,
+    "turns": 4,
+    "scores": {
+      "persona_fidelity": 5,
+      "tutor_alignment": 3,
+      "dialog_progression": 2,
+      "total_score": 10,
+      "bucket": "gold",
+      "needs_human_review": false,
+      "main_failure": "none"
+    }
+  },
+  {
+    "id": "21da4180-79eb-42ed-89e1-375753eb71c3",
+    "task_id": 9,
+    "personality": "OVERCONFIDENT_WRONG",
+    "conversation": [
+      {
+        "role": "student",
+        "content": "Yo, this permutation coefficient thing is easy. Bet I can solve it faster than you! Just give me your take on it.",
+        "turn": 1
+      },
+      {
+        "role": "tutor",
+        "content": "def permutation_coefficient(n, k):\n    if k == 0:\n        return 1\n    return n * permutation_coefficient(n-1, k-1)",
+        "turn": 2,
+        "execution": {
+          "turn": 2,
+          "tests_passed": 3,
+          "total_tests": 3,
+          "success": true,
+          "error_type": null,
+          "message": "All tests passed"
+        }
+      }
+    ],
+    "solved": true,
+    "turns": 2,
+    "scores": {
+      "persona_fidelity": 5,
+      "tutor_alignment": 3,
+      "dialog_progression": 2,
+      "total_score": 10,
+      "bucket": "gold",
+      "needs_human_review": false,
+      "main_failure": "none"
+    }
+  },
+  {
+    "id": "fe08dafe-341f-4845-8ac6-693a65fc384b",
+    "task_id": 10,
+    "personality": "OVERCONFIDENT_WRONG",
+    "conversation": [
+      {
+        "role": "student",
+        "content": "This looks easy, dude. Just need a quick confirmation on how to count element frequency in a mixed nested tuple.",
+        "turn": 1
+      },
+      {
+        "role": "tutor",
+        "content": "def count_element_freq(t):\n    freq = {}\n    for item in t:\n        if isinstance(item, tuple):\n            for sub_item in item:\n                freq[sub_item] = freq.get(sub_item, 0) + 1\n        else:\n            freq[item] = freq.get(item, 0) + 1\n    return freq",
+        "turn": 2,
+        "execution": {
+          "turn": 2,
+          "tests_passed": 3,
+          "total_tests": 3,
+          "success": true,
+          "error_type": null,
+          "message": "All tests passed"
+        }
+      }
+    ],
+    "solved": true,
+    "turns": 2,
+    "scores": {
+      "persona_fidelity": 5,
+      "tutor_alignment": 3,
+      "dialog_progression": 2,
+      "total_score": 10,
+      "bucket": "gold",
+      "needs_human_review": false,
+      "main_failure": "none"
+    }
+  },
+  {
+    "id": "490b7879-a58a-4cac-8982-1a448123f460",
+    "task_id": 11,
+    "personality": "OVERCONFIDENT_WRONG",
+    "conversation": [
+      {
+        "role": "student",
+        "content": "Yo, this tree height thing looks easy, bet I can solve it faster than you. What's your take on it?",
+        "turn": 1
+      },
+      {
+        "role": "tutor",
+        "content": "def max_height(root):\n    if root is None:\n        return 0\n    left_height = max_height(root.left)\n    right_height = max_height(root.right)\n    return max(left_height, right_height) + 1",
+        "turn": 2,
+        "execution": {
+          "turn": 2,
+          "tests_passed": 0,
+          "total_tests": 3,
+          "success": false,
+          "error_type": "test_failure",
+          "message": "0/3 tests passed"
+        }
+      },
+      {
+        "role": "student",
+        "content": "Nah, you're wrong. The base case should return -1 instead of 0. Just use this:\n\n```python\ndef max_height(root):\n    if root is None:\n        return -1\n    left_height = max_height(root.left)\n    right_height = max_height(root.right)\n    return max(left_height, right_height) + 1\n```",
+        "turn": 3
+      },
+      {
+        "role": "tutor",
+        "content": "def max_height(root):\n    if root is None:\n        return -1\n    left_height = max_height(root.left)\n    right_height = max_height(root.right)\n    return max(left_height, right_height) + 1",
+        "turn": 4,
+        "execution": {
+          "turn": 4,
+          "tests_passed": 0,
+          "total_tests": 3,
+          "success": false,
+          "error_type": "test_failure",
+          "message": "0/3 tests passed"
+        }
+      },
+      {
+        "role": "student",
+        "content": "Nah, you're wrong. The base case should return 0, not -1. Just change it:\n\n```python\ndef max_height(root):\n    if root is None:\n        return 0\n```",
+        "turn": 5
+      },
+      {
+        "role": "tutor",
+        "content": "def max_height(root):\n    if root is None:\n        return 0\n    else:\n        left_height = max_height(root.left)\n        right_height = max_height(root.right)\n        return max(left_height, right_height) + 1",
+        "turn": 6,
+        "execution": {
+          "turn": 6,
+          "tests_passed": 0,
+          "total_tests": 3,
+          "success": false,
+          "error_type": "test_failure",
+          "message": "0/3 tests passed"
+        }
+      },
+      {
+        "role": "student",
+        "content": "Nah, you're wrong. The test cases are obviously broken if 0/3 passed. Just check if root.left and root.right are None too. \n\n```python\ndef max_height(root):\n    if root is None:\n        return 0\n    return max(max_height(root.left), max_height(root.right)) + 1\n```",
+        "turn": 7
+      },
+      {
+        "role": "tutor",
+        "content": "def max_height(root):\n    if root is None:\n        return 0\n    if root.left is None and root.right is None:\n        return 1\n    return max(max_height(root.left), max_height(root.right)) + 1",
+        "turn": 8,
+        "execution": {
+          "turn": 8,
+          "tests_passed": 0,
+          "total_tests": 3,
+          "success": false,
+          "error_type": "test_failure",
+          "message": "0/3 tests passed"
+        }
+      },
+      {
+        "role": "student",
+        "content": "Nah, you're wrong! The function doesn't handle `None` correctly. Just return `-1` instead of `0` when `root` is `None`. \n\n```python\ndef max_height(root):\n    if root is None:\n        return -1\n    if root.left is None and root.right is None:\n        return 1\n    return max(max_height(root.left), max_height(root.right)) + 1\n```",
+        "turn": 9
+      },
+      {
+        "role": "tutor",
+        "content": "def max_height(root):\n    if root is None:\n        return -1\n    if root.left is None and root.right is None:\n        return 1\n    return max(max_height(root.left), max_height(root.right)) + 1",
+        "turn": 10,
+        "execution": {
+          "turn": 10,
+          "tests_passed": 0,
+          "total_tests": 3,
+          "success": false,
+          "error_type": "test_failure",
+          "message": "0/3 tests passed"
+        }
+      }
+    ],
+    "solved": false,
+    "turns": 10,
+    "scores": {
+      "persona_fidelity": 5,
+      "tutor_alignment": 3,
+      "dialog_progression": 2,
+      "total_score": 10,
+      "bucket": "gold",
+      "needs_human_review": false,
+      "main_failure": "none"
+    }
+  }
+]

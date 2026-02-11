@@ -8,7 +8,7 @@ load_dotenv()
 
 API_KEY = os.getenv("OPENROUTER_API_KEY")
 MODEL = "openai/gpt-4o-mini"
-INPUT_DIR = "data/strategy1_10_02_2026-7"
+INPUT_DIR = "data/strategy1_10_02_2026-9"
 OUTPUT_DIR = f"{INPUT_DIR}/verified"
 
 os.makedirs(OUTPUT_DIR, exist_ok=True)

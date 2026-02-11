@@ -1,0 +1,110 @@
+[
+  {
+    "id": "53bb237d-7ee2-41ef-8726-ab3258650102",
+    "task_id": 8,
+    "personality": "PROGRAMMING_HELPER",
+    "conversation": [
+      {
+        "role": "student",
+        "content": "Need help with implementation for `num_comm_div` function to find common divisors of two numbers.",
+        "turn": 1
+      },
+      {
+        "role": "tutor",
+        "content": "def num_comm_div(a, b):\n    # Initialize the count of common divisors\n    count = 0\n\n    # Iterate from 1 to the minimum of a and b\n    for i in range(1, min(a, b) + 1):\n        # Check if both a and b are divisible by i\n        if a % i == 0 and b % i == 0:\n            count += 1\n\n    # Return the count of common divisors\n    return count",
+        "turn": 2,
+        "execution": {
+          "turn": 2,
+          "tests_passed": 3,
+          "total_tests": 3,
+          "success": true,
+          "error_type": null,
+          "message": "All tests passed"
+        }
+      }
+    ],
+    "solved": true,
+    "turns": 2,
+    "scores": {
+      "persona_fidelity": 5,
+      "tutor_alignment": 3,
+      "dialog_progression": 2,
+      "total_score": 10,
+      "bucket": "gold",
+      "needs_human_review": false,
+      "main_failure": "none"
+    }
+  },
+  {
+    "id": "937fbd04-cf9b-46f0-964c-a68f336c730c",
+    "task_id": 9,
+    "personality": "PROGRAMMING_HELPER",
+    "conversation": [
+      {
+        "role": "student",
+        "content": "Need help with implementation for calculating permutation coefficient p(n, k). What's the best approach?",
+        "turn": 1
+      },
+      {
+        "role": "tutor",
+        "content": "def permutation_coefficient(n, k):\n    result = 1\n    for i in range(k):\n        result *= (n - i)\n    return result",
+        "turn": 2,
+        "execution": {
+          "turn": 2,
+          "tests_passed": 3,
+          "total_tests": 3,
+          "success": true,
+          "error_type": null,
+          "message": "All tests passed"
+        }
+      }
+    ],
+    "solved": true,
+    "turns": 2,
+    "scores": {
+      "persona_fidelity": 5,
+      "tutor_alignment": 3,
+      "dialog_progression": 2,
+      "total_score": 10,
+      "bucket": "gold",
+      "needs_human_review": false,
+      "main_failure": "none"
+    }
+  },
+  {
+    "id": "69df47cb-2d2f-43bd-9d7d-ad2331776033",
+    "task_id": 10,
+    "personality": "PROGRAMMING_HELPER",
+    "conversation": [
+      {
+        "role": "student",
+        "content": "need help with count_element_freq function - how to count frequencies in nested tuples?",
+        "turn": 1
+      },
+      {
+        "role": "tutor",
+        "content": "def count_element_freq(tup):\n    freq_dict = {}\n    for elem in tup:\n        if isinstance(elem, tuple):\n            for sub_elem in elem:\n                freq_dict[sub_elem] = freq_dict.get(sub_elem, 0) + 1\n        else:\n            freq_dict[elem] = freq_dict.get(elem, 0) + 1\n    return freq_dict",
+        "turn": 2,
+        "execution": {
+          "turn": 2,
+          "tests_passed": 3,
+          "total_tests": 3,
+          "success": true,
+          "error_type": null,
+          "message": "All tests passed"
+        }
+      }
+    ],
+    "solved": true,
+    "turns": 2,
+    "scores": {
+      "persona_fidelity": 5,
+      "tutor_alignment": 3,
+      "dialog_progression": 2,
+      "total_score": 10,
+      "bucket": "gold",
+      "needs_human_review": false,
+      "main_failure": "none"
+    }
+  }
+]

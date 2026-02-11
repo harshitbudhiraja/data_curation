@@ -76,6 +76,9 @@ def tutor_node(state: AgentState) -> dict:
     
     function_name = extract_function_name(state["test_cases"])
     
+    # Get student personality to adjust tutor's coding style
+    student_personality = state.get("personality", "CONFUSED_STUDENT")
+    
     # Generate tutor response (should be pure code)
     response = agent.generate_response(
         conversation_history=state["messages"],
@@ -83,7 +86,8 @@ def tutor_node(state: AgentState) -> dict:
         function_name=function_name,
         test_cases=state["test_cases"],
         turn_count=state["turn_count"],
-        execution_result=state.get("execution_result")
+        execution_result=state.get("execution_result"),
+        student_personality=student_personality
     )
     
     # Create message

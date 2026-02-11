@@ -134,7 +134,7 @@ class TutorAgent:
         self.model_name = model_name
         self.system_prompt = load_tutor_prompt()
     
-    def generate_response(self, conversation_history: list, problem: str = None, function_name: str = None, test_cases: list = None, turn_count: int = 0, execution_result: dict = None) -> str:
+    def generate_response(self, conversation_history: list, problem: str = None, function_name: str = None, test_cases: list = None, turn_count: int = 0, execution_result: dict = None, student_personality: str = None) -> str:
         """Generate tutor's response with code solution.
         
         Args:
@@ -144,12 +144,34 @@ class TutorAgent:
             test_cases: Test cases the code must pass
             turn_count: Current turn number (to adjust effort level)
             execution_result: Previous execution result if any
+            student_personality: Student's personality to adjust coding style
         
         Returns:
             Tutor's response as Python code
         """
         # Get effort level instruction and temperature based on turn count
         effort_instruction, temperature = get_effort_level_prompt(turn_count)
+        
+        # Adjust for SYNTAX_STRUGGLER: write code more carelessly to naturally produce syntax errors
+        if student_personality == "SYNTAX_STRUGGLER":
+            if turn_count <= 3:
+                # Early turns: Write quickly without checking syntax carefully
+                effort_instruction = """Write code QUICKLY without overthinking syntax.
+Focus on the core logic but don't worry about perfect syntax (colons, indentation, brackets).
+Write like you're in a hurry - syntax mistakes are natural and expected.
+Keep it SHORT (under 10 lines)."""
+                temperature = 0.85  # Higher temp = more mistakes
+            elif turn_count <= 5:
+                # Middle turns: Fix syntax issues but logic might still be off
+                effort_instruction = """Fix the syntax errors mentioned by the student.
+Check colons, brackets, and indentation carefully.
+The logic might still need work but focus on clean syntax first."""
+                temperature = 0.6
+            else:
+                # Later turns: Both syntax and logic should be correct
+                effort_instruction = """Write clean, syntactically correct code with proper logic.
+Handle all edge cases and ensure all tests pass."""
+                temperature = 0.3
         
         # Build execution feedback if available
         feedback = ""

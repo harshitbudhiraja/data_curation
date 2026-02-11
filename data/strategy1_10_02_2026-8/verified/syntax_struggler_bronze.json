@@ -1,0 +1,128 @@
+[
+  {
+    "id": "7f0691fb-56d7-493b-9fd3-20321603e76d",
+    "task_id": 4,
+    "personality": "SYNTAX_STRUGGLER",
+    "conversation": [
+      {
+        "role": "student",
+        "content": "help with this?? need to write a function `re_arrange`, but python indentation is confusing! any tips?",
+        "turn": 1
+      },
+      {
+        "role": "tutor",
+        "content": "def re_arrange(arr):\n    for i in range(1, len(arr), 2):\n        arr[i], arr[i-1] = arr[i-1], arr[i]\n    return arr",
+        "turn": 2,
+        "execution": {
+          "turn": 2,
+          "tests_passed": 0,
+          "total_tests": 3,
+          "success": false,
+          "error_type": "test_failure",
+          "message": "0/3 tests passed"
+        }
+      },
+      {
+        "role": "student",
+        "content": "is there a missing colon? or maybe an indentation issue? also, should it be `for (int i=1; i<len(arr); i+=2)`?",
+        "turn": 3
+      },
+      {
+        "role": "tutor",
+        "content": "def re_arrange(arr, n):\n    positives = []\n    negatives = []\n    \n    for i in range(n):\n        if arr[i] >= 0:\n            positives.append(arr[i])\n        else:\n            negatives.append(arr[i])\n    \n    result = []\n    \n    for i in range(min(len(positives), len(negatives))):\n        result.append(negatives[i])\n        result.append(positives[i])\n    \n    if len(positives) > len(negatives):\n        result.extend(positives[len(negatives):])\n    elif len(negatives) > len(positives):\n        result.extend(negatives[len(positives):])\n    \n    return result",
+        "turn": 4,
+        "execution": {
+          "turn": 4,
+          "tests_passed": 3,
+          "total_tests": 3,
+          "success": true,
+          "error_type": null,
+          "message": "All tests passed"
+        }
+      }
+    ],
+    "solved": true,
+    "turns": 4,
+    "scores": {
+      "persona_fidelity": 3,
+      "tutor_alignment": 0,
+      "dialog_progression": 1,
+      "total_score": 4,
+      "bucket": "bronze",
+      "needs_human_review": false,
+      "main_failure": "tutor_misaligned"
+    }
+  },
+  {
+    "id": "9a31b94d-5875-4cd2-9631-871b41d320f8",
+    "task_id": 9,
+    "personality": "SYNTAX_STRUGGLER",
+    "conversation": [
+      {
+        "role": "student",
+        "content": "need help writing a function for permutation_coefficient?? python indentation is confusing! any tips on syntax?",
+        "turn": 1
+      },
+      {
+        "role": "tutor",
+        "content": "def permutation_coefficient(n, k):\n    return factorial(n) // factorial(n-k)",
+        "turn": 2,
+        "execution": {
+          "turn": 2,
+          "tests_passed": 0,
+          "total_tests": 3,
+          "success": false,
+          "error_type": "test_failure",
+          "message": "0/3 tests passed"
+        }
+      },
+      {
+        "role": "student",
+        "content": "is there a missing import statement for `factorial`? also, check for indentation?",
+        "turn": 3
+      },
+      {
+        "role": "tutor",
+        "content": "def permutation_coefficient(n, k):\n    return factorial(n) // factorial(n-k)",
+        "turn": 4,
+        "execution": {
+          "turn": 4,
+          "tests_passed": 0,
+          "total_tests": 3,
+          "success": false,
+          "error_type": "test_failure",
+          "message": "0/3 tests passed"
+        }
+      },
+      {
+        "role": "student",
+        "content": "is it a missing colon?? or maybe a bracket issue? check the indentation too!",
+        "turn": 5
+      },
+      {
+        "role": "tutor",
+        "content": "def permutation_coefficient(n, k):\n    if k > n:\n        return 0\n    result = 1\n    for i in range(n, n - k, -1):\n        result *= i\n    return result",
+        "turn": 6,
+        "execution": {
+          "turn": 6,
+          "tests_passed": 3,
+          "total_tests": 3,
+          "success": true,
+          "error_type": null,
+          "message": "All tests passed"
+        }
+      }
+    ],
+    "solved": true,
+    "turns": 6,
+    "scores": {
+      "persona_fidelity": 3,
+      "tutor_alignment": 0,
+      "dialog_progression": 1,
+      "total_score": 4,
+      "bucket": "bronze",
+      "needs_human_review": false,
+      "main_failure": "tutor_misaligned"
+    }
+  }
+]

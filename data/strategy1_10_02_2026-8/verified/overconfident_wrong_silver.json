@@ -1,0 +1,218 @@
+[
+  {
+    "id": "c16e7b04-6e20-46a3-a2fb-8b85b7fdbd89",
+    "task_id": 3,
+    "personality": "OVERCONFIDENT_WRONG",
+    "conversation": [
+      {
+        "role": "student",
+        "content": "Yo, this is super easy. Bet I can write `is_tree_balanced` faster than you. What's your take on it?",
+        "turn": 1
+      },
+      {
+        "role": "tutor",
+        "content": "def is_tree_balanced(root):\n    def height(node):\n        if not node:\n            return 0\n        return max(height(node.left), height(node.right)) + 1",
+        "turn": 2,
+        "execution": {
+          "turn": 2,
+          "tests_passed": 0,
+          "total_tests": 3,
+          "success": false,
+          "error_type": "test_failure",
+          "message": "0/3 tests passed"
+        }
+      },
+      {
+        "role": "student",
+        "content": "Nah, you're wrong. This function just calculates height, not balance. Just add a balance check like this:\n\n```python\ndef is_tree_balanced(root):\n    def height(node):\n        if not node:\n            return 0\n        left_height = height(node.left)\n        right_height = height(node.right)\n        if abs(left_height - right_height) > 1:",
+        "turn": 3
+      },
+      {
+        "role": "tutor",
+        "content": "def is_tree_balanced(root):\n    def height(node):\n        if not node:\n            return 0\n        left_height = height(node.left)\n        right_height = height(node.right)\n        if abs(left_height - right_height) > 1:\n            return -1\n        return 1 + max(left_height, right_height)\n\n    return height(root) != -1",
+        "turn": 4,
+        "execution": {
+          "turn": 4,
+          "tests_passed": 0,
+          "total_tests": 3,
+          "success": false,
+          "error_type": "test_failure",
+          "message": "0/3 tests passed"
+        }
+      },
+      {
+        "role": "student",
+        "content": "Nah, you're wrong. The height calculation is off. Just return `max(left_height, right_height)` instead of `1 + max(...)`.",
+        "turn": 5
+      },
+      {
+        "role": "tutor",
+        "content": "def is_tree_balanced(root):\n    def get_height(node):\n        if not node:\n            return 0\n        return max(get_height(node.left), get_height(node.right)) + 1\n\n    def is_balanced(node):\n        if not node:\n            return True\n        left_height = get_height(node.left)\n        right_height = get_height(node.right)\n        if abs(left_height - right_height) > 1:\n            return False\n        return is_balanced(node.left) and is_balanced(node.right)\n\n    return is_balanced(root)",
+        "turn": 6,
+        "execution": {
+          "turn": 6,
+          "tests_passed": 0,
+          "total_tests": 3,
+          "success": false,
+          "error_type": "test_failure",
+          "message": "0/3 tests passed"
+        }
+      },
+      {
+        "role": "student",
+        "content": "Nah, you're wrong. The height calculation is off. Just add a height check in `is_balanced` instead of calling `get_height` twice. \n\n```python\ndef is_balanced(node):\n    if not node:\n        return True\n    left_height = get_height(node.left)\n    right_height = get_height(node.right)\n    if abs(left_height - right_height) > 1:\n        return False",
+        "turn": 7
+      },
+      {
+        "role": "tutor",
+        "content": "def is_tree_balanced(root):\n    def get_height(node):\n        if not node:\n            return 0\n        return 1 + max(get_height(node.left), get_height(node.right))",
+        "turn": 8,
+        "execution": {
+          "turn": 8,
+          "tests_passed": 0,
+          "total_tests": 3,
+          "success": false,
+          "error_type": "test_failure",
+          "message": "0/3 tests passed"
+        }
+      },
+      {
+        "role": "student",
+        "content": "Nah, you're wrong. This function doesn't check for balance at all. Just add a balance check like this:\n\n```python\ndef is_tree_balanced(root):\n    def get_height(node):\n        if not node:\n            return 0\n        left_height = get_height(node.left)\n        right_height = get_height(node.right)\n        if abs(left_height - right_height) > 1:",
+        "turn": 9
+      },
+      {
+        "role": "tutor",
+        "content": "def is_tree_balanced(root):\n    def get_height(node):\n        if not node:\n            return 0\n        left_height = get_height(node.left)\n        right_height = get_height(node.right)\n        if abs(left_height - right_height) > 1:\n            return -1\n        return max(left_height, right_height) + 1",
+        "turn": 10,
+        "execution": {
+          "turn": 10,
+          "tests_passed": 0,
+          "total_tests": 3,
+          "success": false,
+          "error_type": "test_failure",
+          "message": "0/3 tests passed"
+        }
+      }
+    ],
+    "solved": false,
+    "turns": 10,
+    "scores": {
+      "persona_fidelity": 5,
+      "tutor_alignment": 0,
+      "dialog_progression": 2,
+      "total_score": 7,
+      "bucket": "silver",
+      "needs_human_review": false,
+      "main_failure": "tutor_misaligned"
+    }
+  },
+  {
+    "id": "3b1740a4-2754-483d-8483-4e6d212db94e",
+    "task_id": 6,
+    "personality": "OVERCONFIDENT_WRONG",
+    "conversation": [
+      {
+        "role": "student",
+        "content": "This looks easy, dude. Just need to check if the number is a product of 3 primes. Can you confirm my approach?",
+        "turn": 1
+      },
+      {
+        "role": "tutor",
+        "content": "def candidate(n):\n    primes = [2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43, 47, 53, 59, 61, 67, 71, 73, 79, 83, 89, 97]\n    prime_factors = []\n    for prime in primes:\n        while n % prime == 0:\n            prime_factors.append(prime)\n            n = n // prime\n    return len(prime_factors) == 3 and all(pr",
+        "turn": 2,
+        "execution": {
+          "turn": 2,
+          "tests_passed": 0,
+          "total_tests": 3,
+          "success": false,
+          "error_type": "test_failure",
+          "message": "0/3 tests passed"
+        }
+      },
+      {
+        "role": "student",
+        "content": "Nah, dude, obviously the logic is off. Just check if `n` is a prime itself. Here's a fix:\n\n```python\ndef candidate(n):\n    primes = [2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43, 47, 53, 59, 61, 67, 71, 73, 79, 83, 89, 97]\n    prime_factors = []\n    for prime in primes:\n        while n % prime == 0:\n            prime_factors.append(prime)\n            n = n // prime",
+        "turn": 3
+      },
+      {
+        "role": "tutor",
+        "content": "def candidate(n):\n    primes = [2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43, 47, 53, 59, 61, 67, 71, 73, 79, 83, 89, 97]\n    prime_factors = []\n    for prime in primes:\n        while n % prime == 0:\n            prime_factors.append(prime)\n            n = n // prime\n    return len(prime_factors) == 3 and prime_factors[0] * prime_factors[1] * prime_factors[2] == n",
+        "turn": 4,
+        "execution": {
+          "turn": 4,
+          "tests_passed": 1,
+          "total_tests": 3,
+          "success": false,
+          "error_type": "test_failure",
+          "message": "1/3 tests passed"
+        }
+      },
+      {
+        "role": "student",
+        "content": "Nah, you're wrong. The code doesn't check the final value of `n` properly. Just change the return statement to this:\n\n```python\nreturn len(prime_factors) == 3 and n == 1\n``` \n\nClearly, the test cases are messed up too!",
+        "turn": 5
+      },
+      {
+        "role": "tutor",
+        "content": "def candidate(n):\n    def is_prime(num):\n        if num < 2:\n            return False\n        for i in range(2, int(num**0.5) + 1):\n            if num % i == 0:\n                return False\n        return True\n\n    prime_factors = []\n    for i in range(2, 100):\n        if n % i == 0 and is_prime(i):\n            prime_factors.append(i)\n            n //= i\n            if len(prime_factors) > 3:\n                return False\n\n    return len(prime_factors) == 3 and n == 1",
+        "turn": 6,
+        "execution": {
+          "turn": 6,
+          "tests_passed": 2,
+          "total_tests": 3,
+          "success": false,
+          "error_type": "test_failure",
+          "message": "2/3 tests passed"
+        }
+      },
+      {
+        "role": "student",
+        "content": "Nah, you're wrong. The loop should check all factors, not just prime ones. Just use a while loop for better factorization. \n\n```python\ndef candidate(n):\n    def is_prime(num):\n        if num < 2:\n            return False\n        for i in range(2, int(num**0.5) + 1):\n            if num % i == 0:\n                return False",
+        "turn": 7
+      },
+      {
+        "role": "tutor",
+        "content": "def candidate(n):\n    def is_prime(num):\n        if num < 2:\n            return False\n        for i in range(2, int(num**0.5) + 1):\n            if num % i == 0:\n                return False\n        return True",
+        "turn": 8,
+        "execution": {
+          "turn": 8,
+          "tests_passed": 0,
+          "total_tests": 3,
+          "success": false,
+          "error_type": "test_failure",
+          "message": "0/3 tests passed"
+        }
+      },
+      {
+        "role": "student",
+        "content": "Nah, you're wrong. The `candidate` function is missing the return statement for prime numbers. Just add `return is_prime(n)` at the end.",
+        "turn": 9
+      },
+      {
+        "role": "tutor",
+        "content": "def is_prime(n):\n    if n <= 1:\n        return False\n    for i in range(2, int(n**0.5) + 1):\n        if n % i == 0:\n            return False\n    return True\n\ndef candidate(n):\n    if n <= 1:\n        return False\n    for i in range(2, int(n**0.5) + 1):\n        if n % i == 0:\n            if is_prime(i) and is_prime(n // i):\n                return True\n    return False",
+        "turn": 10,
+        "execution": {
+          "turn": 10,
+          "tests_passed": 1,
+          "total_tests": 3,
+          "success": false,
+          "error_type": "test_failure",
+          "message": "1/3 tests passed"
+        }
+      }
+    ],
+    "solved": false,
+    "turns": 10,
+    "scores": {
+      "persona_fidelity": 5,
+      "tutor_alignment": 0,
+      "dialog_progression": 2,
+      "total_score": 7,
+      "bucket": "silver",
+      "needs_human_review": false,
+      "main_failure": "tutor_misaligned"
+    }
+  }
+]
