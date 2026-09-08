@@ -1,0 +1,20 @@
+docs/index.html
+  s_c33cf9071335e7::t_4048d0e5a42511 285-293,296
+  s_c33cf9071335e7::t_c2e4556822ab8b 207,209-211
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.2",
+  "base_commit_sha": "b0dd2ea0f14094b652a3e99a9c04792b6f8803c6",
+  "prompts": {},
+  "sessions": {
+    "s_c33cf9071335e7": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "8b490e83-5f20-4857-aff4-7522b9f0bed7",
+        "model": "claude-opus-4-8"
+      },
+      "human_author": "harshit <siy247587@iitd.ac.in>"
+    }
+  }
+}
