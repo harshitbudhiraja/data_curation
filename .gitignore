@@ -40,3 +40,6 @@ models/
 dist/
 build/
 *.egg-info/
+
+# HuggingFace export artifacts (regenerate with export_huggingface.py)
+dataset/

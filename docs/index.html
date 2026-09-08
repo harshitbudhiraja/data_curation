@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Synthetic Coding Tutor Dataset — Generation Process</title>
+<meta name="description" content="How we generate realistic student–tutor debugging conversations with autonomous LLM agents, and how we quality-rate them for training.">
+<style>
+  :root{
+    --bg:#0b0e14; --panel:#141922; --panel-2:#1b212d; --border:#232c3b;
+    --text:#e6ecf5; --muted:#9aa7bd; --accent:#6ea8fe; --accent-2:#8b7cff;
+    --gold:#e8b923; --silver:#9fb0c3; --bronze:#c8804a; --green:#3fb984;
+    --mono:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--text);
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    line-height:1.6;-webkit-font-smoothing:antialiased}
+  a{color:var(--accent);text-decoration:none}
+  a:hover{text-decoration:underline}
+  .wrap{max-width:1080px;margin:0 auto;padding:0 24px}
+  section{padding:64px 0;border-top:1px solid var(--border)}
+  h1,h2,h3{line-height:1.2;margin:0 0 16px}
+  h2{font-size:30px;letter-spacing:-.02em}
+  h3{font-size:19px}
+  .muted{color:var(--muted)}
+  .eyebrow{text-transform:uppercase;letter-spacing:.14em;font-size:12px;color:var(--accent);font-weight:600;margin-bottom:12px}
+
+  /* Hero */
+  .hero{padding:96px 0 72px;text-align:center;
+    background:radial-gradient(1200px 500px at 50% -10%,rgba(110,168,254,.16),transparent 70%)}
+  .hero h1{font-size:52px;letter-spacing:-.03em;margin-bottom:20px;
+    background:linear-gradient(120deg,#fff,#a9c4ff 60%,#b7a9ff);-webkit-background-clip:text;background-clip:text;color:transparent}
+  .hero p{font-size:20px;color:var(--muted);max-width:720px;margin:0 auto 32px}
+  .badges{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-top:8px}
+  .badge{background:var(--panel);border:1px solid var(--border);border-radius:999px;
+    padding:7px 16px;font-size:13px;color:var(--muted)}
+  .badge b{color:var(--text)}
+  .cta{display:inline-flex;gap:10px;margin-top:28px}
+  .btn{display:inline-block;padding:11px 22px;border-radius:10px;font-weight:600;font-size:15px}
+  .btn.primary{background:var(--accent);color:#08111f}
+  .btn.ghost{background:var(--panel);border:1px solid var(--border);color:var(--text)}
+
+  /* Stat grid */
+  .stats{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-top:8px}
+  .stat{background:var(--panel);border:1px solid var(--border);border-radius:14px;padding:22px}
+  .stat .n{font-size:34px;font-weight:700;letter-spacing:-.02em}
+  .stat .l{font-size:13px;color:var(--muted);margin-top:4px}
+  .gold{color:var(--gold)} .silver{color:var(--silver)} .bronze{color:var(--bronze)}
+
+  /* Pipeline */
+  .flow{display:flex;align-items:stretch;gap:12px;flex-wrap:wrap;margin-top:24px}
+  .node{flex:1;min-width:150px;background:var(--panel);border:1px solid var(--border);
+    border-radius:14px;padding:18px}
+  .node .k{font-family:var(--mono);font-size:12px;color:var(--accent);margin-bottom:8px}
+  .node h4{margin:0 0 6px;font-size:15px}
+  .node p{margin:0;font-size:13px;color:var(--muted)}
+  .arrow{align-self:center;color:var(--muted);font-size:22px}
+
+  /* Cards */
+  .grid2{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+  .grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+  .card{background:var(--panel);border:1px solid var(--border);border-radius:14px;padding:22px}
+  .card h3{margin-top:0}
+  .card .tag{display:inline-block;font-family:var(--mono);font-size:11px;color:var(--accent-2);
+    background:rgba(139,124,255,.12);padding:3px 8px;border-radius:6px;margin-bottom:10px}
+  .quote{font-style:italic;color:var(--text);border-left:3px solid var(--accent);padding-left:12px;margin:10px 0 0;font-size:14px}
+
+  /* Turn table */
+  table{width:100%;border-collapse:collapse;margin-top:16px;font-size:14px}
+  th,td{text-align:left;padding:12px 14px;border-bottom:1px solid var(--border)}
+  th{color:var(--muted);font-weight:600;font-size:12px;text-transform:uppercase;letter-spacing:.06em}
+  td code{font-family:var(--mono);font-size:12px;background:var(--panel-2);padding:2px 6px;border-radius:5px}
+
+  /* Viz gallery */
+  .gallery{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:24px}
+  .gallery figure{margin:0;background:var(--panel);border:1px solid var(--border);border-radius:14px;overflow:hidden}
+  .gallery img{width:100%;display:block;cursor:zoom-in;background:#fff}
+  .gallery figcaption{padding:10px 14px;font-size:13px;color:var(--muted)}
+
+  /* Sample viewer */
+  .viewer{background:var(--panel);border:1px solid var(--border);border-radius:16px;padding:8px;margin-top:24px}
+  .tabs{display:flex;gap:6px;flex-wrap:wrap;padding:12px 12px 0}
+  .tab{background:transparent;border:1px solid var(--border);color:var(--muted);
+    border-radius:9px;padding:8px 14px;cursor:pointer;font-size:13px;font-weight:600}
+  .tab.active{background:var(--accent);color:#08111f;border-color:var(--accent)}
+  .convo{padding:16px;max-height:560px;overflow:auto}
+  .prob{font-size:13px;color:var(--muted);background:var(--panel-2);border:1px solid var(--border);
+    border-radius:10px;padding:12px 14px;margin-bottom:16px}
+  .msg{display:flex;gap:12px;margin-bottom:14px}
+  .who{flex:0 0 74px;font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.05em;padding-top:8px}
+  .who.student{color:var(--accent)} .who.tutor{color:var(--green)}
+  .bubble{flex:1;background:var(--panel-2);border:1px solid var(--border);border-radius:12px;padding:12px 14px}
+  .bubble.student{background:rgba(110,168,254,.08)}
+  .bubble pre{margin:0;font-family:var(--mono);font-size:12.5px;white-space:pre-wrap;word-break:break-word;color:#dbe6f5}
+  .bubble .txt{font-size:14px}
+  .exec{margin-top:8px;font-family:var(--mono);font-size:11px;color:var(--muted)}
+  .exec .pass{color:var(--green)} .exec .fail{color:#ff7a7a}
+
+  footer{padding:48px 0;border-top:1px solid var(--border);color:var(--muted);font-size:14px}
+  .lightbox{position:fixed;inset:0;background:rgba(0,0,0,.85);display:none;align-items:center;
+    justify-content:center;z-index:50;padding:32px;cursor:zoom-out}
+  .lightbox img{max-width:95%;max-height:92%;border-radius:8px}
+  .lightbox.on{display:flex}
+
+  @media(max-width:820px){
+    .stats,.gallery,.grid3{grid-template-columns:1fr 1fr}
+    .grid2{grid-template-columns:1fr}
+    .hero h1{font-size:38px}.hero p{font-size:17px}
+    .arrow{display:none}
+  }
+  @media(max-width:520px){.stats,.gallery,.grid3{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <div class="wrap">
+    <div class="eyebrow">Synthetic Training Data · LangGraph · LLM Agents</div>
+    <h1>Teaching AI tutors to debug, one conversation at a time</h1>
+    <p>An autonomous multi-agent pipeline that simulates realistic student–tutor debugging
+       sessions, executes every candidate solution against real tests, and grades each
+       conversation with an LLM judge — producing high-signal data for fine-tuning coding tutors.</p>
+    <div class="badges">
+      <span class="badge"><b>2,495</b> conversations</span>
+      <span class="badge"><b>5</b> student personalities</span>
+      <span class="badge"><b>500</b> curated problems</span>
+      <span class="badge"><b>1,241</b> training-ready (gold + silver)</span>
+    </div>
+    <div class="cta">
+      <a class="btn primary" href="#pipeline">See how it works</a>
+      <a class="btn ghost" href="https://github.com/harshitbudhiraja/data_curation">GitHub repo</a>
+    </div>
+  </div>
+</div>
+
+<!-- OVERVIEW STATS -->
+<section id="overview">
+  <div class="wrap">
+    <div class="eyebrow">The dataset at a glance</div>
+    <h2>Every conversation is generated, executed, and graded</h2>
+    <p class="muted" style="max-width:760px">The flagship <code>strategy1_11_02_2026-Golden</code> release
+       contains 2,495 multi-turn debugging conversations. Each one is validated against pytest test cases
+       and scored 0–10 by an LLM judge on persona fidelity, tutor responsiveness, and dialog flow.</p>
+    <div class="stats">
+      <div class="stat"><div class="n gold">824</div><div class="l">🥇 Gold (8–10 pts)</div></div>
+      <div class="stat"><div class="n silver">417</div><div class="l">🥈 Silver (5–7 pts)</div></div>
+      <div class="stat"><div class="n bronze">1,254</div><div class="l">🥉 Bronze (0–4 pts)</div></div>
+      <div class="stat"><div class="n">94.8%</div><div class="l">Actionable feedback</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- PIPELINE -->
+<section id="pipeline">
+  <div class="wrap">
+    <div class="eyebrow">The generation process</div>
+    <h2>A LangGraph state machine drives every session</h2>
+    <p class="muted" style="max-width:760px">Two autonomous agents talk to each other. After each tutor
+       response, the code is executed against real test cases; a router decides whether to keep debugging
+       or stop. The loop runs until the solution passes or hits the turn limit.</p>
+    <div class="flow">
+      <div class="node"><div class="k">01 · agent</div><h4>Student</h4><p>One of 5 personalities asks a question or gives specific, code-referencing feedback.</p></div>
+      <div class="arrow">→</div>
+      <div class="node"><div class="k">02 · agent</div><h4>Tutor</h4><p>Progressive refinement: deliberately incomplete early, complete later.</p></div>
+      <div class="arrow">→</div>
+      <div class="node"><div class="k">03 · tool</div><h4>Execute</h4><p>Runs the candidate code under pytest against hidden test cases.</p></div>
+      <div class="arrow">→</div>
+      <div class="node"><div class="k">04 · logic</div><h4>Router</h4><p>Loops back to the student or ends when solved / max turns reached.</p></div>
+      <div class="arrow">→</div>
+      <div class="node"><div class="k">05 · judge</div><h4>LLM Judge</h4><p>Scores the finished conversation and assigns gold / silver / bronze.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- PROGRESSIVE REFINEMENT -->
+<section>
+  <div class="wrap">
+    <div class="eyebrow">The key trick</div>
+    <h2>Forcing incomplete code early creates real debugging</h2>
+    <p class="muted" style="max-width:760px">In naïve generation, ~46% of conversations were solved in
+       just 2 turns — no collaboration, no signal. The tutor agent is now constrained turn-by-turn so the
+       first drafts <em>must</em> fail, guaranteeing 4–6 turns of genuine back-and-forth.</p>
+    <table>
+      <thead><tr><th>Turns</th><th>Max tokens</th><th>Temp</th><th>Instruction</th><th>Expected</th></tr></thead>
+      <tbody>
+        <tr><td><code>1–2</code></td><td>120</td><td>0.8</td><td>6–8 lines, ignore edge cases</td><td>Must fail tests</td></tr>
+        <tr><td><code>3–4</code></td><td>300</td><td>0.6</td><td>Fix only the issue the student named</td><td>Partial progress</td></tr>
+        <tr><td><code>5+</code></td><td>500</td><td>0.3</td><td>Handle all edge cases</td><td>Passes all tests</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<!-- PERSONALITIES -->
+<section id="personalities">
+  <div class="wrap">
+    <div class="eyebrow">Student agents</div>
+    <h2>Five personalities, five ways to stress-test a tutor</h2>
+    <div class="grid3" style="margin-top:24px">
+      <div class="card"><span class="tag">CONFUSED</span><h3>Confused Student</h3><p class="muted">Lost but specific about where.</p><div class="quote">“wait i think you forgot the base case??”</div></div>
+      <div class="card"><span class="tag">IMPATIENT</span><h3>Impatient Student</h3><p class="muted">Direct and demanding.</p><div class="quote">“just add the return statement!”</div></div>
+      <div class="card"><span class="tag">OVERCONFIDENT</span><h3>Overconfident (Wrong)</h3><p class="muted">Arrogant, questions the tutor.</p><div class="quote">“maybe the test cases are wrong?”</div></div>
+      <div class="card"><span class="tag">SYNTAX</span><h3>Syntax Struggler</h3><p class="muted">Fixated purely on syntax.</p><div class="quote">“is it a missing colon or bracket?”</div></div>
+      <div class="card"><span class="tag">HELPER</span><h3>Programming Helper</h3><p class="muted">Expert who supplies fixes.</p><div class="quote">“returns wrong type. Fix: return tuple(result)”</div></div>
+      <div class="card" style="display:flex;flex-direction:column;justify-content:center;background:transparent">
+        <p class="muted" style="margin:0">Every personality provides <b style="color:var(--text)">specific, code-referencing feedback</b> — 94.8% of student turns name a concrete element (base case, loop, return, edge case).</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SAMPLE VIEWER -->
+<section id="samples">
+  <div class="wrap">
+    <div class="eyebrow">See it for yourself</div>
+    <h2>Browse a real gold conversation</h2>
+    <p class="muted">Actual generated sessions from the golden dataset — including live execution results per turn.</p>
+    <div class="viewer">
+      <div class="tabs" id="tabs"></div>
+      <div class="convo" id="convo"><p class="muted" style="padding:20px">Loading samples…</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- METRICS GALLERY -->
+<section id="metrics">
+  <div class="wrap">
+    <div class="eyebrow">Quality metrics</div>
+    <h2>Measured, not assumed</h2>
+    <p class="muted">Nine visualizations track the health of the dataset across quality, completion, turn
+       efficiency, feedback quality, and per-persona performance. Click any chart to enlarge.</p>
+    <div class="gallery">
+      <figure><img src="assets/viz_1_quality_distribution.jpg" alt="Quality distribution"><figcaption>Gold / silver / bronze distribution</figcaption></figure>
+      <figure><img src="assets/viz_2_completion_rate.jpg" alt="Completion rate"><figcaption>Completion rate by personality</figcaption></figure>
+      <figure><img src="assets/viz_3_turn_efficiency.jpg" alt="Turn efficiency"><figcaption>Turn efficiency</figcaption></figure>
+      <figure><img src="assets/viz_4_actionable_feedback.jpg" alt="Actionable feedback"><figcaption>Actionable feedback rate</figcaption></figure>
+      <figure><img src="assets/viz_5_tutor_responsiveness.jpg" alt="Tutor responsiveness"><figcaption>Tutor responsiveness</figcaption></figure>
+      <figure><img src="assets/viz_6_persona_adherence.jpg" alt="Persona adherence"><figcaption>Persona adherence</figcaption></figure>
+      <figure><img src="assets/viz_7_turn_distribution.jpg" alt="Turn distribution"><figcaption>Turn-count distribution</figcaption></figure>
+      <figure><img src="assets/viz_8_training_data_breakdown.jpg" alt="Training data breakdown"><figcaption>Training-ready breakdown</figcaption></figure>
+      <figure><img src="assets/viz_9_performance_matrix.jpg" alt="Performance matrix"><figcaption>Overall performance matrix</figcaption></figure>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    Synthetic Coding Tutor Dataset Generator · Generated with LangGraph + LLM agents ·
+    <a href="https://github.com/harshitbudhiraja/data_curation">Source on GitHub</a>
+  </div>
+</footer>
+
+<div class="lightbox" id="lb"><img id="lbimg" src="" alt=""></div>
+
+<script>
+// Lightbox
+const lb=document.getElementById('lb'),lbimg=document.getElementById('lbimg');
+document.querySelectorAll('.gallery img').forEach(img=>{
+  img.addEventListener('click',()=>{lbimg.src=img.src;lb.classList.add('on');});
+});
+lb.addEventListener('click',()=>lb.classList.remove('on'));
+
+// Sample conversation viewer
+const NAMES={CONFUSED_STUDENT:'Confused',IMPATIENT_STUDENT:'Impatient',
+  OVERCONFIDENT_WRONG:'Overconfident',PROGRAMMING_HELPER:'Helper',SYNTAX_STRUGGLER:'Syntax'};
+const isCode=s=>/\b(def|return|for|while|if|import|class)\b/.test(s)&&s.includes('\n')||s.trim().startsWith('def');
+function render(sample){
+  const c=document.getElementById('convo');
+  let html=`<div class="prob"><b>Problem:</b> ${esc(sample.problem_text)}… &nbsp;·&nbsp; <b>${sample.turns} turns</b> · ${sample.solved?'✅ solved':'❌ unsolved'}</div>`;
+  sample.conversation.forEach(m=>{
+    const code=m.role==='tutor'&&isCode(m.content);
+    html+=`<div class="msg"><div class="who ${m.role}">${m.role}</div><div class="bubble ${m.role}">`;
+    html+=code?`<pre>${esc(m.content)}</pre>`:`<div class="txt">${esc(m.content)}</div>`;
+    if(m.total!=null){const ok=m.passed===m.total;
+      html+=`<div class="exec">tests: <span class="${ok?'pass':'fail'}">${m.passed}/${m.total} passed</span></div>`;}
+    html+=`</div></div>`;
+  });
+  c.innerHTML=html;
+}
+function esc(s){return (s||'').replace(/[&<>]/g,ch=>({'&':'&amp;','<':'&lt;','>':'&gt;'}[ch]));}
+fetch('assets/samples.json').then(r=>r.json()).then(data=>{
+  const keys=Object.keys(data);const tabs=document.getElementById('tabs');
+  keys.forEach((k,i)=>{
+    const b=document.createElement('button');b.className='tab'+(i===0?' active':'');
+    b.textContent=NAMES[k]||k;
+    b.onclick=()=>{document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
+      b.classList.add('active');render(data[k]);};
+    tabs.appendChild(b);
+  });
+  if(keys.length)render(data[keys[0]]);
+}).catch(()=>{document.getElementById('convo').innerHTML='<p class="muted" style="padding:20px">Samples unavailable.</p>';});
+</script>
+</body>
+</html>
