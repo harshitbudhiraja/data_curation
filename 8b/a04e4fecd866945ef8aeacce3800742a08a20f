@@ -1,0 +1,25 @@
+export_huggingface.py
+  s_c33cf9071335e7::t_478ca7e1f0f24a 1-204
+.gitignore
+  s_c33cf9071335e7::t_ccd6d06c37269b 43-45
+docs/index.html
+  s_c33cf9071335e7::t_30122c5cd09f93 1-295
+docs/assets/samples.json
+  s_c33cf9071335e7::t_f42d39ba395bbc 1-222
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.2",
+  "base_commit_sha": "8ba04e4fecd866945ef8aeacce3800742a08a20f",
+  "prompts": {},
+  "sessions": {
+    "s_c33cf9071335e7": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "8b490e83-5f20-4857-aff4-7522b9f0bed7",
+        "model": "claude-opus-4-8"
+      },
+      "human_author": "harshit <siy247587@iitd.ac.in>"
+    }
+  }
+}
