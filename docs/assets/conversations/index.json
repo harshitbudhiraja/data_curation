@@ -1,0 +1,37 @@
+{
+  "CONFUSED_STUDENT": {
+    "file": "conversations/CONFUSED_STUDENT.json",
+    "count": 499,
+    "gold": 243,
+    "silver": 18,
+    "bronze": 238
+  },
+  "IMPATIENT_STUDENT": {
+    "file": "conversations/IMPATIENT_STUDENT.json",
+    "count": 499,
+    "gold": 239,
+    "silver": 30,
+    "bronze": 230
+  },
+  "OVERCONFIDENT_WRONG": {
+    "file": "conversations/OVERCONFIDENT_WRONG.json",
+    "count": 499,
+    "gold": 203,
+    "silver": 72,
+    "bronze": 224
+  },
+  "PROGRAMMING_HELPER": {
+    "file": "conversations/PROGRAMMING_HELPER.json",
+    "count": 499,
+    "gold": 25,
+    "silver": 152,
+    "bronze": 322
+  },
+  "SYNTAX_STRUGGLER": {
+    "file": "conversations/SYNTAX_STRUGGLER.json",
+    "count": 499,
+    "gold": 114,
+    "silver": 145,
+    "bronze": 240
+  }
+}

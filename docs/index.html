@@ -81,6 +81,22 @@
   .exec{margin-top:6px;font-family:var(--mono);font-size:11px;color:var(--muted)}
   .exec .pass{color:var(--green)} .exec .fail{color:#c0392b}
 
+  .browser{display:grid;grid-template-columns:300px 1fr;gap:0}
+  .list-pane{border-right:1px solid var(--border);display:flex;flex-direction:column;max-height:560px}
+  .filters{padding:12px;border-bottom:1px solid var(--border);display:flex;gap:6px;flex-wrap:wrap}
+  .filters select{flex:1;min-width:120px;padding:7px 8px;border:1px solid var(--border);border-radius:6px;font-size:13px;background:#fff;color:var(--text)}
+  .clist{overflow:auto;flex:1}
+  .citem{width:100%;text-align:left;background:#fff;border:0;border-bottom:1px solid var(--border);padding:10px 12px;cursor:pointer;display:block}
+  .citem:hover{background:var(--panel)}
+  .citem.active{background:#eaf0fe}
+  .citem .t{font-size:13px;font-weight:600;margin-bottom:3px}
+  .citem .m{font-size:11px;color:var(--muted);display:flex;gap:8px;align-items:center}
+  .qb{font-size:10px;font-weight:700;text-transform:uppercase;padding:1px 6px;border-radius:4px;letter-spacing:.03em}
+  .qb.gold{background:#fbf1d4;color:#8a6608}
+  .qb.silver{background:#eceef1;color:#5c6470}
+  .qb.bronze{background:#f5e6da;color:#8f4a22}
+  .count{font-size:12px;color:var(--muted);padding:8px 12px;border-bottom:1px solid var(--border)}
+
   footer{padding:32px 0;border-top:1px solid var(--border);color:var(--muted);font-size:13px}
   .lightbox{position:fixed;inset:0;background:rgba(0,0,0,.7);display:none;align-items:center;justify-content:center;z-index:50;padding:32px;cursor:zoom-out}
   .lightbox img{max-width:95%;max-height:92%;border-radius:6px;background:#fff}
@@ -89,6 +105,8 @@
   @media(max-width:760px){
     .stats,.gallery,.grid3{grid-template-columns:1fr 1fr}
     .arrow{display:none}
+    .browser{grid-template-columns:1fr}
+    .list-pane{border-right:0;border-bottom:1px solid var(--border);max-height:300px}
   }
   @media(max-width:480px){.stats,.gallery,.grid3{grid-template-columns:1fr}}
 </style>
@@ -187,10 +205,25 @@
   <div class="wrap">
     <div class="eyebrow">See it for yourself</div>
     <h2>Browse a real gold conversation</h2>
-    <p class="muted">Actual generated sessions, including live execution results per turn.</p>
+    <p class="muted">All 2,495 generated sessions. Pick a personality and quality, choose a conversation
+       from the list, and read it with live execution results per turn.</p>
+    <div class="tabs" id="tabs"></div>
     <div class="viewer">
-      <div class="tabs" id="tabs"></div>
-      <div class="convo" id="convo"><p class="muted" style="padding:16px">Loading samples…</p></div>
+      <div class="browser">
+        <div class="list-pane">
+          <div class="filters">
+            <select id="fq">
+              <option value="all">All quality</option>
+              <option value="gold">Gold only</option>
+              <option value="silver">Silver only</option>
+              <option value="bronze">Bronze only</option>
+            </select>
+          </div>
+          <div class="count" id="count"></div>
+          <div class="clist" id="clist"></div>
+        </div>
+        <div class="convo" id="convo"><p class="muted" style="padding:16px">Loading conversations…</p></div>
+      </div>
     </div>
   </div>
 </section>
@@ -199,18 +232,11 @@
   <div class="wrap">
     <div class="eyebrow">Quality metrics</div>
     <h2>Measured, not assumed</h2>
-    <p class="muted">Nine visualizations track quality, completion, turn efficiency, feedback quality,
-       and per-persona performance. Click any chart to enlarge.</p>
+    <p class="muted">The three charts that best capture dataset health. Click any chart to enlarge.</p>
     <div class="gallery">
       <figure><img src="assets/viz_1_quality_distribution.jpg" alt="Quality distribution"><figcaption>Gold / silver / bronze distribution</figcaption></figure>
-      <figure><img src="assets/viz_2_completion_rate.jpg" alt="Completion rate"><figcaption>Completion rate by personality</figcaption></figure>
-      <figure><img src="assets/viz_3_turn_efficiency.jpg" alt="Turn efficiency"><figcaption>Turn efficiency</figcaption></figure>
-      <figure><img src="assets/viz_4_actionable_feedback.jpg" alt="Actionable feedback"><figcaption>Actionable feedback rate</figcaption></figure>
-      <figure><img src="assets/viz_5_tutor_responsiveness.jpg" alt="Tutor responsiveness"><figcaption>Tutor responsiveness</figcaption></figure>
-      <figure><img src="assets/viz_6_persona_adherence.jpg" alt="Persona adherence"><figcaption>Persona adherence</figcaption></figure>
-      <figure><img src="assets/viz_7_turn_distribution.jpg" alt="Turn distribution"><figcaption>Turn-count distribution</figcaption></figure>
-      <figure><img src="assets/viz_8_training_data_breakdown.jpg" alt="Training data breakdown"><figcaption>Training-ready breakdown</figcaption></figure>
-      <figure><img src="assets/viz_9_performance_matrix.jpg" alt="Performance matrix"><figcaption>Overall performance matrix</figcaption></figure>
+      <figure><img src="assets/viz_8_training_data_breakdown.jpg" alt="Training data breakdown"><figcaption>Training-ready data by personality</figcaption></figure>
+      <figure><img src="assets/viz_9_performance_matrix.jpg" alt="Performance matrix"><figcaption>All metrics by personality</figcaption></figure>
     </div>
   </div>
 </section>
@@ -235,10 +261,15 @@ const NAMES={CONFUSED_STUDENT:'Confused',IMPATIENT_STUDENT:'Impatient',
   OVERCONFIDENT_WRONG:'Overconfident',PROGRAMMING_HELPER:'Helper',SYNTAX_STRUGGLER:'Syntax'};
 const isCode=s=>(/\b(def|return|for|while|if|import|class)\b/.test(s)&&s.includes('\n'))||s.trim().startsWith('def');
 function esc(s){return (s||'').replace(/[&<>]/g,ch=>({'&':'&amp;','<':'&lt;','>':'&gt;'}[ch]));}
-function render(sample){
-  const c=document.getElementById('convo');
-  let html=`<div class="prob"><b>Problem:</b> ${esc(sample.problem_text)}… &nbsp;·&nbsp; <b>${sample.turns} turns</b> · ${sample.solved?'solved':'unsolved'}</div>`;
-  sample.conversation.forEach(m=>{
+
+const tabsEl=document.getElementById('tabs'),clistEl=document.getElementById('clist'),
+  convoEl=document.getElementById('convo'),countEl=document.getElementById('count'),fqEl=document.getElementById('fq');
+const cache={};
+let curPers=null, curList=[];
+
+function renderConvo(conv){
+  let html=`<div class="prob"><b>Problem:</b> ${esc(conv.problem_text)} &nbsp;·&nbsp; <b>${conv.turns} turns</b> · ${conv.solved?'solved':'unsolved'}</div>`;
+  conv.conversation.forEach(m=>{
     const code=m.role==='tutor'&&isCode(m.content);
     html+=`<div class="msg"><div class="who ${m.role}">${m.role}</div><div class="bubble">`;
     html+=code?`<pre>${esc(m.content)}</pre>`:`<div class="txt">${esc(m.content)}</div>`;
@@ -246,19 +277,49 @@ function render(sample){
       html+=`<div class="exec">tests: <span class="${ok?'pass':'fail'}">${m.passed}/${m.total} passed</span></div>`;}
     html+=`</div></div>`;
   });
-  c.innerHTML=html;
+  convoEl.innerHTML=html;
 }
-fetch('assets/samples.json').then(r=>r.json()).then(data=>{
-  const keys=Object.keys(data);const tabs=document.getElementById('tabs');
+
+function renderList(){
+  const q=fqEl.value;
+  const list=curList.filter(c=>q==='all'||c.quality_bucket===q);
+  countEl.textContent=`${list.length} conversation${list.length===1?'':'s'}`;
+  clistEl.innerHTML='';
+  if(!list.length){convoEl.innerHTML='<p class="muted" style="padding:16px">No conversations for this filter.</p>';return;}
+  list.forEach((c,i)=>{
+    const b=document.createElement('button');b.className='citem'+(i===0?' active':'');
+    b.innerHTML=`<div class="t">Problem #${c.task_id}</div>`+
+      `<div class="m"><span class="qb ${c.quality_bucket}">${c.quality_bucket}</span>`+
+      `<span>${c.turns} turns</span><span>${c.solved?'✓ solved':'✗ unsolved'}</span></div>`;
+    b.onclick=()=>{clistEl.querySelectorAll('.citem').forEach(x=>x.classList.remove('active'));
+      b.classList.add('active');renderConvo(c);};
+    clistEl.appendChild(b);
+  });
+  renderConvo(list[0]);
+}
+
+function loadPersonality(pers,file){
+  curPers=pers;
+  convoEl.innerHTML='<p class="muted" style="padding:16px">Loading…</p>';
+  clistEl.innerHTML='';countEl.textContent='';
+  const done=data=>{curList=data;renderList();};
+  if(cache[pers])return done(cache[pers]);
+  fetch('assets/'+file).then(r=>r.json()).then(d=>{cache[pers]=d;done(d);})
+    .catch(()=>{convoEl.innerHTML='<p class="muted" style="padding:16px">Conversations unavailable.</p>';});
+}
+
+fqEl.addEventListener('change',renderList);
+fetch('assets/conversations/index.json').then(r=>r.json()).then(idx=>{
+  const keys=Object.keys(idx);
   keys.forEach((k,i)=>{
     const b=document.createElement('button');b.className='tab'+(i===0?' active':'');
-    b.textContent=NAMES[k]||k;
-    b.onclick=()=>{document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
-      b.classList.add('active');render(data[k]);};
-    tabs.appendChild(b);
+    b.textContent=`${NAMES[k]||k} (${idx[k].count})`;
+    b.onclick=()=>{tabsEl.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
+      b.classList.add('active');loadPersonality(k,idx[k].file);};
+    tabsEl.appendChild(b);
   });
-  if(keys.length)render(data[keys[0]]);
-}).catch(()=>{document.getElementById('convo').innerHTML='<p class="muted" style="padding:16px">Samples unavailable.</p>';});
+  if(keys.length)loadPersonality(keys[0],idx[keys[0]].file);
+}).catch(()=>{convoEl.innerHTML='<p class="muted" style="padding:16px">Index unavailable.</p>';});
 </script>
 </body>
 </html>
