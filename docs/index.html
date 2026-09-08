@@ -204,9 +204,11 @@
 <section id="samples">
   <div class="wrap">
     <div class="eyebrow">See it for yourself</div>
-    <h2>Browse a real gold conversation</h2>
+    <h2>Browse the conversations</h2>
     <p class="muted">All 2,495 generated sessions. Pick a personality and quality, choose a conversation
-       from the list, and read it with live execution results per turn.</p>
+       from the list, and read it with live execution results per turn. Quality reflects the
+       <em>debugging dialogue</em> (persona fidelity, tutor responsiveness, flow) — not whether the
+       final code passed, so a rich “gold” session can still end unsolved.</p>
     <div class="tabs" id="tabs"></div>
     <div class="viewer">
       <div class="browser">
@@ -280,9 +282,18 @@ function renderConvo(conv){
   convoEl.innerHTML=html;
 }
 
+const RANK={gold:0,silver:1,bronze:2};
+// Show the best showcases first: gold before bronze, solved before unsolved,
+// shorter (cleaner) arcs before long looping ones.
+function sortConvos(list){
+  return list.slice().sort((a,b)=>
+    (RANK[a.quality_bucket]??3)-(RANK[b.quality_bucket]??3)
+    || (b.solved-a.solved)
+    || a.turns-b.turns);
+}
 function renderList(){
   const q=fqEl.value;
-  const list=curList.filter(c=>q==='all'||c.quality_bucket===q);
+  const list=sortConvos(curList.filter(c=>q==='all'||c.quality_bucket===q));
   countEl.textContent=`${list.length} conversation${list.length===1?'':'s'}`;
   clistEl.innerHTML='';
   if(!list.length){convoEl.innerHTML='<p class="muted" style="padding:16px">No conversations for this filter.</p>';return;}
