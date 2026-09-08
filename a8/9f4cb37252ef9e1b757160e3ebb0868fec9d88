@@ -1,0 +1,35 @@
+docs/assets/conversations/CONFUSED_STUDENT.json
+  s_c33cf9071335e7::t_092980c89128ae 1
+docs/assets/conversations/SYNTAX_STRUGGLER.json
+  s_c33cf9071335e7::t_092980c89128ae 1
+docs/assets/conversations/IMPATIENT_STUDENT.json
+  s_c33cf9071335e7::t_092980c89128ae 1
+docs/assets/conversations/OVERCONFIDENT_WRONG.json
+  s_c33cf9071335e7::t_092980c89128ae 1
+docs/index.html
+  s_c33cf9071335e7::t_ab1ddc5642f681 84-99
+  s_c33cf9071335e7::t_59ea4b37b5b13b 235,238-239
+  s_c33cf9071335e7::t_221cc08d27751b 208-210,212-226
+  s_c33cf9071335e7::t_f38870081ee413 108-109
+  s_c33cf9071335e7::t_2dd3b10ea4c50a 264-272,280,282-313,316-319,321-322
+docs/assets/conversations/index.json
+  s_c33cf9071335e7::t_092980c89128ae 1-37
+docs/assets/conversations/PROGRAMMING_HELPER.json
+  s_c33cf9071335e7::t_092980c89128ae 1
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.2",
+  "base_commit_sha": "a89f4cb37252ef9e1b757160e3ebb0868fec9d88",
+  "prompts": {},
+  "sessions": {
+    "s_c33cf9071335e7": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "8b490e83-5f20-4857-aff4-7522b9f0bed7",
+        "model": "claude-opus-4-8"
+      },
+      "human_author": "harshit <siy247587@iitd.ac.in>"
+    }
+  }
+}
