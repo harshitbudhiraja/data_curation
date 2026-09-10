@@ -1,0 +1,86 @@
+docs/index.html
+  s_106dc6cd5b0ab7::t_4bc419610f53b5 35,38-39
+  s_106dc6cd5b0ab7::t_794cf76f65d590 63,65-67,69-71,73-75
+  s_106dc6cd5b0ab7::t_40618e373d206b 240-245
+  s_106dc6cd5b0ab7::t_6cb9e8d84a6f74 5,9-20,22,24,26-27,30-33,36-37,40-42,47-48,53,57-58,64,68,72,77-83,85-89,91-103,105-108,112-115,117-123,127,129-132,135,139,144,147-158,163-165,167-174,177,179-180,182-188,194,196-197,199-204,206,208,210,212,215,217-218,220-233,235-236,238-239,247,249,252-269,271-272,274,277,279-280,282-287,289,291,293-299,349,364,369,383,385-387
+  s_106dc6cd5b0ab7::t_c4f249bb3aa946 189-192
+  s_106dc6cd5b0ab7::t_b6db4af839712d 250
+  s_106dc6cd5b0ab7::t_4f12c76477825f 159-162
+  s_106dc6cd5b0ab7::t_f540745c16e7ab 43-46,50
+  s_106dc6cd5b0ab7::t_8615a8b3203390 52,54-56,59-61
+  s_106dc6cd5b0ab7::t_de77caf18ffc9f 166
+  s_106dc6cd5b0ab7::t_628e1d27f80309 181,198,219,237,251,281
+  s_106dc6cd5b0ab7::t_045f6f850504c6 205,207,209,211,213
+docs/assets/fontawesome-free-7.2.0-web/LICENSE.txt
+  s_106dc6cd5b0ab7::t_07e9815c1898cc 1-165
+docs/assets/fontawesome-free-7.2.0-web/css/all.css
+  s_106dc6cd5b0ab7::t_74bb29bdd06fae 1-10879
+docs/assets/fontawesome-free-7.2.0-web/css/all.min.css
+  s_106dc6cd5b0ab7::t_a0008d5ffc1456 1-9
+docs/assets/fontawesome-free-7.2.0-web/css/brands.css
+  s_106dc6cd5b0ab7::t_ee4357769fb447 1-2371
+docs/assets/fontawesome-free-7.2.0-web/css/brands.min.css
+  s_106dc6cd5b0ab7::t_6574f4f9c2b2e5 1-6
+docs/assets/fontawesome-free-7.2.0-web/css/fontawesome.css
+  s_106dc6cd5b0ab7::t_770d7ed7ae731c 1-8425
+docs/assets/fontawesome-free-7.2.0-web/css/fontawesome.min.css
+  s_106dc6cd5b0ab7::t_b8159976842502 1-8
+docs/assets/fontawesome-free-7.2.0-web/css/regular.css
+  s_106dc6cd5b0ab7::t_bf8c04b7418aea 1-31
+docs/assets/fontawesome-free-7.2.0-web/css/regular.min.css
+  s_106dc6cd5b0ab7::t_63518996ab49d1 1-6
+docs/assets/fontawesome-free-7.2.0-web/css/solid.css
+  s_106dc6cd5b0ab7::t_2845c5f5541d10 1-31
+docs/assets/fontawesome-free-7.2.0-web/css/solid.min.css
+  s_106dc6cd5b0ab7::t_88a07b1f813194 1-6
+docs/assets/fontawesome-free-7.2.0-web/css/svg-with-js.css
+  s_106dc6cd5b0ab7::t_25c8a4d952092a 1-557
+docs/assets/fontawesome-free-7.2.0-web/css/svg-with-js.min.css
+  s_106dc6cd5b0ab7::t_234fa931da4d0d 1-6
+docs/assets/fontawesome-free-7.2.0-web/css/svg.css
+  s_106dc6cd5b0ab7::t_c272c36dbf98d9 1-183
+docs/assets/fontawesome-free-7.2.0-web/css/svg.min.css
+  s_106dc6cd5b0ab7::t_93706646fcbbe0 1-6
+docs/assets/fontawesome-free-7.2.0-web/css/v4-font-face.css
+  s_106dc6cd5b0ab7::t_063ce40f82f753 1-27
+docs/assets/fontawesome-free-7.2.0-web/css/v4-font-face.min.css
+  s_106dc6cd5b0ab7::t_50d0ac2c31284f 1-6
+docs/assets/fontawesome-free-7.2.0-web/css/v4-shims.css
+  s_106dc6cd5b0ab7::t_8d07cd3028f898 1-2818
+docs/assets/fontawesome-free-7.2.0-web/css/v4-shims.min.css
+  s_106dc6cd5b0ab7::t_674c87a07bb7e0 1-6
+docs/assets/fontawesome-free-7.2.0-web/css/v5-font-face.css
+  s_106dc6cd5b0ab7::t_197bd2ab1e19cb 1-23
+docs/assets/fontawesome-free-7.2.0-web/css/v5-font-face.min.css
+  s_106dc6cd5b0ab7::t_ac34d6eee96689 1-6
+docs/assets/fonts/Charter/sample.css
+  s_106dc6cd5b0ab7::t_4cc09706fe0199 1-31
+docs/assets/fonts/Charter/sample.html
+  s_106dc6cd5b0ab7::t_10ed871d7cf69d 1-11
+docs/assets/scripts/main.js
+  s_106dc6cd5b0ab7::t_917d98ea09c916 1-193
+docs/assets/scripts/navbar.js
+  s_106dc6cd5b0ab7::t_366aaf220056d7 1-438
+docs/assets/stylesheets/main_free.css
+  s_106dc6cd5b0ab7::t_f5ef934f9ca61b 1-1607
+docs/clarity/clarity.css
+  s_106dc6cd5b0ab7::t_e287357818b958 1-128
+docs/clarity/clarity.js
+  s_106dc6cd5b0ab7::t_313650591ccb58 1-40
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.2",
+  "base_commit_sha": "93231dd127050ad5beebcb3aee5498bf53bb01ed",
+  "prompts": {},
+  "sessions": {
+    "s_106dc6cd5b0ab7": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "d3e1e021-cb37-4e46-895e-00d2cc2aa9d9",
+        "model": "claude-opus-4-8"
+      },
+      "human_author": "harshit <siy247587@iitd.ac.in>"
+    }
+  }
+}
