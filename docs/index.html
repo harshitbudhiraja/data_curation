@@ -2,251 +2,301 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Synthetic Coding Tutor Dataset — Generation Process</title>
 <meta name="description" content="How we generate and quality-rate student–tutor debugging conversations for training coding tutors.">
+<meta name="referrer" content="no-referrer-when-downgrade">
+<meta name="robots" content="all">
+<meta content="website" property="og:type">
+<meta content="Synthetic Coding Tutor Dataset" property="og:title">
+<meta content="An autonomous multi-agent pipeline that generates, executes, and grades student–tutor debugging conversations." property="og:description">
+
+<!-- Clarity template stylesheets -->
+<link rel="stylesheet" type="text/css" media="all" href="assets/stylesheets/main_free.css" />
+<link rel="stylesheet" type="text/css" media="all" href="clarity/clarity.css" />
+<link href="assets/fontawesome-free-7.2.0-web/css/all.min.css" rel="stylesheet">
+<script src="assets/scripts/navbar.js"></script>
+
 <style>
+  /* ============ Project palette layered on top of Clarity ============ */
   :root{
-    --bg:#ffffff; --panel:#f7f8fa; --border:#e3e6ea; --text:#1a1d21;
-    --muted:#5c6470; --accent:#2563eb; --green:#0f8a5f;
+    --accent:#3b5bce; --accent-soft:#eaeefc; --green:#0f8a5f;
     --gold:#b8860b; --silver:#7a828c; --bronze:#b5622f;
-    --mono:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+    --panel:#f6f6f6; --border:rgba(0,0,0,.1);
+    --mono:"Fira Code",ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
   }
-  *{box-sizing:border-box}
-  body{margin:0;background:var(--bg);color:var(--text);
-    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
-    line-height:1.6;-webkit-font-smoothing:antialiased}
-  a{color:var(--accent);text-decoration:none}
-  a:hover{text-decoration:underline}
-  .wrap{max-width:960px;margin:0 auto;padding:0 24px}
-  section{padding:48px 0;border-top:1px solid var(--border)}
-  h1,h2,h3{line-height:1.25;margin:0 0 12px}
-  h2{font-size:24px}
-  h3{font-size:17px}
-  .muted{color:var(--muted)}
-  .eyebrow{text-transform:uppercase;letter-spacing:.1em;font-size:12px;color:var(--muted);font-weight:600;margin-bottom:8px}
 
-  header.hero{padding:56px 0 40px}
-  .hero h1{font-size:34px;letter-spacing:-.01em}
-  .hero p{font-size:17px;color:var(--muted);max-width:680px;margin:0 0 20px}
-  .badges{display:flex;gap:8px;flex-wrap:wrap}
-  .badge{background:var(--panel);border:1px solid var(--border);border-radius:6px;padding:5px 12px;font-size:13px;color:var(--muted)}
-  .badge b{color:var(--text)}
-  .cta{margin-top:20px;display:flex;gap:10px}
-  .btn{display:inline-block;padding:9px 18px;border-radius:6px;font-weight:600;font-size:14px;border:1px solid var(--border)}
-  .btn.primary{background:var(--accent);color:#fff;border-color:var(--accent)}
-  .btn.ghost{background:#fff;color:var(--text)}
+  /* Hero info buttons — inherit Clarity's .button.icon but give a link accent */
+  div.container.blog#first-content .blog-intro .info.links{ padding-top: 6px; }
+  .info.links a.button{ background-color:#fff; border:1px solid var(--border); }
+  .info.links a.button:hover{ background-color:#fff; opacity:.75; }
 
-  .stats{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
-  .stat{background:var(--panel);border:1px solid var(--border);border-radius:8px;padding:16px}
-  .stat .n{font-size:26px;font-weight:700}
-  .stat .l{font-size:13px;color:var(--muted);margin-top:2px}
+  /* Section eyebrow — a different hue per section */
+  .eyebrow{ text-transform:uppercase; letter-spacing:.12em; font-size:12px;
+    color:var(--accent); font-weight:600; margin:0 0 6px; font-family:"Poppins",sans-serif; }
+  .eyebrow.e1{color:#3b5bce} .eyebrow.e2{color:#0f8a5f} .eyebrow.e3{color:#c47f0a}
+  .eyebrow.e4{color:#7c3aed} .eyebrow.e5{color:#0e7490} .eyebrow.e6{color:#b8860b}
+
+  /* Stats */
+  .stats{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin:2vh 0}
+  .stat{background:#fff;border:1px solid var(--border);border-top:3px solid var(--c,#3b5bce);
+    border-radius:12px;padding:18px}
+  .stat.g{--c:var(--gold);background:#fdfaf0} .stat.s{--c:var(--silver);background:#fafbfc}
+  .stat.b{--c:var(--bronze);background:#fdf7f2} .stat.a{--c:#3b5bce;background:#f7f9fe}
+  .stat .n{font-size:30px;font-weight:600;font-family:"Poppins",sans-serif;line-height:1.1}
+  .stat .l{font-size:13px;color:#666;margin-top:4px;font-family:"Poppins",sans-serif}
   .gold{color:var(--gold)} .silver{color:var(--silver)} .bronze{color:var(--bronze)}
+  .accentn{color:#3b5bce}
 
-  .flow{display:flex;align-items:stretch;gap:8px;flex-wrap:wrap;margin-top:16px}
-  .node{flex:1;min-width:140px;background:var(--panel);border:1px solid var(--border);border-radius:8px;padding:14px}
-  .node .k{font-family:var(--mono);font-size:11px;color:var(--accent);margin-bottom:6px}
-  .node h4{margin:0 0 4px;font-size:14px}
-  .node p{margin:0;font-size:13px;color:var(--muted)}
-  .arrow{align-self:center;color:var(--muted)}
+  /* Pipeline flow — each stage gets its own colour */
+  .flow{display:flex;align-items:stretch;gap:10px;flex-wrap:wrap;margin:2vh 0}
+  .node{flex:1;min-width:150px;background:#fff;border:1px solid var(--border);
+    border-top:3px solid var(--c,#3b5bce);border-radius:12px;padding:16px}
+  .node .k{font-family:var(--mono);font-size:11px;color:var(--c,#3b5bce);margin-bottom:8px;font-weight:600}
+  .node h4{margin:0 0 4px;font-size:15px;font-weight:600;font-family:"Poppins",sans-serif}
+  .node p{margin:0;font-size:13px;color:#666}
+  .node.s1{--c:#3b5bce} .node.s2{--c:#0f8a5f} .node.s3{--c:#c47f0a}
+  .node.s4{--c:#7c3aed} .node.s5{--c:#b8860b}
+  .arrow{align-self:center;color:#c4b8e0;font-size:18px;font-weight:700}
 
-  .grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:16px}
-  .card{background:var(--panel);border:1px solid var(--border);border-radius:8px;padding:16px}
-  .card h3{margin-top:0}
-  .card .tag{display:inline-block;font-family:var(--mono);font-size:11px;color:var(--accent);background:#eaf0fe;padding:2px 7px;border-radius:4px;margin-bottom:8px}
-  .quote{color:var(--text);border-left:3px solid var(--border);padding-left:10px;margin:8px 0 0;font-size:13px;font-style:italic}
+  /* Cards — each personality gets its own colour */
+  .grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin:2vh 0}
+  .card{background:#fff;border:1px solid var(--border);border-left:4px solid var(--c,#3b5bce);
+    border-radius:12px;padding:18px}
+  .card h3{margin:6px 0 6px;font-size:16px;font-weight:600;font-family:"Poppins",sans-serif;color:var(--c,#353535)}
+  .card p{font-size:14px;color:#666;margin:0}
+  .card .tag{display:inline-block;font-family:var(--mono);font-size:11px;color:var(--c,#3b5bce);
+    background:var(--c-soft,#eaeefc);padding:3px 8px;border-radius:5px;font-weight:600}
+  .card .quote{color:#353535;border-left:3px solid var(--c,var(--border));padding-left:10px;
+    margin:10px 0 0;font-size:13px;font-style:italic;font-family:"Charter",serif}
+  .card.confused{--c:#c47f0a;--c-soft:#fbf0dc} .card.impatient{--c:#c0392b;--c-soft:#fbe4e0}
+  .card.overconfident{--c:#7c3aed;--c-soft:#efe6fd} .card.syntax{--c:#0f8a5f;--c-soft:#d9f2e8}
+  .card.helper{--c:#0e7490;--c-soft:#d7eef3} .card.note{--c:#b8860b;--c-soft:#fbf1d4}
 
-  table{width:100%;border-collapse:collapse;margin-top:14px;font-size:14px}
-  th,td{text-align:left;padding:9px 12px;border-bottom:1px solid var(--border)}
-  th{color:var(--muted);font-weight:600;font-size:12px;text-transform:uppercase;letter-spacing:.04em}
-  td code{font-family:var(--mono);font-size:12px;background:var(--panel);padding:2px 6px;border-radius:4px}
+  /* Table */
+  table.spec{width:100%;border-collapse:collapse;margin:2vh 0;font-size:14px}
+  table.spec th,table.spec td{text-align:left;padding:10px 12px;border-bottom:1px solid var(--border)}
+  table.spec th{color:#666;font-weight:600;font-size:12px;text-transform:uppercase;letter-spacing:.04em;
+    font-family:"Poppins",sans-serif}
+  table.spec td{font-family:"Poppins",sans-serif}
+  table.spec td code{font-family:var(--mono);font-size:12px;background:var(--panel);padding:2px 6px;border-radius:5px}
 
-  .gallery{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:16px}
-  .gallery figure{margin:0;background:#fff;border:1px solid var(--border);border-radius:8px;overflow:hidden}
-  .gallery img{width:100%;display:block;cursor:zoom-in}
-  .gallery figcaption{padding:8px 12px;font-size:12px;color:var(--muted)}
+  /* Metrics gallery */
+  .gallery{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin:2vh 0}
+  .gallery figure{margin:0;background:#fff;border:1px solid var(--border);border-radius:12px;overflow:hidden}
+  .gallery img{width:100%;display:block;cursor:zoom-in;padding:0 !important}
+  .gallery figcaption{padding:10px 12px;font-size:12px;color:#666;font-family:"Poppins",sans-serif}
 
-  .viewer{border:1px solid var(--border);border-radius:8px;margin-top:16px}
-  .tabs{display:flex;gap:6px;flex-wrap:wrap;padding:12px 12px 0}
-  .tab{background:#fff;border:1px solid var(--border);color:var(--muted);border-radius:6px;padding:6px 12px;cursor:pointer;font-size:13px;font-weight:600}
-  .tab.active{background:var(--accent);color:#fff;border-color:var(--accent)}
-  .convo{padding:14px;max-height:520px;overflow:auto}
-  .prob{font-size:13px;color:var(--muted);background:var(--panel);border:1px solid var(--border);border-radius:6px;padding:10px 12px;margin-bottom:14px}
-  .msg{display:flex;gap:10px;margin-bottom:12px}
-  .who{flex:0 0 66px;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.04em;padding-top:6px}
+  /* Conversation viewer */
+  .viewer{border:1px solid var(--border);border-radius:12px;margin:2vh 0;overflow:hidden}
+  .tabs{display:flex;gap:8px;flex-wrap:wrap;margin:1.5vh 0}
+  .tabs .tab{background:#fff;border:1px solid var(--border);color:#666;border-radius:8px;
+    padding:8px 14px;cursor:pointer;font-size:13px;font-weight:500;font-family:"Poppins",sans-serif;
+    margin-bottom:0;text-transform:none;letter-spacing:0}
+  .tabs .tab.active{background:var(--accent);color:#fff;border-color:var(--accent);opacity:1}
+  .convo{padding:16px;max-height:540px;overflow:auto}
+  .prob{font-size:13px;color:#555;background:var(--panel);border:1px solid var(--border);
+    border-radius:8px;padding:12px 14px;margin-bottom:16px;font-family:"Poppins",sans-serif}
+  .msg{display:flex;gap:12px;margin-bottom:14px}
+  .who{flex:0 0 66px;font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.04em;
+    padding-top:8px;font-family:"Poppins",sans-serif}
   .who.student{color:var(--accent)} .who.tutor{color:var(--green)}
-  .bubble{flex:1;background:var(--panel);border:1px solid var(--border);border-radius:8px;padding:10px 12px}
-  .bubble pre{margin:0;font-family:var(--mono);font-size:12.5px;white-space:pre-wrap;word-break:break-word}
-  .bubble .txt{font-size:14px}
-  .exec{margin-top:6px;font-family:var(--mono);font-size:11px;color:var(--muted)}
+  .bubble{flex:1;background:var(--panel);border:1px solid var(--border);border-radius:10px;padding:12px 14px}
+  .bubble pre{margin:0;font-family:var(--mono);font-size:12.5px;white-space:pre-wrap;word-break:break-word;color:#353535}
+  .bubble .txt{font-size:14px;font-family:"Poppins",sans-serif;color:#353535}
+  .exec{margin-top:8px;font-family:var(--mono);font-size:11px;color:#888}
   .exec .pass{color:var(--green)} .exec .fail{color:#c0392b}
 
   .browser{display:grid;grid-template-columns:300px 1fr;gap:0}
-  .list-pane{border-right:1px solid var(--border);display:flex;flex-direction:column;max-height:560px}
-  .filters{padding:12px;border-bottom:1px solid var(--border);display:flex;gap:6px;flex-wrap:wrap}
-  .filters select{flex:1;min-width:120px;padding:7px 8px;border:1px solid var(--border);border-radius:6px;font-size:13px;background:#fff;color:var(--text)}
+  .list-pane{border-right:1px solid var(--border);display:flex;flex-direction:column;max-height:580px}
+  .filters{padding:12px;border-bottom:1px solid var(--border);display:flex;gap:8px;flex-wrap:wrap}
+  .filters select{flex:1;min-width:120px;padding:8px 10px;border:1px solid var(--border);border-radius:8px;
+    font-size:13px;background:#fff;color:#353535;font-family:"Poppins",sans-serif}
   .clist{overflow:auto;flex:1}
-  .citem{width:100%;text-align:left;background:#fff;border:0;border-bottom:1px solid var(--border);padding:10px 12px;cursor:pointer;display:block}
-  .citem:hover{background:var(--panel)}
-  .citem.active{background:#eaf0fe}
-  .citem .t{font-size:13px;font-weight:600;margin-bottom:3px}
-  .citem .m{font-size:11px;color:var(--muted);display:flex;gap:8px;align-items:center}
-  .qb{font-size:10px;font-weight:700;text-transform:uppercase;padding:1px 6px;border-radius:4px;letter-spacing:.03em}
+  .clist .citem{width:100%;text-align:left;background:#fff;border:0;border-bottom:1px solid var(--border);
+    border-radius:0;padding:12px 14px;cursor:pointer;display:block;margin:0}
+  .clist .citem:hover{background:var(--panel);opacity:1}
+  .clist .citem.active{background:var(--accent-soft)}
+  .citem .t{font-size:13px;font-weight:600;margin-bottom:4px;font-family:"Poppins",sans-serif;color:#353535}
+  .citem .m{font-size:11px;color:#888;display:flex;gap:8px;align-items:center;font-family:"Poppins",sans-serif}
+  .qb{font-size:10px;font-weight:600;text-transform:uppercase;padding:2px 7px;border-radius:5px;letter-spacing:.03em}
   .qb.gold{background:#fbf1d4;color:#8a6608}
   .qb.silver{background:#eceef1;color:#5c6470}
   .qb.bronze{background:#f5e6da;color:#8f4a22}
-  .count{font-size:12px;color:var(--muted);padding:8px 12px;border-bottom:1px solid var(--border)}
+  .count{font-size:12px;color:#888;padding:10px 14px;border-bottom:1px solid var(--border);font-family:"Poppins",sans-serif}
 
-  footer{padding:32px 0;border-top:1px solid var(--border);color:var(--muted);font-size:13px}
-  .lightbox{position:fixed;inset:0;background:rgba(0,0,0,.7);display:none;align-items:center;justify-content:center;z-index:50;padding:32px;cursor:zoom-out}
-  .lightbox img{max-width:95%;max-height:92%;border-radius:6px;background:#fff}
+  /* Lightbox */
+  .lightbox{position:fixed;inset:0;background:rgba(0,0,0,.75);display:none;align-items:center;
+    justify-content:center;z-index:2000;padding:32px;cursor:zoom-out}
+  .lightbox img{max-width:95%;max-height:92%;border-radius:8px;background:#fff;width:auto}
   .lightbox.on{display:flex}
 
-  @media(max-width:760px){
+  @media(max-width:769px){
     .stats,.gallery,.grid3{grid-template-columns:1fr 1fr}
     .arrow{display:none}
     .browser{grid-template-columns:1fr}
-    .list-pane{border-right:0;border-bottom:1px solid var(--border);max-height:300px}
+    .list-pane{border-right:0;border-bottom:1px solid var(--border);max-height:320px}
   }
   @media(max-width:480px){.stats,.gallery,.grid3{grid-template-columns:1fr}}
 </style>
 </head>
+
 <body>
 
-<header class="hero">
-  <div class="wrap">
-    <div class="eyebrow">Synthetic Training Data · LangGraph · LLM Agents</div>
-    <h1>Synthetic Coding Tutor Dataset</h1>
-    <p>An autonomous multi-agent pipeline that simulates student–tutor debugging sessions,
-       executes every candidate solution against real tests, and grades each conversation
-       with an LLM judge — producing data for fine-tuning coding tutors.</p>
-    <div class="badges">
-      <span class="badge"><b>2,495</b> conversations</span>
-      <span class="badge"><b>5</b> personalities</span>
-      <span class="badge"><b>500</b> problems</span>
-      <span class="badge"><b>1,241</b> training-ready</span>
-    </div>
-    <div class="cta">
-      <a class="btn primary" href="#pipeline">How it works</a>
-      <a class="btn ghost" href="https://github.com/harshitbudhiraja/data_curation">GitHub repo</a>
-    </div>
-  </div>
-</header>
-
-<section id="overview">
-  <div class="wrap">
-    <div class="eyebrow">The dataset at a glance</div>
-    <h2>Every conversation is generated, executed, and graded</h2>
-    <p class="muted">The <code>strategy1_11_02_2026-Golden</code> release contains 2,495 multi-turn
-       debugging conversations, each validated against pytest test cases and scored 0–10 by an LLM
-       judge on persona fidelity, tutor responsiveness, and dialog flow.</p>
-    <div class="stats">
-      <div class="stat"><div class="n gold">824</div><div class="l">Gold (8–10)</div></div>
-      <div class="stat"><div class="n silver">417</div><div class="l">Silver (5–7)</div></div>
-      <div class="stat"><div class="n bronze">1,254</div><div class="l">Bronze (0–4)</div></div>
-      <div class="stat"><div class="n">94.8%</div><div class="l">Actionable feedback</div></div>
-    </div>
-  </div>
-</section>
-
-<section id="pipeline">
-  <div class="wrap">
-    <div class="eyebrow">Generation process</div>
-    <h2>A LangGraph state machine drives every session</h2>
-    <p class="muted">Two agents talk to each other. After each tutor response the code is executed
-       against real tests; a router decides whether to keep debugging or stop.</p>
-    <div class="flow">
-      <div class="node"><div class="k">01 · agent</div><h4>Student</h4><p>One of 5 personalities asks or gives specific feedback.</p></div>
-      <div class="arrow">→</div>
-      <div class="node"><div class="k">02 · agent</div><h4>Tutor</h4><p>Progressive refinement: incomplete early, complete later.</p></div>
-      <div class="arrow">→</div>
-      <div class="node"><div class="k">03 · tool</div><h4>Execute</h4><p>Runs the code under pytest against test cases.</p></div>
-      <div class="arrow">→</div>
-      <div class="node"><div class="k">04 · logic</div><h4>Router</h4><p>Loops back or ends when solved / max turns.</p></div>
-      <div class="arrow">→</div>
-      <div class="node"><div class="k">05 · judge</div><h4>Judge</h4><p>Scores and assigns gold / silver / bronze.</p></div>
-    </div>
-  </div>
-</section>
-
-<section>
-  <div class="wrap">
-    <div class="eyebrow">The key trick</div>
-    <h2>Forcing incomplete code early creates real debugging</h2>
-    <p class="muted">Naïve generation solved ~46% of conversations in 2 turns. Constraining the tutor
-       turn-by-turn so early drafts must fail guarantees 4–6 turns of genuine back-and-forth.</p>
-    <table>
-      <thead><tr><th>Turns</th><th>Max tokens</th><th>Temp</th><th>Instruction</th><th>Expected</th></tr></thead>
-      <tbody>
-        <tr><td><code>1–2</code></td><td>120</td><td>0.8</td><td>6–8 lines, ignore edge cases</td><td>Must fail tests</td></tr>
-        <tr><td><code>3–4</code></td><td>300</td><td>0.6</td><td>Fix only the named issue</td><td>Partial progress</td></tr>
-        <tr><td><code>5+</code></td><td>500</td><td>0.3</td><td>Handle all edge cases</td><td>Passes all tests</td></tr>
-      </tbody>
-    </table>
-  </div>
-</section>
-
-<section id="personalities">
-  <div class="wrap">
-    <div class="eyebrow">Student agents</div>
-    <h2>Five personalities</h2>
-    <div class="grid3">
-      <div class="card"><span class="tag">CONFUSED</span><h3>Confused Student</h3><p class="muted">Lost but specific.</p><div class="quote">“wait i think you forgot the base case??”</div></div>
-      <div class="card"><span class="tag">IMPATIENT</span><h3>Impatient Student</h3><p class="muted">Direct and demanding.</p><div class="quote">“just add the return statement!”</div></div>
-      <div class="card"><span class="tag">OVERCONFIDENT</span><h3>Overconfident (Wrong)</h3><p class="muted">Questions the tutor.</p><div class="quote">“maybe the test cases are wrong?”</div></div>
-      <div class="card"><span class="tag">SYNTAX</span><h3>Syntax Struggler</h3><p class="muted">Fixated on syntax.</p><div class="quote">“is it a missing colon or bracket?”</div></div>
-      <div class="card"><span class="tag">HELPER</span><h3>Programming Helper</h3><p class="muted">Expert who supplies fixes.</p><div class="quote">“returns wrong type. Fix: return tuple(result)”</div></div>
-      <div class="card" style="display:flex;align-items:center;background:#fff"><p class="muted" style="margin:0">94.8% of student turns name a concrete code element (base case, loop, return, edge case).</p></div>
-    </div>
-  </div>
-</section>
-
-<section id="samples">
-  <div class="wrap">
-    <div class="eyebrow">See it for yourself</div>
-    <h2>Browse the conversations</h2>
-    <p class="muted">All 2,495 generated sessions. Pick a personality and quality, choose a conversation
-       from the list, and read it with live execution results per turn. Quality reflects the
-       <em>debugging dialogue</em> (persona fidelity, tutor responsiveness, flow) — not whether the
-       final code passed, so a rich “gold” session can still end unsolved.</p>
-    <div class="tabs" id="tabs"></div>
-    <div class="viewer">
-      <div class="browser">
-        <div class="list-pane">
-          <div class="filters">
-            <select id="fq">
-              <option value="all">All quality</option>
-              <option value="gold">Gold only</option>
-              <option value="silver">Silver only</option>
-              <option value="bronze">Bronze only</option>
-            </select>
+<!-- ===================== Title Page ===================== -->
+<div class="container blog" id="first-content" style="background-color:#f6f6f6;">
+  <div class="blog-title no-cover">
+    <div class="blog-intro">
+      <div>
+        <h1 class="title">Synthetic Coding Tutor Dataset</h1>
+        <p class="author">Generation &amp; Quality-Rating Pipeline</p>
+        <p class="abstract">
+          An autonomous multi-agent pipeline that simulates student–tutor debugging sessions,
+          executes every candidate solution against real tests, and grades each conversation with
+          an LLM judge — producing data for fine-tuning coding tutors. The
+          <code>strategy1_11_02_2026-Golden</code> release contains 2,495 multi-turn debugging
+          conversations across five distinct student personalities —
+          the <b style="color:#c47f0a">Confused</b>, <b style="color:#c0392b">Impatient</b>,
+          <b style="color:#7c3aed">Overconfident</b>, <b style="color:#0f8a5f">Syntax Struggler</b>,
+          and <b style="color:#0e7490">Programming Helper</b>.
+        </p>
+        <div class="info links">
+          <div>
+            <a href="#browse" class="button icon">Browse data <i class="fa-solid fa-comments"></i></a> &nbsp;&nbsp;
+            <a href="https://github.com/harshitbudhiraja/data_curation" class="button icon">Code <i class="fa-solid fa-code"></i></a> &nbsp;&nbsp;
+            <a href="https://huggingface.co/datasets" class="button icon">Dataset <i class="fa-brands fa-hugging-face"></i></a>
           </div>
-          <div class="count" id="count"></div>
-          <div class="clist" id="clist"></div>
         </div>
-        <div class="convo" id="convo"><p class="muted" style="padding:16px">Loading conversations…</p></div>
+      </div>
+      <div class="info">
+        <p>2,495 conversations · 5 personalities · 500 problems</p>
       </div>
     </div>
   </div>
-</section>
+</div>
 
-<section id="metrics">
-  <div class="wrap">
-    <div class="eyebrow">Quality metrics</div>
-    <h2>Measured, not assumed</h2>
-    <p class="muted">The three charts that best capture dataset health. Click any chart to enlarge.</p>
-    <div class="gallery">
-      <figure><img src="assets/viz_1_quality_distribution.jpg" alt="Quality distribution"><figcaption>Gold / silver / bronze distribution</figcaption></figure>
-      <figure><img src="assets/viz_8_training_data_breakdown.jpg" alt="Training data breakdown"><figcaption>Training-ready data by personality</figcaption></figure>
-      <figure><img src="assets/viz_9_performance_matrix.jpg" alt="Performance matrix"><figcaption>All metrics by personality</figcaption></figure>
+<!-- ===================== Overview ===================== -->
+<div class="container blog main first" id="blog-main">
+  <p class="eyebrow e1">The dataset at a glance</p>
+  <h1>Overview</h1>
+  <p class="text">
+    Every conversation is generated, executed, and graded. Each of the 2,495 multi-turn debugging
+    conversations is validated against pytest test cases and scored 0–10 by an LLM judge on persona
+    fidelity, tutor responsiveness, and dialog flow.
+  </p>
+  <div class="stats">
+    <div class="stat g"><div class="n gold">824</div><div class="l">Gold (8–10)</div></div>
+    <div class="stat s"><div class="n silver">417</div><div class="l">Silver (5–7)</div></div>
+    <div class="stat b"><div class="n bronze">1,254</div><div class="l">Bronze (0–4)</div></div>
+    <div class="stat a"><div class="n accentn">94.8%</div><div class="l">Actionable feedback</div></div>
+  </div>
+</div>
+
+<!-- ===================== Generation Process ===================== -->
+<div class="container blog main gray">
+  <p class="eyebrow e2">Generation process</p>
+  <h1>A LangGraph state machine drives every session</h1>
+  <p class="text">
+    Two agents talk to each other. After each tutor response the code is executed against real
+    tests; a router decides whether to keep debugging or stop.
+  </p>
+  <div class="flow">
+    <div class="node s1"><div class="k">01 · agent</div><h4>Student</h4><p>One of 5 personalities asks or gives specific feedback.</p></div>
+    <div class="arrow">→</div>
+    <div class="node s2"><div class="k">02 · agent</div><h4>Tutor</h4><p>Progressive refinement: incomplete early, complete later.</p></div>
+    <div class="arrow">→</div>
+    <div class="node s3"><div class="k">03 · tool</div><h4>Execute</h4><p>Runs the code under pytest against test cases.</p></div>
+    <div class="arrow">→</div>
+    <div class="node s4"><div class="k">04 · logic</div><h4>Router</h4><p>Loops back or ends when solved / max turns.</p></div>
+    <div class="arrow">→</div>
+    <div class="node s5"><div class="k">05 · judge</div><h4>Judge</h4><p>Scores and assigns gold / silver / bronze.</p></div>
+  </div>
+</div>
+
+<!-- ===================== The Key Trick ===================== -->
+<div class="container blog main">
+  <p class="eyebrow e3">The key trick</p>
+  <h1>Forcing incomplete code early creates real debugging</h1>
+  <p class="text">
+    Naïve generation solved ~46% of conversations in 2 turns. Constraining the tutor turn-by-turn
+    so early drafts must fail guarantees 4–6 turns of genuine back-and-forth.
+  </p>
+  <table class="spec">
+    <thead><tr><th>Turns</th><th>Max tokens</th><th>Temp</th><th>Instruction</th><th>Expected</th></tr></thead>
+    <tbody>
+      <tr><td><code>1–2</code></td><td>120</td><td>0.8</td><td>6–8 lines, ignore edge cases</td><td>Must fail tests</td></tr>
+      <tr><td><code>3–4</code></td><td>300</td><td>0.6</td><td>Fix only the named issue</td><td>Partial progress</td></tr>
+      <tr><td><code>5+</code></td><td>500</td><td>0.3</td><td>Handle all edge cases</td><td>Passes all tests</td></tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- ===================== Student Personalities ===================== -->
+<div class="container blog main gray">
+  <p class="eyebrow e4">Student agents</p>
+  <h1>Five personalities</h1>
+  <div class="grid3">
+    <div class="card confused"><span class="tag">CONFUSED</span><h3>Confused Student</h3><p>Lost but specific.</p><div class="quote">“wait i think you forgot the base case??”</div></div>
+    <div class="card impatient"><span class="tag">IMPATIENT</span><h3>Impatient Student</h3><p>Direct and demanding.</p><div class="quote">“just add the return statement!”</div></div>
+    <div class="card overconfident"><span class="tag">OVERCONFIDENT</span><h3>Overconfident (Wrong)</h3><p>Questions the tutor.</p><div class="quote">“maybe the test cases are wrong?”</div></div>
+    <div class="card syntax"><span class="tag">SYNTAX</span><h3>Syntax Struggler</h3><p>Fixated on syntax.</p><div class="quote">“is it a missing colon or bracket?”</div></div>
+    <div class="card helper"><span class="tag">HELPER</span><h3>Programming Helper</h3><p>Expert who supplies fixes.</p><div class="quote">“returns wrong type. Fix: return tuple(result)”</div></div>
+    <div class="card note" style="display:flex;align-items:center"><p>94.8% of student turns name a concrete code element (base case, loop, return, edge case).</p></div>
+  </div>
+</div>
+
+<!-- ===================== Browse the Conversations ===================== -->
+<div class="container blog main" id="browse">
+  <p class="eyebrow e5">See it for yourself</p>
+  <h1>Browse the conversations</h1>
+  <p class="text">
+    All 2,495 generated sessions. Pick a personality and quality, choose a conversation from the
+    list, and read it with live execution results per turn. Quality reflects the <em>debugging
+    dialogue</em> (persona fidelity, tutor responsiveness, flow) — not whether the final code
+    passed, so a rich “gold” session can still end unsolved.
+  </p>
+  <div class="tabs" id="tabs"></div>
+  <div class="viewer">
+    <div class="browser">
+      <div class="list-pane">
+        <div class="filters">
+          <select id="fq">
+            <option value="all">All quality</option>
+            <option value="gold">Gold only</option>
+            <option value="silver">Silver only</option>
+            <option value="bronze">Bronze only</option>
+          </select>
+        </div>
+        <div class="count" id="count"></div>
+        <div class="clist" id="clist"></div>
+      </div>
+      <div class="convo" id="convo"><p style="padding:16px;color:#888">Loading conversations…</p></div>
     </div>
   </div>
-</section>
+</div>
 
+<!-- ===================== Quality Metrics ===================== -->
+<div class="container blog main gray">
+  <p class="eyebrow e6">Quality metrics</p>
+  <h1>Measured, not assumed</h1>
+  <p class="text">The three charts that best capture dataset health. Click any chart to enlarge.</p>
+  <div class="gallery">
+    <figure><img src="assets/viz_1_quality_distribution.jpg" alt="Quality distribution"><figcaption>Gold / silver / bronze distribution</figcaption></figure>
+    <figure><img src="assets/viz_8_training_data_breakdown.jpg" alt="Training data breakdown"><figcaption>Training-ready data by personality</figcaption></figure>
+    <figure><img src="assets/viz_9_performance_matrix.jpg" alt="Performance matrix"><figcaption>All metrics by personality</figcaption></figure>
+  </div>
+</div>
+
+<!-- ===================== Footer ===================== -->
 <footer>
-  <div class="wrap">
-    Synthetic Coding Tutor Dataset Generator ·
-    <a href="https://github.com/harshitbudhiraja/data_curation">Source on GitHub</a>
+  <div class="container">
+    <p>
+      Synthetic Coding Tutor Dataset Generator ·
+      <a href="https://github.com/harshitbudhiraja/data_curation">Source on GitHub</a>.
+      This website is built on the <a href="https://shikun.io/projects/clarity">Clarity Template</a>,
+      designed by <a href="https://shikun.io/">Shikun Liu</a>.
+    </p>
   </div>
 </footer>
 
@@ -296,7 +346,7 @@ function renderList(){
   const list=sortConvos(curList.filter(c=>q==='all'||c.quality_bucket===q));
   countEl.textContent=`${list.length} conversation${list.length===1?'':'s'}`;
   clistEl.innerHTML='';
-  if(!list.length){convoEl.innerHTML='<p class="muted" style="padding:16px">No conversations for this filter.</p>';return;}
+  if(!list.length){convoEl.innerHTML='<p style="padding:16px;color:#888">No conversations for this filter.</p>';return;}
   list.forEach((c,i)=>{
     const b=document.createElement('button');b.className='citem'+(i===0?' active':'');
     b.innerHTML=`<div class="t">Problem #${c.task_id}</div>`+
@@ -311,12 +361,12 @@ function renderList(){
 
 function loadPersonality(pers,file){
   curPers=pers;
-  convoEl.innerHTML='<p class="muted" style="padding:16px">Loading…</p>';
+  convoEl.innerHTML='<p style="padding:16px;color:#888">Loading…</p>';
   clistEl.innerHTML='';countEl.textContent='';
   const done=data=>{curList=data;renderList();};
   if(cache[pers])return done(cache[pers]);
   fetch('assets/'+file).then(r=>r.json()).then(d=>{cache[pers]=d;done(d);})
-    .catch(()=>{convoEl.innerHTML='<p class="muted" style="padding:16px">Conversations unavailable.</p>';});
+    .catch(()=>{convoEl.innerHTML='<p style="padding:16px;color:#888">Conversations unavailable.</p>';});
 }
 
 fqEl.addEventListener('change',renderList);
@@ -330,7 +380,10 @@ fetch('assets/conversations/index.json').then(r=>r.json()).then(idx=>{
     tabsEl.appendChild(b);
   });
   if(keys.length)loadPersonality(keys[0],idx[keys[0]].file);
-}).catch(()=>{convoEl.innerHTML='<p class="muted" style="padding:16px">Index unavailable.</p>';});
+}).catch(()=>{convoEl.innerHTML='<p style="padding:16px;color:#888">Index unavailable.</p>';});
 </script>
+
+<script src="clarity/clarity.js"></script>
+<script src="assets/scripts/main.js"></script>
 </body>
 </html>
